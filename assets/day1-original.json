@@ -1,0 +1,199 @@
+{
+  "phrases": [
+    [
+      "核心｜問怎麼走",
+      "How do I get to the train station?",
+      "我要怎麼去火車站？"
+    ],
+    [
+      "核心｜交代目的地",
+      "I’m going to the post office.",
+      "我要去郵局。（接著再問問題）"
+    ],
+    [
+      "核心｜請對方指路",
+      "Could you show me the way?",
+      "可以告訴我怎麼走嗎？（先說明目的地）"
+    ],
+    [
+      "延伸｜禮貌問位置",
+      "Can you tell me where the bank is?",
+      "可以告訴我銀行在哪裡嗎？"
+    ],
+    [
+      "延伸｜找最近的一家",
+      "Do you know where the nearest supermarket is?",
+      "你知道最近的超市在哪裡嗎？"
+    ],
+    [
+      "求助｜指給我看",
+      "Could you show me on the map?",
+      "可以在地圖上指給我看嗎？"
+    ],
+    [
+      "求助｜再說一次",
+      "Could you say that again?",
+      "可以再說一次嗎？"
+    ]
+  ],
+  "situations": [
+    {
+      "name": "寄明信片",
+      "prompt": "你想寄一張明信片給朋友。",
+      "goals": [
+        "說出你需要做什麼",
+        "自己選擇要找的地方與問法",
+        "聽完回答，再決定下一句"
+      ],
+      "words": "postcard · send · post office",
+      "starter": "I need… / I want to… / How do I get to…?",
+      "example": "I want to send a postcard. How do I get to the post office?",
+      "question": "How do I get to the post office?",
+      "reply": "It’s a twenty-minute walk.",
+      "follow": "你不想走那麼遠，想問能不能搭公車。",
+      "followEx": "Can I take a bus?"
+    },
+    {
+      "name": "搭車回飯店",
+      "prompt": "你想搭公車回飯店，不知道去哪裡等車。",
+      "goals": [
+        "說出你需要做什麼",
+        "自己選擇要找的地方與問法",
+        "聽完回答，再決定下一句"
+      ],
+      "words": "bus · hotel · bus stop",
+      "starter": "I need… / I want to… / How do I get to…?",
+      "example": "I want to take a bus. Where is the bus stop?",
+      "question": "How do I get to the bus stop?",
+      "reply": "The bus stop is across the street.",
+      "follow": "你找到站牌，但不確定這班車有沒有到飯店。",
+      "followEx": "Does this bus go to my hotel?"
+    },
+    {
+      "name": "找人幫忙",
+      "prompt": "你在旅行途中發現護照不見了，想找警察幫忙。",
+      "goals": [
+        "說出你需要做什麼",
+        "自己選擇要找的地方與問法",
+        "聽完回答，再決定下一句"
+      ],
+      "words": "passport · lost · police station",
+      "starter": "I need… / I want to… / How do I get to…?",
+      "example": "I lost my passport. Where is the police station?",
+      "question": "How do I get to the police station?",
+      "reply": "There is a police station near the train station.",
+      "follow": "你不知道火車站的位置，想請對方在地圖上指給你看。",
+      "followEx": "Could you show me on the map?"
+    },
+    {
+      "name": "趕上火車",
+      "prompt": "你今天要搭火車去另一個城市，想問車站怎麼走。",
+      "goals": [
+        "說出你需要做什麼",
+        "自己選擇要找的地方與問法",
+        "聽完回答，再決定下一句"
+      ],
+      "words": "train · station · catch",
+      "starter": "I need… / I want to… / How do I get to…?",
+      "example": "I need to catch a train. How do I get to the train station?",
+      "question": "How do I get to the train station?",
+      "reply": "Go straight, then turn left.",
+      "follow": "你只聽清楚直走，想再確認是左轉嗎。",
+      "followEx": "Turn left? / Could you say that again?"
+    },
+    {
+      "name": "需要現金",
+      "prompt": "你身上的現金用完了，想找地方提款。",
+      "goals": [
+        "說出你需要做什麼",
+        "自己選擇要找的地方與問法",
+        "聽完回答，再決定下一句"
+      ],
+      "words": "cash · bank · ATM",
+      "starter": "I need… / I want to… / How do I get to…?",
+      "example": "I need some cash. Is there an ATM nearby?",
+      "question": "Can you tell me where the bank is?",
+      "reply": "There is a bank, but it is closed.",
+      "follow": "銀行關了，你想詢問附近有沒有 ATM。",
+      "followEx": "Is there an ATM nearby?"
+    },
+    {
+      "name": "買水和食物",
+      "prompt": "你想買水和一些食物，希望不用走太遠。",
+      "goals": [
+        "說出你需要做什麼",
+        "自己選擇要找的地方與問法",
+        "聽完回答，再決定下一句"
+      ],
+      "words": "water · food · supermarket",
+      "starter": "I need… / I want to… / How do I get to…?",
+      "example": "I need some water. Where is the nearest supermarket?",
+      "question": "Do you know where the nearest supermarket is?",
+      "reply": "There is a supermarket near the station.",
+      "follow": "你不知道車站在哪裡，想請對方指路。",
+      "followEx": "How do I get to the station?"
+    }
+  ],
+  "places": [
+    {
+      "id": "station",
+      "en": "Train Station",
+      "zh": "火車站",
+      "x": 100,
+      "y": 90,
+      "path": "300,390 300,90 100,90",
+      "route": "Go straight to the second intersection. Turn left. The train station is at the end of the road.",
+      "listen": "Go straight to the second intersection. Turn left. It is at the end of the road."
+    },
+    {
+      "id": "post",
+      "en": "Post Office",
+      "zh": "郵局",
+      "x": 500,
+      "y": 90,
+      "path": "300,390 300,90 500,90",
+      "route": "Go straight to the second intersection. Turn right. The post office is at the end of the road.",
+      "listen": "Go straight to the second intersection. Turn right. It is at the end of the road."
+    },
+    {
+      "id": "bus",
+      "en": "Bus Stop",
+      "zh": "公車站",
+      "x": 100,
+      "y": 240,
+      "path": "300,390 300,240 100,240",
+      "route": "Go straight to the first intersection. Turn left. The bus stop is at the end of the road.",
+      "listen": "Go straight to the first intersection. Turn left. It is at the end of the road."
+    },
+    {
+      "id": "police",
+      "en": "Police Station",
+      "zh": "警局",
+      "x": 500,
+      "y": 240,
+      "path": "300,390 300,240 500,240",
+      "route": "Go straight to the first intersection. Turn right. The police station is at the end of the road.",
+      "listen": "Go straight to the first intersection. Turn right. It is at the end of the road."
+    },
+    {
+      "id": "bank",
+      "en": "Bank",
+      "zh": "銀行",
+      "x": 100,
+      "y": 90,
+      "path": "300,390 300,90 100,90",
+      "route": "Go straight to the second intersection. Turn left. The bank is at the end of the road.",
+      "listen": "Go straight to the second intersection. Turn left. It is at the end of the road."
+    },
+    {
+      "id": "supermarket",
+      "en": "Supermarket",
+      "zh": "超市",
+      "x": 500,
+      "y": 90,
+      "path": "300,390 300,90 500,90",
+      "route": "Go straight to the second intersection. Turn right. The supermarket is at the end of the road.",
+      "listen": "Go straight to the second intersection. Turn right. It is at the end of the road."
+    }
+  ]
+}

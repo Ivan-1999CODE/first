@@ -1,0 +1,26 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
+const html=fs.readFileSync('travel-english-unit11-what.html','utf8'),code=html.match(/<script id="day11-app">([\s\S]*?)<\/script>/)[1];
+assert.equal(code,['day11.js','day11-runtime.js'].map(f=>fs.readFileSync('assets/'+f,'utf8')).join('\n'));
+assert.equal(html.match(/<style id="day11-styles">([\s\S]*?)<\/style>/)[1],fs.readFileSync('assets/day11.css','utf8'));
+function boot(saved=[],blocked=false){const storage=new Map(saved),elements=new Map(),events={};const el=s=>{if(!elements.has(s))elements.set(s,{innerHTML:'',textContent:'',hidden:false,open:false,dataset:{},focus(){},setAttribute(){}});return elements.get(s);};const ctx=vm.createContext({console,setTimeout:()=>1,clearTimeout(){},document:{querySelector:el,documentElement:{dataset:{theme:'light',size:'standard'}},addEventListener:(n,f)=>events[n]=f},window:{matchMedia:()=>({matches:false,addEventListener(){}}),addEventListener(){},scrollTo(){}},localStorage:{getItem(k){if(blocked)throw Error('blocked');return storage.get(k)},setItem(k,v){if(blocked)throw Error('blocked');storage.set(k,v)}}});vm.runInContext(code,ctx);return {run:s=>vm.runInContext(s,ctx),el,storage,events,click:dataset=>events.click({target:{closest:()=>({dataset,disabled:false})}}),check:(id,checked)=>events.change({target:{id,checked,dataset:{}}})};}
+const b=boot([['other-course','preserved']]),{run,el,check,click}=b;
+for(let i=0;i<7;i++){run(`navigate(${i})`);assert(el('#main').innerHTML.length>1000);assert(!/<details[^>]* open/.test(el('#main').innerHTML));assert(!/匯出|下載/.test(el('#main').innerHTML));}
+assert.equal(run('phrases.length'),18);assert.equal(run('replies.length'),12);
+run('navigate(0)');assert(el('#main').innerHTML.indexOf('field-before')<el('#main').innerHTML.indexOf('兩段相遇'));assert(el('#main').innerHTML.includes(run('course.task')));run('navigate(5)');assert(el('#main').innerHTML.includes(run('course.task')));
+let turns=0;
+for(const f of [0,1])for(const branch of [0,1])for(const second of [0,1]){run(`start(${f})`);const n=run('flows[flow].steps.length');for(let t=0;t<n;t++){
+ assert.equal(run('canNext()'),false);run('choose(0);next()');assert.equal(run('choice'),-1);check('spoken',true);assert.equal(run('spoken'),false);check('heard',true);check('spoken',true);
+ const size=run('currentStep().objects.length');for(let c=0;c<size;c++)if(!run(`accepted(currentStep(),${c})`)){run(`choose(${c});next()`);assert.equal(run('turn'),t);assert(!run('canNext()'));}
+ const valid=JSON.parse(run('JSON.stringify(currentStep().valid)')),id=run('currentStep().id'),c=valid.length>1?valid[['suggest','leave'].includes(id)?second:branch]:valid[0];run(`choose(${c});next()`);turns++;
+ }assert(run('finished'));if(f===0)assert(run('currentStep().line').includes(second===0?'park':'museum'));if(f===1){assert(run('currentStep().line').includes(branch===0?'museum':'aquarium'));assert(run('sceneView().text').includes(second===0?'10:00':'10:30'));}}
+assert.equal(turns,48);assert.equal(run('state.complete.length'),2);
+// Rewind and cancel must erase dependent selections.
+run('start(1)');for(const c of [0,0,0,0,0,0]){check('heard',true);check('spoken',true);run(`choose(${c});next()`);}assert(run('currentStep().line').includes('at ten.'));run('back()');assert.equal(run('selected("leave")'),undefined);check('heard',true);check('spoken',true);run('choose(1);next()');assert(run('currentStep().line').includes('ten thirty'));run('back()');check('heard',true);check('spoken',true);run('choose(0)');check('heard',false);assert.equal(run('spoken'),false);assert.equal(run('selected("leave")'),undefined);
+for(const k of JSON.parse(run('JSON.stringify(fields)')))b.events.input({target:{dataset:{field:k},value:k+' <unsafe>&'}});
+for(const id of ['meet','plan','care'])b.events.change({target:{dataset:{pairCheck:id+':0'},checked:true}});
+run('navigate(5)');assert(el('#main').innerHTML.includes('&lt;unsafe&gt;'));for(const [id,n] of [['ask',1],['reply',2],['connect',3]])click({rating:id+':'+n});assert.equal((el('#main').innerHTML.match(/class="yellow"/g)||[]).length,3);assert.equal((el('#main').innerHTML.match(/class="green"/g)||[]).length,3);
+for(const k of ['listen','written','spoken'])b.events.change({target:{dataset:{home:k},checked:true}});
+const restored=boot(b.storage);assert.equal(restored.run('JSON.stringify(state)'),run('JSON.stringify(state)'));assert.equal(b.storage.get('other-course'),'preserved');
+for(const invalid of ['{broken','null','[]','{"answers":3,"ratings":{"ask":99}}'])assert.doesNotThrow(()=>boot([[run('course.id'),invalid]]));const blocked=boot([],true);assert(!blocked.el('#storageNotice').hidden);blocked.run('navigate(2);start(0)');
+for(const file of fs.readdirSync('.').filter(f=>/^travel-english.*\.html$/.test(f))){const doc=fs.readFileSync(file,'utf8'),nav=doc.match(/<nav class="day-switcher"[\s\S]*?<\/nav>/)?.[0];assert(nav,file);assert.equal((nav.match(/href="travel-english-unit11-what.html"/g)||[]).length,1,file);for(const [,href] of nav.matchAll(/href="([^"]+)"/g))assert(fs.existsSync(href),href);}
+console.log('PASS: generated assets, 7 sections, 18 phrases/12 replies, 8 branch combinations/48 turns, invalid-choice retry, rewind/cancel, independent persistence, escaping, malformed/blocked storage, navigation links.');

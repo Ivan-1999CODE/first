@@ -1,0 +1,26 @@
+.course-menu{min-width:0}
+.course-menu>summary{display:none;cursor:pointer;list-style:none;min-height:56px;padding:12px 16px;font:600 16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei",sans-serif;letter-spacing:.01em;color:var(--ink,#1d1d1f);background:#fff;border:1px solid #dce2e8;border-radius:16px;box-shadow:0 2px 8px #152b4010;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;transition:background .15s,box-shadow .15s}
+.course-menu>summary::-webkit-details-marker{display:none}
+.course-menu>summary::marker{content:""}
+.course-menu>summary:active{background:#edf1f6;box-shadow:inset 0 1px 4px #152b4012;transition:none}
+.course-menu>summary:focus-visible{outline:3px solid var(--teal,#0071e3);outline-offset:4px}
+.course-menu .menu-icon{display:block;width:22px;height:22px;flex:0 0 22px;color:var(--teal,#0066cc)}
+.course-menu .menu-label{flex:1;min-width:0}
+.course-menu .menu-chevron{display:block;width:18px;height:18px;flex:0 0 18px;color:#626b76;transition:transform .18s ease}
+.course-menu[open] .menu-chevron{transform:rotate(180deg)}
+.course-menu aside{height:100%}
+@media(max-width:1100px){
+ .shell,.projection .shell{display:block}
+ .course-menu{padding:14px 16px 10px;background:var(--paper,#f5f5f7)}
+ .course-menu>summary{display:flex;align-items:center;gap:12px}
+ .course-menu[open]>summary{box-shadow:0 2px 8px #152b4010;border-color:#c5ced9}
+ .course-menu aside,.course-menu .course-nav{padding:14px 10px 10px;margin-top:8px;border:1px solid #e1e6ed;border-radius:18px;background:#fff;box-shadow:0 6px 18px #152b4008}
+ .course-menu nav,.course-menu #nav{display:grid!important;gap:7px;overflow:visible}
+ .course-menu nav button{white-space:normal;text-align:left;min-height:48px;flex-shrink:1;border-radius:12px;padding:12px;line-height:1.5}
+ .course-menu .side-title,.course-menu .day{display:block;margin:8px 12px 14px}
+ .course-menu .stepnum,.course-menu .nav-number{display:inline}
+ .course-menu .side-note{display:none}
+}
+@media(prefers-reduced-motion:reduce){.course-menu>summary,.course-menu .menu-chevron{transition:none}}
+@media(prefers-contrast:more){.course-menu>summary,.course-menu aside,.course-menu .course-nav{border-color:currentColor}.course-menu .menu-chevron{color:currentColor}}
+@media print{.course-menu{display:none!important}.shell{display:block}}

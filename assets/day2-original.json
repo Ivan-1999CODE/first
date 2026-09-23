@@ -1,0 +1,153 @@
+{
+  "phrases": [
+    [
+      "找商品",
+      "I’m looking for a T-shirt.",
+      "我在找一件 T-shirt。"
+    ],
+    [
+      "說出想要的商品",
+      "I’d like the blue T-shirt.",
+      "我想要那件藍色 T-shirt。I’d like… = I would like…，是禮貌表達「我想要……」的方式。"
+    ],
+    [
+      "問單價",
+      "How much is this?",
+      "這個多少錢？"
+    ],
+    [
+      "問尺寸",
+      "Do you have this in medium?",
+      "這件有 M 號嗎？"
+    ],
+    [
+      "想試穿",
+      "Can I try it on?",
+      "我可以試穿嗎？"
+    ],
+    [
+      "問便宜一點的",
+      "Do you have something cheaper?",
+      "有便宜一點的嗎？"
+    ],
+    [
+      "決定購買",
+      "I’ll take it.",
+      "我要買這個。"
+    ],
+    [
+      "問付款方式",
+      "Can I pay by card?",
+      "我可以刷卡嗎？"
+    ],
+    [
+      "請對方重說",
+      "Could you say that again?",
+      "可以再說一次嗎？"
+    ]
+  ],
+  "shops": [
+    {
+      "id": "gifts",
+      "en": "Gift Shop",
+      "zh": "禮品店",
+      "x": 100,
+      "y": 240,
+      "turn": "left",
+      "junction": 1,
+      "goal": "買一份送朋友的小禮物，預算只有 10 美元。",
+      "item": "a gift",
+      "words": "gift · mug · ten dollars · cheaper",
+      "starter": "I’m looking for… / How much…? / Do you have…?",
+      "example": "I’m looking for a gift. How much is this mug?",
+      "reply": "It’s twelve dollars.",
+      "challenge": "杯子超過你的預算。你要怎麼說明預算，或詢問便宜一點的商品？",
+      "follow": "I have ten dollars. Do you have something cheaper?",
+      "answer": "This magnet is four dollars.",
+      "stock": "Mug（杯子）$12；Magnet（磁鐵）$4。兩種都還有貨，可付現或刷卡。",
+      "end": "I’ll take the magnet. Can I pay by card?",
+      "steps": [
+        "straight",
+        "left",
+        "straight"
+      ]
+    },
+    {
+      "id": "clothes",
+      "en": "Clothes",
+      "zh": "服飾店",
+      "x": 500,
+      "y": 240,
+      "turn": "right",
+      "junction": 1,
+      "goal": "買一件 M 號的 T-shirt。你比較喜歡藍色，但也願意考慮其他顏色。",
+      "item": "a T-shirt",
+      "words": "T-shirt · medium · blue · black",
+      "starter": "I’m looking for… / Do you have…? / Can I…?",
+      "example": "I’m looking for a T-shirt. Do you have this in medium?",
+      "reply": "Yes. We have medium in black, but not in blue.",
+      "challenge": "藍色的 M 號沒貨。你想先試穿黑色的，會怎麼說？",
+      "follow": "Can I try on the black one?",
+      "answer": "Of course. The fitting room is over there. It’s twenty dollars.",
+      "stock": "T-shirt $20：黑色有 M 號；藍色只有 L 號。可試穿，可付現或刷卡。",
+      "end": "It fits. I’ll take it. Can I pay by card?",
+      "steps": [
+        "straight",
+        "right",
+        "straight"
+      ]
+    },
+    {
+      "id": "shoes",
+      "en": "Shoes",
+      "zh": "鞋店",
+      "x": 100,
+      "y": 90,
+      "turn": "left",
+      "junction": 2,
+      "goal": "找一雙 8 號的鞋，想先確認尺寸，再決定要不要買。",
+      "item": "shoes",
+      "words": "shoes · size eight · another pair · try on",
+      "starter": "Do you have…? / Can I try…? / I’ll…",
+      "example": "Do you have these shoes in size eight?",
+      "reply": "Sorry, these sneakers are only available in size nine.",
+      "challenge": "這款球鞋沒有你的尺寸。你想詢問另一雙，接著怎麼說？",
+      "follow": "Do you have another pair in size eight?",
+      "answer": "Yes. These sandals come in size eight. They’re thirty dollars.",
+      "stock": "Sneakers（球鞋）$40：只有 9 號。Sandals（涼鞋）$30：有 8 號。可試穿，可付現或刷卡。",
+      "end": "Can I try them on? / No, thank you. I’m looking for sneakers.",
+      "steps": [
+        "straight",
+        "straight",
+        "left",
+        "straight"
+      ]
+    },
+    {
+      "id": "market",
+      "en": "Market",
+      "zh": "超市",
+      "x": 500,
+      "y": 90,
+      "turn": "right",
+      "junction": 2,
+      "goal": "買 3 瓶水，預算是 8 美元。你原本想刷卡，也帶了現金。",
+      "item": "three bottles of water",
+      "words": "water · three bottles · each · cash",
+      "starter": "I’d like… / How much…? / Can I pay…?",
+      "example": "I’d like three bottles of water. How much are they?",
+      "reply": "They’re two dollars each. Six dollars in total. Cash only, please.",
+      "challenge": "這家店只能付現。你有 8 美元現金，要怎麼回應？",
+      "follow": "Okay. I’ll pay in cash.",
+      "answer": "Thank you. Here’s your change.",
+      "stock": "Water（水）$2／瓶；Nuts（堅果）$5／包。水有足夠庫存。只收現金，3 瓶水共 $6。",
+      "end": "Thank you. Can I have a receipt?",
+      "steps": [
+        "straight",
+        "straight",
+        "right",
+        "straight"
+      ]
+    }
+  ]
+}

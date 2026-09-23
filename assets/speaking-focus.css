@@ -1,0 +1,19 @@
+/* Shared student speaking cue: keep hints collapsed and preserve each lesson's flow. */
+.speaking-heading{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:28px 0 12px}
+.speaking-heading :is(h2,h3,.task-label){margin:0!important}
+.speaking-cue{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;background:#8a510c;color:#fff;font-size:.78rem;font-weight:700;line-height:1.5;letter-spacing:normal}
+.speaking-cue>span{font-size:1.2em}
+.speaking-task{min-width:0;padding:20px;border:2px solid #c38b35;border-left-width:6px;border-radius:16px;background:#fff4dc;color:#59380e;overflow-wrap:anywhere}
+.speaking-task>:is(.task,.scenario){margin:0;font-weight:650;line-height:1.85;color:inherit;background:transparent;border:0;padding:0}
+.speaking-task details{border-color:#d2b47e}
+.speaking-task summary{color:#71420b}
+.speaking-task :is(.quote,.suggested-answer){padding:15px;border:1px solid #d2b47e;border-radius:12px;background:#fffdf6;color:#59380e}
+.speaking-task details details :is(p.en,p[lang=en]){padding:15px;border:1px solid #d2b47e;border-radius:12px;background:#fffdf6;color:#59380e}
+.speaking-task :is(.hint,.hint .en){color:inherit}
+.large .speaking-cue,[data-size=large] .speaking-cue{font-size:.95rem}
+[data-theme=dark] .speaking-task{background:#3c301c;border-color:#c79850;color:#fff0cd}
+[data-theme=dark] .speaking-cue{background:#efca84;color:#35240c}
+[data-theme=dark] .speaking-task summary{color:#f2d298}
+[data-theme=dark] .speaking-task :is(.quote,.suggested-answer),[data-theme=dark] .speaking-task details details :is(p.en,p[lang=en]){background:#302718;color:#fff0cd;border-color:#a88550}
+@media(max-width:760px){.speaking-task{padding:16px}.speaking-heading{gap:9px}}
+@media(prefers-contrast:more){.speaking-task,.speaking-task .quote{border-color:currentColor}.speaking-cue{outline:2px solid currentColor}}
