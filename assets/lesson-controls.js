@@ -2,7 +2,7 @@
 (() => {
  let showChinese=false;
  const originalRender=render;
- const translations=()=>Array.from(document.querySelectorAll('#main details')).filter(el=>/中文/.test(el.querySelector('summary')?.textContent||''));
+ const translations=()=>Array.from(document.querySelectorAll('#main details')).filter(el=>!el.closest('.role-other')&&/中文/.test(el.querySelector(':scope > summary')?.textContent||''));
  function updateLabel(){
   const button=document.querySelector('#allChinese');
   if(!button)return;
@@ -13,7 +13,7 @@
  function decorate(){
   const main=document.querySelector('#main');
   main.classList.toggle('lesson-phrase-page',page===1);
-  if(page!==1)return;
+  if(page!==1||main.querySelector('.dialogue-workshop'))return;
   const heading=main.querySelector('h1');
   if(!heading)return;
   // Keep the same reading order in phrase cards and listening questions.

@@ -1,3 +1,10 @@
+// Route the current Day 2 task format to its integration coverage.
+if(require('fs').readFileSync('travel-english-unit2-shopping.html','utf8').includes('travel-lab-unit2-rounds-v1')){
+ const run=file=>require('child_process').execFileSync(process.execPath,['--preserve-symlinks','--preserve-symlinks-main',file,...(file==='check-all-task-rounds.cjs'?['--day2']:[])],{stdio:'inherit'});
+ if(!process.argv.includes('--day2-only'))run('check-unit1-focus.cjs');
+ run('check-all-task-rounds.cjs');
+ return;
+}
 const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
 function boot(day,initial=[],blocked=false){
  const file=day===1?'travel-english.html':'travel-english-unit2-shopping.html',html=fs.readFileSync(file,'utf8');
@@ -8,7 +15,9 @@ function boot(day,initial=[],blocked=false){
  vm.runInContext(code,ctx);return {html,storage,el,events,run:s=>vm.runInContext(s,ctx),check:(id,checked)=>events.change({target:{id,checked,dataset:{}}})};
 }
 let count=0;
-for(const day of [1,2]){
+const focused=fs.readFileSync('travel-english.html','utf8').includes('travel-lab-unit1-focus-v1');
+if(focused&&!process.argv.includes('--day2-only'))require('child_process').execFileSync(process.execPath,['--preserve-symlinks','--preserve-symlinks-main','check-unit1-focus.cjs'],{stdio:'inherit'});
+for(const day of (focused?[2]:[1,2])){
  const {run,el,check,html}=boot(day);
  assert.equal(run('course.labels.length'),7);
  assert(!/<(?:script|img)[^>]+src=/.test(html));

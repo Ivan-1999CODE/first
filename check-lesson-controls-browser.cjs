@@ -24,7 +24,7 @@ const fs=require('fs'),path=require('path'),assert=require('assert/strict');
     assert(results.every(r=>Math.abs(r.size-21.76)<.01),file+' Day 1 standard font size');
    };
    await checkOrder();
-   const trans=p.locator('#main details').filter({has:p.locator('summary').filter({hasText:'中文'})});
+   const trans=p.locator('#main .lesson-phrase-chinese');
    assert(await trans.count()>0,file);
    assert.equal(await trans.evaluateAll(es=>es.every(e=>!e.open)),true);
    await p.locator('#allChinese').click();assert(await trans.evaluateAll(es=>es.every(e=>e.open)));
@@ -37,9 +37,16 @@ const fs=require('fs'),path=require('path'),assert=require('assert/strict');
    await p.evaluate(()=>speechFail=true);await slow.click();calls=await p.evaluate(()=>speechCalls);assert.equal(calls.at(-1).voice,'B');assert(await p.locator('.lesson-audio-status').innerText().then(t=>t.includes('語音未能播放')));
    await p.evaluate(()=>speechFail=false);
    await p.locator('[data-mode="reply"], [data-phrase-mode="reply"], [data-workshop-mode="reply"]').first().click();
-   await checkOrder();
-   assert(await trans.evaluateAll(es=>es.every(e=>e.open)));assert(await p.locator('#main details:not([open])').count()>0);
-   await p.locator('#allChinese').click();assert(await trans.evaluateAll(es=>es.every(e=>!e.open)));
+   if(await p.locator('.dialogue-workshop').count()){
+    assert.equal(await p.locator('#allChinese').count(),0);
+    await p.locator('[data-listen-mode="practice"]').click();
+    assert.equal(await p.locator('.role-other details[open]').count(),0);
+    assert.equal(await p.locator('.role-self details[open]').count(),0);
+   }else{
+    await checkOrder();
+    assert(await trans.evaluateAll(es=>es.every(e=>e.open)));assert(await p.locator('#main details:not([open])').count()>0);
+    await p.locator('#allChinese').click();assert(await trans.evaluateAll(es=>es.every(e=>!e.open)));
+   }
    await p.locator('#main button').filter({hasText:/^慢速/}).first().click();assert.equal((await p.evaluate(()=>speechCalls)).at(-1).rate,.9*.8);
    await p.locator('[data-mode="library"], [data-phrase-mode="library"], [data-workshop-mode="library"]').first().click();
    for(const width of [1440,390,320]){

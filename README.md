@@ -1,3 +1,62 @@
+## Day 2～Day 14 與日文第 0 課：目前的分任務版本
+
+原有 Day 2～Day 14 的 174 張主要句卡與 88 組短問答（含原有替換回答）完整保留。句子依任務分到主要口說、共用求助、先聽懂或可展開的延伸練習。Day 5 的方向句先練聽懂；Day 11～Day 14 的旅伴問答會交換角色。每輪依序走第二至第五部分，再進下一輪。
+
+- Day 2 保留 14 張句卡；日文保留原有 3 個主句與 2 個禮貌用語，擴充到 14 個實用說法，加入問價格、數量、付款與袋子。
+- Day 2 和日文各有 4 個任務、12 組短聽答、8 趟流程、8 個自主情境、4 組真人任務，以及逐任務的延後重試。
+- 對方台詞與中文預設收起，需要時展開；新題會重新收起。上下角色框、小插圖、中文需求和分層提示一致。
+- 日文含 77 段內嵌合成音檔，新增說法有可收起的假名與羅馬字。音檔不依賴裝置安裝日文語音；合成只使用教材文字。
+- 本課首頁可查完整句表，也能前往 `original-lessons/` 的改版前完整教材。新版本不寫入或清除舊儲存 key；第六部分提供舊作答與完整舊紀錄回看。
+
+建置：`node --preserve-symlinks --preserve-symlinks-main build-task-rounds.cjs`。也可在最後加單元編號，例如 `0 2`。Day 3～Day 14 的舊建置入口已改接同一個建置器，使用獨立模板，不互相複製已生成頁面。
+
+來源：`assets/curriculum-original.json` 保留改版前盤點；`assets/curriculum-rounds.cjs` 是後續英文任務；`assets/day2-expanded.cjs` 與 `assets/day0-expanded.cjs` 是加量內容；共用介面在 `assets/task-rounds*.js` 與 `.css`。
+
+驗證入口：`node --preserve-symlinks --preserve-symlinks-main check-all-task-rounds.cjs`，可加 `--day0` 或 `--day2`。檢查原句與短答保留、所有任務可達、完整流程與重試、切題隱藏提示、各題保存、舊 key 不變、外觀與窄螢幕、日文音檔解碼及播放。執行結果與畫面存於 `tmp/all-rounds-qa/`。下面是較早的製作紀錄，以本節為準。
+
+## 第二天與第零天：分任務改版的前一版本
+
+第二天分 A「買一件眼前商品」、B「找尺寸與試穿」、C「預算與替代選擇」、D「數量、總價與付現」；原有 14 句保留，其中請重說作為共用求助卡，其餘分輪呈現。日文第零天分 A「問位置」、B「聽不清楚會求助」、C「確認步行」，每輪新增 1 個主要說法，另有開頭與道謝支援。每輪都走第二至第五部分，再進下一輪；第六、七部分保留同題比較與課後練習。
+
+第二部分的「對方說，我來接」採上方店員／路人、下方旅客的直排角色框與 SVG 小插圖。對方台詞與中文預設收起，先聽聲音，需要時按「看文字與意思」打開；切換題組後再次收起。保留可重試的關鍵資訊辨認；學生完整回答保持收合。第三部分沿用相同角色框；學生先問時，對方音訊待開口確認後提供。日文可切換方向與分鐘數，避免地點固定對應答案。音訊仍使用原有 34 段內嵌音檔，新的組合句會依序播放既有句子。
+
+資料來源為 assets/day2-rounds-data.cjs、assets/day0-rounds-data.cjs；共用流程與樣式為 assets/task-rounds.js、assets/task-rounds.css。執行 node --preserve-symlinks --preserve-symlinks-main build-task-rounds.cjs 只重建這兩課；原本的 build-day0.cjs 與 build-unit1-2.cjs 也已接上新版。其他課程 HTML 不受這次建置影響。
+
+學習紀錄使用 travel-lab-unit2-rounds-v1／travel-lab-day0-rounds-v2；相同課前、課後、課後口說作為起點複製，原 key 不寫入。舊情境作答與勾選可在第六部分回看；不套用為新任務的完成紀錄。外觀設定沿用全系列共用 key。
+
+驗證入口：node --preserve-symlinks --preserve-symlinks-main check-task-rounds.cjs（可加 --day2 或 --day0）。原 check-day0-browser.cjs、check-unit1-2.cjs 和 check-unit1-2-browser.cjs 會轉到新版對應檢查。涵蓋完整分輪流程、上下角色、提示與聽力切換、分支與重試、舊紀錄保留、重新開啟、日文音訊、4 種寬度的深淺色放大排版；截圖在 tmp/task-rounds-qa/。以下較早的版本紀錄保留供對照，這兩課以本節為準。
+
+## 全系列文字大小與深色模式
+
+首頁與第 0–14 天的右上角都有「放大文字／標準文字」及「深色／淺色」。文字大小涵蓋正文、提示、按鈕與單元導覽；窄螢幕會換行排列。設定使用既有的 `travel-lab-theme` 與 `travel-lab-text-size`，同一瀏覽器與網站來源的各單元共用，重新開啟仍保留。直接開啟獨立 HTML 時，各檔案間是否共用儲存空間取決於瀏覽器。作答紀錄保持原有的儲存方式。
+
+共用來源：`assets/appearance-init.js`、`assets/appearance.js`、`assets/appearance.css`。執行 `node --preserve-symlinks --preserve-symlinks-main sync-appearance.cjs` 可同步內嵌到所有 HTML；既有建置入口已接上同步。`check-appearance-browser.cjs` 檢查全系列的鍵盤操作、重新開啟、跨頁設定、儲存異常與 4 種寬度的深淺色放大排版；檢查結果與截圖放在 `tmp/appearance-qa/`。
+
+## 第一天試用改版：分輪聚焦問路
+
+直接開啟 `travel-english.html`。原有 13 句保留，分為 A「找到目的地」4 句、B「遇到困難會求助」5 句、C「換地點，也能帶路」4 句。每輪依序走第二至第五部分，再進下一輪的第二部分；最後統一做第六、七部分。每輪有 1 段地圖流程、2 個自主情境、2 個真人任務。分組理由與內容映射見 `第一天聚焦學習規劃.md`。
+
+本輪句子直接顯示，舊句複習收起；原有 4 組短問答分輪呈現，A 的否定短答不提前引入 B 的公車句。輪次可自由切換；「這輪已練習」由使用者確認，不代表評分。第三部分保留聽讀／開口門檻與地圖回饋，第四部分自行選句，第五部分真人接話。
+
+新版使用 `travel-lab-unit1-focus-v1` 保存作答、目標、自評與流程，另以 `-rounds` 保存所在輪與自行勾記的完成輪次。原版 `travel-lab-unit1-format-v3` 不寫入；同題 before／after／home 作為起點複製，第六部分可展開舊情境文字與師生紀錄。也保留更早期紀錄的讀取路徑。
+
+來源：`assets/day1-focus-data.cjs`、`assets/day1-focus.js`、`assets/day1-focus.css`。只建置第一天：`node --preserve-symlinks --preserve-symlinks-main build-unit1-focus.cjs`。原有 `build-unit1-2.cjs` 已接上第一天新版，避免重建恢復成舊動線；沒有修改第一／二天共用互動來源或第二天內容。
+
+驗證：`node --preserve-symlinks --preserve-symlinks-main check-unit1-focus.cjs`，檢查 13 句完整且不重複分組、三輪完整動線、門檻／重試／返回、6 組情境與真人紀錄分開、舊資料不變、重開保存、前後比較、自評、課後挑戰、96 種輪次／部分／寬度／配色組合。截圖在 `qa-unit1-focus/`。原第 1–2 天測試入口改為第一天使用新測試、第二天維持既有測試；加 `--day2-only` 可只跑第二天回歸檢查。英文語音沿用既有機制，本次沒有修改音色或語速。
+
+## 第零天：日文問路體驗
+
+開啟 `travel-japanese-day0-directions.html`，或從首頁／各天導覽選「第 0 天」。這是從第一天問路主題縮量改編的日文初學體驗，保留七部分互動，讓老師親自體會從認得句子到情境選句的落差。
+
+- 3 個主要說法：問位置、請重說、問能否步行；另有開頭／道謝用語。地點詞練口說，方向與時間詞先練聽懂；提供可收起的羅馬字讀音。
+- 每句立即換條件練習；兩趟地圖流程練車站與便利商店；自主情境改找廁所、處理聽不清楚、決定要不要搭車。首頁底部附試學後的教師討論。
+- HTML 內嵌資源，可獨立開啟。34 段日文合成音檔內嵌於 HTML，使用 Nanami 日文聲音，一般速度為產生時 -10%，慢速以 0.8 倍播放並保留音高；無須裝置安裝日文語音，失敗可讀逐字稿；沒有錄音或發音評分。紀錄使用獨立 key `travel-lab-day0-japanese-v1`。
+- 建置：`node --preserve-symlinks --preserve-symlinks-main build-day0.cjs`。來源：`assets/day0-data.cjs`、`assets/day0-extra.js`；沿用第一／二天的互動引擎，建置時轉換介面文字與語音語言，不改舊課內容。
+- 驗證：`node --preserve-symlinks --preserve-symlinks-main check-day0-browser.cjs`。Edge 實測流程門檻、重試／返回、保存、自評、所有音檔解碼與非靜音訊號、實際播放時間前進、一般／慢速、停止／切頁、無裝置語音／播放失敗／錯誤儲存備援、深淺色與 4 種寬度。截圖在 `qa-day0/`。已確認 34 段音檔可解碼且非靜音，以及 Edge 播放狀態；使用者喇叭實際出聲仍需在該裝置確認。音檔來源與文字對應在 `assets/day0-audio/`，由 `generate-day0-audio.py` 使用 edge-tts 產生；只傳送教材日文，不含學生作答。
+- `sync-day0-links.cjs` 維護導覽；既有建置共用同步流程會保留第零天入口。原有英文課只增加入口。
+
+設計參考：[Apple Design 整理](https://github.com/emilkowalski/skills/blob/main/skills/apple-design/SKILL.md) 的即時回饋與閱讀層級；延伸日文問路教學參考：[國際交流基金 IRODORI 教案](https://yg.jpf.go.jp/wp-content/uploads/2020/10/IRODORI-Teaching-Plan_E1.pdf)。本課情境與短句練習為獨立編寫。
+
 ## 共用中文與朗讀控制
 
 第 1–14 天的第二部分右上角提供「展開全部中文／收起全部中文」，套用於句型翻譯與短問答逐字稿；學生回答提示仍需自行展開。當次切模式保留選擇，重新開啟教材回到收起狀態。

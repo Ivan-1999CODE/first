@@ -1,8 +1,17 @@
+// Route the current Day 2 task format to its integration coverage.
+if(require('fs').readFileSync('travel-english-unit2-shopping.html','utf8').includes('travel-lab-unit2-rounds-v1')){
+ const run=file=>require('child_process').execFileSync(process.execPath,['--preserve-symlinks','--preserve-symlinks-main',file,...(file==='check-all-task-rounds.cjs'?['--day2']:[])],{stdio:'inherit'});
+ if(!process.argv.includes('--day2-only'))run('check-unit1-focus.cjs');
+ run('check-all-task-rounds.cjs');
+ return;
+}
 const {chromium}=require('playwright');
 const fs=require('fs'),path=require('path'),assert=require('assert/strict');
 (async()=>{
+ const focused=fs.readFileSync('travel-english.html','utf8').includes('travel-lab-unit1-focus-v1');
+ if(focused&&!process.argv.includes('--day2-only'))require('child_process').execFileSync(process.execPath,['--preserve-symlinks','--preserve-symlinks-main','check-unit1-focus.cjs'],{stdio:'inherit'});
  const browser=await chromium.launch({channel:'msedge',headless:true});
- try{for(const day of [1,2]){
+ try{for(const day of (focused?[2]:[1,2])){
  const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];
  page.on('pageerror',e=>errors.push(e.message));const dir=`qa-day${day}`;fs.mkdirSync(dir,{recursive:true});
  const file=day===1?'travel-english.html':'travel-english-unit2-shopping.html';

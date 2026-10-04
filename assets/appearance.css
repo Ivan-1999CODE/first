@@ -1,0 +1,80 @@
+/* Shared reading controls, including the course index and older lessons. */
+:root{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+:root[data-size=large]{font-size:20px}
+:root[data-appearance-kind=legacy] body.large{font-size:1rem}
+:root[data-size=large] .day-switcher a{font-size:1rem}
+:root[data-size=large] .day-switcher a small{font-size:.8rem}
+.top-inner{flex-wrap:wrap}
+.top-tools,.tools{flex-wrap:wrap;margin-left:auto}
+.top-tools button,.tools button{white-space:nowrap}
+.course-menu>summary{font-size:1rem}
+.appearance-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1001;width:max-content;max-width:calc(100% - 32px);padding:14px 20px;border-radius:14px;background:#202631;color:#fff;box-shadow:0 4px 20px #0003}
+.appearance-status[hidden]{display:none}
+:root[data-theme=dark] .course-menu{background:var(--bg,var(--paper,#171c1d))}
+:root[data-theme=dark] .course-menu :is(.menu-icon,.menu-chevron){color:var(--ink,#edf1ef)}
+:root[data-theme=dark] .course-menu>summary:active{background:var(--surface,var(--panel,#2c3732))}
+
+/* The landing page uses the same controls and storage as the lessons. */
+:root[data-appearance-kind=index]{font-size:18px;--bg:#f5f5f7;--panel:#fff;--ink:#1d1d1f;--muted:#61616a;--accent:#0066cc;--line:#d7dfe0;--soft:#e8f2ff}
+:root[data-appearance-kind=index][data-size=large]{font-size:22px}
+:root[data-appearance-kind=index][data-theme=dark]{--bg:#151b1e;--panel:#222b30;--ink:#f0f4f4;--muted:#b7c5cc;--accent:#83c5ff;--line:#53646e;--soft:#2b3e50}
+[data-appearance-kind=index] body{padding:0;background:var(--bg);color:var(--ink);font-size:1rem}
+[data-appearance-kind=index] main{padding:38px 24px 70px}
+[data-appearance-kind=index] :is(p,small){color:var(--muted)}
+[data-appearance-kind=index] small{font-size:.8rem}
+[data-appearance-kind=index] main a{background:var(--panel);color:var(--accent);overflow-wrap:anywhere}
+[data-appearance-kind=index] main a:hover{background:var(--soft)}
+[data-appearance-kind=index] .top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+[data-appearance-kind=index] .top-inner{max-width:740px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px}
+[data-appearance-kind=index] .brand{font-size:1rem;font-weight:700}
+[data-appearance-kind=index] .tools{display:flex;gap:8px}
+[data-appearance-kind=index] button{font:inherit;font-size:.85rem;min-height:44px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--ink);cursor:pointer;touch-action:manipulation}
+[data-appearance-kind=index] button:hover,[data-appearance-kind=index] button[aria-pressed=true]{background:var(--soft)}
+[data-appearance-kind=index] :focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+
+/* Days 3–6 predate dark mode. Preserve scene objects' meaningful colors. */
+:root[data-appearance-fallback][data-theme=dark]{background:#171c22;color:#edf2f7;--blue:#9acbff;--muted:#b9c5d2;--line:#526172;--surface:#252e39;--paper:#171c22;--ink:#edf2f7;--teal:#9acbff}
+[data-appearance-fallback][data-theme=dark] .top{background:#171c22}
+[data-appearance-fallback][data-theme=dark] :is(.brand,.context strong){color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] button{background:#354253;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] button:hover{background:#465970}
+[data-appearance-fallback][data-theme=dark] button.primary{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] button.plain{background:transparent;color:#9acbff}
+[data-appearance-fallback][data-theme=dark] button[aria-pressed=true]{background:#304f70;color:#e4f1ff;box-shadow:inset 0 0 0 1px #9acbff}
+[data-appearance-fallback][data-theme=dark] .course-nav button{background:transparent;color:var(--muted)}
+[data-appearance-fallback][data-theme=dark] .course-nav button[aria-current=page]{background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.day-switcher,.course-menu>summary,.course-menu aside,.course-menu .course-nav){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] .day-switcher a{background:#303c4a;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.day-switcher-label,.day-switcher small){color:var(--muted)}
+[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page]{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page] small{color:#142a42}
+[data-appearance-fallback][data-theme=dark] :is(.panel,.journey-card,.phrase,.reply-card,.quick-reply,.scene-ticket,.train-ticket,.hero-receipt,.food-card,.scene-object){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.context,.hint,.scene-screen,.scene-status,.clerk-panel,.teacher-guide,.start-cue,.task-goal){background:#293a4c;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] .tinted{background:#293a4c!important}
+[data-appearance-fallback][data-theme=dark] :is(.hero-visual,.hero-food){background:#293a4c;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] :is(.hero-copy h1 span,.hero-menu-label,.hero-receipt small,.ticket-facts small,.scene-progress,.card-num){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.ticket-seal,.ticket-stamp){color:#9dddbb}
+[data-appearance-fallback][data-theme=dark] :is(textarea,input,select){background:#1c2530;color:#edf2f7;border-color:#778ca3}
+[data-appearance-fallback][data-theme=dark] textarea::placeholder{color:#b9c5d2}
+[data-appearance-fallback][data-theme=dark] :is(.tag,.avatar){background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.feedback,.scene-status.success,.scene-done){background:#244b39;color:#c9f3da}
+[data-appearance-fallback][data-theme=dark] :is(.feedback.retry,.scene-status.retry,.notice){background:#514221;color:#ffe4a2}
+[data-appearance-fallback][data-theme=dark] :focus-visible{outline-color:#9acbff}
+[data-appearance-fallback][data-theme=dark] :is(.boarding,.play-stage,.ride-card,.order-ticket,.cafe-menu,.order-card){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.city-hero,.scene-board,.building-scene,.street-scene,.budget-strip,.counter-scene,.train-counter,.play-coach .checkline){background:#293a4c;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.board-label,.building-name,.journey-status,.order-card small,.order-card span,.food-card span,.food-card small,.menu-mast small,.order-ticket small,.train-ticket-grid small){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.scene-object small,.place-symbol,.object-symbol){color:#a4d7c0}
+[data-appearance-fallback][data-theme=dark] :is(.progress-pill,.ride-icon,.ride-pill){background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.scene-object.selected,.food-card.selected){background:#304f70;border-color:#9acbff}
+[data-appearance-fallback][data-theme=dark] .train-steps span{background:#354253;color:#d9e5f2}
+[data-appearance-fallback][data-theme=dark] .train-steps span.active{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] :is(.train-steps span.done,.train-ready){background:#244b39;color:#c9f3da}
+[data-appearance-fallback][data-theme=dark] :is(.route-arrow,.visual-caption,.ride-card small,.ride-card>span){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.counter-choices,.platform-buttons) small{color:#b9cee4!important}
+[data-appearance-fallback][data-theme=dark] .reader-screen{background:#293a4c;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] :is(.map-titlebar,.map-titlebar strong){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] .map-caption{color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] .travel-map .map-caption{color:#365063}
+@media(prefers-reduced-transparency:reduce){:root[data-theme=dark] .top{backdrop-filter:none}}
+@media(prefers-contrast:more){[data-appearance-fallback][data-theme=dark]{--muted:#e1ebf5;--line:#9eafc2}[data-appearance-fallback][data-theme=dark] :is(.panel,button,textarea){border:2px solid #9eafc2}}

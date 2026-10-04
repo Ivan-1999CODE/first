@@ -1,6 +1,7 @@
 const fs=require('fs');
 const source=fs.readFileSync('assets/lesson-controls.js','utf8');
 module.exports=function sync(file){
+ require('./sync-day0-links.cjs')();
  const files=file?[file]:fs.readdirSync('.').filter(f=>/^travel-english(?:-unit.*)?\.html$/.test(f));
  for(const name of files){
   let html=fs.readFileSync(name,'utf8');
@@ -9,5 +10,6 @@ module.exports=function sync(file){
   html=html.replace('</body>',()=>'<script id="lesson-controls">\n'+source+'</script>\n</body>');
   fs.writeFileSync(name,html);
  }
+ require('./sync-appearance.cjs')();
 };
 if(require.main===module)module.exports();

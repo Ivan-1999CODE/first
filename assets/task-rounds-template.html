@@ -1,0 +1,213 @@
+<!doctype html>
+<html data-appearance-kind="modern" lang="zh-Hant"><head><meta charset="utf-8">
+<script id="shared-appearance-init" data-appearance-init>
+// Apply shared preferences before the first paint. Learning records are untouched.
+(() => {
+ const root=document.documentElement;
+ const read=(key,active,fallback)=>{try{return localStorage.getItem(key)===active?active:fallback;}catch{return fallback;}};
+ root.dataset.theme=read('travel-lab-theme','dark','light');
+ root.dataset.size=read('travel-lab-text-size','large','standard');
+ root.dataset.textSize=root.dataset.size;
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Travel Lab｜第 14 天：旅途中問清楚：Where、When、Who</title>
+<meta name="description" content="成人旅遊英文第 14 天：確認半日遊集合地點、出發時間與導遊。七部分互動教材。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23086d66'/%3E%3Ctext x='4' y='25' font-size='24' fill='white'%3E↗%3C/text%3E%3C/svg%3E">
+<style id="course-layout-styles">
+.course-menu{min-width:0}
+.course-menu>summary{display:none;cursor:pointer;list-style:none;min-height:56px;padding:12px 16px;font:600 16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei",sans-serif;letter-spacing:.01em;color:var(--ink,#1d1d1f);background:#fff;border:1px solid #dce2e8;border-radius:16px;box-shadow:0 2px 8px #152b4010;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;transition:background .15s,box-shadow .15s}
+.course-menu>summary::-webkit-details-marker{display:none}
+.course-menu>summary::marker{content:""}
+.course-menu>summary:active{background:#edf1f6;box-shadow:inset 0 1px 4px #152b4012;transition:none}
+.course-menu>summary:focus-visible{outline:3px solid var(--teal,#0071e3);outline-offset:4px}
+.course-menu .menu-icon{display:block;width:22px;height:22px;flex:0 0 22px;color:var(--teal,#0066cc)}
+.course-menu .menu-label{flex:1;min-width:0}
+.course-menu .menu-chevron{display:block;width:18px;height:18px;flex:0 0 18px;color:#626b76;transition:transform .18s ease}
+.course-menu[open] .menu-chevron{transform:rotate(180deg)}
+.course-menu aside{height:100%}
+@media(max-width:1100px){
+ .shell,.projection .shell{display:block}
+ .course-menu{padding:14px 16px 10px;background:var(--paper,#f5f5f7)}
+ .course-menu>summary{display:flex;align-items:center;gap:12px}
+ .course-menu[open]>summary{box-shadow:0 2px 8px #152b4010;border-color:#c5ced9}
+ .course-menu aside,.course-menu .course-nav{padding:14px 10px 10px;margin-top:8px;border:1px solid #e1e6ed;border-radius:18px;background:#fff;box-shadow:0 6px 18px #152b4008}
+ .course-menu nav,.course-menu #nav{display:grid!important;gap:7px;overflow:visible}
+ .course-menu nav button{white-space:normal;text-align:left;min-height:48px;flex-shrink:1;border-radius:12px;padding:12px;line-height:1.5}
+ .course-menu .side-title,.course-menu .day{display:block;margin:8px 12px 14px}
+ .course-menu .stepnum,.course-menu .nav-number{display:inline}
+ .course-menu .side-note{display:none}
+}
+@media(prefers-reduced-motion:reduce){.course-menu>summary,.course-menu .menu-chevron{transition:none}}
+@media(prefers-contrast:more){.course-menu>summary,.course-menu aside,.course-menu .course-nav{border-color:currentColor}.course-menu .menu-chevron{color:currentColor}}
+@media print{.course-menu{display:none!important}.shell{display:block}}
+</style>
+<style id="day-switcher-styles">
+.day-switcher{background:#fff;border-bottom:1px solid #dde4eb;padding:12px 24px;font-family:system-ui,"Microsoft JhengHei",sans-serif}
+.day-switcher-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.day-switcher-label{font-size:13px;color:#55677b;white-space:nowrap;font-weight:600}
+.day-switcher-links{display:flex;flex-wrap:wrap;gap:8px;flex:1}
+.day-switcher a{display:flex;align-items:center;gap:7px;min-height:44px;padding:9px 14px;border:1px solid #d8e1e9;border-radius:12px;background:#f5f8fb;color:#234860;font-size:14px;line-height:1.5;text-decoration:none;box-sizing:border-box}
+.day-switcher a small{font-size:12px;color:#526b7d}
+.day-switcher a:hover{background:#e8f2fb;border-color:#93b9d6}
+.day-switcher a[aria-current=page]{background:#1769aa;border-color:#1769aa;color:#fff}
+.day-switcher a[aria-current=page] small{color:#fff}
+.day-switcher a:focus-visible{outline:3px solid #0071e3;outline-offset:3px}
+@media(max-width:640px){.day-switcher{padding:10px 16px}.day-switcher-inner{align-items:flex-start;flex-direction:column;gap:7px}.day-switcher-links{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.day-switcher a{flex-direction:column;gap:1px;padding:8px 6px;text-align:center}.day-switcher a small{font-size:11px}}
+@media print{.day-switcher{display:none}}
+</style><!-- TASK_STYLES --><style id="speaking-focus-styles">
+/* Shared student speaking cue: keep hints collapsed and preserve each lesson's flow. */
+.speaking-heading{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:28px 0 12px}
+.speaking-heading :is(h2,h3,.task-label){margin:0!important}
+.speaking-cue{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;background:#8a510c;color:#fff;font-size:.78rem;font-weight:700;line-height:1.5;letter-spacing:normal}
+.speaking-cue>span{font-size:1.2em}
+.speaking-task{min-width:0;padding:20px;border:2px solid #c38b35;border-left-width:6px;border-radius:16px;background:#fff4dc;color:#59380e;overflow-wrap:anywhere}
+.speaking-task>:is(.task,.scenario){margin:0;font-weight:650;line-height:1.85;color:inherit;background:transparent;border:0;padding:0}
+.speaking-task details{border-color:#d2b47e}
+.speaking-task summary{color:#71420b}
+.speaking-task :is(.quote,.suggested-answer){padding:15px;border:1px solid #d2b47e;border-radius:12px;background:#fffdf6;color:#59380e}
+.speaking-task details details :is(p.en,p[lang=en]){padding:15px;border:1px solid #d2b47e;border-radius:12px;background:#fffdf6;color:#59380e}
+.speaking-task :is(.hint,.hint .en){color:inherit}
+.large .speaking-cue,[data-size=large] .speaking-cue{font-size:.95rem}
+[data-theme=dark] .speaking-task{background:#3c301c;border-color:#c79850;color:#fff0cd}
+[data-theme=dark] .speaking-cue{background:#efca84;color:#35240c}
+[data-theme=dark] .speaking-task summary{color:#f2d298}
+[data-theme=dark] .speaking-task :is(.quote,.suggested-answer),[data-theme=dark] .speaking-task details details :is(p.en,p[lang=en]){background:#302718;color:#fff0cd;border-color:#a88550}
+@media(max-width:760px){.speaking-task{padding:16px}.speaking-heading{gap:9px}}
+@media(prefers-contrast:more){.speaking-task,.speaking-task .quote{border-color:currentColor}.speaking-cue{outline:2px solid currentColor}}
+
+</style><style id="shared-appearance-styles">
+/* Shared reading controls, including the course index and older lessons. */
+:root{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+:root[data-size=large]{font-size:20px}
+:root[data-appearance-kind=legacy] body.large{font-size:1rem}
+:root[data-size=large] .day-switcher a{font-size:1rem}
+:root[data-size=large] .day-switcher a small{font-size:.8rem}
+.top-inner{flex-wrap:wrap}
+.top-tools,.tools{flex-wrap:wrap;margin-left:auto}
+.top-tools button,.tools button{white-space:nowrap}
+.course-menu>summary{font-size:1rem}
+.appearance-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1001;width:max-content;max-width:calc(100% - 32px);padding:14px 20px;border-radius:14px;background:#202631;color:#fff;box-shadow:0 4px 20px #0003}
+.appearance-status[hidden]{display:none}
+:root[data-theme=dark] .course-menu{background:var(--bg,var(--paper,#171c1d))}
+:root[data-theme=dark] .course-menu :is(.menu-icon,.menu-chevron){color:var(--ink,#edf1ef)}
+:root[data-theme=dark] .course-menu>summary:active{background:var(--surface,var(--panel,#2c3732))}
+
+/* The landing page uses the same controls and storage as the lessons. */
+:root[data-appearance-kind=index]{font-size:18px;--bg:#f5f5f7;--panel:#fff;--ink:#1d1d1f;--muted:#61616a;--accent:#0066cc;--line:#d7dfe0;--soft:#e8f2ff}
+:root[data-appearance-kind=index][data-size=large]{font-size:22px}
+:root[data-appearance-kind=index][data-theme=dark]{--bg:#151b1e;--panel:#222b30;--ink:#f0f4f4;--muted:#b7c5cc;--accent:#83c5ff;--line:#53646e;--soft:#2b3e50}
+[data-appearance-kind=index] body{padding:0;background:var(--bg);color:var(--ink);font-size:1rem}
+[data-appearance-kind=index] main{padding:38px 24px 70px}
+[data-appearance-kind=index] :is(p,small){color:var(--muted)}
+[data-appearance-kind=index] small{font-size:.8rem}
+[data-appearance-kind=index] main a{background:var(--panel);color:var(--accent);overflow-wrap:anywhere}
+[data-appearance-kind=index] main a:hover{background:var(--soft)}
+[data-appearance-kind=index] .top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+[data-appearance-kind=index] .top-inner{max-width:740px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px}
+[data-appearance-kind=index] .brand{font-size:1rem;font-weight:700}
+[data-appearance-kind=index] .tools{display:flex;gap:8px}
+[data-appearance-kind=index] button{font:inherit;font-size:.85rem;min-height:44px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--ink);cursor:pointer;touch-action:manipulation}
+[data-appearance-kind=index] button:hover,[data-appearance-kind=index] button[aria-pressed=true]{background:var(--soft)}
+[data-appearance-kind=index] :focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+
+/* Days 3–6 predate dark mode. Preserve scene objects' meaningful colors. */
+:root[data-appearance-fallback][data-theme=dark]{background:#171c22;color:#edf2f7;--blue:#9acbff;--muted:#b9c5d2;--line:#526172;--surface:#252e39;--paper:#171c22;--ink:#edf2f7;--teal:#9acbff}
+[data-appearance-fallback][data-theme=dark] .top{background:#171c22}
+[data-appearance-fallback][data-theme=dark] :is(.brand,.context strong){color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] button{background:#354253;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] button:hover{background:#465970}
+[data-appearance-fallback][data-theme=dark] button.primary{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] button.plain{background:transparent;color:#9acbff}
+[data-appearance-fallback][data-theme=dark] button[aria-pressed=true]{background:#304f70;color:#e4f1ff;box-shadow:inset 0 0 0 1px #9acbff}
+[data-appearance-fallback][data-theme=dark] .course-nav button{background:transparent;color:var(--muted)}
+[data-appearance-fallback][data-theme=dark] .course-nav button[aria-current=page]{background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.day-switcher,.course-menu>summary,.course-menu aside,.course-menu .course-nav){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] .day-switcher a{background:#303c4a;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.day-switcher-label,.day-switcher small){color:var(--muted)}
+[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page]{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page] small{color:#142a42}
+[data-appearance-fallback][data-theme=dark] :is(.panel,.journey-card,.phrase,.reply-card,.quick-reply,.scene-ticket,.train-ticket,.hero-receipt,.food-card,.scene-object){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.context,.hint,.scene-screen,.scene-status,.clerk-panel,.teacher-guide,.start-cue,.task-goal){background:#293a4c;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] .tinted{background:#293a4c!important}
+[data-appearance-fallback][data-theme=dark] :is(.hero-visual,.hero-food){background:#293a4c;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] :is(.hero-copy h1 span,.hero-menu-label,.hero-receipt small,.ticket-facts small,.scene-progress,.card-num){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.ticket-seal,.ticket-stamp){color:#9dddbb}
+[data-appearance-fallback][data-theme=dark] :is(textarea,input,select){background:#1c2530;color:#edf2f7;border-color:#778ca3}
+[data-appearance-fallback][data-theme=dark] textarea::placeholder{color:#b9c5d2}
+[data-appearance-fallback][data-theme=dark] :is(.tag,.avatar){background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.feedback,.scene-status.success,.scene-done){background:#244b39;color:#c9f3da}
+[data-appearance-fallback][data-theme=dark] :is(.feedback.retry,.scene-status.retry,.notice){background:#514221;color:#ffe4a2}
+[data-appearance-fallback][data-theme=dark] :focus-visible{outline-color:#9acbff}
+[data-appearance-fallback][data-theme=dark] :is(.boarding,.play-stage,.ride-card,.order-ticket,.cafe-menu,.order-card){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.city-hero,.scene-board,.building-scene,.street-scene,.budget-strip,.counter-scene,.train-counter,.play-coach .checkline){background:#293a4c;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.board-label,.building-name,.journey-status,.order-card small,.order-card span,.food-card span,.food-card small,.menu-mast small,.order-ticket small,.train-ticket-grid small){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.scene-object small,.place-symbol,.object-symbol){color:#a4d7c0}
+[data-appearance-fallback][data-theme=dark] :is(.progress-pill,.ride-icon,.ride-pill){background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.scene-object.selected,.food-card.selected){background:#304f70;border-color:#9acbff}
+[data-appearance-fallback][data-theme=dark] .train-steps span{background:#354253;color:#d9e5f2}
+[data-appearance-fallback][data-theme=dark] .train-steps span.active{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] :is(.train-steps span.done,.train-ready){background:#244b39;color:#c9f3da}
+[data-appearance-fallback][data-theme=dark] :is(.route-arrow,.visual-caption,.ride-card small,.ride-card>span){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.counter-choices,.platform-buttons) small{color:#b9cee4!important}
+[data-appearance-fallback][data-theme=dark] .reader-screen{background:#293a4c;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] :is(.map-titlebar,.map-titlebar strong){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] .map-caption{color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] .travel-map .map-caption{color:#365063}
+@media(prefers-reduced-transparency:reduce){:root[data-theme=dark] .top{backdrop-filter:none}}
+@media(prefers-contrast:more){[data-appearance-fallback][data-theme=dark]{--muted:#e1ebf5;--line:#9eafc2}[data-appearance-fallback][data-theme=dark] :is(.panel,button,textarea){border:2px solid #9eafc2}}
+</style>
+</head><body>
+<a class="skip" href="#main">跳到課程內容</a>
+<header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
+<nav class="day-switcher" aria-label="切換單元"><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a href="travel-japanese-day0-directions.html"><strong>第 0 天</strong><small>日文問路與購物</small></a><a href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a href="travel-english-unit8-hotel.html"><strong>第 8 天</strong><small>入住與客房服務</small></a><a href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>請求、婉拒與道歉</small></a><a href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>What：認識旅伴、安排一天</small></a><a href="travel-english-unit12-how.html"><strong>第 12 天</strong><small>How 旅遊問句工具箱</small></a><a href="travel-english-unit13-why-which.html"><strong>第 13 天</strong><small>一起決定去哪裡</small></a><a aria-current="page" href="travel-english-unit14-travel-questions.html"><strong>第 14 天</strong><small>問地點、時間與人物</small></a></div></div></nav>
+<div id="storageNotice" class="notice" role="status" hidden></div>
+<div class="layout"><details id="courseMenu" class="course-menu" open><summary aria-label="課程選單"><svg class="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16m4-11h4m-4 5h4"/></svg><span class="menu-label">課程選單</span><svg class="menu-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 7.5 5 5 5-5"/></svg></summary><nav class="course-nav" aria-label="第 14 天的七部分課程"><span class="day">DAY 14</span><div id="nav"></div></nav></details><main id="main" tabindex="-1"></main></div>
+<footer class="bottom"><a href="index.html">全部課程</a> · 第 14 天：旅途中問清楚：Where、When、Who</footer><div id="toast" role="status" hidden></div>
+<!-- TASK_APP --><script id="shared-appearance-controls">
+// One controller for the index and every generation of lesson runtime.
+(() => {
+ const root=document.documentElement;
+ const sizeButton=document.getElementById('large');
+ const themeButton=document.getElementById('theme')||document.getElementById('themeToggle');
+ function update(){
+  const dark=root.dataset.theme==='dark',large=root.dataset.size==='large';
+  root.dataset.textSize=root.dataset.size;
+  document.body.classList.toggle('large',large&&root.dataset.appearanceKind==='legacy');
+  sizeButton.textContent=large?'標準文字':'放大文字';
+  sizeButton.setAttribute('aria-pressed',String(large));
+  themeButton.textContent=dark?'☀ 淺色':'☾ 深色';
+  themeButton.setAttribute('aria-label',dark?'切換為淺色模式':'切換為深色模式');
+  themeButton.setAttribute('aria-pressed',String(dark));
+ }
+ const status=document.createElement('div');
+ status.className='appearance-status';status.setAttribute('role','status');status.hidden=true;
+ document.body.append(status);
+ let timer;
+ document.addEventListener('click',event=>{
+  const button=event.target.closest('button');
+  if(button!==sizeButton&&button!==themeButton)return;
+  // Earlier lessons have their own click handlers; handle these two controls once.
+  event.stopImmediatePropagation();
+  const theme=button===themeButton,key=theme?'theme':'size';
+  const active=theme?'dark':'large',fallback=theme?'light':'standard';
+  root.dataset[key]=root.dataset[key]===active?fallback:active;
+  update();
+  try{localStorage.setItem(theme?'travel-lab-theme':'travel-lab-text-size',root.dataset[key]);}
+  catch{
+   status.textContent='已套用外觀；此瀏覽器目前無法保存設定。';status.hidden=false;
+   clearTimeout(timer);timer=setTimeout(()=>status.hidden=true,6000);
+  }
+ },true);
+ window.addEventListener('storage',event=>{
+  if(event.key==='travel-lab-theme')root.dataset.theme=event.newValue==='dark'?'dark':'light';
+  else if(event.key==='travel-lab-text-size')root.dataset.size=event.newValue==='large'?'large':'standard';
+  else return;
+  update();
+ });
+ window.addEventListener('pageshow',update);
+ update();
+})();
+</script>
+</body></html>
