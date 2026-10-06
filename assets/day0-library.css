@@ -1,0 +1,9 @@
+.japanese-study-block{margin:0 0 36px}
+.japanese-study-block .phrase-role h2{margin:0 0 10px;font-size:1.35rem}
+.japanese-study-block .phrase-role p{margin:0}
+.japanese-preview-card .en{margin:0 0 10px;font-weight:650}
+.japanese-preview-card .preview-meaning{font-size:1.08rem;margin:0 0 12px;font-weight:600}
+.japanese-preview-card .preview-kana{font-size:.92rem;margin:8px 0;color:var(--muted)}
+.japanese-preview-card .preview-reading{margin:8px 0 18px;color:var(--muted);overflow-wrap:anywhere}
+.japanese-hear-grid>.panel{border-top:4px solid var(--hear-line)}
+.japanese-study-block .task-phrase-grid>.panel{border-top:4px solid var(--say-line)}

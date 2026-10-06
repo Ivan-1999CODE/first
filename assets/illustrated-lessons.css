@@ -1,0 +1,91 @@
+/* The approved Day 1 palette and role-aware illustration system. */
+:root[data-illustrated]{--bg:#faf8f1;--panel:#fffefa;--ink:#273f3d;--muted:#5c726b;--line:#d9e3d9;--accent:#245e62;--soft:#e7f0ea;--on-accent:#fffdf6;--yellow:#efc86c;--green:#36a271;--neutral:#dce4de;--hear-bg:#ebf2f5;--hear-ink:#335969;--hear-line:#c9dbe1;--say-bg:#fff3d8;--say-ink:#654916;--say-line:#efc86c}
+:root[data-illustrated][data-theme=dark]{--bg:#1c2825;--panel:#253630;--ink:#e7eee7;--muted:#aec3b7;--line:#466054;--accent:#9fd4ce;--soft:#334b41;--on-accent:#173c3c;--neutral:#466054;--hear-bg:#293e46;--hear-ink:#c1dce5;--hear-line:#46636c;--say-bg:#403822;--say-ink:#f4dfaf;--say-line:#c4a251}
+[data-illustrated] body{background:var(--bg);color:var(--ink)}
+[data-illustrated] .top{background:var(--panel);border-bottom:1px solid var(--line)}
+[data-illustrated] .top-inner{max-width:1480px;padding:17px 28px}
+[data-illustrated] .brand{font-size:1.17rem;letter-spacing:-.025em}
+[data-illustrated] .brand>span{display:inline-grid;place-items:center;width:34px;height:34px;background:var(--accent);color:var(--on-accent);border-radius:11px;margin-right:10px}
+[data-illustrated] .tools button{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 13px}
+[data-illustrated] .tools button[aria-pressed=true]{background:var(--soft);color:var(--accent)}
+[data-illustrated] .day-switcher{background:var(--bg);border-color:var(--line)}
+[data-illustrated] .day-switcher a{background:var(--panel);border-color:var(--line);color:var(--ink);border-radius:10px}
+[data-illustrated] .day-switcher a[aria-current=page]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+[data-illustrated] .day-switcher a[aria-current=page] small{color:var(--on-accent)}
+[data-illustrated] .layout{grid-template-columns:216px minmax(0,1fr)}
+[data-illustrated] main{padding:32px 34px 46px}
+[data-illustrated] .course-nav{padding:30px 15px;background:var(--bg);border-color:var(--line)}
+[data-illustrated] #nav button{border:0;border-radius:10px;font-size:.82rem;padding:13px 11px}
+[data-illustrated] #nav button[aria-current=step]{box-shadow:inset 3px 0 var(--accent);background:var(--soft);color:var(--accent)}
+[data-illustrated] h1{font-size:clamp(1.8rem,3.1vw,2.55rem);line-height:1.35;letter-spacing:-.035em}
+[data-illustrated] h2{font-size:1.3rem;line-height:1.5}
+[data-illustrated] .panel{border-radius:20px;padding:26px;background:var(--panel);border:1px solid var(--line)}
+[data-illustrated] button{border-radius:10px;transition:background .12s,transform .12s}
+[data-illustrated] button.primary{background:var(--accent);color:var(--on-accent)}
+[data-illustrated] .modes button{border-radius:13px;padding:15px 18px;background:var(--panel)}
+[data-illustrated] .modes button[aria-pressed=true]{background:var(--soft)}
+[data-illustrated] .task-banner{padding:18px 0;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;background:transparent;margin-bottom:25px}
+[data-illustrated] .task-round-picker{grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px}
+[data-illustrated] .task-round-picker button{padding:10px 13px;font-size:.95rem}
+[data-illustrated] .task-round-picker button[aria-pressed=true]{background:var(--accent);color:var(--on-accent)}
+[data-illustrated] .task-round-picker span{font-size:.76rem}
+[data-illustrated] .task-goal{margin:15px 0 13px}
+[data-illustrated] .task-stages button{font-size:.77rem;padding:8px 12px}
+[data-illustrated] .lesson-section-heading{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:0 0 24px}
+[data-illustrated] .lesson-section-heading>div{min-width:0}
+[data-illustrated] .lesson-section-heading h1{margin-bottom:12px}
+[data-illustrated] .lesson-section-heading .lead{margin:0;font-size:1rem}
+[data-illustrated] figure{margin:0}
+[data-illustrated] .lesson-illustration{display:block;object-fit:contain;object-position:center;width:100%;height:100%;max-width:100%}
+[data-illustrated] .lesson-notebook{flex:0 0 135px;width:135px;height:120px}
+[data-illustrated] .home-hero{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:32px;min-height:0;margin-bottom:26px}
+[data-illustrated] .home-hero h1{font-size:clamp(2rem,3vw,3.05rem);line-height:1.3}
+[data-illustrated] .home-hero .lead{font-size:1.04rem;margin-bottom:0}
+[data-illustrated] .home-hero .hero-art{padding:18px 8px;min-height:0;background:var(--soft);border-radius:24px}
+[data-illustrated] .lesson-cast{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr);align-items:end;gap:0;max-width:440px;margin:0 auto 22px}
+[data-illustrated] .lesson-cast figure{min-width:0;text-align:center}
+[data-illustrated] .lesson-cast .lesson-illustration{height:154px}
+[data-illustrated] .lesson-cast figcaption{font-size:.76rem;color:var(--muted);margin-top:4px}
+[data-illustrated] .cast-link{align-self:center;text-align:center;color:var(--accent)}
+[data-illustrated] .lesson-cast figure:first-child [data-illustration=asker],[data-illustrated] .lesson-cast figure:last-child :is([data-illustration=guide],[data-illustration=airport-staff],[data-illustration=station-staff],[data-illustration=hotel-staff]){transform:scaleX(-1)}
+[data-illustrated] .hero-cast{width:100%;margin-bottom:0}
+[data-illustrated] .hero-cast .lesson-illustration{height:270px}
+[data-illustrated] .lesson-hero-scene{height:300px;width:100%}
+[data-illustrated] .before-panel{margin-top:0}
+[data-illustrated] .task-explainer{background:var(--soft);border:0}
+[data-illustrated] .task-cards .eyebrow{font-size:.72rem}
+[data-illustrated] .task-cards .panel{padding:23px}
+[data-illustrated] .role-frame{border:1px solid var(--hear-line);border-radius:17px;padding:21px}
+[data-illustrated] .role-self{border-color:var(--say-line);border-left-width:4px}
+[data-illustrated] .role-heading{gap:12px;margin-bottom:15px}
+[data-illustrated] .role-heading>div{flex:1;min-width:0}
+[data-illustrated] .role-avatar,[data-illustrated] .task-scene .role-avatar{width:100px;height:126px;flex:0 0 100px;background:transparent;border-radius:0}
+[data-illustrated] .role-heading h3{font-size:1.07rem}
+[data-illustrated] .role-heading .fine{font-size:.8rem}
+[data-illustrated] .role-label{font-size:.76rem}
+[data-illustrated] .phrase-introduction{background:var(--soft);color:var(--accent);border:0;border-radius:12px;padding:17px 20px}
+[data-illustrated] .phrase-introduction .role-label{display:none}
+[data-illustrated] .phrase-introduction h3{font-size:1rem}
+[data-illustrated] .task-phrase-grid{gap:17px}
+[data-illustrated] .task-phrase-grid .en{font-size:1.4rem;line-height:1.5;margin-top:17px}
+[data-illustrated] .task-phrase .eyebrow{color:var(--muted);font-size:.73rem;letter-spacing:.025em}
+[data-illustrated] .task-scene{grid-template-columns:minmax(0,1.06fr) minmax(0,1fr);gap:20px}
+[data-illustrated] .scene-board{background:var(--soft);border:0;border-radius:17px}
+[data-illustrated] .scene-state{border-color:var(--line);background:var(--panel)}
+[data-illustrated] .scene-emblem{font-size:2.7rem;margin:0 0 15px}
+[data-illustrated] .scene-ledger li{padding:12px 0}
+[data-illustrated] .scene-ledger strong{font-size:1rem}
+[data-illustrated] .role-grid{grid-template-columns:minmax(0,1fr) 300px;align-items:start;gap:22px}
+[data-illustrated] .teacher{background:var(--hear-bg);color:var(--hear-ink);border:1px solid var(--hear-line);border-radius:16px}
+[data-illustrated] .teacher summary{color:inherit}
+[data-illustrated] .lesson-mission-picture{height:185px;margin:0 0 15px}
+[data-illustrated] .footer-actions{border-top:1px solid var(--line);padding-top:22px;margin-top:26px}
+[data-illustrated] .footer-actions button:last-child{background:var(--accent);color:var(--on-accent)}
+[data-illustrated] .scene-step-controls{border-top:0;padding-top:0;margin-top:18px}
+[data-illustrated] .bottom{color:var(--muted);border-color:var(--line)}
+@media(max-width:1250px){[data-illustrated] .task-scene{grid-template-columns:1fr}[data-illustrated] .role-grid{grid-template-columns:1fr}[data-illustrated] .teacher{order:-1}}
+@media(max-width:1100px){[data-illustrated] .layout{display:block}[data-illustrated] main{padding:26px 24px}[data-illustrated] .course-nav{padding:18px 12px}}
+@media(max-width:700px){[data-illustrated] .home-hero{grid-template-columns:1fr;gap:22px}[data-illustrated] .home-hero .hero-art{padding:14px 8px}[data-illustrated] .hero-cast .lesson-illustration{height:200px}[data-illustrated] .lesson-hero-scene{height:220px}[data-illustrated] .lesson-cast .lesson-illustration{height:132px}[data-illustrated] .hero-cast .lesson-illustration{height:200px}[data-illustrated] .lesson-cast{margin-bottom:18px}[data-illustrated] .hero-cast{margin-bottom:0}[data-illustrated] .role-avatar,[data-illustrated] .task-scene .role-avatar{width:82px;height:106px;flex-basis:82px}[data-illustrated] .role-heading{gap:9px}[data-illustrated] .lesson-notebook{width:82px;height:92px;flex-basis:82px}[data-illustrated] .lesson-section-heading{gap:12px;align-items:flex-start}[data-illustrated] .task-round-picker{grid-template-columns:repeat(2,minmax(0,1fr))}[data-illustrated] .panel{padding:20px}[data-illustrated] .role-frame,[data-illustrated] .task-scene .role-frame{padding:17px}[data-illustrated] .lesson-mission-picture{height:160px}}
+@media(max-width:640px){[data-illustrated] .top-inner{padding:13px 16px}[data-illustrated] main{padding:23px 16px 36px}[data-illustrated] .tools button{padding:9px 10px}[data-illustrated] h1{font-size:1.8rem}[data-illustrated] .task-stages button{padding:8px}[data-illustrated] .modes{grid-template-columns:1fr}[data-illustrated] .task-phrase-grid .en{font-size:1.32rem}}
+@media(prefers-reduced-motion:reduce){[data-illustrated] button{transition:none}}
+@media(prefers-contrast:more){:root[data-illustrated]{--line:currentColor}[data-illustrated] .role-frame{border-width:2px}[data-illustrated] .role-self{border-left-width:4px}}

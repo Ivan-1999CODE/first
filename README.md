@@ -1,3 +1,39 @@
+## 每日主題色：淺色六組循環，深色統一第一天
+
+正式課程第 0～14 天的淺色模式依序使用蜜桃、杏橙、奶油黃、暖玫瑰、柔紫、奶茶，從第 6 天開始循環。深色模式全系列統一使用第一天「問路與求助」的暖杏橙配色。每課七部分共用同一組背景、卡片、導覽與重點色。暖黃色開口提示、等待狀態與黃綠自評仍保留固定意義。
+
+色彩來源為 `assets/course-palettes.css`；`sync-appearance.cjs` 依檔名設定天數與色系，將樣式內嵌到各課，既有建置入口會自動套用。深淺色與文字大小沿用共用偏好，不更改學習紀錄。
+
+驗證：`node --preserve-symlinks --preserve-symlinks-main check-course-palettes.cjs`。涵蓋 15 課的七部分、深淺色、桌面與 320 px 放大文字、主要文字至少 4.5:1 對比、偏好保存及循環一致性；畫面與報告在 `tmp/course-palette-qa/`。下方較早紀錄中的配色以本節為準。
+
+## 全系列第二部分：先學會說，再學聽懂回話
+
+日文第 0 天與英文第 1～14 天，每輪第二部分都以上方「我會說」、下方「我要聽得懂」呈現，搭配旅客與對方的角色插圖。句子和中文直接顯示，兩邊看過之後再進入聽與接話練習。日文另保留羅馬字；第三部分的日文與中文也預設展開。
+
+`assets/listening-preview.cjs` 從後續流程、分支、短問答、真人任務與課後聽力收集對方台詞，去重後放進對應任務的句表。第 1、2 天原本僅有教師操作提示的台詞另補實際中文翻譯。共用介面在 `assets/study-library.js`、`assets/study-library.css`；日文句卡沿用 `assets/day0-library.js`。插圖沿用既有角色素材。
+
+驗證：`node --preserve-symlinks --preserve-symlinks-main check-study-library.cjs`，涵蓋 15 課、64 輪與 247 張對方句卡，核對後續台詞覆盖、翻譯可見、圖片載入、朗讀按鈕及深淺色窄螢幕。報告與畫面位於 `tmp/study-library-qa/`。搭配既有 `check-all-task-rounds.cjs`、`check-unit1-focus.cjs` 驗證課程流程。下方較早紀錄的第二部分呈現方式以本節為準。
+
+## 日文音檔：同步螢光跟讀
+
+日文播放時，在按鈕下方顯示日文詞段與羅馬字，依音檔的實際播放位置同步標黃；一般與慢速皆適用，可切換「只聽聲音」。停止、切頁或換音檔會清除舊標示。這是語音服務提供的詞段邊界，不是每個假名的獨立音素時間。
+
+`generate-day0-audio.py` 以同一次合成產生音檔和 `assets/day0-audio/timings.json`，保留 Nanami 聲音與 -10% 語速；只傳送教材文字。建置會核對音檔 SHA-256 與每段羅馬字，避免音檔和時間資料錯配。音檔、時間與讀音全部內嵌至 HTML，播放時不需網路。同步介面來源為 `assets/day0-audio.js`、`assets/day0-follow.css`，詞段讀音在 `assets/day0-follow-readings.cjs`。
+
+驗證：`node --preserve-symlinks --preserve-symlinks-main check-day0-follow.cjs`，涵蓋 77 段音檔與時間配對、讀音完整性、一般／慢速同步、組合句、停止／重播／切頁／失敗與深淺色窄螢幕。搭配 `check-all-task-rounds.cjs --day0` 檢查原有課程流程。畫面存於 `tmp/day0-follow-qa/`。
+
+## 第 2～14 天：角色插圖與新版配色
+
+英文第 2～14 天沿用已確認的米白、藍綠與暖黃色設計。顧客、服飾店員、一般店員、地勤、站務、司機、餐廳服務人員、飯店櫃檯、景點售票員和旅伴使用對應的插圖，並隨任務角色切換。句型區以文字卡片為主；互動區顯示問答角色；真人任務只放一組角色提示；回顧區使用筆記插圖，避免每張卡重複同一幅畫。
+
+這次調整呈現方式，保留課文、任務、聽讀與開口門檻、提示、作答欄位及儲存 key。第一天與日文第零天的正式檔案未套用本次變更。
+
+共用來源：`assets/illustrated-lessons.css`、`assets/illustrated-lessons.js`、`assets/course-illustrations.cjs`。圖片存於 `assets/illustrations/`；新增圖片由內建 `image_gen` 生成，完整提示詞與來源記錄於其中的 `manifest.json`，另沿用 4 張已確認的第一天插圖。建置會將本課用到的圖片內嵌，不依賴外部圖床。
+
+重建英文課：`node --preserve-symlinks --preserve-symlinks-main build-task-rounds.cjs 2 3 4 5 6 7 8 9 10 11 12 13 14`。
+
+驗證：`check-all-task-rounds.cjs --english` 檢查原內容、61 條流程、作答保存與舊紀錄；`check-illustrated-lessons.cjs` 檢查各輪角色圖、圖片載入、七部分和 320～1440 px 深淺色放大版面。畫面與報告位於 `tmp/illustrated-lessons-qa/`。朗讀功能沿用原有機制，此次沒有重新做音色或喇叭出聲的聽覺驗證。
+
 ## Day 2～Day 14 與日文第 0 課：目前的分任務版本
 
 原有 Day 2～Day 14 的 174 張主要句卡與 88 組短問答（含原有替換回答）完整保留。句子依任務分到主要口說、共用求助、先聽懂或可展開的延伸練習。Day 5 的方向句先練聽懂；Day 11～Day 14 的旅伴問答會交換角色。每輪依序走第二至第五部分，再進下一輪。

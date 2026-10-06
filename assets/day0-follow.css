@@ -1,0 +1,16 @@
+.day0-audio-status{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:12px;max-width:calc(100% - 24px);padding:12px 16px;background:var(--panel);color:var(--ink);border:2px solid var(--accent);border-radius:14px;box-shadow:0 4px 24px #0003}
+.day0-audio-status[hidden]{display:none}.day0-audio-status button{flex-shrink:0}
+.follow-along{margin:16px 0 22px;padding:18px;border:2px solid var(--accent);border-radius:16px;background:var(--panel);color:var(--ink);min-width:0}
+.follow-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.follow-heading strong{font-size:1rem}.follow-heading button{font-size:.8rem;min-height:44px}
+.follow-along .follow-help{font-size:.82rem;color:var(--muted);margin:8px 0 16px}
+.follow-words{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px 5px;max-height:280px;overflow:auto;padding:5px;scroll-padding:8px}
+.follow-token{display:inline-flex;flex-direction:column;justify-content:center;align-items:center;border:2px solid transparent;border-radius:9px;padding:7px 9px;min-width:2.2em;max-width:100%;line-height:1.5;overflow-wrap:anywhere}
+.follow-japanese{font-size:1.3rem;font-weight:650}.follow-romaji{font-size:1rem;color:var(--muted)}
+.follow-token.is-current{background:#ffe56a;color:#302300;border-color:#886400;box-shadow:0 3px 0 #886400}
+.follow-token.is-current .follow-romaji{color:#302300;font-weight:750}
+.follow-punctuation{align-self:center;font-size:1.2rem}
+.follow-words[hidden],.follow-help[hidden]{display:none}
+:root[data-theme=dark] .follow-token.is-current{background:#ffe56a;color:#302300;border-color:#ffeeb0;box-shadow:0 3px 0 #ffeeb0}
+@media(max-width:700px){.follow-along{padding:12px}.follow-token{padding:5px 6px}.follow-words{max-height:240px}.day0-audio-status{width:calc(100% - 24px);font-size:.85rem;padding:10px}}
+@media(forced-colors:active){.follow-token.is-current{outline:3px solid Highlight;background:Highlight;color:HighlightText}.follow-token.is-current .follow-romaji{color:HighlightText}}

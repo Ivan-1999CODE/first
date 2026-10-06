@@ -23,5 +23,20 @@
 @media(max-width:700px){.task-cards,.task-words{grid-template-columns:1fr}.task-round-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.task-banner{padding:15px}.task-stages{display:grid;grid-template-columns:1fr 1fr;gap:8px}.task-stages>span{display:none}.task-stages button{font-size:.82rem}.role-frame,.task-scene .role-frame{padding:17px}.role-heading{gap:12px}.role-avatar,.task-scene .role-avatar{width:53px;height:53px;flex-basis:53px}.role-heading h3{font-size:1.05rem}.dialogue-workshop,.scene-task-panel{padding:17px}.dialogue-title{align-items:flex-start}.dialogue-title h2{font-size:1.32rem}.role-key{display:grid}.task-footer button{max-width:100%;white-space:normal}.listen-modes{display:grid;grid-template-columns:1fr}.role-frame .actions button{padding:9px 13px}.task-scene .scene-board{padding:15px}.task-scene .scene-state{padding:15px}}
 @media(prefers-contrast:more){.role-frame{border-width:2px;border-left-width:5px}.role-heading .fine{opacity:1}}
 .round-hero-symbol{font-size:clamp(5rem,12vw,9rem);text-align:center;padding:35px;border-radius:28px;background:var(--soft)}
+/* Japanese flow: distinguish waiting, current and completed turns without relying on color alone. */
+.flow-turn{--turn-ink:var(--hear-ink);--turn-bg:var(--hear-bg)}
+.flow-turn.role-self{--turn-ink:var(--say-ink);--turn-bg:var(--say-bg)}
+.flow-turn .turn-number{display:grid;place-items:center;flex:0 0 3rem;width:3rem;height:3rem;border-radius:13px;background:var(--turn-ink);color:var(--turn-bg);font-size:2rem;font-weight:850;line-height:1}
+.flow-turn .turn-status{width:fit-content;max-width:100%;padding:8px 13px;margin:0 0 18px;border:1px solid currentColor;border-radius:10px;font-size:.88rem;font-weight:750;line-height:1.6}
+.flow-turn.turn-current{box-shadow:0 0 0 2px var(--turn-ink)}
+.flow-turn.turn-current .turn-status{background:var(--turn-ink);color:var(--turn-bg);border-color:var(--turn-ink)}
+.flow-turn .checkline{padding:13px;border:1px solid currentColor;border-radius:12px;margin-top:18px;min-height:48px}
+.flow-turn.turn-waiting{--turn-ink:#586370;--turn-bg:#e9edf1;background:var(--turn-bg);color:var(--turn-ink);border-color:#89939d;border-style:dashed}
+.flow-turn.turn-waiting .checkline{background:#dce2e8;border-color:#89939d;cursor:not-allowed}
+.flow-turn.turn-waiting .listen-locked{background:transparent;color:inherit;border-color:#89939d}
+.flow-turn.turn-done .turn-status{background:#e1f1e8;color:#265a40;border-color:#699c80}
+:root[data-theme=dark] .flow-turn.turn-waiting{--turn-ink:#c0c9d3;--turn-bg:#2b3139;border-color:#8793a1}
+:root[data-theme=dark] .flow-turn.turn-waiting .checkline{background:#353e49;border-color:#8793a1}
+:root[data-theme=dark] .flow-turn.turn-done .turn-status{background:#233e33;color:#c4efd8;border-color:#79af91}
 .scene-emblem{font-size:3.7rem;text-align:center;margin:8px 0 22px}.scene-ledger{list-style:none;padding:0;margin:0}.scene-ledger li{padding:14px 0;border-top:1px solid var(--line)}.scene-ledger span,.scene-ledger strong{display:block}.scene-ledger span{font-size:.84rem;color:var(--muted)}.scene-ledger strong{margin-top:5px;font-size:1.03rem}.scene-ledger .pending strong{font-weight:400;color:var(--muted)}.scene-ledger .recorded strong:before{content:'✓ ';color:var(--accent)}
 .inventory{margin-top:28px}.inventory-scroll{overflow-x:auto}.inventory table{border-collapse:collapse;width:100%;font-size:.92rem}.inventory th,.inventory td{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.inventory th{font-weight:650}.review-task{padding:18px 0;border-top:1px solid var(--line)}.hear-only{margin-bottom:24px}.hear-only article{padding:16px 0;border-top:1px solid var(--hear-line)}

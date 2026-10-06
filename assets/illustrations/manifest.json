@@ -1,0 +1,109 @@
+{
+  "styleReference": "Approved Day 1 gouache illustration, teal / ivory / mustard",
+  "assets": [
+    {
+      "key": "customer",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-118380b8-296e-440d-9137-2f4258a9eb46.png",
+      "file": "customer.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. An adult woman shopper with shoulder-length dark hair, mustard casual jacket, cream top and dark teal pants, holding a simple shopping bag in one hand, her other hand lifted slightly open-palmed near her chest while politely ASKING a question. Standing still in a three-quarter pose toward the right; curious engaged face, not pointing directions.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "shop-assistant",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-7c3cfba3-105a-4fe7-8b1b-9c0de2d1633a.png",
+      "file": "shop-assistant.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. An adult male shop assistant with neat dark hair, a muted teal shirt with rolled sleeves and cream chinos. He offers a neatly folded mustard T-shirt supported by one hand, and gestures OPEN HANDED toward it with the other, explaining a choice to a customer to his left. Clearly helping with clothing and shopping, no uniform cap.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "airport-staff",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-423162f9-4e4b-470d-bf14-5216c611f36d.png",
+      "file": "airport-staff.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. An adult female airport ground-staff agent with short dark hair, deep teal professional blazer and matching trousers, ivory blouse, small mustard neck scarf and plain unlettered name badge. Holds a boarding card in one hand and makes a calm open-palmed guidance gesture toward a passenger off frame. Professional welcoming posture, no police weapons or insignia.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "passenger",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-48b6bf3a-ca87-44a1-b1af-66b941c0ecf0.png",
+      "file": "passenger.webp",
+      "prompt": "Use case: precise-object-edit. Edit the attached traveler illustration ONLY to fix arm anatomy. The man must have EXACTLY TWO ARMS AND TWO HANDS. Remove the extra raised open-palmed arm projecting toward the left edge completely. His right arm on the viewer's left should bend naturally across the chest to hold the plain passport at center chest; his left arm on the viewer's right should extend down naturally to hold the suitcase handle. Keep the same face, smile, clothing, suitcase, full-body composition, style, colors and transparent background. The torso/shoulders must connect naturally to those two arms. No additional gesture or hand.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "station-staff",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-01a46b82-a9f4-4d76-a03c-0633276334b2.png",
+      "file": "station-staff.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. A middle-aged male railway station ticket clerk in a dark teal vest, pale cream shirt, mustard tie, charcoal trousers and simple plain teal peaked station cap. He holds out a small cream rectangular train ticket with NO printed text, explaining it to a passenger beside the frame. Friendly informative face, one open explanatory hand, unlettered badge, no weapon or military insignia.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "driver",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-123b595a-fdc7-4a8d-97a6-9afbe9f65387.png",
+      "file": "driver.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. A friendly middle-aged male taxi driver wearing a teal polo shirt, SEATED and turned slightly toward a passenger to answer their question, one hand on the steering wheel and other hand open in explanation. Include only the driver seat, steering wheel and a minimal ochre door/window frame fragment so he is clearly inside a car, not standing with a floating steering wheel. No whole car, no street, no words. A compact contained vignette.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "server",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-6210c1ad-fc75-4143-8a9d-f2528175d12a.png",
+      "file": "server.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. An adult male restaurant server with short curly hair, cream shirt, deep teal waist apron, warm gray pants. He holds a small order notepad in one hand and a pencil in the other as he listens attentively and replies to a diner at the left. Friendly professional posture, no serving tray, no extra arms.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "diner",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-308d27a3-af8b-432f-903a-e0b650383b21.png",
+      "file": "diner.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. An adult female diner with shoulder-length dark hair, cream blouse, warm mustard cardigan, teal trousers. Standing and politely asking about food while holding a small open blank cream-and-teal menu at waist level with her left hand, right hand makes a gentle open-palmed gesture near her chest. Interested expression facing the right. No shopping bags, no map, exactly two arms.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "hotel-staff",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-0a663501-86c1-4fcf-b54a-064c922f1a28.png",
+      "file": "hotel-staff.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. An adult hotel receptionist, woman with neat dark hair in a bun, muted teal blazer and skirt, cream blouse and a small ochre neck scarf. Holds out a simple unlettered room key card in one hand while the other holds a slim reservation folder at her waist, attentive welcoming expression. Full body with plain shoes. Exactly two arms, no counter, no airline ticket.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "companion",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-c5dd46f1-0bf1-4bf8-8815-3f92295d326e.png",
+      "file": "companion.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. A mature adult male travel companion with short gray-streaked dark hair and round glasses, cream shirt, muted teal lightweight jacket, ochre trousers, small compact camera on a strap at his side. Friendly relaxed three-quarter standing pose toward the left, one hand open conversationally near his waist and the other resting by his side, listening and suggesting what to do together. Exactly two arms, no luggage, no map, no uniform.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "retail-clerk",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-46ac44dc-f8c7-4c3b-8f97-9d05ebcc2ba5.png",
+      "file": "retail-clerk.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. An adult female retail gift-shop assistant with short softly wavy brown hair, cream blouse and teal sleeveless vest, warm gray trousers, small blank name badge. Both arms visible: one arm holds a simple small ivory paper shopping bag at waist level, the other hand is open and welcoming while explaining an item's price to a customer on the left. NO clothing product, no T-shirt, no menu, no tray, no food, no hat. Friendly helpful shop worker. Exactly two arms and hands.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "ticket-clerk",
+      "source": "C:\\Users\\1090602\\.codex\\generated_images\\01a10850-bf3a-7241-8163-260956576adb\\exec-87b9de0f-b577-4755-a609-17b1d7fc058e.png",
+      "file": "ticket-clerk.webp",
+      "prompt": "Use case: illustration-story. Asset: individual role illustration for an adult travel-English educational website. The attached image is a STYLE REFERENCE ONLY. New composition matching its elegant textured gouache, soft paper grain, mature adult proportions, warm ivory, muted deep teal, mustard, warm gray palette. ONE person only, full body including shoes, central readable pose filling most of a square canvas while keeping complete hands and feet inside generous margins. Transparent background, NO words, no logos, no speech bubbles, no badge lettering, no scenery. Friendly natural expression. An adult male museum and visitor-attraction ticket seller, short dark hair with a little gray, wearing a plain teal polo shirt, cream trousers and a small blank badge on an ochre lanyard. One hand holds two small blank ivory admission tickets, the other gestures gently while explaining entry information to a tourist on the left. Friendly attentive demeanor. No cap, no uniform hat, no railway or airline insignia, no words. Exactly two arms and hands.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "polite-guest",
+      "source": "C:/Users/1090602/.codex/generated_images/01a10850-bf3a-7241-8163-260956576adb/exec-e4047571-e8c2-4165-bda3-269be07b78ed.png",
+      "file": "polite-guest.webp",
+      "prompt": "Use case: illustration-story. Asset: one transparent full-body character for Day 10 of an adult travel English learning website about polite requests, declining and apologizing. Attached image is a STYLE REFERENCE ONLY, not an edit target; match the elegant textured gouache, subtle paper grain, mature natural adult proportions, muted teal, warm cream, mustard and warm gray palette. Make a clearly DIFFERENT person from the reference. One person only, full body including shoes, centered square composition, complete hands and feet comfortably inside the frame, readable at small size. True transparent background. No scenery, no words, no letters, no logos, no watermark, no speech bubbles. Exactly two arms and two hands with natural anatomy. A friendly mature adult male cafe customer with neatly side-parted straight salt-and-pepper hair, no glasses, wearing a warm cream cardigan over a muted teal shirt, warm gray trousers and simple brown shoes. Standing in a three-quarter view facing RIGHT with a gentle appreciative smile and slightly inclined head. One open hand near his chest in a polite grateful gesture, the other gently extended palm-up at waist level to ask for help. Clearly a polite request or thanks, not pointing directions. No menu, no notepad, no shopping bag, no suitcase. Distinct silhouette from the reference woman.",
+      "method": "built-in image_gen"
+    },
+    {
+      "key": "cafe-host",
+      "source": "C:/Users/1090602/.codex/generated_images/01a10850-bf3a-7241-8163-260956576adb/exec-0abf1283-ff13-4f70-a678-5234ba5a416d.png",
+      "file": "cafe-host.webp",
+      "prompt": "Use case: illustration-story. Asset: one transparent full-body character for Day 10 of an adult travel English learning website about polite requests, declining and apologizing. Attached image is a STYLE REFERENCE ONLY, not an edit target; match the elegant textured gouache, subtle paper grain, mature natural adult proportions, muted teal, warm cream, mustard and warm gray palette. Make a clearly DIFFERENT person from the reference. One person only, full body including shoes, centered square composition, complete hands and feet comfortably inside the frame, readable at small size. True transparent background. No scenery, no words, no letters, no logos, no watermark, no speech bubbles. Exactly two arms and two hands with natural anatomy. A friendly adult female cafe employee with a short auburn bob haircut, wearing a light mustard long-sleeved blouse under a full-length muted teal bib apron, cream trousers and simple flat brown shoes. Standing in a three-quarter view facing LEFT, warm attentive smile. One hand offers a small clearly visible stack of TWO folded cream paper napkins toward the customer, the other rests naturally near the apron at waist level. Natural hands holding the napkins. No menu, no notepad, no pen, no tray, no food, no counter. A clearly different person and gesture from the male server reference.",
+      "method": "built-in image_gen"
+    }
+  ],
+  "reusedApprovedDay1": [
+    "guide.webp",
+    "asker.webp",
+    "notebook.webp",
+    "practice.webp"
+  ]
+}

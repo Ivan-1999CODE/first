@@ -13,7 +13,7 @@
  function decorate(){
   const main=document.querySelector('#main');
   main.classList.toggle('lesson-phrase-page',page===1);
-  if(page!==1||main.querySelector('.dialogue-workshop'))return;
+  if(page!==1||main.querySelector('.dialogue-workshop,.study-library,.study-navigation'))return;
   const heading=main.querySelector('h1');
   if(!heading)return;
   // Keep the same reading order in phrase cards and listening questions.

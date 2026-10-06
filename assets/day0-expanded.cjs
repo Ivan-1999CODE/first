@@ -67,4 +67,15 @@ d.support=[d.phrases.find(p=>p.id==='repeat'),d.phrases.find(p=>p.id==='slow')];
 d.course.skills=d.rounds.map(r=>({id:'task-'+r.id,text:'我能'+r.name+'。'}));
 d.reviewTasks=d.rounds.map(r=>({...d.missions[r.missionIds[1]],id:r.id,name:r.name}));
 d.quizzes=d.rounds.map(r=>{const q=d.replies[r.replyIds.at(-1)];return {...q,id:'review-'+r.id,task:r.name+'：再聽一次'};});
+// Preview every response used by this round, including the alternate route/time.
+for(const r of d.rounds){
+ const lines=new Map(),addLine=t=>{if(!lines.has(t.line))lines.set(t.line,{en:t.line,zh:t.zh});};
+ for(const id of r.flowIds){const f=d.flows[id];for(const t of f.steps){
+  addLine(t);
+  if(!f.generic&&/[左右]/.test(t.line))addLine({line:t.line.replace(/[左右]/g,x=>x==='左'?'右':'左'),zh:t.zh.replace(/[左右]/g,x=>x==='左'?'右':'左')});
+  if(!f.generic&&t.id==='walk')addLine({line:'はい。歩いて五分です。',zh:'可以，走路 5 分鐘。'});
+ }}
+ for(const id of r.replyIds)addLine(d.replies[id]);
+ r.hearLines=[...lines.values()];
+}
 module.exports=d;

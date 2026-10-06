@@ -1,0 +1,18 @@
+.study-block{margin-bottom:34px;min-width:0}
+.study-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.study-navigation button{min-width:0;text-align:left;padding:13px 15px;background:var(--panel);color:var(--ink)}
+.study-navigation strong,.study-navigation small{display:block}
+.study-navigation strong{font-size:1rem}.study-navigation small{font-size:.78rem;margin-top:5px;color:var(--muted)}
+.study-navigation button[aria-pressed=true]{background:var(--soft);color:var(--accent);border-color:var(--accent);box-shadow:inset 0 3px var(--accent)}
+@media(max-width:850px){.study-navigation{grid-template-columns:repeat(2,minmax(0,1fr))}.study-navigation button{padding:12px}.study-navigation strong{font-size:.92rem}}
+.study-heading{display:flex;align-items:center;gap:20px;padding:18px 24px;margin-bottom:20px;border:1px solid;border-radius:20px}
+.study-heading>div{min-width:0}.study-heading h2{font-size:1.35rem;margin:0 0 8px}.study-heading p{margin:0;line-height:1.7}
+.study-heading.study-self{background:var(--say-bg,#fff5df);color:var(--say-ink,#69460f);border-color:var(--say-line,#b98b41)}
+.study-heading.study-other{background:var(--hear-bg,#f0f3fc);color:var(--hear-ink,#334579);border-color:var(--hear-line,#8191bc)}
+:root[data-theme=dark] .study-heading.study-self{background:var(--say-bg,#3a301f);color:var(--say-ink,#ffebc2)}
+:root[data-theme=dark] .study-heading.study-other{background:var(--hear-bg,#252e45);color:var(--hear-ink,#dce5ff)}
+.study-heading .study-portrait{display:block;flex:0 0 110px;width:110px;height:110px;object-fit:contain}
+.study-hear-card .en{margin:0 0 12px}.study-meaning{font-size:1.05rem;font-weight:550;line-height:1.7}
+.study-hear-grid>.panel{border-top:4px solid var(--hear-line,#8191bc)}
+.study-library .task-phrase-grid>.panel{border-top:4px solid var(--say-line,#b98b41)}
+@media(max-width:700px){.study-heading{padding:16px;gap:12px;align-items:flex-start}.study-heading .study-portrait{flex-basis:72px;width:72px;height:85px}.study-heading h2{font-size:1.2rem}.study-heading p{font-size:.9rem}}

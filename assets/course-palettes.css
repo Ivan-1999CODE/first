@@ -1,0 +1,50 @@
+/* Six light-mode identities; every dark lesson uses Day 1's warm apricot palette. */
+:root[data-course-palette=peach]{--course-hue:16;--course-saturation:48%}
+:root[data-course-palette=apricot]{--course-hue:30;--course-saturation:54%}
+:root[data-course-palette=butter]{--course-hue:46;--course-saturation:52%}
+:root[data-course-palette=rose]{--course-hue:350;--course-saturation:34%}
+:root[data-course-palette=mauve]{--course-hue:285;--course-saturation:24%}
+:root[data-course-palette=latte]{--course-hue:26;--course-saturation:20%}
+:root[data-course-palette][data-theme=light]{
+ --bg:hsl(var(--course-hue) var(--course-saturation) 94%);
+ --panel:hsl(var(--course-hue) 35% 99%);
+ --ink:hsl(var(--course-hue) 18% 20%);
+ --muted:hsl(var(--course-hue) 14% 37%);
+ --line:hsl(var(--course-hue) 22% 73%);
+ --accent:hsl(var(--course-hue) var(--course-saturation) 31%);
+ --soft:hsl(var(--course-hue) var(--course-saturation) 89%);
+ --on-accent:#fffdf8;
+ --neutral:hsl(var(--course-hue) 16% 81%);
+ --hear-bg:var(--soft);--hear-ink:var(--accent);--hear-line:hsl(var(--course-hue) 30% 56%);
+ --say-bg:#fff3d8;--say-ink:#654916;--say-line:#b48a3c;
+}
+:root[data-course-palette][data-theme=dark]{
+ --course-hue:30;--course-saturation:54%;
+ --bg:hsl(var(--course-hue) 15% 17%);
+ --panel:hsl(var(--course-hue) 14% 22%);
+ --ink:hsl(var(--course-hue) 30% 94%);
+ --muted:hsl(var(--course-hue) 20% 77%);
+ --line:hsl(var(--course-hue) 18% 48%);
+ --accent:hsl(var(--course-hue) var(--course-saturation) 78%);
+ --soft:hsl(var(--course-hue) 20% 28%);
+ --on-accent:hsl(var(--course-hue) 22% 18%);
+ --neutral:hsl(var(--course-hue) 13% 39%);
+ --hear-bg:var(--soft);--hear-ink:var(--accent);--hear-line:hsl(var(--course-hue) 25% 60%);
+ --say-bg:#403624;--say-ink:#f4dfaf;--say-line:#c4a251;
+}
+:root[data-course-palette] body{background:var(--bg);color:var(--ink)}
+/* Override earlier shell generations so switching days never restores a green/black shell. */
+:root[data-course-palette] :is(.top,.day-switcher,.course-nav,.course-menu){background:var(--bg);color:var(--ink);border-color:var(--line)}
+:root[data-course-palette] :is(.course-menu>summary,.tools button,.day-switcher a){background:var(--panel);color:var(--ink);border-color:var(--line)}
+:root[data-course-palette] :is(.day-switcher a[aria-current=page],button.primary,.task-round-picker button[aria-pressed=true],.workshop-modes [aria-pressed=true],.workshop-picker [aria-pressed=true]){background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+:root[data-course-palette] .day-switcher a[aria-current=page] small{color:var(--on-accent)}
+:root[data-course-palette] .tools button[aria-pressed=true]{background:var(--soft);color:var(--accent)}
+:root[data-course-palette] :is(.home-hero .hero-art,.scene-board,.task-explainer,.workshop-question){background:var(--soft)}
+:root[data-course-palette] :is(.cafe-wordmark,.home-hero .art-caption,.workshop-role svg){color:var(--accent)}
+:root[data-course-palette] .kindness-pill{background:var(--panel);color:var(--accent)}
+:root[data-course-palette] .teacher{background:var(--hear-bg);color:var(--hear-ink);border-color:var(--hear-line)}
+:root[data-course-palette] .teacher summary{color:inherit}
+@media(prefers-contrast:more){
+ :root[data-course-palette][data-theme=light]{--muted:#403832;--line:#77685e}
+ :root[data-course-palette][data-theme=dark]{--muted:#f5eee5;--line:#cfbfae}
+}

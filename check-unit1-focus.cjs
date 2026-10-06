@@ -19,10 +19,10 @@ const old={answers:{before:'Original first try',after:'Original later try','miss
  for(let r=0;r<data.rounds.length;r++){
   assert.equal(await p.evaluate(()=>focusRound),r);assert.equal(await p.evaluate(()=>page),1);
   assert.equal(await p.locator('.focus-phrase:visible').count(),data.rounds[r].phraseIds.length);
-  await p.locator('#allChinese').click();assert((await p.locator('#allChinese').innerText()).includes('收起'));await p.locator('#allChinese').click();
+  assert.equal(await p.locator('.study-library .study-meaning:visible').count(),data.rounds[r].phraseIds.length);
   await p.locator('[data-mode="reply"]').click();assert.equal(await p.locator('.workshop-picker button').count(),data.rounds[r].replyIds.length);
   for(const i of data.rounds[r].replyIds){await p.locator(`[data-reply="${i}"]`).first().click();assert.equal(await p.locator('.workshop-answer details[open]').count(),0);}
-  await p.locator('[data-mode="library"]').click();
+  await p.locator('[data-study-view="library"]').click();
   await p.screenshot({path:`qa-unit1-focus/phrases-${r}.png`,fullPage:true});
   await footer().click();assert.equal(await p.evaluate(()=>page),2);
   for(let i=0;i<data.flows[r].steps.length;i++){
