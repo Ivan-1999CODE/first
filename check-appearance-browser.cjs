@@ -60,9 +60,14 @@ const output='tmp/appearance-qa';fs.mkdirSync(output,{recursive:true});
    const context=await browser.newContext(),page=await context.newPage(),base='http://127.0.0.1:'+server.address().port;
    await page.goto(base+'/index.html');await page.locator('#large').click();await page.locator('#theme').click();
    for(const file of ['travel-english-unit3-airport.html','travel-english-unit7-fitting.html','travel-english.html','travel-japanese-day0-directions.html','index.html']){
-    await page.locator('a[href$="'+file+'"]').first().click();
-    assert.equal(await page.locator('#large').getAttribute('aria-pressed'),'true',file+' cross-page size');
-    assert.equal(await page.locator('#theme,#themeToggle').getAttribute('aria-pressed'),'true',file+' cross-page theme');
+    const active=await page.$('#travel-app-views iframe[data-active]');
+    const current=active?await active.contentFrame():page.mainFrame();
+    await current.locator('a[href$="'+file+'"]').first().click();
+    await page.waitForURL(base+'/'+file);
+    const next=await page.$('#travel-app-views iframe[data-active]');
+    const view=next?await next.contentFrame():page.mainFrame();
+    assert.equal(await view.locator('#large').getAttribute('aria-pressed'),'true',file+' cross-page size');
+    assert.equal(await view.locator('#theme,#themeToggle').getAttribute('aria-pressed'),'true',file+' cross-page theme');
    }
    await context.close();
   }finally{await new Promise(resolve=>server.close(resolve));}

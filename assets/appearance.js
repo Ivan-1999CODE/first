@@ -26,6 +26,7 @@
   const active=theme?'dark':'large',fallback=theme?'light':'standard';
   root.dataset[key]=root.dataset[key]===active?fallback:active;
   update();
+  window.dispatchEvent(new Event('travel-appearance-changed'));
   try{localStorage.setItem(theme?'travel-lab-theme':'travel-lab-text-size',root.dataset[key]);}
   catch{
    status.textContent='已套用外觀；此瀏覽器目前無法保存設定。';status.hidden=false;
@@ -37,7 +38,13 @@
   else if(event.key==='travel-lab-text-size')root.dataset.size=event.newValue==='large'?'large':'standard';
   else return;
   update();
+  window.dispatchEvent(new Event('travel-appearance-changed'));
  });
  window.addEventListener('pageshow',update);
+ window.addEventListener('travel-appearance-apply',event=>{
+  root.dataset.theme=event.detail.theme==='dark'?'dark':'light';
+  root.dataset.size=event.detail.size==='large'?'large':'standard';
+  update();
+ });
  update();
 })();

@@ -1,12 +1,13 @@
 const fs=require('fs');
 const assets=Object.fromEntries(['appearance-init.js','appearance.css','appearance.js'].map(name=>[name,fs.readFileSync('assets/'+name,'utf8')]));
 const coursePaletteStyles=fs.readFileSync('assets/course-palettes.css','utf8');
+const appNavigation=fs.readFileSync('assets/app-navigation.js','utf8');
 const coursePalettes=['peach','apricot','butter','rose','mauve','latte'];
 module.exports=function syncAppearance(file){
  const files=file?[file]:fs.readdirSync('.').filter(f=>f==='index.html'||/^travel-(?:english(?:-unit.*)?|japanese-day0-directions)\.html$/.test(f));
  for(const name of files){
   let html=fs.readFileSync(name,'utf8');
-  for(const id of ['shared-appearance-init','shared-appearance-styles','shared-appearance-controls','course-palette-styles'])html=html.replace(new RegExp('<(script|style) id="'+id+'"[^>]*>[\\s\\S]*?<\\/\\1>\\s*','g'),'');
+  for(const id of ['shared-appearance-init','shared-appearance-styles','shared-appearance-controls','course-palette-styles','travel-app-navigation'])html=html.replace(new RegExp('<(script|style) id="'+id+'"[^>]*>[\\s\\S]*?<\\/\\1>\\s*','g'),'');
   html=html.replace(/<script data-(?:theme-init|appearance-init|theme-controls)[^>]*>[\s\S]*?<\/script>\s*/g,'');
   const kind=name==='index.html'?'index':html.includes('class="shell"')?'legacy':'modern';
   const fallback=kind==='legacy'&&!/<style id="day[789]-styles"/.test(html);
@@ -24,6 +25,7 @@ module.exports=function syncAppearance(file){
   let seen=false;
   html=html.replace(/<button[^>]*id="(?:theme|themeToggle)"[^>]*>[\s\S]*?<\/button>/g,button=>{if(seen)return '';seen=true;return button;});
   html=html.replace('</body>',()=>'<script id="shared-appearance-controls">\n'+assets['appearance.js']+'</script>\n</body>');
+  html=html.replace('</body>',()=>'<script id="travel-app-navigation">\n'+appNavigation+'</script>\n</body>');
   if(html!==fs.readFileSync(name,'utf8'))fs.writeFileSync(name,html);
  }
 };
