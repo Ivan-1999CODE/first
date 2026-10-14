@@ -1,0 +1,29 @@
+/* Shared Part 3 layout, including Day 1's independent lesson engine. */
+.task-scene{align-items:start}
+.task-scene .dialogue-stack{display:flex;flex-direction:column;min-width:0}
+.task-scene .dialogue-link{padding:11px 18px;font-size:.83rem;color:var(--muted);text-align:center;font-weight:600}
+.task-scene .flow-turn{padding:20px;border:1px solid var(--hear-line);border-left-width:5px;border-radius:20px;min-width:0;overflow-wrap:anywhere;--turn-ink:var(--hear-ink);--turn-bg:var(--hear-bg);background:var(--turn-bg);color:var(--turn-ink)}
+.task-scene .flow-turn.role-self{--turn-ink:var(--say-ink);--turn-bg:var(--say-bg);border-color:var(--say-line)}
+.task-scene .role-heading{display:flex;gap:12px;align-items:center;margin-bottom:20px}
+.task-scene .role-heading>div{min-width:0}
+.task-scene .role-heading h3{font-size:1.05rem;margin:0 0 4px}
+.task-scene .role-heading .fine{margin:0;color:inherit}
+.task-scene .role-label{font-size:.75rem;font-weight:700;letter-spacing:.06em;margin:0 0 3px}
+.task-scene .flow-turn summary,.task-scene .flow-turn .fine{color:inherit}
+.task-scene .flow-turn .speaking-task{margin:0;background:transparent;color:inherit;border:0;padding:0}
+.task-scene .flow-turn .hint,.task-scene .flow-turn .speaking-task .en{background:var(--panel);color:var(--ink)}
+.task-scene .flow-turn .turn-number{display:grid;place-items:center;flex:0 0 3rem;width:3rem;height:3rem;border-radius:13px;background:var(--turn-ink);color:var(--turn-bg);font-size:2rem;font-weight:850;line-height:1}
+.task-scene .flow-turn .turn-status{width:fit-content;max-width:100%;padding:8px 13px;margin:0 0 18px;border:1px solid currentColor;border-radius:10px;font-size:.88rem;font-weight:750;line-height:1.6}
+.task-scene .flow-turn.turn-current{box-shadow:0 0 0 2px var(--turn-ink)}
+.task-scene .flow-turn.turn-current .turn-status{background:var(--turn-ink);color:var(--turn-bg);border-color:var(--turn-ink)}
+.task-scene .flow-turn .checkline{padding:13px;border:1px solid currentColor;border-radius:12px;margin-top:18px;min-height:48px}
+.task-scene .flow-turn.turn-waiting{--turn-ink:#586370;--turn-bg:#e9edf1;background:var(--turn-bg);color:var(--turn-ink);border-color:#89939d;border-style:dashed}
+.task-scene .flow-turn.turn-waiting .checkline{background:#dce2e8;border-color:#89939d;cursor:not-allowed}
+.task-scene .flow-turn.turn-waiting .listen-locked{padding:17px;border:1px dashed #89939d;border-radius:12px;background:transparent;color:inherit}
+.task-scene .flow-turn.turn-done .turn-status{background:#e1f1e8;color:#265a40;border-color:#699c80}
+:root[data-theme=dark] .task-scene .flow-turn.turn-waiting{--turn-ink:#c0c9d3;--turn-bg:#2b3139;border-color:#8793a1}
+:root[data-theme=dark] .task-scene .flow-turn.turn-waiting .checkline{background:#353e49;border-color:#8793a1}
+:root[data-theme=dark] .task-scene .flow-turn.turn-done .turn-status{background:#233e33;color:#c4efd8;border-color:#79af91}
+@media(max-width:1250px){.task-scene{grid-template-columns:1fr}}
+@media(max-width:700px){.task-scene .flow-turn{padding:17px}}
+@media(prefers-contrast:more){.task-scene .flow-turn{border-width:2px;border-left-width:5px}}

@@ -9,5 +9,8 @@ module.exports={
  '三百':'sanbyaku','二つ':'futatsu','五分':'go-fun','五百':'gohyaku','使え':'tsukae',
  '全部':'zenbu','円':'en','十分':'jup-pun','千円':'sen-en','右':'migi','左':'hidari',
  '払い':'harai','払え':'harae','曲がっ':'magat','歩い':'arui','現金':'genkin',
- '行け':'ike','行っ':'it','袋':'fukuro','要り':'iri','駅':'eki'
+ '行け':'ike','行っ':'it','袋':'fukuro','要り':'iri','駅':'eki',
+ '曲がる':'magaru','それ':'sore','これら':'korera','それら':'sorera',
+ 'いち':'ichi','さん':'san','よん':'yon','ご':'go','ろく':'roku',
+ 'なな':'nana','はち':'hachi','きゅう':'kyū','じゅう':'jū'
 };

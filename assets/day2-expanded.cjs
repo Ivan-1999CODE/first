@@ -24,4 +24,11 @@ const extra=[
 extra.forEach(([id,name,task,answer],i)=>{d.missions.push({id,name,task,words:'先想這次的商品、數量和決定。',answer,check:'有依這次條件說清楚需求，並做出可行的決定嗎？'});d.rounds[i].missionIds.push(i+4);});
 d.reviewTasks=d.rounds.map(r=>({...d.missions[r.missionIds[1]],id:r.id,name:r.name}));
 for(const [i,r] of d.rounds.entries())d.quizzes.push({...d.replies[r.replyIds.at(-1)],id:'review-'+r.id,task:r.name+'：換資訊再聽一次'});
+// Keep section 02 concise: omit the requested duplicate reply cards.
+const omittedReplies={
+ A:['It’s two dollars.'],
+ C:['This postcard is two dollars.','The mug is twelve dollars.'],
+ D:['Four dollars in total.','Six dollars in total. Cash only, please.','Four dollars in total. Cash only, please.','They’re two dollars each. Six dollars in total. Cash only, please.']
+};
+for(const r of d.rounds)r.omitHearLines=omittedReplies[r.id]||[];
 module.exports=d;

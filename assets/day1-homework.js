@@ -24,7 +24,6 @@
  const homeTasks={
   A:{title:'找到火車站',task:'你要去火車站。先禮貌問路；路人告訴你在第二個路口左轉。確認左轉，再問能不能步行，最後道謝。',words:'Excuse me / train station / left / walk / thank you',answer:'Excuse me. How do I get to the train station? Turn left? Can I walk there? Thank you for your help.'},
   B:{title:'郵局太遠，換種走法',task:'你要去郵局。說明目的地並請路人指路；沒聽清楚時請他重說、在地圖上指出位置。問能否步行；得知要走 20 分鐘後，改問能不能搭公車，最後道謝。',words:'going to / post office / way / again / map / walk / bus',answer:'I’m going to the post office. Could you show me the way? Could you say that again? Could you show me on the map? Can I walk there? Can I take a bus? Thank you for your help.'},
-  C:{title:'問清楚，再告訴朋友',task:'你和朋友找銀行。先禮貌問銀行在哪；路人說在第一個街角左轉。朋友剛才沒聽見，請你用英文把方向告訴他，再謝謝路人。',words:'tell me / bank / first corner / left / thank you',answer:'Can you tell me where the bank is? Turn left at the first corner. Thank you for your help.'}
  };
  function tasksFor(selected){
   if(selected.length===1){const r=selected[0];return [{...homeTasks[r.id],round:r.id},...r.missionIds.map(i=>({...missions[i],title:missions[i].name,round:r.id}))];}
@@ -43,11 +42,11 @@
   const heading=(label)=>`<p class="eyebrow">TRAVEL LAB / DAY 1 / ${esc(scope)}</p><h1>${label}</h1><p class="meta">任務 ${esc(scope)} · 姓名：____________ · 上課日期：${date?esc(date):'____________'}</p>`;
   const footer='<p class="tail">第一天｜問路回家練習 · 路線與時間皆為教學設定 · 完成勾選不是評分。</p>';
   const taskSheet=`<section class="sheet">${heading('今天練過的，再說一次。')}<p class="guide">約 5～10 分鐘，完成 ${tasks.length} 個小任務。先不看答案，大聲說一次；卡住再翻後面的提示。留白只記關鍵字或不會的地方，不必抄整句。</p>${tasks.map((t,i)=>`<article class="task"><h2>${i+1}. ${esc(t.title)} <span class="fine">任務 ${esc(t.round)}</span></h2><p>${esc(t.task)}</p><div class="notes"></div><p class="check">□ 自己能說　 □ 需要提示　 □ 想下次再練</p></article>`).join('')}<p class="fine">一個人也能練：把題目的路人資訊當成對方已說的話，再接著說自己的句子。最後挑一題，遮住提示再說一次。</p>${footer}</section>`;
-  // Include prerequisites once, even when only B or C is selected.
+  // Include prerequisites once, even when only B is selected.
   const mainIds=new Set(selected.flatMap(r=>r.phraseIds)),allIds=new Set(mainIds);
   selected.forEach(r=>r.reuse.forEach(i=>allIds.add(phrases[i].id)));
   const phraseList=[...allIds].map(id=>phrases.find(p=>p.id===id));
-  const hints=`<h2>卡住再看：關鍵字與句型</h2><div class="hints">${tasks.map((t,i)=>`<p class="helper"><b>第 ${i+1} 題：</b><span lang="en">${esc(t.words)}</span></p>`).join('')}</div><div class="phrase-grid">${phraseList.map(p=>`<div class="hint-row"><b lang="en">${esc(p.en)}</b><span>${esc(p.zh.includes('。')?p.zh.split('。')[0]+'。':p.zh)}${mainIds.has(p.id)?'':'（本次會用到的舊句）'}</span></div>`).join('')}</div><p class="helper"><b>替換小工具：</b>Excuse me. 不好意思。${selected.some(r=>r.id==='A')?' bus stop 公車站；Turn right? 右轉嗎？':''}${selected.some(r=>r.id==='B')?' police station 警局':''}${selected.some(r=>r.id==='C')?' first / second corner 第一／第二個街角；one block / two blocks 一／兩個街區；left / right 左／右。':''}</p>`;
+  const hints=`<h2>卡住再看：關鍵字與句型</h2><div class="hints">${tasks.map((t,i)=>`<p class="helper"><b>第 ${i+1} 題：</b><span lang="en">${esc(t.words)}</span></p>`).join('')}</div><div class="phrase-grid">${phraseList.map(p=>`<div class="hint-row"><b lang="en">${esc(p.en)}</b><span>${esc(p.zh.includes('。')?p.zh.split('。')[0]+'。':p.zh)}${mainIds.has(p.id)?'':'（本次會用到的舊句）'}</span></div>`).join('')}</div><p class="helper"><b>替換小工具：</b>Excuse me. 不好意思。${selected.some(r=>r.id==='A')?' bus stop 公車站；Turn right? 右轉嗎？':''}${selected.some(r=>r.id==='B')?' police station 警局':''}</p>`;
   const answers=`<h2>說完再核對：參考回答</h2><p class="fine">意思清楚、符合情境即可，不必逐字相同。先試著說，再看完整句子。</p>${tasks.map((t,i)=>`<article class="answer"><h3>${i+1}. ${esc(t.title)}</h3><p lang="en">${esc(t.answer)}</p></article>`).join('')}`;
   const reference=selected.length===1?`<section class="sheet">${heading('提示與參考回答')}${hints}${answers}${footer}</section>`:`<section class="sheet">${heading('需要時再看提示')}${hints}${footer}</section><section class="sheet">${heading('說完再看參考回答')}${answers}${footer}</section>`;
   return `<!doctype html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>${paperCSS}</style></head><body>${taskSheet}${reference}<\/body></html>`;

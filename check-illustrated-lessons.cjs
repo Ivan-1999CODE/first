@@ -17,6 +17,8 @@ fs.mkdirSync(output,{recursive:true});
    const d=source(row.day);
    for(let ri=0;ri<d.rounds.length;ri++){
     await page.evaluate(ri=>{setTaskRound(ri);navigate(2);},ri);
+    assert.equal(await page.locator('.flow-turn .turn-number').count(),2);
+    await page.evaluate(()=>navigate(1));await page.locator('[data-study-view="reply"]').click();
     const role=expected.rolesFor(row.day,d.rounds[ri].role||d.course.replyRole,d.rounds[ri].id);
     assert.deepEqual(await page.locator('.role-other img,.role-self img').evaluateAll(es=>es.map(e=>e.dataset.illustration)),[role.other,role.self]);
     assert.notEqual(role.self,role.other);

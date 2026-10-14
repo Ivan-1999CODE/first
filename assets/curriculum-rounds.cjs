@@ -1,5 +1,6 @@
 // Approved task map. The source inventory is immutable: no original phrase or reply is dropped.
 const originals=require('./curriculum-original.json');
+const food=require('./day6-food-options.cjs');
 const clone=x=>JSON.parse(JSON.stringify(x));
 const unitNames={3:'機場報到與入境',4:'買好票，搭對車',5:'城市移動',6:'點餐與詢價',7:'尺寸與試穿',8:'飯店入住與客房服務',9:'訂位與景點買票',10:'請求、婉拒與道歉',11:'認識旅伴，安排一天',12:'把行程問清楚',13:'一起做決定',14:'問清楚出遊資訊'};
 const icons={3:'✈',4:'🚆',5:'🗺',6:'☕',7:'👕',8:'🏨',9:'🎟',10:'🤝',11:'📷',12:'🚌',13:'🌳',14:'🧭'};
@@ -8,7 +9,7 @@ const maps={
 3:[['A','完成報到與座位選擇',[1,2,3],[1,2]],['B','確認登機門',[4],[]],['C','回答入境問題',[5,6,7],[3,4,5]],['D','詢問是否需要申報',[8],[6]]],
 4:[['A','買到正確的車票',[1,2,3,4],[1,2,3,4]],['B','找到出發時間與月台',[5,6],[]],['C','確認路線與車班',[7,8,11],[]],['D','確認轉乘與下車站',[9,10],[5]]],
 5:[['A','問路，依指示走',[1,2],[1]],['B','搭計程車，問時間與費用',[6,7,8],[2,3]],['C','找到預約的司機',[9,10],[4]],['D','在合適的位置下車',[11],[5]]],
-6:[['A','決定吃什麼並點餐',[1,2,3],[1,2,3,4,5,6]],['B','找到預算內的餐點',[4,5,6,7],[]],['C','說清楚內用或外帶',[8,9],[7]],['D','確認金額，完成點餐',[10,12],[]]],
+6:[['A','決定吃什麼並點餐',[1,2,3],[1,2,3,6]],['B','選擇牛排熟度與蛋的做法',[],[4,5]],['C','找到預算內的餐點',[4,5,6,7],[]],['D','內用或外帶，確認金額並完成點餐',[8,9,10,12],[7]]],
 7:[['A','找到尺寸與顏色',[1,2,3],[1,2,3]],['B','開始試穿',[4,5],[]],['C','說出不合身，換一件',[6,7,8,9],[4,5]],['D','比較並決定購買',[10,11,12],[]]],
 8:[['A','完成入住',[1,2,3,4],[1,2,3]],['B','問清楚住宿資訊',[5,6,7],[]],['C','打電話要毛巾',[8,9],[4,5]],['D','訂客房餐點',[10,11,12],[6]],['E','回報設備問題',[13,14],[]]],
 9:[['A','完成餐廳訂位',[1,2,3,4],[1,2,3,4]],['B','換時間或先不訂',[5,6,13],[7]],['C','選對票種與數量',[7,8,9],[5]],['D','確認總價與入場時間',[10,11,12],[6]]],
@@ -45,13 +46,23 @@ function make(day){
  const say=(n,line,zh,options,label,extra={})=>({...ask(n,line,zh,options,label,extra),askFirst:false});
  const response=(n,options,label,extra={})=>{const r=replies[n-1];return {id:'s',line:r.line,zh:r.zh,task:r.task,words:r.words,answer:r.answer,objects:options.map(x=>['▣',x]),valid:[0],askFirst:false,label:label||r.name,effect:'✓ 已記到任務卡，接著完成下一件事。',...extra};};
  const scripts=makeScripts(day,{ask,say,response,P});
+ if(day===6){
+  d.course.id='travel-lab-unit6-rounds-v2';
+  d.previousLesson.legacyKeys=[d.previousLesson.key,...d.previousLesson.legacyKeys];
+  d.previousLesson.key='travel-lab-unit6-rounds-v1';
+  phrases.push({id:'steak-medium',use:'牛排熟度',en:'Medium, please.',zh:'五分熟，謝謝。'},
+   {id:'eggs-scrambled',use:'蛋的做法',en:'Scrambled, please.',zh:'炒蛋，謝謝。'});
+ }
  for(const [i,[id,name,nums,replyNums]] of maps[day].entries()){
   const spec=scripts[i],r={id,name,goal:spec.context,phraseIds:nums.map(n=>P(n).id),replyIds:replyNums.map(n=>n-1),flowIds:[i],missionIds:[i],pairIds:[i],reuse:[],words:spec.words||[],bridge:day>=11?'先問、再回答，接著交換角色；同一句也可能由旅伴說。':'先練這一件事，用單字或短句表達也可以。',role:roles[day]};
   const taskRoles={3:['地勤人員','地勤人員','入境官員','海關人員'],5:['路人','司機','司機','司機'],9:['餐廳人員','餐廳人員','售票員','售票員'],10:['店員','店員','旅伴','旅伴'],12:['旅伴','旅伴','旅伴','站務人員','售票員']};
   r.role=taskRoles[day]?.[i]||roles[day];
   if(day===5&&i===0)r.hearPhraseIds=[3,4,5].map(n=>P(n).id);
+  if(day===5&&i===0)r.omitHearLines=['Go straight. Turn left at the first intersection.'];
+  if(day===5&&i===2)r.omitHearLines=['Yes. Where are you waiting?'];
   if(day===6&&i===0){r.extraReplyIds=r.replyIds.slice(2);r.replyIds=r.replyIds.slice(0,2);}
-  if(day===6&&i===1){r.extraPhraseIds=[P(5).id,P(7).id];r.phraseIds=[P(4).id,P(6).id];}
+  if(day===6&&i===1)r.phraseIds=['steak-medium','eggs-scrambled'];
+  if(day===6&&i===2){r.extraPhraseIds=[P(5).id,P(7).id];r.phraseIds=[P(4).id,P(6).id];}
   if(day===7&&i===2){r.extraPhraseIds=[P(7).id];r.phraseIds=r.phraseIds.filter(x=>x!==P(7).id);}
   if(day===13&&i===0){r.extraPhraseIds=[P(5).id];r.phraseIds=r.phraseIds.filter(x=>x!==P(5).id);}
   const f={id:'task-'+id.toLowerCase(),name:id+'｜'+name,desc:spec.context,context:spec.context,summary:spec.change,sceneTitle:name,sceneIcon:icons[day],generic:true,steps:spec.steps.map((s,j)=>({...s,id:'step-'+j}))};
@@ -64,11 +75,16 @@ function make(day){
   d.pairs.at(-1).role=`學生當旅客，老師當${r.role}；一起看畫面。${day>=11?'完成後交換提問與回答的角色。':''}`;
   d.rounds.push(r);
  }
+ if(day===4){
+  const returnTicket={id:'return-ticket',use:'票種｜來回票',en:'Return, please.',zh:'來回票，謝謝。'};
+  phrases.push(returnTicket);
+  d.rounds[0].phraseIds.splice(2,0,returnTicket.id);
+ }
  if(!d.course.task){d.course.task=raw.taskBefore||raw.firstTryTask||d.flows[0].context;d.course.words=raw.beforeWords||d.missions[0].words;d.course.answer=raw.beforeAnswer||d.flows[0].steps.map(s=>s.answer).join(' ');}
  d.course.skills=d.rounds.map(r=>({id:'task-'+r.id,text:'我能'+r.name+'。'}));
  d.reviewTasks=d.rounds.map(r=>({id:r.id,name:r.name,task:d.missions[r.missionIds[0]].task,words:d.missions[r.missionIds[0]].words,answer:d.missions[r.missionIds[0]].answer}));
  d.quizzes=d.rounds.map(r=>{const q=replies[r.replyIds[0]];return {id:'review-'+r.id,task:r.name+'：聽出關鍵資訊',line:q.line,zh:q.zh,options:q.options,correct:q.correct,why:q.why};});
- return d;
+ return day>=11?require('./conversation-lessons.cjs').revise(d):d;
 }
 
 function makeScripts(day,{ask:a,say:s,response:r,P}){
@@ -91,9 +107,12 @@ function makeScripts(day,{ask:a,say:s,response:r,P}){
  task('車已到目的地附近，你想在入口下車。',[r(5,['在入口下車','現在就下車'],'說明下車位置',{task:'你想在入口下車，告訴司機。',answer:'At the entrance, please.'}),a(11,'Sure. Here is fine.','好的，這裡可以。',['在入口停車','繼續前進'],'提出停車需求')],'改成目前的位置就可以；回應司機並請他停車。','Yes, here is fine. Could you stop here, please?')],
 6:()=>[
  task('你在咖啡廳還沒決定，先請推薦，再點雞肉三明治。',[a(3,'I recommend the chicken sandwich.','我推薦雞肉三明治。',['雞肉三明治','番茄義大利麵'],'聽懂推薦'),s(1,'May I take your order?','可以幫您點餐嗎？',['雞肉三明治','番茄義大利麵'],'說出餐點',{task:'你決定點雞肉三明治。'})],'換成點番茄義大利麵；如果還沒決定，請對方再給你一點時間。','Not yet. Could we have another minute, please? I’ll have the tomato pasta, please.'),
+ task('你點了一份牛排配蛋。牛排熟度和蛋的做法各挑自己喜歡的一種；聽懂店員問哪一項，再回答。',[
+  r(4,food.steak.map(o=>o.en+'｜'+o.zh),'牛排熟度',{task:'選你喜歡的牛排熟度，用「熟度＋please」回答；參考句只示範其中一種。',words:food.steak.map(o=>o.en).join(' / '),valid:food.steak.map((_,i)=>i)}),
+  r(5,food.eggs.map(o=>o.en+'｜'+o.zh),'蛋的做法',{task:'選你喜歡的蛋料理，用「做法＋please」回答；參考句只示範其中一種。',words:food.eggs.map(o=>o.en).join(' / '),valid:food.eggs.map((_,i)=>i)})
+ ],'牛排熟度和蛋的做法各換一種，聽到店員提問，再分別回答。選自己的喜好即可。','Medium-rare, please. Poached, please.',[['steak','牛排'],['eggs','蛋'],['please','請／謝謝']]),
  task('你有 10 美元預算。眼前餐點 12 美元，想找便宜一點的。',[a(4,'It’s twelve dollars.','12 美元。',['超過 $10 預算','在 $10 預算內'],'判斷價格'),a(6,'The egg toast is seven dollars fifty.','蛋吐司 7 美元 50 分。',['蛋吐司 $7.50','蛋吐司 $12'],'找到替代餐點')],'預算改成 8 美元，用另一種說法詢問便宜選項。','How much is it? Do you have a cheaper option?', [['seven dollars fifty','7 美元 50 分'],['cheaper','比較便宜']]),
- task('餐點已選好，先練內用，再試外帶。',[r(7,['內用','外帶'],'用餐方式'),a(12,'Thank you. Please take a seat.','謝謝，請入座。',['入座等餐','到外帶區等餐'],'確認內用安排')],'這次要帶走，回應店員後結束點餐。','To go, please. That’s all, thank you.'),
- task('你聽到金額像是 8 美元 50 分，想確認後完成點餐。',[a(10,'Yes, eight dollars fifty.','對，8 美元 50 分。',['$8.50','$18.50'],'確認金額'),s(12,'Anything else?','還需要別的嗎？',['就這些','還要加餐'],'結束點餐',{task:'你不再加點，告訴店員就這些。'})],'金額改成 7 美元 50 分，先確認，再說就這些。','Is it seven dollars fifty? That’s all, thank you.')],
+ task('餐點已選好，你想內用。接著確認金額是否為 8 美元 50 分，並告訴店員不再加點。',[r(7,['內用','外帶'],'用餐方式'),a(10,'Yes, eight dollars fifty.','對，8 美元 50 分。',['$8.50','$18.50'],'確認金額'),s(12,'Anything else?','還需要別的嗎？',['就這些','還要加餐'],'結束點餐',{task:'你不再加點，告訴店員就這些。'})],'這次改成外帶，金額為 7 美元 50 分。說明外帶、確認金額，再結束點餐。','To go, please. Is it seven dollars fifty? That’s all, thank you.',[['for here / to go','內用／外帶'],['eight dollars fifty / seven dollars fifty','8 美元 50 分／7 美元 50 分']])],
 7:()=>[
  task('你找 T-shirt，需要 M 號，想看藍色。',[r(1,['T-shirt','鞋子'],'找商品'),r(2,['M 號','L 號'],'尺寸'),r(3,['藍色','綠色'],'顏色')],'改成 L 號、綠色，並問有沒有其他顏色。','Large, please. Green, please. Do you have this in another color?'),
  task('你找到喜歡的衣服，想先試穿，再找試衣間。',[a(4,'Of course.','當然可以。',['可以試穿','不能試穿'],'取得試穿同意'),a(5,'The fitting rooms are on the right.','試衣間在右邊。',['→ 右邊','← 左邊'],'找到試衣間')],'換一件衣服再問；這次試衣間在左邊。','Can I try this on? Where are the fitting rooms?'),

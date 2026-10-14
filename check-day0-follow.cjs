@@ -12,7 +12,7 @@ for(const [text,name] of Object.entries(manifest)){
  page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{const Native=window.Audio;window.Audio=function(...args){return window.qaAudio=new Native(...args);};});
  await page.goto(pathToFileURL(path.resolve('travel-japanese-day0-directions.html')).href);
- const durations=await page.evaluate(async()=>{const ac=new AudioContext();let count=0;for(const [text,src] of Object.entries(day0Audio)){const bytes=Uint8Array.from(atob(src.split(',')[1]),c=>c.charCodeAt(0));const audio=await ac.decodeAudioData(bytes.buffer);const cues=day0Timings[text];if(cues.at(-1).end>audio.duration)throw Error('Boundary after audio: '+text);count++;}await ac.close();return count;});assert.equal(durations,77);
+ const durations=await page.evaluate(async()=>{const ac=new AudioContext();let count=0;for(const [text,src] of Object.entries(day0Audio)){const bytes=Uint8Array.from(atob(src.split(',')[1]),c=>c.charCodeAt(0));const audio=await ac.decodeAudioData(bytes.buffer);const cues=day0Timings[text];if(cues.at(-1).end>audio.duration)throw Error('Boundary after audio: '+text);count++;}await ac.close();return count;});assert.equal(durations,Object.keys(manifest).length);
  await page.evaluate(()=>{setTaskRound(0);navigate(2);});await page.locator('#spoken').check();
  const play=page.locator('.role-other [data-say]').first();await play.click();
  await page.waitForFunction(()=>document.querySelector('.follow-token.is-current'));
@@ -32,7 +32,41 @@ for(const [text,name] of Object.entries(manifest)){
  await page.evaluate(()=>speak('駅です。はい。'));
  await page.waitForFunction(()=>document.querySelector('.follow-token.is-current')?.dataset.clip==='1');assert.equal(await page.locator('.follow-token.is-current .follow-japanese').innerText(),'はい');
  await page.locator('.day0-audio-status button').click();assert(await page.evaluate(()=>qaAudio.paused));assert.equal(await page.locator('.follow-along').count(),0);
+ // Word cards play only their recorded cue, without replaying or continuing the sentence.
+ const wordLine='ゆっくりお願いします。',wordCues=timings[wordLine].cues;
+ for(const slow of [false,true]){
+  await page.evaluate(({text,slow})=>speak(text,slow),{text:wordLine,slow});
+  await page.waitForFunction(()=>qaAudio.currentTime>.05&&!qaAudio.paused);
+  assert.equal(await page.locator('button.follow-token').count(),wordCues.length);
+  for(let i=0;i<wordCues.length;i++){
+   const cue=wordCues[i],card=page.locator(`.follow-token[data-clip="0"][data-word="${i}"]`);
+   await card.click();await page.waitForFunction(()=>qaAudio.src.startsWith('blob:')&&qaAudio.currentTime>.015&&!qaAudio.paused);
+   assert.equal(await page.evaluate(()=>qaAudio.playbackRate),slow?.8:1);assert(await page.evaluate(()=>qaAudio.preservesPitch));
+   assert(Math.abs(await page.evaluate(()=>qaAudio.duration)-(cue.end-cue.start))<.005,'Only the selected cue is in the recording');
+   assert.equal(await page.locator('.follow-token.is-current .follow-japanese').innerText(),cue.text);
+   assert.match(await page.locator('.follow-heading strong').innerText(),/單獨聽/);
+   await page.waitForFunction(()=>qaAudio.ended);assert.equal(await page.locator('.follow-along').count(),1);assert.equal(await page.locator('.follow-token.is-current').count(),0);
+  }
+ }
+ // Keyboard activation and switching words reuse the same player and keep the cards available.
+ const firstWord=page.locator('.follow-token[data-word="0"]');
+ for(const key of ['Enter','Space']){await firstWord.focus();await firstWord.press(key);await page.waitForFunction(()=>!qaAudio.paused&&qaAudio.currentTime>.015);await page.waitForFunction(()=>qaAudio.ended);}
+ await page.evaluate(()=>{const cards=document.querySelectorAll('.follow-token');cards[0].click();cards[1].click();});
+ await page.waitForFunction(()=>document.querySelector('.follow-token.is-current')?.dataset.word==='1');
+ await page.waitForFunction(()=>qaAudio.ended);assert.equal(await page.locator('.follow-along').count(),1);
+ // A word in the second source clip uses that clip's local timing.
+ await page.evaluate(()=>speak('駅です。はい。'));await page.locator('.follow-token[data-clip="1"]').first().click();
+ await page.waitForFunction(()=>qaAudio.src.startsWith('blob:')&&qaAudio.currentTime>.015);
+ assert(Math.abs(await page.evaluate(()=>qaAudio.duration)-(timings['はい。'].cues[0].end-timings['はい。'].cues[0].start))<.005);
+ await page.waitForFunction(()=>qaAudio.ended);
+ // Stop or navigate while decoding: stale work must not restart playback.
+ await page.evaluate(()=>{const original=AudioContext.prototype.decodeAudioData;window.releaseWordDecode=null;AudioContext.prototype.decodeAudioData=function(...args){const result=original.apply(this,args);return new Promise(resolve=>{window.releaseWordDecode=()=>resolve(result);});};window.restoreWordDecoder=()=>AudioContext.prototype.decodeAudioData=original;speak('ゆっくりお願いします。');});
+ await page.locator('.follow-token').first().click();await page.waitForFunction(()=>typeof releaseWordDecode==='function');
+ await page.locator('.day0-audio-status button').click();await page.evaluate(()=>{restoreWordDecoder();releaseWordDecode();});
+ await page.waitForTimeout(150);assert(await page.evaluate(()=>qaAudio.paused&&!qaAudio.getAttribute('src')));assert.equal(await page.locator('.follow-along').count(),0);
+ await page.evaluate(()=>speak('ゆっくりお願いします。'));await page.locator('.follow-token').first().click();await page.waitForFunction(()=>qaAudio.src.startsWith('blob:')&&!qaAudio.paused);
+ await page.evaluate(()=>navigate(1));assert(await page.evaluate(()=>qaAudio.paused&&!qaAudio.getAttribute('src')));assert.equal(await page.locator('.follow-along').count(),0);
  await page.evaluate(()=>speak('駅はどこですか。'));await page.waitForFunction(()=>qaAudio.currentTime>.15);await page.evaluate(()=>navigate(1));assert(await page.evaluate(()=>qaAudio.paused));assert.equal(await page.locator('.follow-along').count(),0);
  await page.evaluate(()=>{const original=qaAudio.play;qaAudio.play=()=>Promise.reject(Error('test unavailable'));speak('駅はどこですか。');qaAudio.play=original;});await page.waitForFunction(()=>document.querySelector('.day0-audio-status')?.textContent.includes('未能播放'));assert.equal(await page.locator('.is-current').count(),0);assert.match(await page.locator('.follow-heading strong').innerText(),/未能播放/);
- assert.deepEqual(errors,[]);console.log('PASS: 77 matching audio/timing files, boundary coverage and duration, real normal/slow highlighting, romaji, seeking, composed clips, replay/stop/end/navigation/failure, and 8 responsive states.');
+ assert.deepEqual(errors,[]);console.log('PASS: '+durations+' matching audio/timing files; sentence highlighting and word-only normal/slow playback; cue durations, keyboard, rapid switching, second-clip words, cancellation, stop/navigation/failure, and 8 responsive states.');
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

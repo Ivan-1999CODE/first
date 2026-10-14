@@ -23,6 +23,7 @@ function rolesFor(day,role,roundId){
  if(!base)throw Error('No illustration setup for Day '+day);
  let {self,other,label}=base;
  if(role==='路人')other='guide';
+ else if(role==='行程人員'){other='guide';self='passenger';label='旅客';}
  else if(role==='司機')other='driver';
  else if(/地勤|入境|海關|機場/.test(role))other='airport-staff';
  else if(role==='站務人員'||role==='售票員'){other=role==='售票員'?'ticket-clerk':'station-staff';self=day===9?'asker':'passenger';label='旅客';}
@@ -36,7 +37,7 @@ function rolesFor(day,role,roundId){
 function forLesson(day,rounds,defaultRole){
  const lesson=lessons[day];
  const byRound=rounds.map(r=>rolesFor(day,r.role||defaultRole,r.id));
- const keys=new Set(['notebook',lesson.self,lesson.other,lesson.heroImage,...byRound.flatMap(r=>[r.self,r.other])].filter(Boolean));
+ const keys=new Set(['notebook','vocabulary-reader',lesson.self,lesson.other,lesson.heroImage,...byRound.flatMap(r=>[r.self,r.other])].filter(Boolean));
  const images=Object.fromEntries([...keys].map(key=>[key,'data:image/webp;base64,'+fs.readFileSync(path.join(__dirname,'illustrations',key+'.webp')).toString('base64')]));
  return {...lesson,byRound,images};
 }

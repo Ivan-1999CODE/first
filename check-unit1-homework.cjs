@@ -8,7 +8,7 @@ const {chromium}=require('C:/Users/1090602/.cache/codex-runtimes/codex-primary-r
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto(pathToFileURL(path.resolve('travel-english.html')).href);
   await page.locator('#field-before').fill('PRIVATE STUDENT NOTE <script>');
-  await page.evaluate(()=>{roundsDone=['A','B','C'];persistRound();});
+  await page.evaluate(()=>{roundsDone=['A','B'];persistRound();});
   const baseline=await page.evaluate(()=>({...localStorage}));
   await page.locator('[data-homework-open]').click();
   const dialog=page.locator('.homework-dialog'),print=page.locator('#homework-print');
@@ -16,14 +16,13 @@ const {chromium}=require('C:/Users/1090602/.cache/codex-runtimes/codex-primary-r
   const ready=()=>page.waitForFunction(()=>!document.querySelector('#homework-print').disabled);
   await ready();
   assert.deepEqual(await dialog.locator('input:checked').evaluateAll(els=>els.map(e=>e.value)),['A']);
-  for(const ids of [['A'],['B'],['C'],['A','B'],['A','C'],['B','C'],['A','B','C']]){
-   for(const id of ['A','B','C'])await dialog.locator(`input[value="${id}"]`).setChecked(ids.includes(id));
+  for(const ids of [['A'],['B'],['A','B']]){
+   for(const id of ['A','B'])await dialog.locator(`input[value="${id}"]`).setChecked(ids.includes(id));
    await ready();
    const content=await page.locator('#homework-preview').contentFrame().locator('body').innerText();
    assert(!content.includes('PRIVATE STUDENT NOTE'));
    assert.equal(await page.locator('#homework-preview').contentFrame().locator('.task').count(),3);
    if(ids.join('')==='B'){assert(content.includes('Can I walk there?'));assert(content.includes('Thank you for your help.'));assert(!content.includes('Can you tell me where the bank is?'));}
-   if(ids.join('')==='C'){assert(content.includes('Could you say that again?'));assert(!content.includes('Can I take a bus?'));}
    const hints=await page.locator('#homework-preview').contentFrame().locator('.hint-row b').allTextContents();
    assert.equal(new Set(hints).size,hints.length);
    const sheet=await browser.newPage();
@@ -34,7 +33,7 @@ const {chromium}=require('C:/Users/1090602/.cache/codex-runtimes/codex-primary-r
   }
   await dialog.locator('#homework-date').fill('2026-09-24');await ready();
   assert((await page.locator('#homework-preview').contentFrame().locator('.meta').first().innerText()).includes('2026-09-24'));
-  for(const id of ['A','B','C'])await dialog.locator(`input[value="${id}"]`).uncheck();
+  for(const id of ['A','B'])await dialog.locator(`input[value="${id}"]`).uncheck();
   assert(await print.isDisabled());assert(await page.locator('#homework-preview').isHidden());
   await dialog.locator('input[value="B"]').check();await ready();
   await page.locator('#homework-preview').contentFrame().locator('body').evaluate(()=>{window.print=()=>{document.body.dataset.printCalled='yes';};});
@@ -43,8 +42,8 @@ const {chromium}=require('C:/Users/1090602/.cache/codex-runtimes/codex-primary-r
   assert.deepEqual(await page.evaluate(()=>({...localStorage})),baseline);
   await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});
   assert(await page.locator('[data-homework-open]').evaluate(el=>el===document.activeElement));
-  await page.locator('[data-focus-round="2"]').first().click();await page.locator('[data-homework-open]').click();await ready();
-  assert.deepEqual(await dialog.locator('input:checked').evaluateAll(els=>els.map(e=>e.value)),['C']);
+  await page.locator('[data-focus-round="1"]').first().click();await page.locator('[data-homework-open]').click();await ready();
+  assert.deepEqual(await dialog.locator('input:checked').evaluateAll(els=>els.map(e=>e.value)),['B']);
   for(const theme of ['light','dark'])for(const width of [1440,390,320]){
    await page.setViewportSize({width,height:1000});
    await page.evaluate(theme=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.size='large';appearance();},theme);
@@ -56,6 +55,6 @@ const {chromium}=require('C:/Users/1090602/.cache/codex-runtimes/codex-primary-r
   await dialog.locator('[data-homework-close]').click();
   await page.reload();assert.equal(await page.locator('#field-before').inputValue(),'PRIVATE STUDENT NOTE <script>');
   assert.deepEqual(errors,[]);
-  console.log('PASS: 7 round combinations, 3 tasks each, prerequisite phrases, deduplication, date, empty selection, print action, Esc/focus, saved state unchanged, responsive light/dark/large text.');
+  console.log('PASS: 3 round combinations, 3 tasks each, prerequisite phrases, deduplication, date, empty selection, print action, Esc/focus, saved state unchanged, responsive light/dark/large text.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

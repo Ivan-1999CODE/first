@@ -27,3 +27,9 @@
 
 .lesson-map{width:100%;height:auto}.receipt-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:10px 0}.hero-art svg{max-width:100%}.scene-state{overflow-wrap:anywhere}
 .home-hero .hero-art{display:grid;place-items:center;min-height:320px;padding:22px}.home-hero .hero-art svg{height:auto;margin:0}.home-hero h1{font-size:clamp(2rem,3.2vw,3.2rem)}
+/* Part 3: keep the Chinese meaning directly below the counterpart's line. */
+.flow-transcript>.en{margin-bottom:8px}
+.flow-transcript>.flow-translation{font-size:1.08rem;font-weight:600;margin-bottom:18px;line-height:1.7}
+.flow-translation>span{font-size:.85em;font-weight:500}
+/* Student reference meanings stay inside the same collapsed answer. */
+.reference-translation{font-size:1rem;line-height:1.75;margin:12px 0 18px}

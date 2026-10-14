@@ -15,4 +15,20 @@
 .study-hear-card .en{margin:0 0 12px}.study-meaning{font-size:1.05rem;font-weight:550;line-height:1.7}
 .study-hear-grid>.panel{border-top:4px solid var(--hear-line,#8191bc)}
 .study-library .task-phrase-grid>.panel{border-top:4px solid var(--say-line,#b98b41)}
+.study-vocabulary>summary{list-style:none;margin-bottom:0;background:var(--soft);color:var(--ink);border-color:var(--line);font-weight:400}
+.study-vocabulary>summary::-webkit-details-marker{display:none}
+.study-vocabulary .vocabulary-portrait{display:block;flex:0 0 110px;width:110px;height:110px;object-fit:contain}
+.study-vocabulary>summary h2{font-weight:650}
+.study-vocabulary>summary p{font-size:1rem}
+.vocabulary-toggle{display:block;margin-top:8px;font-size:.82rem;font-weight:600;color:var(--accent)}
+.vocabulary-toggle::after{content:'展開單字 ＋'}
+.study-vocabulary[open] .vocabulary-toggle::after{content:'收起單字 −'}
+.study-vocabulary>.panel{margin-top:14px}
+.food-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+.food-option{min-width:0;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--paper,var(--soft));overflow-wrap:anywhere}
+.food-picture{width:100%;aspect-ratio:1;background-size:300% 400%;background-repeat:no-repeat;border-radius:10px;background-color:#faf7f0}
+.food-option h4{font-size:1.05rem;margin:12px 0 4px}.food-option p{margin:6px 0}.food-option .food-meaning{font-weight:650}
+.food-option .actions{gap:6px}.food-option button{font-size:.85rem;padding:8px 10px}
+@media(max-width:480px){.food-options{grid-template-columns:minmax(0,1fr)}.food-picture{max-width:230px;margin:auto}}
+@media(max-width:700px){.study-vocabulary .vocabulary-portrait{flex-basis:72px;width:72px;height:85px}}
 @media(max-width:700px){.study-heading{padding:16px;gap:12px;align-items:flex-start}.study-heading .study-portrait{flex-basis:72px;width:72px;height:85px}.study-heading h2{font-size:1.2rem}.study-heading p{font-size:.9rem}}

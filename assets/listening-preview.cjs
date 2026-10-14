@@ -44,11 +44,11 @@ function addListeningPreview(d){
   for(const id of [...r.replyIds,...r.extraReplyIds||[]]){const q=d.replies[id];add(q.line||q.en,q.zh,'聽與接話');}
   for(const id of r.hearPhraseIds||[]){const p=d.phrases.find(p=>p.id===id);add(p.en,p.zh,'方向練習');}
   for(const id of r.pairIds){const p=d.pairs[id];
-   for(const [,en,zh] of p.cards){const translated=[1,2].includes(day)?translations.get(key(en)):zh;if(!translated)throw Error('Teacher cue needs a translation: '+en);add(en,translated,'真人練習');}
+   for(const [,en,zh] of p.cards){const translated=[1,2].includes(day)?translations.get(key(en))||lines.get(key(en))?.zh:zh;if(!translated)throw Error('Teacher cue needs a translation: '+en);add(en,translated,'真人練習');}
    if(p.start&&!lines.has(key(p.start)))add(p.start,p.opening,'真人練習');
   }
   for(const q of d.quizzes||[]){const assigned=day===1?'A':day===2?({stock:'B',pay:'D'}[q.id]||q.id.replace('review-','')):q.id.replace('review-','');if(assigned===r.id)add(q.line||q.en,q.zh,'課後聽力');}
-  r.hearLines=[...lines.values()];
+  r.hearLines=[...lines.values()].filter(p=>!(r.omitHearLines||[]).some(en=>key(en)===key(p.en)));
  }
  return d;
 }

@@ -13,9 +13,40 @@ supportCard=function(){if(!support.length)return '';return `<details class="pane
 const allRoundReplies=r=>[...r.replyIds,...(r.extraReplyIds||[])];
 // Optional old exchanges remain reachable; core tabs stay small.
 listeningReply=function(){
- const r=activeRound(),ids=allRoundReplies(r),q=replies[reply],index=ids.indexOf(reply),answer=probeChoice;
+ const r=activeRound(),ids=allRoundReplies(r),q=replies[reply],index=ids.indexOf(reply),answer=probeChoice,japanese=language==='ja';
  const picker=list=>list.map((n,i)=>btn(`${i+1}. ${esc(replies[n].name)}`,`data-reply="${n}"`,`aria-pressed="${n===reply}"`)).join('');
- return `<div class="workshop-picker" aria-label="本輪聽與接話">${picker(r.replyIds)}</div>${r.extraReplyIds?.length?`<details class="panel" ${r.extraReplyIds.includes(reply)?'open':''}><summary>更多餐點，選一種再練（原有 ${r.extraReplyIds.length} 組）</summary><div class="workshop-picker">${picker(r.extraReplyIds)}</div></details>`:''}<section class="panel dialogue-workshop"><div class="dialogue-title"><h2>${esc(q.name)}</h2><span class="workshop-count">${index+1} / ${ids.length}</span></div><div class="dialogue-stack"><section class="role-frame role-other" aria-label="${esc(course.replyRole)}會說的話">${roleHeader(false,`${course.replyRole}會說的話`,'先聽懂意思，不必背對方整句。')}<p class="listen-target">聽的重點：${esc(q.listen)}</p><div class="listen-modes">${btn('先聽聲音','data-listen-mode="practice"',`aria-pressed="${listenPractice}"`)}${btn('看文字與意思','data-listen-mode="model"',`aria-pressed="${!listenPractice}"`)}</div>${audio(q.line)}${listenPractice?transcript(q.line,q.zh):`<div class="model-line"><p class="en" lang="${language}">${esc(q.line)}</p><p>${esc(q.zh)}</p>${readingHelp(q.line)}</div>`}<div class="listen-check"><h4>先確認聽懂，再往下接話</h4><div class="actions">${q.options.map((x,i)=>btn(esc(x),`data-listen-choice="${i}"`,`aria-pressed="${answer===i}"`)).join('')}</div><p class="listen-feedback" role="status">${answer<0?'先聽聲音；需要時看文字，看過再收起來重聽。':answer===q.correct?'✓ '+esc(q.why):'再聽一次，或打開文字找線索。'}</p></div></section><div class="dialogue-link" aria-hidden="true">↓ 接住這句，換我說</div><section class="role-frame role-self" aria-label="我需要說的話">${roleHeader(true,'我需要說的話','先試著開口；卡住再看關鍵字。')}<div class="speaking-task"><p class="task">${esc(q.task)}</p>${hint(q.words,q.answer)}</div><details class="remix-task"><summary>再換一個條件，自己說</summary><p>${esc(q.change)}</p>${hint(q.changeWords,q.changeAnswer)}</details>${q.note?`<details><summary>原有用法補充</summary><p>${esc(q.note)}</p></details>`:''}</section></div><p class="fine">可以用單字或短句回答；不要求逐字相同。朗讀與勾選不會自動判斷發音。</p><div class="lesson-footer">${btn('← 上一組',`data-reply="${ids[index-1]}"`,index===0?'disabled':'')}${index<ids.length-1?btn('下一組 →',`data-reply="${ids[index+1]}"`):''}${btn('用這輪說法完成任務 →',`data-start="${r.flowIds[0]}"`)}</div></section>`;
+ const modeControls=japanese?'':`<div class="listen-modes">${btn('先聽聲音','data-listen-mode="practice"',`aria-pressed="${listenPractice}"`)}${btn('看文字與意思','data-listen-mode="model"',`aria-pressed="${!listenPractice}"`)}</div>`;
+ const heardText=japanese
+  ?`<details class="listening-transcript"><summary>對方日文與中文</summary><p class="en" lang="ja">${esc(q.line)}</p><p class="listening-translation" lang="zh-Hant"><span>中文意思：</span>${esc(q.zh)}</p>${readingHelp(q.line)}</details>`
+  :listenPractice?transcript(q.line,q.zh):`<div class="model-line"><p class="en" lang="${language}">${esc(q.line)}</p><p>${esc(q.zh)}</p>${readingHelp(q.line)}</div>`;
+ const result=answer<0?'':answer===q.correct?'correct':'incorrect';
+ const options=q.options.map((x,i)=>{
+  const selected=answer===i,status=japanese&&selected?result:'';
+  const label=esc(x)+(status?` <span class="listen-choice-result">${status==='correct'?'✓ 答對':'✕ 再試一次'}</span>`:'');
+  return btn(label,`data-listen-choice="${i}"`,`aria-pressed="${selected}"${status?` class="answer-${status}"`:''}`);
+ }).join('');
+ const feedback=answer<0?'先聽聲音；需要時看文字，看過再收起來重聽。':answer===q.correct?'✓ '+esc(q.why):(japanese?'✕ 再聽一次，或打開「對方日文與中文」找線索。':'再聽一次，或打開文字找線索。');
+ return `<div class="workshop-picker${japanese?' japanese-workshop-picker':''}" aria-label="本輪聽與接話">${picker(r.replyIds)}</div>
+ ${r.extraReplyIds?.length?`<details class="panel" ${r.extraReplyIds.includes(reply)?'open':''}><summary>更多餐點，選一種再練（原有 ${r.extraReplyIds.length} 組）</summary><div class="workshop-picker">${picker(r.extraReplyIds)}</div></details>`:''}
+ <section class="panel dialogue-workshop${japanese?' japanese-dialogue-workshop':''}">
+  <div class="dialogue-title"><h2>${esc(q.name)}</h2><span class="workshop-count">${index+1} / ${ids.length}</span></div>
+  <div class="dialogue-stack">
+   <section class="role-frame role-other" aria-label="${esc(course.replyRole)}會說的話">
+    ${roleHeader(false,`${course.replyRole}會說的話`,'先聽懂意思，不必背對方整句。')}
+    <p class="listen-target">聽的重點：${esc(q.listen)}</p>${modeControls}${audio(q.line)}${heardText}
+    <div class="listen-check"><h4>先確認聽懂，再往下接話</h4><div class="actions">${options}</div><p class="listen-feedback${japanese&&result?' answer-'+result:''}" role="status">${feedback}</p></div>
+   </section>
+   <div class="dialogue-link" aria-hidden="true">↓ 接住這句，換我說</div>
+   <section class="role-frame role-self" aria-label="我需要說的話">
+    ${roleHeader(true,'我需要說的話','先試著開口；卡住再看關鍵字。')}
+    <div class="speaking-task"><p class="task">${esc(q.task)}</p>${hint(q.words,q.answer)}</div>
+    <details class="remix-task"><summary>再換一個條件，自己說</summary><p>${esc(q.change)}</p>${hint(q.changeWords,q.changeAnswer)}</details>
+    ${q.note?`<details><summary>原有用法補充</summary><p>${esc(q.note)}</p></details>`:''}
+   </section>
+  </div>
+  <p class="fine">可以用單字或短句回答；不要求逐字相同。朗讀與勾選不會自動判斷發音。</p>
+  <div class="lesson-footer">${btn('← 上一組',`data-reply="${ids[index-1]}"`,index===0?'disabled':'')}${index<ids.length-1?btn('下一組 →',`data-reply="${ids[index+1]}"`):''}${btn('用這輪說法完成任務 →',`data-start="${r.flowIds[0]}"`)}</div>
+ </section>`;
 };
 const corePhrasePage=phrasePage;
 phrasePage=function(){const r=activeRound();let html=corePhrasePage();if(mode!=='library')return html;
@@ -32,7 +63,7 @@ const expandedScenePage=scenePage;
 scenePage=function(){let html=expandedScenePage();if(finished)html=tabs(flows,'start',flow)+html;if(flows[flow].generic)html=html.replace(/<button\b[^>]*data-route-variant[^>]*>[\s\S]*?<\/button>/g,'');return html;};
 // Keep every original course accessible, including longer old dialogues, without mixing their tasks into this round.
 const expandedIntro=intro;
-intro=function(){return expandedIntro()+`<details class="panel inventory"><summary>完整句表與改版前教材</summary><p>原有句子保留在本課任務、共用求助或延伸練習中。這裡可查整份工具箱，不需要一次背完。</p><div class="inventory-scroll"><table><thead><tr><th>用途</th><th>句子</th><th>意思</th></tr></thead><tbody>${phrases.map(p=>`<tr><td>${esc(p.use)}</td><td lang="${language}">${esc(p.en)}</td><td>${esc(p.zh)}</td></tr>`).join('')}</tbody></table></div>${typeof legacyFile==='string'?`<p><a href="${esc(legacyFile)}">查看改版前完整教材與原有綜合練習 →</a></p>`:''}</details>`;};
+intro=function(){return expandedIntro()+`<details class="panel inventory"><summary>完整句表與改版前教材</summary><p>${course.revisedConversations?'這裡整理本課的主要說法；更多問法放在各任務的進階補充。改版前教材可由下方連結查看。':'原有句子保留在本課任務、共用求助或延伸練習中。這裡可查整份工具箱，不需要一次背完。'}</p><div class="inventory-scroll"><table><thead><tr><th>用途</th><th>句子</th><th>意思</th></tr></thead><tbody>${phrases.map(p=>`<tr><td>${esc(p.use)}</td><td lang="${language}">${esc(p.en)}</td><td>${esc(p.zh)}</td></tr>`).join('')}</tbody></table></div>${typeof legacyFile==='string'?`<p><a href="${esc(legacyFile)}">查看改版前完整教材與原有綜合練習 →</a></p>`:''}</details>`;};
 // Read old shapes without ever writing to an old storage key or mistaking old checkmarks for new tasks.
 oldRecords=function(){const keys=[...new Set([previousLesson.key,...(previousLesson.legacyKeys||[])])];return keys.map(key=>{let old;try{old=JSON.parse(localStorage.getItem(key)||'null');}catch{return '';}if(!old||typeof old!=='object')return '';const source=old.answers||old;const values=Object.entries(source).filter(([,v])=>typeof v==='string'&&v);return `<details class="panel"><summary>改版前的紀錄（保留原樣）</summary>${values.map(([k,v])=>`<h3>${esc(({before:'課前嘗試',after:'原課後回答',home:'課後口說',homeNote:'課後口說',pairNote:'真人練習筆記'})[k]||k)}</h3><div class="readonly">${esc(v)}</div>`).join('')}<details><summary>完整舊紀錄與勾選</summary><pre class="old-record">${esc(JSON.stringify(old,null,2))}</pre></details><p class="fine">原有作答與勾選沒有清除；新任務的完成程度分開記錄。</p></details>`;}).join('');};
 const expandedHome=homePage;

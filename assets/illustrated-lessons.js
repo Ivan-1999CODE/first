@@ -9,7 +9,7 @@ function lessonCast(role,hero=false){
  return `<div class="lesson-cast${hero?' hero-cast':''}"><figure>${lessonPicture(role.self)}<figcaption>${hero?'': '學生 · '}${esc(role.label)}</figcaption></figure><span class="cast-link" aria-hidden="true">↔</span><figure>${lessonPicture(role.other)}<figcaption>${hero?'':'老師 · '}${esc(role.otherLabel)}</figcaption></figure></div>`;
 }
 roleAvatar=function(me=false){return lessonPicture(illustratedRole()[me?'self':'other'],'role-avatar role-portrait');};
-roleHeader=function(me,title,subtitle){return `<div class="role-heading">${roleAvatar(me)}<div><p class="role-label">${me?'我 · '+esc(illustratedRole().label):esc(course.replyRole)}</p><h3>${esc(title)}</h3><p class="fine">${esc(subtitle)}</p></div></div>`;};
+roleHeader=function(me,title,subtitle,step=0){return `<div class="role-heading">${step?`<span class="turn-number" aria-label="第 ${step} 步">${step}</span>`:roleAvatar(me)}<div><p class="role-label">${me?'我 · '+esc(illustratedRole().label):esc(course.replyRole)}</p><h3>${esc(title)}</h3><p class="fine">${esc(subtitle)}</p></div></div>`;};
 // One role reminder for the whole task, rather than repeating a portrait on every teacher cue.
 pairPage=taskPairPage;
 course.art=lessonArtwork.heroImage

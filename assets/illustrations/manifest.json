@@ -98,6 +98,13 @@
       "file": "cafe-host.webp",
       "prompt": "Use case: illustration-story. Asset: one transparent full-body character for Day 10 of an adult travel English learning website about polite requests, declining and apologizing. Attached image is a STYLE REFERENCE ONLY, not an edit target; match the elegant textured gouache, subtle paper grain, mature natural adult proportions, muted teal, warm cream, mustard and warm gray palette. Make a clearly DIFFERENT person from the reference. One person only, full body including shoes, centered square composition, complete hands and feet comfortably inside the frame, readable at small size. True transparent background. No scenery, no words, no letters, no logos, no watermark, no speech bubbles. Exactly two arms and two hands with natural anatomy. A friendly adult female cafe employee with a short auburn bob haircut, wearing a light mustard long-sleeved blouse under a full-length muted teal bib apron, cream trousers and simple flat brown shoes. Standing in a three-quarter view facing LEFT, warm attentive smile. One hand offers a small clearly visible stack of TWO folded cream paper napkins toward the customer, the other rests naturally near the apron at waist level. Natural hands holding the napkins. No menu, no notepad, no pen, no tray, no food, no counter. A clearly different person and gesture from the male server reference.",
       "method": "built-in image_gen"
+    },
+    {
+      "key": "vocabulary-reader",
+      "source": "assets/illustrations/vocabulary-reader.png",
+      "file": "vocabulary-reader.webp",
+      "prompt": "Original full-body adult East Asian woman traveler looking at an open pocket vocabulary phrasebook held in both hands; terracotta cardigan, cream shirt, slate blue trousers, white shoes and crossbody bag. Warm softly shaded gouache editorial illustration, simplified shapes, natural adult proportions, compact silhouette readable at 110 pixels, transparent background. No text, logos, watermark, frame, scenery or pointing pose.",
+      "method": "built-in image_gen"
     }
   ],
   "reusedApprovedDay1": [

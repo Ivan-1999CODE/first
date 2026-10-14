@@ -5,7 +5,7 @@ d.legacyFile='original-lessons/travel-japanese-day0-directions.html';
 d.course.labels[2]='這輪：跟著完成任務';d.course.labels[4]='這輪：和夥伴真的用';
 const add=(id,en,zh,rom,kana)=>{d.phrases.push({id,en,zh,use:zh});d.readings[en]=rom;d.kana[en]=kana;};
 d.kana={'駅はどこですか。':'えきは どこですか。','もう一度お願いします。':'もういちど おねがいします。','歩いて行けますか。':'あるいて いけますか。'};
-add('excuse','すみません。','開口前，先說不好意思','Sumimasen.','すみません。');
+add('excuse','すみません。','不好意思','Sumimasen.','すみません。');
 add('thanks','ありがとうございます。','謝謝對方','Arigatō gozaimasu.','ありがとうございます。');
 add('slow','ゆっくりお願いします。','請說慢一點','Yukkuri onegai shimasu.','ゆっくり おねがいします。');
 add('price','これはいくらですか。','這個多少錢？','Kore wa ikura desu ka.','これは いくらですか。');
@@ -25,6 +25,19 @@ const readings={
  '現金':['Genkin','げんきん'], 'カード':['Kādo','カード'], '袋':['Fukuro','ふくろ'], 'ゆっくり':['Yukkuri','ゆっくり'], '全部で':['Zenbu de','ぜんぶで'], '駅ですか。':['Eki desu ka.','えきですか。']
 };
 for(const [jp,[rom,kana]] of Object.entries(readings)){d.readings[jp]=rom;d.kana[jp]=kana;}
+const extraWords={
+ '左に曲がる':['Hidari ni magaru','ひだりに まがる'],
+ '右に曲がる':['Migi ni magaru','みぎに まがる'],
+ 'これ':['Kore','これ'],'それ':['Sore','それ'],
+ 'これら':['Korera','これら'],'それら':['Sorera','それら']
+};
+for(const [jp,[rom,kana]] of Object.entries(extraWords)){d.readings[jp]=rom;d.kana[jp]=kana;}
+d.numberWords=[
+ ['いち','1 · 一','ichi'],['に','2 · 二','ni'],['さん','3 · 三','san'],
+ ['よん','4 · 四','yon'],['ご','5 · 五','go'],['ろく','6 · 六','roku'],
+ ['なな','7 · 七','nana'],['はち','8 · 八','hachi'],['きゅう','9 · 九','kyū'],['じゅう','10 · 十','jū']
+];
+for(const [jp,,rom] of d.numberWords){d.readings[jp]=rom;d.kana[jp]=jp;}
 const p=id=>d.phrases.find(p=>p.id===id).en;
 const q=(id,name,line,zh,options,task,answer,change,changeAnswer)=>({id,name,line,zh,listen:'先抓這次需要的資訊；需要時可慢速或打開文字。',options,correct:0,why:zh,task,words:d.readings[answer]||'先想要買什麼、幾個，或怎麼付款。',answer,change,changeWords:d.readings[changeAnswer]||'想清楚這次不同的條件。',changeAnswer});
 d.replies.push(
@@ -46,22 +59,26 @@ const shopping=[
 ];
 for(const f of shopping){f.generic=true;f.sceneIcon='🛍';f.sceneTitle='這次的購物卡';f.summary='收起提示，換數量、價錢或付款方式，再試著說一次。';f.desc=f.context;d.flows.push(f);}
 const missions=[
- ['a-store','改找便利商店','你不知道便利商店在哪。叫住路人，問位置，聽懂後道謝。','すみません。コンビニはどこですか。ありがとうございます。'],
- ['a-toilet','改找廁所','在商場找廁所，先自己問路，聽到左轉後指出方向並道謝。','すみません。トイレはどこですか。ありがとうございます。'],
- ['b-slow','不是重播按鈕，是主動求助','對方說得太快，你想請他說慢一點，再確認能不能走路去。','ゆっくりお願いします。歩いて行けますか。'],
- ['b-ten','聽不清楚分鐘數','你想走路去車站，聽不清楚要走多久。問能否步行，再主動請對方重說。','歩いて行けますか。もう一度お願いします。'],
- ['c-one','買眼前一個小商品','你在另一家店，指著想買的小商品，問價格，然後說要買這個。','これはいくらですか。これをください。'],
- ['c-two','換成兩個，再問總價','你想買兩個相同的小商品，說數量，再問全部多少錢。','これを二つください。全部でいくらですか。'],
- ['d-card','自己刷卡結帳','你想刷卡，而且不需要袋子。主動問付款方式，回應袋子需求，再道謝。','カードで払えますか。袋は要りません。ありがとうございます。'],
- ['d-cash','換成現金，需要袋子','店員說只收現金，你有足夠現金。告訴店員你付現；他問要不要袋子時，你需要。','現金で払います。はい、お願いします。ありがとうございます。']
+ ['a-store','改找便利商店','你不知道便利商店在哪。叫住路人，問位置，聽懂後道謝。','すみません。コンビニはどこですか。ありがとうございます。','不好意思。便利商店在哪裡？謝謝。'],
+ ['a-toilet','改找廁所','在商場找廁所，先自己問路，聽到左轉後指出方向並道謝。','すみません。トイレはどこですか。ありがとうございます。','不好意思。廁所在哪裡？謝謝。'],
+ ['b-slow','不是重播按鈕，是主動求助','對方說得太快，你想請他說慢一點，再確認能不能走路去。','ゆっくりお願いします。歩いて行けますか。','請說慢一點。可以走路去嗎？'],
+ ['b-ten','聽不清楚分鐘數','你想走路去車站，聽不清楚要走多久。問能否步行，再主動請對方重說。','歩いて行けますか。もう一度お願いします。','可以走路去嗎？請再說一次。'],
+ ['c-one','買眼前一個小商品','你在另一家店，指著想買的小商品，問價格，然後說要買這個。','これはいくらですか。これをください。','這個多少錢？我要這個。'],
+ ['c-two','換成兩個，再問總價','你想買兩個相同的小商品，說數量，再問全部多少錢。','これを二つください。全部でいくらですか。','這個我要兩個。總共多少錢？'],
+ ['d-card','自己刷卡結帳','你想刷卡，而且不需要袋子。主動問付款方式，回應袋子需求，再道謝。','カードで払えますか。袋は要りません。ありがとうございます。','可以刷卡嗎？不需要袋子。謝謝。'],
+ ['d-cash','換成現金，需要袋子','店員說只收現金，你有足夠現金。告訴店員你付現；他問要不要袋子時，你需要。','現金で払います。はい、お願いします。ありがとうございます。','我付現金。好的，麻煩你了。謝謝。']
 ];
-d.missions=missions.map(([id,name,task,answer])=>({id,name,task,answer,words:'先想目前要問位置、求助、買東西，還是回應付款。',check:'有依這次情境選對用途，並說清楚需要嗎？單字、短句或羅馬字都可以。'}));
+d.missions=missions.map(([id,name,task,answer,answerZh])=>({id,name,task,answer,answerZh,words:'先想目前要問位置、求助、買東西，還是回應付款。',check:'有依這次情境選對用途，並說清楚需要嗎？單字、短句或羅馬字都可以。'}));
 d.rounds=[
- {id:'A',name:'開口問位置',goal:'問到位置，聽出左右，再道謝。',phraseIds:['excuse','where','thanks'],replyIds:[0,1,2],flowIds:[0,3],missionIds:[0,1],pairIds:[0],reuse:[],role:'路人',words:[['駅','車站'],['左','← 左邊'],['右','右邊 →'],['トイレ','廁所']]},
- {id:'B',name:'聽不清楚，也能繼續問',goal:'請重說或說慢一點，再確認能否步行。',phraseIds:['repeat','slow','walk'],replyIds:[3,4,5],flowIds:[1,2],missionIds:[2,3],pairIds:[1],reuse:[3,4],role:'路人',words:[['まっすぐ','↑ 直走'],['五分','5 分鐘'],['十分','10 分鐘'],['ゆっくり','慢一點']]},
+ {id:'A',name:'開口問位置',goal:'問到位置，聽出左右，再道謝。',phraseIds:['excuse','where','thanks'],replyIds:[0,1,2],flowIds:[0,3],missionIds:[0,1],pairIds:[0],reuse:[],role:'路人',words:[['駅','車站'],['コンビニ','便利商店'],['トイレ','廁所'],['左','← 左邊'],['右','右邊 →'],['どういたしまして。','不客氣']]},
+ {id:'B',name:'聽不清楚，也能繼續問',goal:'請重說或說慢一點，再確認能否步行。',phraseIds:['repeat','slow','walk'],replyIds:[3,4,5],flowIds:[1,2],missionIds:[2,3],pairIds:[1],reuse:[0,3,4],role:'路人',words:[['コンビニ','便利商店'],['まっすぐ','↑ 直走'],['五分','5 分鐘'],['十分','10 分鐘'],['ゆっくり','慢一點']]},
  {id:'C',name:'問價格，說出數量',goal:'問單價、說要買幾個，再確認總價。',phraseIds:['price','buy','two','total'],replyIds:[6,7,8],flowIds:[4,5],missionIds:[4,5],pairIds:[2],reuse:[1,3,4],role:'店員',words:[['三百円','300 日圓'],['五百円','500 日圓'],['千円','1,000 日圓'],['一つ','一個'],['二つ','兩個']]},
  {id:'D',name:'付款並回應店員',goal:'問能否刷卡，聽懂只收現金，回答要不要袋子。',phraseIds:['card','cash','no-bag','yes'],replyIds:[9,10,11],flowIds:[6,7],missionIds:[6,7],pairIds:[3],reuse:[1,4],role:'店員',words:[['カード','卡片'],['現金','現金'],['袋','袋子']]}
 ].map(r=>({...r,bridge:'先把聲音和意思連起來；需要時看假名與羅馬字，再試著自己說。'}));
+d.rounds.find(r=>r.id==='B').words.push(['左に曲がる','← 左轉'],['右に曲がる','右轉 →'],['はい。','可以／是的（肯定回答）']);
+d.rounds.find(r=>r.id==='C').words.push(['これ','這個（靠近自己）'],['それ','那個（靠近對方）'],['これら','這些（靠近自己）'],['それら','那些（靠近對方）']);
+d.rounds.find(r=>r.id==='B').wordNote='「はい」是肯定回應；這輪回答「可以走路去嗎？」時，就是「可以」。';
+d.rounds.find(r=>r.id==='C').wordNote='「それ／それら」指靠近對方的東西；離雙方都遠時，用「あれ／あれら」。日文常直接用「これ／それ」指一組物品，「これら／それら」則明確表示複數。';
 d.pairs=d.rounds.map(r=>{const f=d.flows[r.flowIds[0]],m=d.missions[r.missionIds[0]],second=d.missions[r.missionIds[1]],first=f.steps[0];return {id:'task-'+r.id,name:r.id+'｜'+r.name,first:'學生',role:`學生當旅客，老師或夥伴當${r.role}；共看畫面。`,opening:{A:'不好意思，車站在哪裡？',B:'不好意思，便利商店在哪裡？',C:'這個多少錢？',D:'可以刷卡嗎？'}[r.id],next:r.goal+' 完成後再試：'+second.task,objects:f.context,goals:[r.goal,'換一個條件仍能開口','需要時主動求助'],tags:f.context+' 第二趟：'+d.flows[r.flowIds[1]].context,cards:r.flowIds.flatMap(id=>d.flows[id].steps.map(t=>[t.task,t.line,t.zh])),words:m.words,answer:m.answer};});
 d.support=[d.phrases.find(p=>p.id==='repeat'),d.phrases.find(p=>p.id==='slow')];
 d.course.skills=d.rounds.map(r=>({id:'task-'+r.id,text:'我能'+r.name+'。'}));
@@ -78,4 +95,8 @@ for(const r of d.rounds){
  for(const id of r.replyIds)addLine(d.replies[id]);
  r.hearLines=[...lines.values()];
 }
+// Every instance of the shared reference-answer hint uses the same Chinese meaning.
+d.answerTranslations={...require('./day0-answer-translations.cjs'),...Object.fromEntries(d.missions.map(m=>[m.answer,m.answerZh]))};
+const referenceAnswers=[d.course.answer,d.homeAnswer,...d.phrases.map(p=>p.remix),...d.replies.flatMap(q=>[q.answer,q.changeAnswer]),...d.flows.flatMap(f=>f.steps.map(t=>t.answer)),...d.missions.map(m=>m.answer),...d.pairs.map(p=>p.answer),...d.reviewTasks.map(t=>t.answer)];
+for(const answer of referenceAnswers.filter(Boolean))if(!d.answerTranslations[answer])throw Error('Missing Japanese reference translation: '+answer);
 module.exports=d;

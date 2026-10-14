@@ -7,3 +7,43 @@
 .japanese-preview-card .preview-reading{margin:8px 0 18px;color:var(--muted);overflow-wrap:anywhere}
 .japanese-hear-grid>.panel{border-top:4px solid var(--hear-line)}
 .japanese-study-block .task-phrase-grid>.panel{border-top:4px solid var(--say-line)}
+.number-toggle{display:block;margin-top:8px;font-size:.82rem;font-weight:600;color:var(--accent)}
+.number-toggle::after{content:'展開數字 ＋'}
+.japanese-numbers[open] .number-toggle::after{content:'收起數字 −'}
+.number-note{margin:22px 0 0}
+.vocabulary-note{margin:22px 0 0}
+:root[data-course-day="0"] .reference-translation{font-size:1rem;line-height:1.75;margin:12px 0 18px}
+/* Listening practice: separate controls and show the selected answer's result. */
+.japanese-workshop-picker{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+.japanese-workshop-picker button{min-width:0;max-width:100%;overflow-wrap:anywhere}
+.japanese-dialogue-workshop{--answer-correct-bg:#def4e6;--answer-correct-ink:#14532d;--answer-correct-line:#24834d;--answer-incorrect-bg:#fde4e4;--answer-incorrect-ink:#8b1e22;--answer-incorrect-line:#c33b40}
+:root[data-theme=dark] .japanese-dialogue-workshop{--answer-correct-bg:#244c36;--answer-correct-ink:#dcfce7;--answer-correct-line:#7ad99d;--answer-incorrect-bg:#613031;--answer-incorrect-ink:#ffe3e3;--answer-incorrect-line:#f19498}
+.japanese-dialogue-workshop .dialogue-stack{gap:12px}
+.japanese-dialogue-workshop .dialogue-link{padding:4px 12px}
+.japanese-dialogue-workshop .actions{gap:12px}
+.japanese-dialogue-workshop .listening-transcript{margin:18px 0 22px}
+.japanese-dialogue-workshop .listening-translation{font-size:1.05rem;line-height:1.7;margin:12px 0 18px}
+.japanese-dialogue-workshop .listening-translation span{font-size:.9rem}
+.japanese-dialogue-workshop .listen-check button{min-width:0;max-width:100%;overflow-wrap:anywhere}
+.japanese-dialogue-workshop .listen-check button.answer-correct{background:var(--answer-correct-bg);color:var(--answer-correct-ink);border-color:var(--answer-correct-line)}
+.japanese-dialogue-workshop .listen-check button.answer-incorrect{background:var(--answer-incorrect-bg);color:var(--answer-incorrect-ink);border-color:var(--answer-incorrect-line)}
+.japanese-dialogue-workshop .listen-choice-result{display:inline-block;font-size:.8rem;font-weight:650;margin-left:5px}
+.japanese-dialogue-workshop .listen-feedback.answer-correct{color:var(--answer-correct-ink);font-weight:600}
+.japanese-dialogue-workshop .listen-feedback.answer-incorrect{color:var(--answer-incorrect-ink);font-weight:600}
+/* Keep each role heading and all of its cards inside one continuous frame. */
+:root[data-course-day="0"] :is(.japanese-study-block,.study-vocabulary){padding:22px;border:2px solid var(--line);border-radius:24px;min-width:0;margin-bottom:36px}
+:root[data-course-day="0"] .study-library{background:var(--say-bg);border-color:var(--say-line)}
+:root[data-course-day="0"] .japanese-hear-block{background:var(--hear-bg);border-color:var(--hear-line)}
+:root[data-course-day="0"] .study-vocabulary{background:var(--soft)}
+:root[data-course-day="0"] :is(.japanese-study-block,.study-vocabulary)>.study-heading{padding:0 0 20px;margin:0 0 20px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+:root[data-course-day="0"] .study-library>.study-heading{border-bottom-color:var(--say-line)}
+:root[data-course-day="0"] .japanese-hear-block>.study-heading{border-bottom-color:var(--hear-line)}
+:root[data-course-day="0"] .japanese-study-block>.grid{margin-bottom:0}
+:root[data-course-day="0"] .japanese-study-block>.grid>.panel{margin-bottom:0}
+:root[data-course-day="0"] .study-vocabulary>.panel{margin:0}
+:root[data-course-day="0"] .study-vocabulary:not([open])>.study-heading{padding-bottom:0;margin-bottom:0;border-bottom:0}
+@media(max-width:700px){
+ :root[data-course-day="0"] :is(.japanese-study-block,.study-vocabulary){padding:14px;border-radius:20px}
+ :root[data-course-day="0"] :is(.japanese-study-block,.study-vocabulary)>.study-heading{padding-bottom:16px;margin-bottom:16px}
+ :root[data-course-day="0"] :is(.japanese-study-block>.grid>.panel,.study-vocabulary>.panel){padding:16px}
+}
