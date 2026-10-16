@@ -44,7 +44,7 @@
  #travel-app-views{position:fixed;inset:0;z-index:2000;pointer-events:none}
  #travel-app-views iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;visibility:hidden;pointer-events:none}
  #travel-app-views iframe[data-active]{visibility:visible;pointer-events:auto}
- #travel-app-status{position:fixed;z-index:3000;left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);padding:12px 16px;border:1px solid #d9c4ac;border-radius:16px;background:#fff7ed;color:#382c22;box-shadow:0 4px 20px #0002;font:16px/1.5 system-ui}
+ #travel-app-status{position:fixed;z-index:3000;left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);max-height:calc(100dvh - 40px);overflow:auto;padding:12px 16px;border:1px solid var(--line,#d9c4ac);border-radius:16px;background:var(--panel,#fff7ed);color:var(--ink,#382c22);box-shadow:0 4px 20px #0002;font:16px/1.5 system-ui}
  #travel-app-status[hidden]{display:none}
  #travel-app-status button,#travel-app-status a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin:4px;padding:8px 14px;border:1px solid currentColor;border-radius:10px;background:transparent;color:inherit;font:inherit;cursor:pointer}
  #travel-app-status p{margin:0 0 4px}

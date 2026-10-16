@@ -1,3 +1,31 @@
+## 手機、平板與電腦：響應式顯示與操作
+
+首頁及第 0～14 天共用 `assets/responsive-layout.css`、`assets/responsive-layout.js`，由 `sync-appearance.cjs` 內嵌到正式 HTML；可獨立開啟，既有建置入口也會套用。
+
+- 1100 px 以下將 15 天的單元切換收進可展開選單，收合時仍顯示目前天數和主題。手機選單採兩欄，平板採三欄，長選單可在區內捲動；所有天數保留原連結。支援 Enter／空白鍵開合、Tab 移動與 Escape 收起後返回焦點。
+- 320 px 窄螢幕的頁首移除裝飾箭頭，保留品牌、文字大小與深淺色控制；首頁也縮減頁首間距，放大文字仍維持單排。
+- 切換七部分後會將新標題帶到固定頁首下方，改善手機橫向時只看見導覽的情況。第三部分的下一步、上一步仍會對準當步聽說任務。
+- 1100 px 以上的電腦版，左側七部分導覽會隨閱讀保持可見；高度不足時選單本身可捲動。頁首實際高度由 `ResizeObserver` 更新，適應文字放大及視窗變動。
+- 慢網路／連線失敗提示沿用目前的深淺色，並限制在視窗內。課程題目、作答 key、既有保存資料及音訊流程保留。
+
+驗證範圍包含首頁、15 課、七部分、聽答模式、展開後的多層提示、教師引導、日文查詞（有啟用時）與講義視窗。主版面矩陣使用 Edge／Chromium 及 WebKit，檢查 320×568、360×800、390×844、430×932、568×320、844×390、768×1024、1024×768、1100×820、1101×820、1280×800、1440×900、1920×1080，搭配深淺色與標準／放大文字。操作檢查另涵蓋觸控、鍵盤、旋轉、短視窗輸入、重開保存、課程切換、返回／前進及網路失敗重試。
+
+本次兩種引擎的主版面共 26,144 個狀態通過，未發現水平溢出、主要控制裁切、缺圖或 JavaScript 執行錯誤。手機觸控回歸各通過 15 課、1,515 個版面狀態；Edge 平板觸控回歸通過 15 課、1,755 個狀態。鍵盤／頁首檢查各通過 60 組設定；WebKit 原本跳過單元連結的情況已用明確的 `tabindex="0"` 修正，焦點框也跟隨主題且保留完整顯示空間。
+
+可重跑以下入口，使用 `node --preserve-symlinks --preserve-symlinks-main`：
+
+| 入口 | 檢查範圍與報告 |
+| --- | --- |
+| `check-responsive-browser.cjs`／加 `--webkit` | 每個引擎 13,072 個版面狀態；報告與畫面在 `tmp/responsive-qa-edge/`、`tmp/responsive-qa-webkit/` |
+| `check-tablet-browser.cjs --phone`／加 `--webkit` | 每個引擎 15 課、6 種手機尺寸的觸控操作、完整首條流程與作答保存；`tmp/phone-interaction-qa*/` |
+| `check-tablet-browser.cjs` | 15 課、7 種平板尺寸的觸控回歸；`tmp/tablet-interaction-qa/` |
+| `check-responsive-controls.cjs` | 兩種引擎的單排頁首、選單鍵盤焦點、滑鼠停留及短視窗輸入；`tmp/responsive-controls/` |
+| `check-app-navigation.cjs --phone`／不加參數 | 手機／平板尺寸的 HTTP 課程切換、失敗重試、提示配色、保存與本機檔案；`tmp/app-navigation-qa-phone/`、`tmp/app-navigation-qa/` |
+
+另搭配 `check-all-task-rounds.cjs`、`check-unit1-focus.cjs`、`check-unit1-tablet.cjs`、`check-flow-guidance.cjs`、`check-course-palettes.cjs`、`check-appearance-browser.cjs` 回歸。測試以獨立瀏覽器環境執行，不讀寫日常瀏覽器的學生紀錄。修前畫面保存在 `tmp/responsive-before-phone.png`、`tmp/before-320.png` 與 `tmp/status-before-dark.png`。
+
+驗證界線：這是 Windows 上的瀏覽器模擬與實際網頁互動，不等同實體 iPhone、Android 或 iPad。螢幕鍵盤、瀏海／安全區、瀏覽器網址列伸縮、系統英文音色及喇叭出聲仍需要實機確認。短視窗測試只模擬可用高度縮小，不宣稱操作了實機鍵盤。本節記錄本機結果，尚未代表線上部署。
+
 ## 線上教材：同一頁內切換天數
 
 首頁與第 0～14 天在線上開啟時，點天數、Travel Lab 或「全部課程」會在同一個瀏覽器文件內切換。原畫面會一直保留到新課程準備完成，網址與標題隨課程更新；瀏覽器返回／前進、分享課程網址及重新整理都可用。第一次取得某課仍需要網路，並非全部課程已離線下載。

@@ -54,7 +54,7 @@ function focusSceneStep(){
  const inset=($('.top')?.getBoundingClientRect().bottom||0)+16;
  if(top<inset||top>innerHeight-120)window.scrollTo({top:Math.max(0,window.scrollY+top-inset),behavior:'instant'});
 }
-function navigate(p){if(!Number.isInteger(p)||p<0||p>=course.labels.length)return;stopAudio();page=p;render();if(window.matchMedia('(max-width:1100px)').matches)$('#courseMenu').open=false;focusMain();window.scrollTo({top:0,behavior:'instant'});}
+function navigate(p){if(!Number.isInteger(p)||p<0||p>=course.labels.length)return;stopAudio();page=p;render();if(window.matchMedia('(max-width:1100px)').matches)$('#courseMenu').open=false;focusMain();const title=$('#main h1')||$('#main');const inset=($('.top')?.getBoundingClientRect().height||0)+16;window.scrollTo({top:Math.max(0,window.scrollY+title.getBoundingClientRect().top-inset),behavior:'instant'});}
 function resetTurn(){heard=false;spoken=false;choice=-1;feedback='';}
 function start(i){if(!flows[i])return;flow=i;turn=0;history=[];finished=false;resetTurn();navigate(2);}
 function choose(i){const t=currentStep();if(finished||!heard||!spoken||!Number.isInteger(i)||!t.objects[i])return;choice=i;history=history.slice(0,turn);if(accepted(t,i)){history[turn]=i;feedback=t.effect;}else feedback='再試一次：這個操作不符合目前的需要。重看中文任務，或重聽對方的話。';render();$(`[data-choice="${i}"]`).focus({preventScroll:true});}

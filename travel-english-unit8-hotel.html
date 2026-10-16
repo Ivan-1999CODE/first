@@ -450,10 +450,51 @@
  :root[data-course-palette][data-theme=dark]{--muted:#f5eee5;--line:#cfbfae}
 }
 </style>
+<style id="responsive-layout-styles">
+/* One responsive shell for the index and all standalone lessons. */
+html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
+.unit-menu{margin:0;min-width:0}
+.unit-menu>summary{display:none}
+.unit-menu a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(min-width:1101px){
+ .layout>.course-menu{position:sticky;top:calc(var(--travel-header-height,80px) + 12px);align-self:start}
+ .layout>.course-menu>.course-nav{max-height:calc(100dvh - var(--travel-header-height,80px) - 24px);overflow-y:auto;overscroll-behavior:contain}
+}
+@media(max-width:1100px){
+ .day-switcher{padding:8px 16px}
+ .unit-menu>summary{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 0;color:var(--ink);list-style:none;line-height:1.5;touch-action:manipulation}
+ .unit-menu>summary::-webkit-details-marker{display:none}
+ .unit-menu>summary::marker{content:""}
+ .unit-menu>summary::after{content:"";width:9px;height:9px;margin:0 5px 4px auto;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);flex-shrink:0}
+ .unit-menu[open]>summary::after{transform:rotate(225deg);margin-bottom:0}
+ .unit-menu>summary>span{min-width:0}
+ .unit-menu-label{display:block;color:var(--muted);font-size:.78rem;font-weight:500}
+ .unit-menu-current{display:block;font-size:1rem;font-weight:650;overflow-wrap:anywhere}
+ .unit-menu>summary:hover,.unit-menu>summary:active{color:var(--accent)}
+ .unit-menu>summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+ .unit-menu:not([data-ready])>.day-switcher-inner{display:none}
+ .unit-menu .day-switcher-inner{display:block;max-height:min(60dvh,32rem);overflow-y:auto;overscroll-behavior:contain;padding:6px 6px 8px;scroll-padding:6px}
+ .unit-menu .day-switcher-label{display:none}
+ .unit-menu .day-switcher-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:8px}
+ .unit-menu .day-switcher-links a{flex-direction:column;justify-content:center;gap:2px;min-height:56px;padding:10px 8px;text-align:center;font-size:.94rem;overflow-wrap:anywhere}
+ .unit-menu .day-switcher-links a small{font-size:.8rem}
+}
+@media(max-width:640px){
+ .unit-menu .day-switcher-links{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .top .tools button{font-size:.8rem;padding-inline:10px}
+ [data-appearance-kind=index] .top-inner{padding:10px 12px;gap:8px}
+ [data-appearance-kind=index] .brand{font-size:.9rem}
+}
+@media(max-width:380px){
+ .top .brand span{display:none}
+ .top-inner{gap:8px}
+}
+@media(prefers-contrast:more){.unit-menu>summary{outline:1px solid currentColor;border-radius:8px;padding-inline:8px}}
+</style>
 </head><body>
 <a class="skip" href="#main">跳到課程內容</a>
 <header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
-<nav class="day-switcher" aria-label="切換單元"><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a href="travel-japanese-day0-directions.html"><strong>第 0 天</strong><small>日文問路與購物</small></a><a href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a href="travel-english-unit8-hotel.html" aria-current="page"><strong>第 8 天</strong><small>入住與客房服務</small></a><a href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>請求、婉拒與道歉</small></a><a href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a href="travel-english-unit12-how.html"><strong>第 12 天</strong><small>安排今天的行程</small></a><a href="travel-english-unit13-why-which.html"><strong>第 13 天</strong><small>表達需求、調整計畫</small></a><a href="travel-english-unit14-travel-questions.html"><strong>第 14 天</strong><small>問清楚團體行程</small></a></div></div></nav>
+<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 8 天 · 入住與客房服務</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天</strong><small>日文問路與購物</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html" aria-current="page"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>請求、婉拒與道歉</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html"><strong>第 12 天</strong><small>安排今天的行程</small></a><a tabindex="0" href="travel-english-unit13-why-which.html"><strong>第 13 天</strong><small>表達需求、調整計畫</small></a><a tabindex="0" href="travel-english-unit14-travel-questions.html"><strong>第 14 天</strong><small>問清楚團體行程</small></a></div></div></details></nav>
 <div id="storageNotice" class="notice" role="status" hidden></div>
 <div class="layout"><details id="courseMenu" class="course-menu" open><summary aria-label="課程選單"><svg class="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16m4-11h4m-4 5h4"/></svg><span class="menu-label">課程選單</span><svg class="menu-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 7.5 5 5 5-5"/></svg></summary><nav class="course-nav" aria-label="第 8 天的七部分課程"><span class="day">DAY 8</span><div id="nav"></div></nav></details><main id="main" tabindex="-1"></main></div>
 <footer class="bottom"><a href="index.html">全部課程</a> · 第 8 天：飯店入住與客房服務・分任務練習</footer><div id="toast" role="status" hidden></div>
@@ -532,7 +573,7 @@ function focusSceneStep(){
  const inset=($('.top')?.getBoundingClientRect().bottom||0)+16;
  if(top<inset||top>innerHeight-120)window.scrollTo({top:Math.max(0,window.scrollY+top-inset),behavior:'instant'});
 }
-function navigate(p){if(!Number.isInteger(p)||p<0||p>=course.labels.length)return;stopAudio();page=p;render();if(window.matchMedia('(max-width:1100px)').matches)$('#courseMenu').open=false;focusMain();window.scrollTo({top:0,behavior:'instant'});}
+function navigate(p){if(!Number.isInteger(p)||p<0||p>=course.labels.length)return;stopAudio();page=p;render();if(window.matchMedia('(max-width:1100px)').matches)$('#courseMenu').open=false;focusMain();const title=$('#main h1')||$('#main');const inset=($('.top')?.getBoundingClientRect().height||0)+16;window.scrollTo({top:Math.max(0,window.scrollY+title.getBoundingClientRect().top-inset),behavior:'instant'});}
 function resetTurn(){heard=false;spoken=false;choice=-1;feedback='';}
 function start(i){if(!flows[i])return;flow=i;turn=0;history=[];finished=false;resetTurn();navigate(2);}
 function choose(i){const t=currentStep();if(finished||!heard||!spoken||!Number.isInteger(i)||!t.objects[i])return;choice=i;history=history.slice(0,turn);if(accepted(t,i)){history[turn]=i;feedback=t.effect;}else feedback='再試一次：這個操作不符合目前的需要。重看中文任務，或重聽對方的話。';render();$(`[data-choice="${i}"]`).focus({preventScroll:true});}
@@ -986,6 +1027,29 @@ load();render();appearance();
  update();
 })();
 </script>
+<script id="responsive-layout-script">
+// Keep compact navigation reachable without putting fifteen lessons before every page.
+(() => {
+ const root=document.documentElement,header=document.querySelector('.top');
+ const updateHeader=()=>root.style.setProperty('--travel-header-height',`${Math.ceil(header.getBoundingClientRect().height)}px`);
+ if(header){updateHeader();new ResizeObserver(updateHeader).observe(header);}
+ const menu=document.querySelector('.unit-menu');
+ if(!menu)return;
+ const compact=matchMedia('(max-width:1100px)');
+ function sync(){
+  const focused=menu.contains(document.activeElement);
+  menu.open=!compact.matches;
+  menu.dataset.ready='true';
+  if(focused&&compact.matches)menu.querySelector('summary').focus({preventScroll:true});
+ }
+ sync();compact.addEventListener('change',sync);
+ menu.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&compact.matches&&menu.open){
+   event.preventDefault();menu.open=false;menu.querySelector('summary').focus({preventScroll:true});
+  }
+ });
+})();
+</script>
 <script id="travel-app-navigation">
 // Keep one browser document while isolated lesson views retain their own runtime.
 // The downloaded HTML files still work independently, including over file://.
@@ -1033,7 +1097,7 @@ load();render();appearance();
  #travel-app-views{position:fixed;inset:0;z-index:2000;pointer-events:none}
  #travel-app-views iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;visibility:hidden;pointer-events:none}
  #travel-app-views iframe[data-active]{visibility:visible;pointer-events:auto}
- #travel-app-status{position:fixed;z-index:3000;left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);padding:12px 16px;border:1px solid #d9c4ac;border-radius:16px;background:#fff7ed;color:#382c22;box-shadow:0 4px 20px #0002;font:16px/1.5 system-ui}
+ #travel-app-status{position:fixed;z-index:3000;left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);max-height:calc(100dvh - 40px);overflow:auto;padding:12px 16px;border:1px solid var(--line,#d9c4ac);border-radius:16px;background:var(--panel,#fff7ed);color:var(--ink,#382c22);box-shadow:0 4px 20px #0002;font:16px/1.5 system-ui}
  #travel-app-status[hidden]{display:none}
  #travel-app-status button,#travel-app-status a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin:4px;padding:8px 14px;border:1px solid currentColor;border-radius:10px;background:transparent;color:inherit;font:inherit;cursor:pointer}
  #travel-app-status p{margin:0 0 4px}
