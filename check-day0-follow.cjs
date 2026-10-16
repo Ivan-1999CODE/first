@@ -13,6 +13,21 @@ for(const [text,name] of Object.entries(manifest)){
  await page.addInitScript(()=>{const Native=window.Audio;window.Audio=function(...args){return window.qaAudio=new Native(...args);};});
  await page.goto(pathToFileURL(path.resolve('travel-japanese-day0-directions.html')).href);
  const durations=await page.evaluate(async()=>{const ac=new AudioContext();let count=0;for(const [text,src] of Object.entries(day0Audio)){const bytes=Uint8Array.from(atob(src.split(',')[1]),c=>c.charCodeAt(0));const audio=await ac.decodeAudioData(bytes.buffer);const cues=day0Timings[text];if(cues.at(-1).end>audio.duration)throw Error('Boundary after audio: '+text);count++;}await ac.close();return count;});assert.equal(durations,Object.keys(manifest).length);
+ assert.deepEqual(await page.evaluate(()=>Object.keys(day0Audio).filter(text=>!day0AudioTranslations[text]?.trim())),[],'Every recording has a Chinese meaning');
+ fs.mkdirSync('tmp/day0-follow-qa',{recursive:true});
+ await page.evaluate(()=>{setTaskRound(0);navigate(1);});
+ const stationCard=page.locator('.task-phrase-grid > article').filter({hasText:'車站在哪裡？'});
+ for(const slow of [false,true]){
+  await stationCard.locator(slow?'[data-slow]':'[data-say]:not([data-slow])').first().click();
+  assert.equal(await page.locator('.follow-translation').innerText(),'車站在哪裡？');
+  assert.equal(await page.locator('.follow-help').count(),0);
+  assert.equal(await page.locator('.follow-translation').getAttribute('lang'),'zh-Hant');
+  await page.evaluate(t=>document.documentElement.dataset.theme=t,slow?'dark':'light');
+  await stationCard.screenshot({path:`tmp/day0-follow-qa/station-translation-${slow?'dark':'light'}.png`});
+ }
+ await page.locator('.follow-heading button').click();assert(await page.locator('.follow-translation').isHidden());
+ await page.locator('.follow-heading button').click();assert(await page.locator('.follow-translation').isVisible());
+ await page.evaluate(()=>speak('これを二つください。'));assert.equal(await page.locator('.follow-translation').innerText(),'這個我要兩個');
  await page.evaluate(()=>{setTaskRound(0);navigate(2);});await page.locator('#spoken').check();
  const play=page.locator('.role-other [data-say]').first();await play.click();
  await page.waitForFunction(()=>document.querySelector('.follow-token.is-current'));
@@ -30,6 +45,7 @@ for(const [text,name] of Object.entries(manifest)){
  await page.waitForFunction(()=>qaAudio.ended);assert.equal(await page.locator('.is-current').count(),0);assert.match(await page.locator('.follow-heading strong').innerText(),/播放完畢/);
  // A composed utterance must use both clips and keep the second clip's boundaries local.
  await page.evaluate(()=>speak('駅です。はい。'));
+ assert.equal(await page.locator('.follow-translation').innerText(),'是車站。 是的。');
  await page.waitForFunction(()=>document.querySelector('.follow-token.is-current')?.dataset.clip==='1');assert.equal(await page.locator('.follow-token.is-current .follow-japanese').innerText(),'はい');
  await page.locator('.day0-audio-status button').click();assert(await page.evaluate(()=>qaAudio.paused));assert.equal(await page.locator('.follow-along').count(),0);
  // Word cards play only their recorded cue, without replaying or continuing the sentence.

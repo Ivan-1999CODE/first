@@ -52,20 +52,22 @@
   while(remaining){const key=keys.find(k=>remaining.startsWith(k));if(!key)break;clips.push({text:key,src:day0Audio[key],cues:day0Timings[key]||[]});remaining=remaining.slice(key.length);}
   if(remaining||!clips.length){message('找不到這句的音檔；請展開讀音輔助。',true);return;}
   panel=document.createElement('section');panel.className='follow-along';panel.setAttribute('aria-label','日文同步跟讀');
-  panel.innerHTML='<div class="follow-heading"><strong>跟著黃色標示讀</strong><button type="button" aria-expanded="true">只聽聲音</button></div><p class="follow-help">上排日文，下排羅馬字；黃色是現在唸到的詞段。點字卡，只聽這個詞段；慢速跟讀時，字卡也會慢速播放。ō 表示 o 的長音。</p><div class="follow-words"></div>';
+  panel.innerHTML='<div class="follow-heading"><strong>跟著黃色標示讀</strong><button type="button" aria-expanded="true">只聽聲音</button></div><p class="follow-translation" lang="zh-Hant"></p><div class="follow-words"></div>';
+  panel.querySelector('.follow-translation').textContent=day0AudioTranslations[text]||clips.map(clip=>day0AudioTranslations[clip.text]).join(' ');
   const followPanel=panel,decoded=new Map(),recordings=new Map();
   wordBox=panel.querySelector('.follow-words');heading=panel.querySelector('strong');
   const words=clips.map((clip,ci)=>{let cursor=0;const nodes=clip.cues.map((cue,i)=>{
    if(cue.from>cursor){const punctuation=document.createElement('span');punctuation.className='follow-punctuation';punctuation.textContent=clip.text.slice(cursor,cue.from);wordBox.append(punctuation);}
    const word=document.createElement('button');word.type='button';word.className='follow-token';word.dataset.clip=ci;word.dataset.word=i;
-   word.setAttribute('aria-label','單獨聽：'+cue.text+'（'+cue.romaji+'）');
-   word.title='只聽「'+cue.text+'」';word.onclick=()=>playWord(ci,i);
+   word.setAttribute('aria-label','單獨聽並看意思：'+cue.text+'（'+cue.romaji+'）');
+   word.setAttribute('aria-haspopup','dialog');word.setAttribute('aria-expanded','false');
+   word.title='聽「'+cue.text+'」並看意思';word.onclick=()=>{playWord(ci,i);window.day0Glossary?.showCue(word,clip.text,cue);};
    const jp=document.createElement('span');jp.className='follow-japanese';jp.lang='ja';jp.textContent=cue.text;
    const rom=document.createElement('span');rom.className='follow-romaji';rom.lang='ja-Latn';rom.textContent=cue.romaji;
    word.append(jp,rom);wordBox.append(word);cursor=cue.to;return word;
   });if(cursor<clip.text.length){const punctuation=document.createElement('span');punctuation.className='follow-punctuation';punctuation.textContent=clip.text.slice(cursor);wordBox.append(punctuation);}return nodes;});
-  const toggle=panel.querySelector('button'),help=panel.querySelector('.follow-help');
-  toggle.onclick=()=>{const hidden=!wordBox.hidden;wordBox.hidden=help.hidden=hidden;toggle.textContent=hidden?'顯示跟讀':'只聽聲音';toggle.setAttribute('aria-expanded',String(!hidden));};
+  const toggle=panel.querySelector('button'),translation=panel.querySelector('.follow-translation');
+  toggle.onclick=()=>{const hidden=!wordBox.hidden;wordBox.hidden=translation.hidden=hidden;toggle.textContent=hidden?'顯示跟讀':'只聽聲音';toggle.setAttribute('aria-expanded',String(!hidden));};
   const anchor=trigger?.closest('.actions');if(anchor)anchor.after(panel);else document.querySelector('#main').prepend(panel);
   const recordingFor=async(ci,i)=>{
    const key=ci+':'+i;if(recordings.has(key))return recordings.get(key);

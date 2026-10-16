@@ -1,0 +1,19 @@
+/* Words remain part of the sentence, with a dotted underline as the lookup cue. */
+#main .jp-word{display:inline-block;min-height:44px;min-width:44px;max-width:100%;margin:0;padding:4px 2px;border:0;border-radius:5px;background:transparent;color:inherit;font:inherit;line-height:inherit;letter-spacing:inherit;vertical-align:baseline;white-space:normal;overflow-wrap:anywhere;text-align:inherit;text-decoration:underline dotted var(--accent);text-underline-offset:.22em;text-decoration-thickness:1.5px;cursor:pointer;box-shadow:none;touch-action:manipulation}
+#main .jp-word:hover,#main .jp-word:active,#main .jp-word.jp-word-selected{background:var(--soft);text-decoration-style:solid;color:var(--ink)}
+#main .jp-word:focus-visible,.jp-glossary button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.follow-token.jp-word-selected{outline:3px solid var(--accent);outline-offset:2px}
+.jp-glossary-help{font-size:.9rem;color:var(--muted);margin:8px 0 22px}
+.jp-glossary{--panel:#eaf3ff;--ink:#173654;--muted:#405c78;--accent:#2b6399;--line:#a7c3df;--glossary-button:#fff;--glossary-hover:#d6e8fc;position:fixed;z-index:120;width:360px;box-sizing:border-box;overflow:auto;overscroll-behavior:contain;padding:18px;border:2px solid var(--accent);border-radius:16px;background:var(--panel);color:var(--ink);box-shadow:0 12px 36px #17365440;line-height:1.65;font-size:1rem}
+:root[data-theme=dark] .jp-glossary{--panel:#203e5b;--ink:#f1f7ff;--muted:#c4daef;--accent:#9bceff;--line:#6d96bb;--glossary-button:#294e70;--glossary-hover:#355f85;box-shadow:0 12px 36px #0008}
+.jp-glossary[hidden]{display:none}
+.jp-glossary-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.jp-glossary-heading strong{font-size:.9rem;color:var(--muted)}
+.jp-glossary-heading button{min-height:44px;flex-shrink:0;font-size:.85rem;background:var(--glossary-button);border-color:var(--accent);color:var(--ink)}
+.jp-glossary-heading button:hover{background:var(--glossary-hover)}
+.jp-glossary .jp-glossary-word{font-size:1.3rem;font-weight:750;line-height:1.5;margin:0;overflow-wrap:anywhere}
+.jp-glossary .jp-glossary-reading{font-size:.95rem;color:var(--muted);margin:4px 0 12px;overflow-wrap:anywhere}
+.jp-glossary .jp-glossary-meaning{font-size:1.15rem;font-weight:700;margin:0 0 8px}
+.jp-glossary .jp-glossary-note,.jp-glossary .jp-glossary-fragment{font-size:.9rem;margin:8px 0 0}
+.jp-glossary-entry+.jp-glossary-entry,.jp-glossary .jp-glossary-fragment{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+@media(forced-colors:active){#main .jp-word{text-decoration-color:LinkText}.jp-word-selected{outline:2px solid Highlight}}

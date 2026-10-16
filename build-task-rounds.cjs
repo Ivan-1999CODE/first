@@ -15,6 +15,8 @@ function buildDay(day){
   const manifest=JSON.parse(read('assets/day0-audio/manifest.json'));
   const timings=JSON.parse(read('assets/day0-audio/timings.json'));
   const followReadings=require('./assets/day0-follow-readings.cjs');
+  d.day0GlossaryData=require('./assets/day0-glossary-data.cjs');
+  d.day0AudioTranslations=require('./assets/day0-audio-translations.cjs')(d,Object.keys(manifest));
   d.day0Timings=Object.fromEntries(Object.entries(manifest).map(([text,name])=>{
    const entry=timings[text],hash=require('crypto').createHash('sha256').update(fs.readFileSync('assets/day0-audio/'+name)).digest('hex');
    if(!entry||entry.sha256!==hash)throw Error('Audio/timing mismatch: '+text);
@@ -25,8 +27,8 @@ function buildDay(day){
  if(!japanese)d.lessonArtwork=require('./assets/course-illustrations.cjs').forLesson(day,d.rounds,d.course.replyRole);
  else d.studyArtwork=require('./assets/course-illustrations.cjs').forLesson(day,d.rounds,d.course.replyRole);
  const data=Object.entries(d).map(([k,v])=>`const ${k}=${JSON.stringify(v).replace(/</g,'\\u003c')};`).join('\n');
- const code=[data,runtime,read('assets/flow-guidance.js'),japanese?read('assets/day0-extra.js'):'',read('assets/task-rounds.js'),read('assets/task-rounds-expanded.js'),japanese?read('assets/day0-library.js'):read('assets/illustrated-lessons.js'),read('assets/study-library.js'),'load();render();appearance();',japanese?read('assets/day0-audio.js'):''].join('\n');
- const css=['assets/day1-2.css','assets/speaking-focus.css','assets/task-rounds.css',...japanese?['assets/day0-follow.css','assets/day0-library.css']:['assets/illustrated-lessons.css'],'assets/study-library.css','assets/flow-guidance.css'].map(read).join('\n');
+ const code=[data,runtime,read('assets/flow-guidance.js'),japanese?read('assets/day0-extra.js'):'',read('assets/task-rounds.js'),read('assets/task-rounds-expanded.js'),japanese?read('assets/day0-library.js'):read('assets/illustrated-lessons.js'),read('assets/study-library.js'),'load();render();appearance();',japanese?read('assets/day0-audio.js'):'',japanese?read('assets/day0-glossary.js'):''].join('\n');
+ const css=['assets/day1-2.css','assets/speaking-focus.css','assets/task-rounds.css',...japanese?['assets/day0-follow.css','assets/day0-library.css','assets/day0-glossary.css']:['assets/illustrated-lessons.css'],'assets/study-library.css','assets/flow-guidance.css'].map(read).join('\n');
  let html=read('assets/task-rounds-template.html')
   .replace(/<title>[\s\S]*?<\/title>/,`<title>Travel Lab｜${title}</title>`)
   .replace(/<meta name="description"[^>]*>/,`<meta name="description" content="${d.course.description}">`)
