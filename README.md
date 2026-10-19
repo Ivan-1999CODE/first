@@ -1,3 +1,28 @@
+## 第 0 天：日文與韓文問路、購物
+
+第 0 天現在有兩個獨立入口：`travel-japanese-day0-directions.html` 與 `travel-korean-day0-directions.html`。首頁與第 0～14 天的單元導覽均標示「第 0 天・日文／韓文」，韓文也支援同一頁內切課、返回及前進。英文課的教學內容不變。
+
+韓文版沿用現行日文版的七部分流程：4 個任務、14 個主要說法、12 組聽答、8 趟互動流程、8 個自主情境與 4 組真人任務。情境限定問位置、聽不清楚時求助、價格與數量、付款及袋子；價格改用 3,000／5,000／10,000 韓元的教學設定。
+
+- 句卡直接顯示韓文和中文；羅馬拼音預設收起，可隨時展開。單字、數字、完整參考回答、查詞視窗及同步跟讀區也提供可收起的拼音。
+- 87 段韓文合成音檔、同步時間及中文意思內嵌在 HTML，支援一般／慢速、黃色跟讀、點詞段重播與離線查詞。聲音為 `ko-KR-SunHiNeural`，只合成編寫好的教材文字，不傳送學生作答。合成來源見 `assets/korean-day0-audio/README.md`。
+- 韓文以 `travel-lab-day0-korean-v1` 獨立保存作答；不讀入、覆蓋或清除日文學習紀錄。深淺色及文字大小仍沿用全系列設定。
+- 查詞視窗展開拼音後會重新調整位置，避免手機放大文字時超出畫面；日文共用相同的位置修正。
+
+韓文課程結構保存在 `assets/korean-day0-curriculum.json`，句子、羅馬拼音、中文及查詞資料在 `assets/korean-day0-language.cjs`，由 `assets/korean-day0-data.cjs` 檢查讀音與翻譯完整性。課程保留獨立資料，後續日文內容改動不會自動覆蓋韓文。介面及互動沿用共用來源，韓文差異在 `assets/korean-day0-*.js`、`.css` 與 `build-korean-day0.cjs`。
+
+建置與檢查使用 `node --preserve-symlinks --preserve-symlinks-main`：
+
+- `build-korean-day0.cjs`：建置可獨立開啟的韓文 HTML。
+- `build-korean-day0.cjs --prepare-audio`：課文改動後更新音檔文字清單；再執行 `generate-day0-audio.py --korean` 合成音檔。
+- `build-task-rounds.cjs`：不指定天數時，亦會建置韓文版。
+- `sync-day0-links.cjs`／`sync-appearance.cjs`：同步兩個第 0 天入口，重建舊課後仍保留。
+- `check-korean-day0.cjs`：檢查四任務、全部互動、提示與拼音、儲存隔離、87 段音檔、同步及詞段播放、離線文字備援、查詞視窗、224 個深淺色放大版面，以及日韓英切課與返回／前進。報告和畫面在 `tmp/korean-day0-qa/`。
+
+日文回歸使用 `check-all-task-rounds.cjs --day0`、`check-day0-follow.cjs`、`check-day0-glossary.cjs --edge`。驗證使用 Windows Edge／Chromium，手機和平板為瀏覽器尺寸模擬，未代表實體 iPhone／Android／iPad 或喇叭聽覺驗證。此處記錄本機測試範圍；GitHub 同步與網站部署狀態應分別確認。
+
+羅馬拼音以韓國國立國語院的 [Romanization of Korean](https://m.korean.go.kr/front_eng/roman/roman_01.do) 為依據，作為初學輔助；實際發音以韓文音檔跟讀。
+
 ## 手機、平板與電腦：響應式顯示與操作
 
 首頁及第 0～14 天共用 `assets/responsive-layout.css`、`assets/responsive-layout.js`，由 `sync-appearance.cjs` 內嵌到正式 HTML；可獨立開啟，既有建置入口也會套用。

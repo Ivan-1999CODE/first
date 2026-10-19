@@ -6,16 +6,17 @@ const responsiveStyles=fs.readFileSync('assets/responsive-layout.css','utf8');
 const responsiveScript=fs.readFileSync('assets/responsive-layout.js','utf8');
 const coursePalettes=['peach','apricot','butter','rose','mauve','latte'];
 module.exports=function syncAppearance(file){
- const files=file?[file]:fs.readdirSync('.').filter(f=>f==='index.html'||/^travel-(?:english(?:-unit.*)?|japanese-day0-directions)\.html$/.test(f));
+ const files=file?[file]:fs.readdirSync('.').filter(f=>f==='index.html'||/^travel-(?:english(?:-unit.*)?|(?:japanese|korean)-day0-directions)\.html$/.test(f));
  for(const name of files){
   let html=fs.readFileSync(name,'utf8');
+  html=require('./sync-day0-links.cjs').updateHtml(name,html);
   for(const id of ['shared-appearance-init','shared-appearance-styles','shared-appearance-controls','course-palette-styles','travel-app-navigation','responsive-layout-styles','responsive-layout-script'])html=html.replace(new RegExp('<(script|style) id="'+id+'"[^>]*>[\\s\\S]*?<\\/\\1>\\s*','g'),'');
   html=html.replace(/<script data-(?:theme-init|appearance-init|theme-controls)[^>]*>[\s\S]*?<\/script>\s*/g,'');
   const kind=name==='index.html'?'index':html.includes('class="shell"')?'legacy':'modern';
   const fallback=kind==='legacy'&&!/<style id="day[789]-styles"/.test(html);
   html=html.replace(/ data-appearance-(?:kind="[^"]*"|fallback(?:="[^"]*")?)/g,'');
   html=html.replace('<html ',`<html data-appearance-kind="${kind}"${fallback?' data-appearance-fallback':''} `);
-  const courseDay=name==='travel-japanese-day0-directions.html'?0:name==='travel-english.html'?1:Number(name.match(/^travel-english-unit(\d+)-/)?.[1]);
+  const courseDay=/^travel-(?:japanese|korean)-day0-directions\.html$/.test(name)?0:name==='travel-english.html'?1:Number(name.match(/^travel-english-unit(\d+)-/)?.[1]);
   html=html.replace(/ data-course-(?:palette|day)="[^"]*"/g,'');
   if(Number.isInteger(courseDay))html=html.replace('<html ',`<html data-course-day="${courseDay}" data-course-palette="${coursePalettes[courseDay%coursePalettes.length]}" `);
   html=html.replace(/(<meta charset="utf-8"\s*\/?>)/i,meta=>meta+'\n<script id="shared-appearance-init" data-appearance-init>\n'+assets['appearance-init.js']+'</script>');

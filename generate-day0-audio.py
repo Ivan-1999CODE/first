@@ -1,20 +1,28 @@
-"""Generate only the authored Japanese lesson text; never student answers."""
+"""Generate authored Day 0 text only; --korean selects the Korean lesson."""
 import asyncio
 import hashlib
 import json
 import pathlib
 import sys
 import re
-import edge_tts
+try:
+    import edge_tts
+except ImportError:
+    dependency_dir = 'korean-audio-deps' if '--korean' in sys.argv else 'japanese-audio-deps'
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / 'tmp' / dependency_dir))
+    import edge_tts
 
 ROOT = pathlib.Path(__file__).resolve().parent
-OUT = ROOT / 'assets' / 'day0-audio'
+KOREAN = '--korean' in sys.argv
+LANGUAGE = 'Korean' if KOREAN else 'Japanese'
+VOICE = 'ko-KR-SunHiNeural' if KOREAN else 'ja-JP-NanamiNeural'
+OUT = ROOT / 'assets' / ('korean-day0-audio' if KOREAN else 'day0-audio')
 
 async def main():
     texts = json.loads((OUT / 'texts.json').read_text(encoding='utf-8'))
     timing_file = OUT / 'timings.json'
     timings = json.loads(timing_file.read_text(encoding='utf-8')) if timing_file.exists() else {}
-    staging = ROOT / 'tmp' / 'day0-audio-sync'
+    staging = ROOT / 'tmp' / ('korean-day0-audio-sync' if KOREAN else 'day0-audio-sync')
     staging.mkdir(parents=True, exist_ok=True)
     semaphore = asyncio.Semaphore(3)
     async def generate(text):
@@ -30,7 +38,7 @@ async def main():
                 if cached.get('sha256') == hashlib.sha256(cached_audio.read_bytes()).hexdigest():
                     return text, name, cached, cached_audio
             data, cues, cursor = bytearray(), [], 0
-            async for chunk in edge_tts.Communicate(text, 'ja-JP-NanamiNeural', rate='-10%', boundary='WordBoundary').stream():
+            async for chunk in edge_tts.Communicate(text, VOICE, rate='-10%', boundary='WordBoundary').stream():
                 if chunk['type'] == 'audio':
                     data.extend(chunk['data'])
                 elif chunk['type'] == 'WordBoundary':
@@ -57,7 +65,7 @@ async def main():
     result = {text: name for text, name, _, _ in generated}
     timing_file.write_text(json.dumps({text: timing for text, _, timing, _ in generated}, ensure_ascii=False, indent=2), encoding='utf-8')
     (OUT / 'manifest.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
-    print(f'Generated {len(result)} Japanese clips with matching word timings.')
+    print(f'Generated {len(result)} {LANGUAGE} clips with matching word timings.')
 
 if __name__ == '__main__':
     asyncio.run(main())

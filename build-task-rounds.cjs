@@ -44,4 +44,4 @@ function buildDay(day){
  console.log(`Built ${file}: ${d.rounds.length} rounds / ${d.phrases.length} phrases / ${d.replies.length} listening exchanges.`);
 }
 module.exports={buildDay};
-if(require.main===module){const requested=process.argv.slice(2).map(Number);for(const day of requested.length?requested:[0,...Array.from({length:13},(_,i)=>i+2)])buildDay(day);}
+if(require.main===module){const requested=process.argv.slice(2).map(Number);for(const day of requested.length?requested:[0,...Array.from({length:13},(_,i)=>i+2)])buildDay(day);if(!requested.length)require('./build-korean-day0.cjs').build();}

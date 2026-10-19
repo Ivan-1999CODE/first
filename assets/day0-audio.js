@@ -1,5 +1,6 @@
 // Self-contained audio: no runtime network request or installed Japanese voice needed.
 (() => {
+ const audioLanguage=language==='ko'?'韓文':'日文';
  const player=new Audio();
  player.preload='none';
  player.preservesPitch=true;
@@ -49,9 +50,9 @@
   // Reuse recorded sentences when a new task combines familiar lines.
   const clips=[];let remaining=text;
   const keys=Object.keys(day0Audio).sort((a,b)=>b.length-a.length);
-  while(remaining){const key=keys.find(k=>remaining.startsWith(k));if(!key)break;clips.push({text:key,src:day0Audio[key],cues:day0Timings[key]||[]});remaining=remaining.slice(key.length);}
+  while(remaining){const key=keys.find(k=>remaining.startsWith(k));if(!key)break;clips.push({text:key,src:day0Audio[key],cues:day0Timings[key]||[]});remaining=remaining.slice(key.length).trimStart();}
   if(remaining||!clips.length){message('找不到這句的音檔；請展開讀音輔助。',true);return;}
-  panel=document.createElement('section');panel.className='follow-along';panel.setAttribute('aria-label','日文同步跟讀');
+  panel=document.createElement('section');panel.className='follow-along';panel.setAttribute('aria-label',audioLanguage+'同步跟讀');
   panel.innerHTML='<div class="follow-heading"><strong>跟著黃色標示讀</strong><button type="button" aria-expanded="true">只聽聲音</button></div><p class="follow-translation" lang="zh-Hant"></p><div class="follow-words"></div>';
   panel.querySelector('.follow-translation').textContent=day0AudioTranslations[text]||clips.map(clip=>day0AudioTranslations[clip.text]).join(' ');
   const followPanel=panel,decoded=new Map(),recordings=new Map();
@@ -62,11 +63,17 @@
    word.setAttribute('aria-label','單獨聽並看意思：'+cue.text+'（'+cue.romaji+'）');
    word.setAttribute('aria-haspopup','dialog');word.setAttribute('aria-expanded','false');
    word.title='聽「'+cue.text+'」並看意思';word.onclick=()=>{playWord(ci,i);window.day0Glossary?.showCue(word,clip.text,cue);};
-   const jp=document.createElement('span');jp.className='follow-japanese';jp.lang='ja';jp.textContent=cue.text;
-   const rom=document.createElement('span');rom.className='follow-romaji';rom.lang='ja-Latn';rom.textContent=cue.romaji;
+   const jp=document.createElement('span');jp.className='follow-japanese';jp.lang=language;jp.textContent=cue.text;
+   const rom=document.createElement('span');rom.className='follow-romaji';rom.lang=language+'-Latn';rom.textContent=cue.romaji;
    word.append(jp,rom);wordBox.append(word);cursor=cue.to;return word;
   });if(cursor<clip.text.length){const punctuation=document.createElement('span');punctuation.className='follow-punctuation';punctuation.textContent=clip.text.slice(cursor);wordBox.append(punctuation);}return nodes;});
   const toggle=panel.querySelector('button'),translation=panel.querySelector('.follow-translation');
+  if(language==='ko'){
+   followPanel.dataset.romanHidden='true';
+   const romanToggle=document.createElement('button');romanToggle.type='button';romanToggle.className='follow-roman-toggle';romanToggle.textContent='顯示羅馬拼音';romanToggle.setAttribute('aria-expanded','false');
+   romanToggle.onclick=()=>{const show=followPanel.dataset.romanHidden==='true';followPanel.dataset.romanHidden=String(!show);romanToggle.textContent=show?'收起羅馬拼音':'顯示羅馬拼音';romanToggle.setAttribute('aria-expanded',String(show));};
+   panel.querySelector('.follow-heading').append(romanToggle);
+  }
   toggle.onclick=()=>{const hidden=!wordBox.hidden;wordBox.hidden=translation.hidden=hidden;toggle.textContent=hidden?'顯示跟讀':'只聽聲音';toggle.setAttribute('aria-expanded',String(!hidden));};
   const anchor=trigger?.closest('.actions');if(anchor)anchor.after(panel);else document.querySelector('#main').prepend(panel);
   const recordingFor=async(ci,i)=>{
@@ -110,13 +117,13 @@
   };
   const tick=()=>{sync();if(token===generation&&!player.paused&&!player.ended)frame=requestAnimationFrame(tick);};
   const playClip=()=>{if(token!==generation)return;clearHighlight();player.src=clips[clipIndex].src;player.playbackRate=slow?.8:1;player.play().catch(failed);};
-  player.onplaying=()=>{if(token!==generation)return;heading.textContent=slow?'慢速跟讀 · 跟著黃色標示讀':'跟著黃色標示讀';message(slow?'正在慢速播放日文…':'正在播放日文…');cancelAnimationFrame(frame);tick();};
+  player.onplaying=()=>{if(token!==generation)return;heading.textContent=slow?'慢速跟讀 · 跟著黃色標示讀':'跟著黃色標示讀';message('正在'+(slow?'慢速':'')+'播放'+audioLanguage+'…');cancelAnimationFrame(frame);tick();};
   player.ontimeupdate=player.onseeked=sync;
   player.onpause=()=>{cancelAnimationFrame(frame);};
   player.onended=()=>{if(token!==generation)return;cancelAnimationFrame(frame);clearHighlight();if(clipIndex+1<clips.length){clipIndex++;playClip();}else{finishFollow('播放完畢 · 可以再聽一次');message('');}};
   const failed=()=>{if(token===generation){player.pause();finishFollow('音檔未能播放 · 可對照文字與讀音');message('音檔未能播放。請再按一次；若仍失敗，請用外部 Edge 開啟此檔案。',true);}};
   player.onerror=failed;
-  message('正在載入日文音檔…');
+  message('正在載入'+audioLanguage+'音檔…');
   playClip();
  };
  window.addEventListener('pagehide',()=>stopAudio());

@@ -153,7 +153,8 @@ html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
   <main>
     <h1>Travel Lab｜旅遊英文</h1>
     <p>一點英文，走遠一點。選擇今天的旅程。</p>
-    <a href="./travel-japanese-day0-directions.html">DAY 00：第零天・日文問路與購物 ↗<small>4 個小任務、14 個實用說法。練問路、求助、問價錢與付款。</small></a>
+    <a href="./travel-japanese-day0-directions.html">DAY 00：第 0 天・日文問路與購物 ↗<small>4 個小任務、14 個實用說法。練問路、求助、問價錢與付款。</small></a>
+    <a href="./travel-korean-day0-directions.html">DAY 00：第 0 天・韓文問路與購物 ↗<small>4 個小任務、14 個實用說法。練問路、求助、問價錢與付款。</small></a>
     <a href="./travel-english.html">UNIT 01：問路與求助</a>
     <a href="./travel-english-unit2-shopping.html">UNIT 02：購物任務</a>
     <a href="./travel-english-unit3-airport.html">UNIT 03：機場報到與入境海關 ↗<small>從報到到入境，聽懂一個問題，說出一個回答。</small></a>
@@ -257,7 +258,7 @@ html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
   // Cloudflare Pages redirects /lesson.html to /lesson on a direct visit.
   let name=url.pathname.slice(base.pathname.length)||'index.html';
   if(!name.includes('.'))name+='.html';
-  return /^(?:index|travel-english|travel-english-unit(?:[2-9]|1[0-4])-[a-z-]+|travel-japanese-day0-directions)\.html$/.test(name)?new URL(name,base).href:null;
+  return /^(?:index|travel-english|travel-english-unit(?:[2-9]|1[0-4])-[a-z-]+|travel-(?:japanese|korean)-day0-directions)\.html$/.test(name)?new URL(name,base).href:null;
  };
  const ownURL=route(document.baseURI);
  if(!ownURL)return;

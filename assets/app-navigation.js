@@ -10,7 +10,7 @@
   // Cloudflare Pages redirects /lesson.html to /lesson on a direct visit.
   let name=url.pathname.slice(base.pathname.length)||'index.html';
   if(!name.includes('.'))name+='.html';
-  return /^(?:index|travel-english|travel-english-unit(?:[2-9]|1[0-4])-[a-z-]+|travel-japanese-day0-directions)\.html$/.test(name)?new URL(name,base).href:null;
+  return /^(?:index|travel-english|travel-english-unit(?:[2-9]|1[0-4])-[a-z-]+|travel-(?:japanese|korean)-day0-directions)\.html$/.test(name)?new URL(name,base).href:null;
  };
  const ownURL=route(document.baseURI);
  if(!ownURL)return;

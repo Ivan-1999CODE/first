@@ -1,0 +1,12 @@
+[lang=ko]{font-family:"Malgun Gothic","Noto Sans KR",system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+[lang=ko-Latn]{overflow-wrap:anywhere}
+.reading>summary{min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer}
+.reading>summary::before{content:'▸';flex-shrink:0}
+.reading[open]>summary::before{content:'▾'}
+.task-words .reading{width:100%;min-width:0}
+.task-words .reading p{font-size:.85rem;line-height:1.6}
+.follow-heading{flex-wrap:wrap}
+.follow-roman-toggle{min-height:44px}
+.follow-along[data-roman-hidden=true] .follow-romaji{display:none}
+.jp-glossary .reading{margin:8px 0}
+.jp-glossary .reading p{color:var(--ink)}

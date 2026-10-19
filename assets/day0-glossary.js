@@ -1,10 +1,11 @@
 // A local glossary: reading a meaning never requires audio, a network, or storage.
 (() => {
+ const korean=language==='ko',languageName=korean?'韓文':'日文';
  const main=document.querySelector('#main');
  const entries=day0GlossaryData.map(([text,kana,meaning,note=''])=>({text,kana,meaning,note})).sort((a,b)=>b.text.length-a.text.length);
  const segments=text=>{
   const number=numberWords.find(([jp])=>jp===text);
-  if(number)return [{from:0,to:text.length,entry:{text,kana:text,meaning:'數字 '+number[1],note:'這是基本數字的讀法；數物品時，一個、兩個用「ひとつ、ふたつ」。'}}];
+  if(number)return [{from:0,to:text.length,entry:{text,kana:korean?readings[text]:text,meaning:'數字 '+number[1],note:korean?'這組數字用於金額與分鐘；數物品先練 한 개（一個）、두 개（兩個）。':'這是基本數字的讀法；數物品時，一個、兩個用「ひとつ、ふたつ」。'}}];
   const memo=new Map();
   const parse=at=>{
    if(at===text.length)return [];
@@ -52,10 +53,10 @@
   content.replaceChildren();
   for(const entry of items){
    const item=document.createElement('div');item.className='jp-glossary-entry';
-   const word=document.createElement('p');word.className='jp-glossary-word';word.lang='ja';word.textContent=entry.text;
-   const reading=document.createElement('p');reading.className='jp-glossary-reading';reading.lang='ja';reading.textContent=entry.kana;
+   const word=document.createElement('p');word.className='jp-glossary-word';word.lang=language;word.textContent=entry.text;
+   const reading=document.createElement('p');reading.className='jp-glossary-reading';reading.lang=korean?'ko-Latn':'ja';reading.textContent=entry.kana;
    const meaning=document.createElement('p');meaning.className='jp-glossary-meaning';meaning.textContent=entry.meaning;
-   item.append(word,reading,meaning);
+   if(korean){const details=document.createElement('details');details.className='reading';const summary=document.createElement('summary');summary.textContent='看羅馬拼音';details.append(summary,reading);item.append(word,meaning,details);}else item.append(word,reading,meaning);
    if(entry.note){const note=document.createElement('p');note.className='jp-glossary-note';note.textContent=entry.note;item.append(note);}
    content.append(item);
   }
@@ -66,7 +67,7 @@
   panel.hidden=false;position();panel.focus({preventScroll:true});
  };
  const decorate=()=>{
-  const selector='.en[lang="ja"], .task-words b[lang="ja"], .japanese-numbers span[lang="ja"], .inventory td[lang="ja"]';
+  const selector=`.en[lang="${language}"], .task-words b[lang="${language}"], .japanese-numbers span[lang="${language}"], .inventory td[lang="${language}"]`;
   let count=0;
   for(const line of main.querySelectorAll(selector)){
    if(line.children.length)continue;
@@ -77,13 +78,13 @@
     const word=document.createElement('button');word.type='button';word.className='jp-word';word.lang='zh-Hant';
     word.setAttribute('aria-label','查看「'+part.entry.text+'」的意思');word.setAttribute('aria-haspopup','dialog');
     word.setAttribute('aria-controls',panel.id);word.setAttribute('aria-expanded','false');
-    const label=document.createElement('span');label.lang='ja';label.textContent=part.entry.text;word.append(label);
+    const label=document.createElement('span');label.lang=language;label.textContent=part.entry.text;word.append(label);
     meanings.set(word,part.entry);fragment.append(word);at=part.to;
    }
    fragment.append(document.createTextNode(text.slice(at)));line.replaceChildren(fragment);count++;
   }
   if(count&&!main.querySelector('.jp-glossary-help')){
-   const help=document.createElement('p');help.className='jp-glossary-help';help.textContent='有點線的日文可以點一下，看這個詞的意思。';
+   const help=document.createElement('p');help.className='jp-glossary-help';help.textContent='有點線的'+languageName+'可以點一下，看這個詞的意思。';
    const heading=main.querySelector(':scope > .lead, :scope > .lesson-section-heading');
    if(heading)heading.after(help);
   }
@@ -104,6 +105,9 @@
  document.addEventListener('scroll',event=>{if(!panel.hidden&&!panel.contains(event.target))position();},true);
  document.addEventListener('toggle',()=>{if(origin&&!origin.getClientRects().length)close();},true);
  window.addEventListener('resize',()=>{if(!panel.hidden)position();});
+ // Optional readings and wrapped text can change the popup after it is opened.
+ if(typeof ResizeObserver==='function')new ResizeObserver(()=>{if(!panel.hidden)position();}).observe(panel);
+ panel.addEventListener('toggle',()=>{if(!panel.hidden)position();},true);
  window.addEventListener('pagehide',()=>close());
  // Audio cues can split a meaningful expression (すみ / ません). Use text offsets
  // to show the complete expression while retaining the existing cue-only audio.
