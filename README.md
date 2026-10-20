@@ -1,3 +1,31 @@
+## PWA：整套教材離線閱讀
+
+首頁與目前版本的 16 堂課會在第一次透過網站開啟時，自動儲存為離線教材，約 14 MB。等「把教材帶著走」顯示「已可離線閱讀」後，即可斷網、關閉再開啟同一網址，或切換尚未讀過的課程。這一節取代下方較早「第一次取得某課仍需要網路」的說明。
+
+- 日文的 93 段、韓文的 87 段音檔已內嵌，可一起離線使用。英文使用裝置語音；能否離線發聲取決於裝置音色，仍保留文字練習。
+- 手機可從瀏覽器選單安裝／加入主畫面；iPhone、iPad 可在 Safari 分享選單選「加入主畫面」。安裝功能依瀏覽器而異，離線閱讀不要求先安裝。
+- 作答、進度與外觀沿用原本的瀏覽器儲存。清除網站資料會影響保存；不同裝置、瀏覽器或網址來源不會自動同步。舊教材 `original-lessons/` 不在離線範圍。
+- 新版完整下載成功後，關閉所有教材分頁與應用程式視窗，再開啟才套用。下載中斷時不會取代可用的舊版，也不會主動重新整理正在上的課。
+
+新增的 `manifest.webmanifest` 定義名稱、圖示與主畫面入口；`sw.js` 負責預先儲存教材及離線提供頁面；`assets/offline.js`、`assets/offline.css` 提供狀態與安裝說明，會內嵌至各頁。`sync-appearance.cjs` 接上共用功能，並呼叫 `build-pwa.cjs` 依內容雜湊產生新版本。所有快取限於目前網站路徑，沿用原有作答 key。
+
+本機預覽與測試：
+
+```powershell
+node --preserve-symlinks --preserve-symlinks-main sync-appearance.cjs
+node --preserve-symlinks --preserve-symlinks-main preview-pwa.cjs
+# 在瀏覽器開啟 http://127.0.0.1:4173/
+# 另一個終端可執行：
+node --preserve-symlinks --preserve-symlinks-main check-pwa.cjs
+node --preserve-symlinks --preserve-symlinks-main check-pwa.cjs --redirect --lf
+```
+
+已以乾淨的 main 教材內容在 Windows Edge 完成兩種模式各 20 項 PWA 檢查：斷網關頁重開、未曾開過的課程、切課、作答保存、180 段日韓音檔解碼、缺檔修復、失敗重試、子目錄隔離與新版啟用；代表畫面涵蓋 320 px 放大文字、深淺色及鍵盤焦點。報告位於 `tmp/pwa-qa/standard/`、`tmp/pwa-qa/redirect-lf/`。另通過 `check-unit1-focus.cjs` 與 `check-app-navigation.cjs --edge`，確認原有第一天內容、作答、課程切換及導覽功能正常。尚未測實體手機的原生安裝畫面、英文離線音色或喇叭出聲。
+
+修改來源後執行原有建置入口即可；若直接編輯正式 HTML 或圖示，最後再執行 `build-pwa.cjs`。部署時一起上傳正式 HTML、`sw.js`、`manifest.webmanifest` 及 `assets/pwa-icon*`，使用 HTTPS。雙擊本機 HTML 仍能閱讀單課，但 `file://` 無法啟用 PWA；本機測試使用上面的 localhost 網址。這些檔案改動本身不代表網站已發布。
+
+原理參考：[MDN 離線運作](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation)、[MDN 安裝條件](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable)。
+
 ## 第 0 天：日文與韓文問路、購物
 
 第 0 天現在有兩個獨立入口：`travel-japanese-day0-directions.html` 與 `travel-korean-day0-directions.html`。首頁與第 0～14 天的單元導覽均標示「第 0 天・日文／韓文」，韓文也支援同一頁內切課、返回及前進。英文課的教學內容不變。

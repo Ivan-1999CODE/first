@@ -4,13 +4,16 @@ const coursePaletteStyles=fs.readFileSync('assets/course-palettes.css','utf8');
 const appNavigation=fs.readFileSync('assets/app-navigation.js','utf8');
 const responsiveStyles=fs.readFileSync('assets/responsive-layout.css','utf8');
 const responsiveScript=fs.readFileSync('assets/responsive-layout.js','utf8');
+const offlineStyles=fs.readFileSync('assets/offline.css','utf8');
+const offlineScript=fs.readFileSync('assets/offline.js','utf8');
 const coursePalettes=['peach','apricot','butter','rose','mauve','latte'];
 module.exports=function syncAppearance(file){
  const files=file?[file]:fs.readdirSync('.').filter(f=>f==='index.html'||/^travel-(?:english(?:-unit.*)?|(?:japanese|korean)-day0-directions)\.html$/.test(f));
  for(const name of files){
   let html=fs.readFileSync(name,'utf8');
   html=require('./sync-day0-links.cjs').updateHtml(name,html);
-  for(const id of ['shared-appearance-init','shared-appearance-styles','shared-appearance-controls','course-palette-styles','travel-app-navigation','responsive-layout-styles','responsive-layout-script'])html=html.replace(new RegExp('<(script|style) id="'+id+'"[^>]*>[\\s\\S]*?<\\/\\1>\\s*','g'),'');
+  for(const id of ['shared-appearance-init','shared-appearance-styles','shared-appearance-controls','course-palette-styles','travel-app-navigation','responsive-layout-styles','responsive-layout-script','travel-offline-styles','travel-offline-script'])html=html.replace(new RegExp('<(script|style) id="'+id+'"[^>]*>[\\s\\S]*?<\\/\\1>\\s*','g'),'');
+  html=html.replace(/<!-- travel-pwa-meta -->[\s\S]*?<!-- \/travel-pwa-meta -->\s*/g,'');
   html=html.replace(/<script data-(?:theme-init|appearance-init|theme-controls)[^>]*>[\s\S]*?<\/script>\s*/g,'');
   const kind=name==='index.html'?'index':html.includes('class="shell"')?'legacy':'modern';
   const fallback=kind==='legacy'&&!/<style id="day[789]-styles"/.test(html);
@@ -23,6 +26,14 @@ module.exports=function syncAppearance(file){
   html=html.replace('</head>',()=>'<style id="shared-appearance-styles">\n'+assets['appearance.css']+'</style>\n</head>');
   if(Number.isInteger(courseDay))html=html.replace('</head>',()=>'<style id="course-palette-styles">\n'+coursePaletteStyles+'</style>\n</head>');
   html=html.replace('</head>',()=>'<style id="responsive-layout-styles">\n'+responsiveStyles+'</style>\n</head>');
+  html=html.replace('</head>',()=>`<!-- travel-pwa-meta -->
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#fff7ed">
+<link rel="apple-touch-icon" href="./assets/pwa-icon-180.png">
+<!-- /travel-pwa-meta -->
+<style id="travel-offline-styles">
+${offlineStyles}</style>
+</head>`);
   html=html.replace(/(<nav class="day-switcher"[^>]*>)([\s\S]*?)(<\/nav>)/,(_,start,content,end)=>{
    // Explicit focusability keeps unit links in WebKit's default keyboard traversal.
    content=content.replace(/<a\b(?![^>]*\btabindex=)/g,'<a tabindex="0"');
@@ -40,8 +51,10 @@ module.exports=function syncAppearance(file){
   html=html.replace(/<button[^>]*id="(?:theme|themeToggle)"[^>]*>[\s\S]*?<\/button>/g,button=>{if(seen)return '';seen=true;return button;});
   html=html.replace('</body>',()=>'<script id="shared-appearance-controls">\n'+assets['appearance.js']+'</script>\n</body>');
   html=html.replace('</body>',()=>'<script id="responsive-layout-script">\n'+responsiveScript+'</script>\n</body>');
+  html=html.replace('</body>',()=>'<script id="travel-offline-script">\n'+offlineScript+'</script>\n</body>');
   html=html.replace('</body>',()=>'<script id="travel-app-navigation">\n'+appNavigation+'</script>\n</body>');
   if(html!==fs.readFileSync(name,'utf8'))fs.writeFileSync(name,html);
  }
+ require('./build-pwa.cjs')();
 };
 if(require.main===module){module.exports();console.log('Synced appearance: index and Days 0–14.');}

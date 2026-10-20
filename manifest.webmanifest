@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "Travel Lab 旅遊語言練習",
+  "short_name": "Travel Lab",
+  "description": "旅遊英文、日文與韓文互動教材，可保存到裝置離線練習。",
+  "lang": "zh-Hant",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#1b574b",
+  "icons": [
+    {
+      "src": "./assets/pwa-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/pwa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+/* Inline in each lesson so standalone HTML remains readable. */
+#travel-offline{
+ --offline-bg:#fff7ed;--offline-ink:#382c22;--offline-muted:#6d5948;--offline-line:#cbb69e;--offline-soft:#f4e4d1;
+ box-sizing:border-box;max-width:740px;margin:28px auto;padding:20px 24px;
+ border:1px solid var(--offline-line);border-radius:18px;background:var(--offline-bg);color:var(--offline-ink);
+ font:inherit;line-height:1.6;overflow-wrap:anywhere
+}
+:root[data-theme=dark] #travel-offline{
+ --offline-bg:#2c2823;--offline-ink:#f5eadc;--offline-muted:#d2bfaa;--offline-line:#8f7860;--offline-soft:#44372b
+}
+#travel-offline h2{margin:0 0 6px;font-size:1.1rem;line-height:1.4;letter-spacing:0}
+#travel-offline p{margin:8px 0;color:var(--offline-ink);font-size:1rem}
+#travel-offline .offline-note{color:var(--offline-muted);font-size:.9rem}
+#travel-offline button{
+ display:inline-flex;align-items:center;justify-content:center;min-height:44px;max-width:100%;
+ margin:8px 8px 0 0;padding:10px 16px;border:1px solid var(--offline-line);border-radius:12px;
+ background:var(--offline-bg);color:var(--offline-ink);font:inherit;white-space:normal;cursor:pointer
+}
+#travel-offline button:hover,#travel-offline button:active{background:var(--offline-soft)}
+#travel-offline button:disabled{color:var(--offline-muted);cursor:wait;border-style:dashed}
+#travel-offline :focus-visible{outline:3px solid var(--offline-ink);outline-offset:3px}
+#travel-offline [hidden]{display:none!important}
+#travel-offline details{margin-top:10px}
+#travel-offline summary{min-height:44px;padding:10px 4px;box-sizing:border-box;cursor:pointer;font-size:.95rem}
+#travel-offline summary:hover{background:var(--offline-soft);border-radius:8px}
+#travel-offline ol{padding-left:1.5em;margin:8px 0}
+#travel-offline li{margin:8px 0}
+@media(max-width:800px){#travel-offline{margin:24px 16px;padding:18px}}
+@media print{#travel-offline{display:none}}
