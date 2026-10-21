@@ -1,0 +1,97 @@
+/* Part 08 is an independent, teacher-opened practice surface. */
+body.day1-guided .cap-shell { display: grid; grid-template-columns: minmax(0,1.12fr) minmax(0,1fr); gap: 20px; align-items: stretch; }
+body.day1-guided .cap-panel { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); color: var(--ink); }
+body.day1-guided .cap-panel :is(h1,h2,p) { margin: 0; }
+body.day1-guided .cap-student { border-top: 4px solid var(--dg-warm-line); }
+body.day1-guided .cap-other { border-top: 4px solid var(--accent); }
+body.day1-guided .cap-role-row, body.day1-guided .cap-board-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+body.day1-guided .cap-role { color: var(--dg-warm-ink); font-size: .9rem; font-weight: 650; }
+body.day1-guided .cap-other .cap-role, body.day1-guided .cap-complete .cap-role { color: var(--accent); }
+body.day1-guided .cap-task { color: var(--ink); font-size: 1.5rem; line-height: 1.45; font-weight: 650; letter-spacing: -.02em; }
+body.day1-guided .cap-note { color: var(--muted); font-size: .82rem; line-height: 1.5; }
+body.day1-guided .cap-role-row .cap-note, body.day1-guided .cap-board-heading .cap-note { flex-shrink: 0; }
+body.day1-guided .cap-board-heading h2 { font-size: 1.05rem; line-height: 1.45; }
+body.day1-guided .cap-support, body.day1-guided .cap-listening { display: grid; gap: 10px; min-width: 0; }
+body.day1-guided .cap-hint-tabs { display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: var(--soft); }
+body.day1-guided .cap-hint-tabs button { flex: 1; min-width: 0; padding: 8px 5px; border: 0; background: transparent; color: var(--muted); font-size: .86rem; white-space: nowrap; }
+body.day1-guided .cap-hint-tabs button[aria-pressed=true] { color: var(--ink); background: var(--panel); box-shadow: 0 1px 5px #0002; }
+body.day1-guided .cap-stage { display: grid; align-items: center; min-height: 174px; padding: 16px; border: 1px solid var(--dg-warm-line); border-radius: 13px; background: var(--dg-warm); color: var(--dg-warm-ink); }
+body.day1-guided .cap-pane { display: grid; grid-area: 1 / 1; gap: 10px; min-width: 0; }
+body.day1-guided .cap-pane[aria-hidden=true] { visibility: hidden; pointer-events: none; }
+body.day1-guided .cap-en { font-size: 2.1rem; line-height: 1.25; letter-spacing: -.025em; font-weight: 650; overflow-wrap: anywhere; }
+body.day1-guided .cap-translation { font-size: .92rem; line-height: 1.45; }
+body.day1-guided .cap-help-label { font-size: .83rem; }
+body.day1-guided .cap-empty { font-size: 1rem; line-height: 1.65; }
+body.day1-guided .cap-audio { display: flex; flex-wrap: wrap; gap: 6px; }
+body.day1-guided .cap-audio button { min-height: 44px; padding: 6px 10px; font-size: .8rem; }
+body.day1-guided .cap-listen-controls { display: flex; gap: 8px; }
+body.day1-guided .cap-listen-controls button { flex: 1; padding: 9px 6px; font-size: .85rem; }
+body.day1-guided .cap-other .cap-stage { color: var(--ink); background: var(--soft); border-color: var(--line); }
+body.day1-guided .cap-confirm { margin-top: auto; display: grid; gap: 4px; }
+body.day1-guided .cap-confirm > .primary { width: 100%; text-align: left; }
+body.day1-guided .cap-check { display: flex; align-items: flex-start; gap: 10px; min-height: 50px; padding: 12px 14px; border: 1px solid var(--accent); border-radius: 12px; background: var(--accent); color: var(--on-accent); font-size: .92rem; line-height: 1.5; font-weight: 650; cursor: pointer; }
+body.day1-guided .cap-check input { flex: 0 0 20px; width: 20px; height: 20px; margin: 4px 0 0; accent-color: var(--on-accent); }
+body.day1-guided .cap-back { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+body.day1-guided .cap-back button, body.day1-guided .cap-quiet { min-height: 44px; padding: 5px 3px; border-color: transparent; background: transparent; color: var(--muted); font-size: .78rem; font-weight: 500; text-align: left; }
+body.day1-guided .cap-map { position: relative; height: 220px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 15px; background: var(--dg-map); overflow: hidden; }
+body.day1-guided .cap-map > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+body.day1-guided .cap-block { fill: var(--dg-block); }
+body.day1-guided .cap-road { fill: none; stroke: var(--dg-road); stroke-width: 32; stroke-linecap: round; }
+body.day1-guided .cap-road-line { fill: none; stroke: var(--panel); stroke-width: 2; stroke-dasharray: 8 9; }
+body.day1-guided .cap-route, body.day1-guided .cap-route-arrow { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+body.day1-guided .cap-origin { fill: var(--accent); stroke: var(--panel); stroke-width: 3; }
+body.day1-guided .cap-place { position: absolute; display: grid; justify-items: center; align-content: center; gap: 1px; width: max-content; max-width: 40%; min-height: 56px; transform: translateX(-50%); padding: 5px 10px; border: 1px solid transparent; border-radius: 11px; color: var(--ink); font-size: .85rem; font-weight: 600; text-align: center; line-height: 1.3; }
+body.day1-guided button.cap-place { background: var(--panel); border-color: var(--line); font-size: .85rem; line-height: 1.3; }
+body.day1-guided button.cap-place:active:not(:disabled) { transform: translateX(-50%) translateY(1px); }
+body.day1-guided .cap-place-station { top: 4px; left: 80%; }
+body.day1-guided .cap-place-post { top: 4px; left: 20%; }
+body.day1-guided .cap-place-bus { top: 103px; left: 21%; }
+body.day1-guided .cap-place-symbol { color: var(--accent); font-size: 1.25rem; line-height: 1; }
+body.day1-guided .cap-place-result { font-size: .67rem; }
+body.day1-guided .cap-known, body.day1-guided .cap-place.cap-selected { background: var(--dg-tint); border-color: var(--accent); color: var(--accent); }
+body.day1-guided .cap-map-start { position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: .7rem; color: var(--muted); }
+body.day1-guided .cap-map-facts { display: flex; flex-wrap: wrap; gap: 5px 10px; min-height: 1.5em; color: var(--muted); font-size: .78rem; line-height: 1.5; }
+body.day1-guided .cap-map-facts span { white-space: nowrap; }
+body.day1-guided .cap-context { display: grid; gap: 12px; color: var(--ink); font-size: .95rem; }
+body.day1-guided .cap-objects { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+body.day1-guided .cap-object { min-width: 0; text-align: left; font-size: .94rem; }
+body.day1-guided .cap-object.cap-wrong { color: var(--dg-error); border-color: var(--dg-error); }
+body.day1-guided .cap-feedback { min-height: 3em; padding: 9px 12px; border-radius: 9px; background: var(--soft); color: var(--muted); font-size: .82rem; line-height: 1.5; }
+body.day1-guided .cap-feedback-retry { color: var(--dg-error); border-left: 3px solid var(--dg-error); }
+body.day1-guided .cap-next { margin-top: auto; width: 100%; text-align: left; }
+body.day1-guided .cap-results { display: grid; gap: 14px; margin: 4px 0 12px; padding-left: 1.3em; font-size: 1.05rem; }
+body.day1-guided .cap-complete-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
+@media(min-width:740px) and (max-width:999px) {
+ body.day1-guided .cap-shell { grid-template-columns: minmax(0,1.05fr) minmax(0,1fr); gap: 14px; }
+ body.day1-guided .cap-panel { padding: 18px; gap: 12px; border-radius: 16px; }
+ body.day1-guided .cap-en { font-size: 1.88rem; }
+ body.day1-guided .cap-place { font-size: .78rem; padding-inline: 6px; }
+ body.day1-guided .cap-objects { grid-template-columns: 1fr; gap: 8px; }
+}
+@media(min-width:740px) and (max-height:820px) {
+ body.day1-guided .cap-panel { padding: 18px; gap: 11px; }
+ body.day1-guided .cap-stage { min-height: 150px; padding: 14px; }
+ body.day1-guided .cap-pane { gap: 9px; }
+ body.day1-guided .cap-task { font-size: 1.4rem; line-height: 1.4; }
+ body.day1-guided .cap-en { font-size: 1.9rem; }
+ body.day1-guided .cap-translation { font-size: .86rem; }
+ body.day1-guided .cap-map { height: 202px; }
+ body.day1-guided .cap-place-bus { top: 94px; }
+ body.day1-guided .cap-feedback { font-size: .78rem; }
+}
+@media(max-width:739px) {
+ body.day1-guided .cap-shell { grid-template-columns: minmax(0,1fr); gap: 14px; }
+ body.day1-guided .cap-panel { padding: 18px; border-radius: 16px; }
+ body.day1-guided .cap-en { font-size: 1.88rem; }
+ body.day1-guided .cap-hint-tabs button { font-size: .8rem; }
+ body.day1-guided .cap-stage { min-height: 160px; padding: 14px; }
+ body.day1-guided .cap-stage .cap-en { font-size: 1.65rem; }
+ body.day1-guided .cap-task { font-size: 1.4rem; }
+ body.day1-guided .cap-objects { grid-template-columns: 1fr; }
+ body.day1-guided .cap-board-heading { align-items: flex-start; }
+ body.day1-guided .cap-place { padding-inline: 6px; }
+ body.day1-guided .cap-map { height: 218px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ body.day1-guided button.cap-place:active:not(:disabled) { transform: translateX(-50%); }
+}

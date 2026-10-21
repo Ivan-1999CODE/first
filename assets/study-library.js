@@ -15,14 +15,14 @@ function studyUsage(p){
 }
 function studyAdvanced(r){
  if(!r.advanced?.length&&!r.advancedHear?.length)return '';
- return `<details class="panel study-advanced"><summary>進階：我會說／我要聽得懂</summary><p>基本句就能完成這輪任務。有餘力時，再挑一句練習。</p>
+ return `<details class="panel study-advanced"><summary>${course.day===1?'進階：需要時再學':'進階：我會說／我要聽得懂'}</summary><p>${course.day===1?'第 2、3、4 部分用基本句就能完成。不必打開這區；想學另一種說法或更詳細的路線時，再挑一句。':'基本句就能完成這輪任務。有餘力時，再挑一句練習。'}</p>
  <section class="study-block study-advanced-speaking" aria-label="進階：我會說">${studyRoleHeading(true,'我會說',course.day===1?'用來問路、確認方向或求助，挑一句試著說出口。':'需要時，再挑一句延伸說法或問題練習。')}<div class="grid">${(r.advanced||[]).map(p=>`<article class="panel study-advanced-card"><h3>${esc(p.use)}</h3><p class="fine">已學過的說法：<span lang="en">${esc(p.base)}</span></p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}</article>`).join('')}</div></section>
  <section class="study-block study-advanced-listening" aria-label="進階：我要聽得懂">${studyRoleHeading(false,'我要聽得懂',`${r.role||course.replyRole}可能這樣回覆；聽懂重點就好，不必背整句。`)}${r.advancedHear?.length?`<div class="grid">${r.advancedHear.map(p=>`<article class="panel study-advanced-hear-card"><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}</article>`).join('')}</div>`:'<p>這輪沿用上方「我要聽得懂」的句子即可。</p>'}</section></details>`;
 }
 // Two entry points sit immediately above the section's DAY label and title.
 function studyNavigation(){
  return '<nav class="study-navigation" aria-label="第二部分學習入口">'+[
-  ['library','我會說／我要聽得懂'],['reply','練習聽和接話']
+  ['library','我會說／我要聽得懂'],['reply',course.day===1?'同一段對話，再練一次':'練習聽和接話']
  ].map(([key,title])=>btn('<strong>'+title+'</strong>','data-study-view="'+key+'"','aria-pressed="'+(mode===key)+'"')).join('')+'</nav>';
 }
 const renderBeforeStudyNavigation=render;
@@ -58,12 +58,15 @@ if(course.day!==0){
   const r=course.day===1?currentRound():activeRound(),index=course.day===1?focusRound:taskRound;
   const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork,roles=art.byRound[index],role=r.role||course.replyRole;
   const list=r.phraseIds.map(id=>phrases.find(p=>p.id===id));
+  const focused=r.listeningScope==='parts-2-4';
+  const review=r.reuse?.length?`<section class="study-block study-review"><h2>先帶著 A 學過的句子</h2><p>問路只換目的地，步行與道謝照樣用。</p><div class="grid">${r.reuse.map((id,i)=>studyOwnCard(phrases[id],i,true)).join('')}</div></section>`:'';
   return head('','先練自己要說的，再認識對方可能的回話；看懂兩邊的意思後，再進入練習。')+
+   (focused?`<p class="hint">${esc(r.bridge)}</p>${review}`:'')+
    `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,roles.label+'：我會說','這些是我要練習說出口的句子。先看意思，再聽、再自己說。')}<div class="grid task-phrase-grid">${list.map((p,i)=>studyOwnCard(p,i)).join('')}</div></section>`+
    `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,role+'：我要聽得懂','這些回話會出現在後面的練習。先看句子和中文，再聽聲音，不必背對方整句。')}<div class="grid study-hear-grid">${r.hearLines.map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p></article>`).join('')}</div></section>`+
    studyVocabulary(r)+studyAdvanced(r)+
    (typeof supportCard==='function'?supportCard():'')+
    (r.extraPhraseIds?.length?`<details class="panel"><summary>也可以這樣說（原有句子都保留）</summary><div class="grid">${r.extraPhraseIds.map((id,i)=>studyOwnCard(phrases.find(p=>p.id===id),i)).join('')}</div></details>`:'')+
-   (r.reuse?.length?`<details class="panel"><summary>前面學過、這輪會用到的說法</summary><div class="grid">${r.reuse.map((id,i)=>studyOwnCard(phrases[id],i,true)).join('')}</div></details>`:'');
+   (!focused&&r.reuse?.length?`<details class="panel"><summary>前面學過、這輪會用到的說法</summary><div class="grid">${r.reuse.map((id,i)=>studyOwnCard(phrases[id],i,true)).join('')}</div></details>`:'');
  };
 }

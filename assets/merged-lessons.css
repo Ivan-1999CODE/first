@@ -1,0 +1,17 @@
+.merged-task-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+.merged-task-choices>button{display:flex;flex-direction:column;gap:7px;align-items:flex-start;min-height:76px;min-width:0;padding:15px 18px;text-align:left;white-space:normal;overflow-wrap:anywhere}
+.merged-task-choices>button>span{font-size:.9em;line-height:1.5}
+.merged-task-choices>button[aria-pressed=true]{border:2px solid var(--accent)}
+.merged-task-banner>p{margin:10px 0 18px}
+.merged-scene-heading,.dialogue-scene{border-left:4px solid var(--accent);padding:12px 16px;margin:20px 0;background:var(--soft);border-radius:0 12px 12px 0}
+.merged-scene-heading h3,.dialogue-scene h3{margin:0 0 8px}
+.merged-scene-heading p,.dialogue-scene p{margin:7px 0;line-height:1.65}
+.merged-scene-plan{margin:22px 0}
+.merged-home-question{padding:18px 0;border-bottom:1px solid var(--line)}
+.merged-home-question:first-of-type{padding-top:0}
+.merged-home-question h4{line-height:1.7}
+.merged-student-cue{padding:15px 0;border-bottom:1px solid var(--line)}
+[data-merged-tasks=true] .task,[data-merged-tasks=true] .micro-example-context{white-space:pre-line}
+[data-merged-tasks=true] .track{gap:4px}
+[data-merged-tasks=true] .teacher-card .en{overflow-wrap:anywhere}
+@media(max-width:700px){.merged-task-choices{grid-template-columns:1fr}.merged-task-choices>button{min-height:64px}.merged-scene-heading,.dialogue-scene{padding:12px}.merged-pair-task .section-title{flex-wrap:wrap;gap:8px}}

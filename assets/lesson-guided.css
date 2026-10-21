@@ -1,0 +1,66 @@
+/* Additions for the wider range of lesson subjects. The shared visual system
+   is the same one used by Day 1. */
+body.lesson-guided .dg-task-switch button { flex: 0 0 auto; }
+body.lesson-guided .dg-task-switch button[aria-pressed=true] { font-weight: 800; box-shadow: inset 0 -3px 0 var(--on-accent); }
+body.lesson-guided .dg-cover-art.dg-course-art { height: 150px; overflow: hidden; }
+body.lesson-guided .dg-course-art :is(svg,img) { height: 150px; width: 100%; object-fit: contain; }
+body.lesson-guided .dg-course-art .lesson-cast { height: 150px; min-height: 0; margin: 0; padding: 0; gap: 8px; }
+body.lesson-guided .dg-course-art .lesson-cast figure { margin: 0; min-width: 0; }
+body.lesson-guided .dg-course-art figcaption { display: none; }
+body.lesson-guided .dg-course-art .lesson-hero-scene { height: 150px; margin: 0; }
+body.lesson-guided .dg-review-options { margin: 0 0 18px; }
+body.lesson-guided .dg-review-options .review-scope { margin: 12px 0 0; }
+body.lesson-guided .dg-review-options .review-scope h2 { display: none; }
+body.lesson-guided .dg-review-options .review-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+body.lesson-guided .dg-scene-progress { margin: 12px 0; }
+body.lesson-guided .dg-scene-progress .generic-scene { padding: 12px; }
+body.lesson-guided .scene-state .scene-ledger { text-align: left; }
+body.lesson-guided .scene-state :is(.scene-emblem,.large-icon) { font-size: 2rem; }
+body.lesson-guided .dg-role-row h2 { font-size: 1.05rem; }
+body.lesson-guided .dg-grid.dg-flow-grid,body.lesson-guided .study-library .task-phrase-grid { align-items: start; }
+body.lesson-guided .dg-grid.dg-flow-grid > .dg-speaker { box-shadow: none; }
+body.lesson-guided .study-heading:is(.study-self,.study-other) { background: transparent; color: var(--ink); border: 0; }
+body.lesson-guided .tabs { margin: 0 0 16px; }
+body.lesson-guided .tabs button { font-size: .86rem; }
+body.lesson-guided .scene-board .objects { grid-template-columns: repeat(2,minmax(0,1fr)); }
+body.lesson-guided .scene-board .object { min-width: 0; overflow-wrap: anywhere; padding: 12px; }
+body.lesson-guided .scene-board .object svg { max-width: 100%; height: 72px; }
+body.lesson-guided .scene-board .object small { font-size: .9rem; }
+body.lesson-guided .dg-home-question + .dg-home-question { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+body.lesson-guided .inventory-scroll { overflow-x: auto; }
+body.lesson-guided .inventory-scroll table { width: 100%; }
+body.lesson-guided .dg-teacher :is(.merged-scene-heading,.dg-scene-heading) { margin-top: 20px; padding: 12px; background: var(--soft); border-radius: 10px; }
+body.lesson-guided .micro-alternative { background: var(--soft); }
+body.lesson-guided .dg-study-dialogue .workshop-card-top { display: flex; justify-content: space-between; align-items: center; }
+body.lesson-guided .dg-study-dialogue .workshop-card-top h2 { margin: 0; }
+body.lesson-guided .workshop-count { white-space: nowrap; }
+body.lesson-guided .dg-study-scene { margin: 0 26px 14px; }
+body.lesson-guided .dg-study-scene p:last-child { margin: 0; }
+body.lesson-guided .dg-scene-context h3 { margin: 0 0 8px; font-size: 1rem; }
+body.lesson-guided :is(.dg-full-context,.dg-completed-review) { margin: 16px 0; }
+body.lesson-guided .objects .object-icon { max-width: 100%; }
+body.lesson-guided .dg-quiz-options { display: grid; }
+@media(max-width:999px) {
+ body.lesson-guided .dg-context[data-many-tasks=true] { flex-wrap: wrap; }
+ body.lesson-guided .dg-context[data-many-tasks=true] .dg-context-copy { flex-basis: 100%; }
+ body.lesson-guided .dg-context[data-many-tasks=true] .dg-task-switch { max-width: 100%; overflow-x: auto; padding: 4px; margin-left: auto; }
+}
+@media(max-width:739px) {
+ body.lesson-guided .dg-context { flex-wrap: wrap; }
+ body.lesson-guided .dg-context-copy { flex: 1 1 130px; }
+ body.lesson-guided .dg-task-switch { max-width: 100%; margin-left: auto; overflow-x: auto; padding: 4px; }
+ body.lesson-guided .dg-context[data-many-tasks=true] .dg-task-switch { width: 100%; }
+ body.lesson-guided .dg-course-art :is(svg,img),body.lesson-guided .dg-cover-art.dg-course-art,body.lesson-guided .dg-course-art :is(.lesson-cast,.lesson-hero-scene) { height: 100px; }
+ body.lesson-guided .dg-course-art .lesson-cast { display: block; position: relative; width: 100%; }
+ body.lesson-guided .dg-course-art .lesson-cast figure { position: absolute; top: 0; width: 70px; height: 100px; }
+ body.lesson-guided .dg-course-art .lesson-cast figure:first-child { left: -8px; }
+ body.lesson-guided .dg-course-art .lesson-cast figure:last-child { right: -8px; }
+ body.lesson-guided .dg-course-art .lesson-cast .lesson-illustration { width: 70px; height: 100px; }
+ body.lesson-guided .dg-course-art .cast-link { display: none; }
+ body.lesson-guided .dg-review-options .review-options { grid-template-columns: 1fr; }
+ body.lesson-guided .dg-scene-context { padding: 12px; }
+ body.lesson-guided .scene-board .object svg { height: 60px; }
+ body.lesson-guided .dg-study-dialogue :is(.dg-study-current,.workshop-card-top,.dg-dialogue-nav) { padding: 18px; }
+ body.lesson-guided .dg-study-dialogue .dg-dialogue-nav { flex-wrap: wrap; }
+ body.lesson-guided .dg-study-scene { margin-inline: 18px; }
+}

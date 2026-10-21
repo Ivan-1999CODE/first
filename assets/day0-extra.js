@@ -1,6 +1,6 @@
 function reading(text){
  const parts=String(text).match(/[^。！？]+[。！？]?/g)||[];
- const value=readings[text]||parts.map(p=>readings[p]||'').filter(Boolean).join(' ');
+ const value=readings[text]||parts.map(p=>readings[p.trim()]||'').filter(Boolean).join(' ');
  return value?`<details class="reading"><summary>看讀音輔助</summary><p lang="ja-Latn">${esc(value)}</p><p class="fine">羅馬字只協助起步；先聽再跟讀，不需先背五十音。ō 是拉長的 o 音。</p></details>`:'';
 }
 function phrasePage(){

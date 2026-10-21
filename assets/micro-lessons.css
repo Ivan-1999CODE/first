@@ -1,0 +1,16 @@
+.focus-banner{padding:20px;border:1px solid var(--line);background:var(--soft);border-radius:20px;margin-bottom:26px}.focus-banner>strong{display:block;margin:14px 0}.focus-stages{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.focus-stages button{font-size:.85rem}.focus-banner .fine{margin:12px 0 0}.focus-words{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.focus-words>div{border-top:1px solid var(--line);padding-top:14px}.focus-words span{display:block}.focus-words b{overflow-wrap:anywhere}.focus-phrase{min-width:0}.focus-phrase .en{overflow-wrap:anywhere}.home-hero .hero-art{min-height:280px}.grid>*,.scene-grid>*{min-width:0}@media(max-width:600px){.focus-words{grid-template-columns:1fr}.focus-banner{padding:15px}.focus-stages>span{display:none}.focus-stages button{flex:1 1 42%}}
+.scene-step-controls{scroll-margin-bottom:110px}.scene-step-controls button{min-height:48px}
+.session-stop{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:18px 0 30px}
+.chapter-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}.chapter-choice{min-width:0;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}.chapter-choice.current-chapter{border:2px solid var(--accent)}.chapter-choice>strong{display:block;margin-bottom:10px;font-size:.9rem}.chapter-rounds{display:flex;flex-wrap:wrap;gap:8px}.chapter-rounds button{flex:1 1 150px;white-space:normal;text-align:left;font-size:.85rem}.task-chapter{border-top:2px solid var(--line);padding-top:24px;margin:24px 0}.task-chapter>header{margin-bottom:20px}.task-chapter>header h2{margin:6px 0}.micro-alternative{border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:18px;margin:24px 0}.micro-alternative>summary{cursor:pointer;font-weight:700;color:var(--ink)}.micro-alternative-listen{border-top:1px solid var(--line);padding:12px 0}.core-note{border-left:4px solid var(--accent)}
+@media(max-width:760px){.chapter-choices{grid-template-columns:1fr}.chapter-rounds button{min-width:0}.micro-alternative{padding:14px}}
+.review-options{display:flex;flex-wrap:wrap;gap:12px}.review-options .checkline{margin:0}
+.checkpoint-card,.scoped-home{margin-bottom:24px}.checkpoint-card .rating:last-of-type{margin-bottom:24px}
+.old-records pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:420px;overflow:auto}
+.review-scope button,.focus-stages button{min-height:44px}
+.scoped-home .grid>div{min-width:0}
+.workshop-card>.workshop-remix{margin:0;padding:20px 26px}
+@media(max-width:700px){.workshop-card>.workshop-remix{padding:20px}}
+#main.lesson-phrase-page > .grid{margin-bottom:22px}
+@media(max-width:1100px) and (orientation:portrait),(pointer:coarse) and (orientation:portrait){.scene-board .scene-step-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.scene-board .scene-step-controls button{padding:12px 10px}}
+
+.task-round-picker button{min-width:0;overflow-wrap:anywhere}.micro-variation{margin:24px 0}.micro-variation .en{overflow-wrap:anywhere}.micro-dialogue{margin:20px 0}.micro-dialogue .role-frame{margin:12px 0}.micro-inventory{overflow:auto}

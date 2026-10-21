@@ -3,7 +3,7 @@ let taskRound=0,roundsDone=[],listenPractice=true,probeChoice=-1,routeVariant=0;
 const roundKey=course.id+'-rounds';
 try{const s=JSON.parse(localStorage.getItem(roundKey)||'{}');if(Number.isInteger(s.round)&&rounds[s.round])taskRound=s.round;if(Array.isArray(s.done))roundsDone=rounds.map(r=>r.id).filter(id=>s.done.includes(id));}catch{}
 const activeRound=()=>rounds[taskRound];
-const persistRound=()=>{try{localStorage.setItem(roundKey,JSON.stringify({round:taskRound,done:roundsDone}));}catch{storageFailed=true;showStorage();}};
+const persistRound=()=>{try{const saved=JSON.parse(localStorage.getItem(roundKey)||'{}');localStorage.setItem(roundKey,JSON.stringify({...saved,round:taskRound,done:roundsDone}));}catch{storageFailed=true;showStorage();}};
 function setTaskRound(n){if(!Number.isInteger(n)||!rounds[n])return;stopAudio();taskRound=n;flow=rounds[n].flowIds[0];mission=rounds[n].missionIds[0];pair=rounds[n].pairIds[0];reply=rounds[n].replyIds[0];turn=0;history=[];finished=false;routeVariant=0;mode='library';listenPractice=true;probeChoice=-1;resetTurn();}
 setTaskRound(taskRound);
 const roundTabs=tabs;

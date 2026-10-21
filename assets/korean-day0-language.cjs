@@ -80,9 +80,26 @@ const units=[
  ['돼요','dwaeyo','可以'],['현금만','hyeongeumman','只有現金','만 是「只有」；현금만 돼요 表示只收現金。'],
  ['필요하세요','piryohaseyo','您需要嗎？'],['맞으세요','majeuseyo','對嗎？','這裡由店員確認數量。'],['여기요','yeogiyo','這裡；給您','本課用於店員遞交商品。']
 ];
-const glossary=[...units,...words.map(([,ko,rom,zh])=>[ko,rom,zh]),...numbers.map(([ko,zh,rom])=>[ko,rom,'數字 '+zh])];
+// Travel phrase additions use their own reading aids without rewriting existing entries.
+const travelPhrases=require('./korean-travel-phrases.cjs').groups.flatMap(group=>group.phrases);
+const travelUnits=[
+ ['안녕하세요','annyeonghaseyo','你好','見面時的禮貌招呼。'],
+ ['두','du','兩','두 명 表示兩位；數人數時搭配 명。'],
+ ['명이요','myeong-iyo','位；個人','두 명이요 是「兩位」。'],
+ ['안 맵게','an maepge','不要辣','點餐時接 해 주세요，請店家做成不辣的。'],
+ ['해 주세요','hae juseyo','請幫我做……'],
+ ['물','mul','水'],['좀','jom','一點；麻煩','放在請求中，讓語氣較委婉。'],
+ ['포장해','pojanghae','打包；外帶','포장해 주세요 是「請幫我打包／我要外帶」。'],
+ ['계산해','gyesanhae','結帳','계산해 주세요 是「麻煩結帳」。'],
+ ['몇','myeot','幾'],['분이세요','buniseyo','位（禮貌詢問）','몇 분이세요? 是店員詢問「幾位？」。'],
+ ['드시고 가세요','deusigo gaseyo','內用嗎？','餐廳店員詢問是否在店內用餐。'],
+ ['영수증','yeongsujeung','收據']
+];
+const glossary=[...units,...words.map(([,ko,rom,zh])=>[ko,rom,zh]),...numbers.map(([ko,zh,rom])=>[ko,rom,'數字 '+zh]),...travelUnits];
 const readings=Object.fromEntries([...lines,...words].map(([,ko,rom])=>[ko,rom]).concat(numbers.map(([ko,,rom])=>[ko,rom]),units.map(([ko,rom])=>[ko,rom])));
 const meanings=Object.fromEntries([...lines,...words].map(([,ko,,zh])=>[ko,zh]).concat(numbers.map(([ko,zh])=>[ko,zh]),units.map(([ko,,zh])=>[ko,zh])));
+for(const [ko,rom,zh] of travelUnits){readings[ko]??=rom;meanings[ko]??=zh;}
+for(const {en,roman,zh} of travelPhrases){readings[en]??=roman;meanings[en]??=zh;}
 // A cue may be just one space-delimited word from a multiword glossary entry.
 const cueReadings={...readings};
 for(const [ko,rom] of Object.entries(readings)){

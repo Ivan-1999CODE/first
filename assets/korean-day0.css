@@ -10,3 +10,7 @@
 .follow-along[data-roman-hidden=true] .follow-romaji{display:none}
 .jp-glossary .reading{margin:8px 0}
 .jp-glossary .reading p{color:var(--ink)}
+.study-supplement{margin:24px 0}
+.supplement-group{margin-top:28px}
+.supplement-group>header{margin-bottom:16px}
+.supplement-group>header h3{margin:4px 0;font-size:1.35rem}

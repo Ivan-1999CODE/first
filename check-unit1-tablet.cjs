@@ -11,7 +11,7 @@ const {chromium}=require('C:/Users/1090602/.cache/codex-runtimes/codex-primary-r
   await entry.scrollIntoViewIfNeeded();
   const atBottom=await entry.boundingBox();assert(atBottom.y+atBottom.height<=height);
   await entry.click();await p.locator('.homework-dialog').waitFor({state:'visible'});await p.keyboard.press('Escape');await p.locator('.homework-dialog').waitFor({state:'hidden'});
-  await p.locator('[data-focus-round="0"]').first().click();await p.locator('#main > .footer-actions button').last().click();
+  await p.locator('#main > .footer-actions button').last().click();await p.locator('#main > .footer-actions button').last().click();
   assert.equal(await p.locator('[data-act="next"]').count(),1);
   assert.equal(await p.locator('.scene-board [data-act="next"]').count(),touch&&height>=width?1:0);
   await p.locator('#spoken').check();await p.locator('#heard').check();

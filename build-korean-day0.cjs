@@ -7,7 +7,7 @@ function koreanRuntime(source){
  return source.replaceAll("language==='ja'","language==='ko'").replaceAll('日文','韓文').replaceAll('lang="ja"','lang="ko"').replaceAll("'ja'","'ko'").replaceAll('ja-Latn','ko-Latn').replace("t.line='쭉 가세요.'+line","t.line='쭉 가세요. '+line");
 }
 function build(){
- const d=require('./assets/korean-day0-data.cjs'),dir='assets/korean-day0-audio/';
+ const d=require('./assets/micro-day0.cjs').make('ko'),dir='assets/korean-day0-audio/';
  const manifest=JSON.parse(read(dir+'manifest.json')),timings=JSON.parse(read(dir+'timings.json'));
  if(Object.keys(d.day0AudioTranslations).some(t=>!manifest[t]))throw Error('Regenerate Korean audio: some lesson text has no clip.');
  d.day0Timings=Object.fromEntries(Object.entries(manifest).map(([text,name])=>{
@@ -20,8 +20,8 @@ function build(){
  let runtime=read('assets/day1-2-runtime.js').replace('const tabs=','let tabs=').replace('load();render();appearance();','').replaceAll('英文','韓文').replaceAll('lang="en"','lang="ko"').replace("u.lang='en-US'","u.lang='ko-KR'")
   .replace('${esc(en)}</p><p>${esc(zh)}','${esc(en)}</p>${reading(en)}<p>${esc(zh)}').replace('${audio(answer)}<p class="fine">','${reading(answer)}${audio(answer)}<p class="fine">');
  const data=Object.entries(d).map(([k,v])=>`const ${k}=${JSON.stringify(v).replace(/</g,'\\u003c')};`).join('\n');
- const code=[data,runtime,read('assets/flow-guidance.js'),read('assets/korean-day0-extra.js'),koreanRuntime(read('assets/task-rounds.js')),koreanRuntime(read('assets/task-rounds-expanded.js')),read('assets/study-library.js'),read('assets/korean-day0-library.js'),'load();render();appearance();',read('assets/day0-audio.js'),read('assets/day0-glossary.js')].join('\n');
- const css=['day1-2.css','speaking-focus.css','task-rounds.css','day0-follow.css','day0-library.css','day0-glossary.css','study-library.css','flow-guidance.css','korean-day0.css'].map(n=>read('assets/'+n)).join('\n');
+ const code=[data,runtime,read('assets/flow-guidance.js'),read('assets/korean-day0-extra.js'),koreanRuntime(read('assets/task-rounds.js')),koreanRuntime(read('assets/task-rounds-expanded.js')),read('assets/study-library.js'),read('assets/korean-day0-library.js'),read('assets/dialogue-preview.js'),read('assets/micro-lessons.js'),'load();render();appearance();',read('assets/day0-audio.js'),read('assets/day0-glossary.js')].join('\n');
+ const css=['day1-2.css','speaking-focus.css','task-rounds.css','day0-follow.css','day0-library.css','day0-glossary.css','study-library.css','flow-guidance.css','korean-day0.css','micro-lessons.css','dialogue-preview.css'].map(n=>read('assets/'+n)).join('\n');
  const title='第 0 天：韓文問路與購物・分任務練習';
  let html=read('assets/task-rounds-template.html').replace(/<title>[\s\S]*?<\/title>/,`<title>Travel Lab｜${title}</title>`).replace(/<meta name="description"[^>]*>/,`<meta name="description" content="${d.course.description}">`)
   .replace('<!-- TASK_STYLES -->',()=>`<style id="day0-styles">${css}</style>`).replace('<!-- TASK_APP -->',()=>`<script id="day0-app">${code}</script>`)
