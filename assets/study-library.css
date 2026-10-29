@@ -1,4 +1,11 @@
 .study-block{margin-bottom:34px;min-width:0}
+.study-variation-vocabulary .grid{align-items:start}
+.study-variation-word{overflow-wrap:anywhere}
+.study-word-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.study-word-pair>div{min-width:0;border-top:1px solid var(--line);padding-top:12px}
+.study-word-pair .fine{margin-bottom:6px}.study-word-pair .en{margin-bottom:8px}
+.study-word-note{margin:16px 0 0;line-height:1.8}
+@media(max-width:600px){.study-word-pair{grid-template-columns:minmax(0,1fr)}}
 .study-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
 .study-navigation button{min-width:0;text-align:left;padding:13px 15px;background:var(--panel);color:var(--ink)}
 .study-navigation strong,.study-navigation small{display:block}

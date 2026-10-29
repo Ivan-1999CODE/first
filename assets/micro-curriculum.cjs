@@ -123,6 +123,7 @@ function labelTasks(data){
    }
   }
  });
+ require('./variation-vocabulary.cjs').addVariationVocabulary(data);
  return require('./entry-checkpoints.cjs').addEntryCheckpoints(data);
 }
 function make(day,options={}){

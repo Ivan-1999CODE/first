@@ -306,4 +306,4 @@ d.homeWords=d.rounds[0].home.words;
 d.homeAnswer=d.rounds[0].home.answer;
 d.homeAnswerZh=d.rounds[0].home.answerZh;
 d.quizzes=[d.rounds[0].home.quiz];
-module.exports=d;
+module.exports=require('./variation-vocabulary.cjs').addVariationVocabulary(d);

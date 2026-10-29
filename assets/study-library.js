@@ -1,3 +1,8 @@
+function studyVariationVocabulary(r){
+ const entries=r.variationVocabulary||[];
+ if(!entries.length)return '';
+ return `<section class="study-block study-variation-vocabulary" aria-label="04 會用到的替換字"><h2>換條件前，先學這些字</h2><p>04 會用到下面的變化。先看中英對照、聽發音，再放進已學的句子；有些只要聽懂，自己的問法不變。</p><div class="grid">${entries.map(entry=>`<article class="panel study-variation-word" data-variation-mission="${esc(entry.missionId)}"><h3>${esc(entry.label)}</h3><div class="study-word-pair">${[entry.from,entry.to].map(([en,zh],i)=>`<div><p class="fine">${i?'這次換成':'原來是'}</p><p class="en" lang="en">${esc(en)}</p><p class="study-meaning">${esc(zh)}</p>${audio(en)}</div>`).join('')}</div>${entry.note?`<p class="study-word-note">${esc(entry.note)}</p>`:''}</article>`).join('')}</div></section>`;
+}
 function studyVocabulary(r){
  if(!r.words.length)return '';
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork,japanese=course.day===0;

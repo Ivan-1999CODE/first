@@ -57,7 +57,7 @@ phrasePage=function(){
  return navigation+
   `<details class="dg-study-context"><summary>任務 ${esc(taskLabel(r))} 的情境與練習範圍</summary><p>${esc(r.bridge)}</p>${r.coreNote?`<p class="core-note">${esc(r.coreNote)}</p>`:''}</details>`+
   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'我會說','')}<div class="grid task-phrase-grid">${r.phraseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i)).join('')}</div></section>`+
-  dgStudyChangedPhrases(r)+
+  studyVariationVocabulary(r)+dgStudyChangedPhrases(r)+
   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${dgStudyHearLines(r).map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(p.role||role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${dgStudyHearUsage(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.sources?.length?`<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p>`:''}</article>`).join('')}</div></section>`+
   dgStudyPreviewContent(r)+
   `<div class="dg-study-step-actions">${btn('用這些句子，練同一段對話 →','data-study-view="reply"','class="primary"')}</div>`+
