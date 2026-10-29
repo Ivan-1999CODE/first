@@ -19,10 +19,33 @@ function dgStudyHearUsage(p,r){
 }
 function dgStudyPreviewContent(r){
  const role=r.role||course.replyRole,f=flows[r.flowIds[0]];
- const main=dialoguePreview({steps:f.steps,role,task:f.context,title:'對話怎麼接？先照順序看一遍',className:'micro-example',prelude:f.prelude||r.prelude,kind:'primary'});
- const change=r.variationMode==='repeat'?'':dialoguePreview({steps:r.variation.steps,role,task:r.variation.task,title:r.variationMode==='core'?'另一個已學情境：照順序再看一次':'④ 要換的條件，先在這裡看過',className:r.variationMode==='core'?'micro-core-example':'micro-variation',kind:r.variationMode==='core'?'core':'variation'});
- const extra=(r.additionalVariations||[]).map(v=>dialoguePreview({steps:v.steps,role,task:v.task,title:'④ 要換的條件，先在這裡看過',className:'micro-variation',kind:'additional-variation'})).join('');
- return main+change+extra+(course.studySupplement?microStudySupplement(course.studySupplement):'');
+ // One short example explains the turn-taking. The full sequence is practised
+ // in Parts 3 and 5, so alternatives do not repeat entire conversations here.
+ const steps=f.steps.slice(0,f.steps[1]&&(f.steps[1].sceneTitle||f.steps[1].sceneContext)?1:2).map(({sceneTitle,sceneContext,...step})=>step);
+ const main=dialoguePreview({steps,role,task:steps[0].task,title:'先看這一小段怎麼接',className:'micro-example',prelude:f.prelude||r.prelude,kind:'primary'});
+ return `<details class="panel dg-dialogue-preview"><summary>對話怎麼接？需要時看一小段</summary>${main}<p class="fine">其他句子到「同一段對話，再練一次」逐句練；③ 再把完整順序接起來。</p></details>`+(course.studySupplement?microStudySupplement(course.studySupplement):'');
+}
+function dgStudyChangedPhrases(r){
+ const taught=new Set(r.phraseIds.map(id=>dgStudyPhraseById(id).en));
+ const changes=[];
+ for(const variation of [r.variation,...r.additionalVariations||[]]){
+  for(const step of variation?.steps||[]){
+   if(taught.has(step.answer))continue;
+   taught.add(step.answer);changes.push(step);
+  }
+ }
+ if(!changes.length)return '';
+ return `<section class="study-block dg-study-changes" aria-label="後面會用到的替換說法"><h2>換這個條件，再說一次</h2><p class="fine">④ 會用到下面的說法；先練改變的這一句，其餘沿用上面學過的句子。</p><div class="grid">${changes.map((s,i)=>`<article class="panel dg-change-card" data-study-change="${i}"><p class="eyebrow">${esc(s.label||'換一個條件')}</p><p>${esc(s.task)}</p><p class="en" lang="en">${esc(s.answer)}</p><p class="study-meaning">${esc(s.answerZh)}</p>${audio(s.answer)}</article>`).join('')}</div></section>`;
+}
+function dgStudyHearLines(r){
+ const lines=[...r.hearLines],known=new Set(lines.map(p=>p.en));
+ for(const variation of [r.variation,...r.additionalVariations||[]]){
+  for(const step of variation?.steps||[]){
+   if(known.has(step.line))continue;
+   known.add(step.line);lines.push({en:step.line,zh:step.zh,role:step.role||r.role,sources:['④ 換條件時會聽到']});
+  }
+ }
+ return lines;
 }
 
 phrasePage=function(){
@@ -34,7 +57,8 @@ phrasePage=function(){
  return navigation+
   `<details class="dg-study-context"><summary>任務 ${esc(taskLabel(r))} 的情境與練習範圍</summary><p>${esc(r.bridge)}</p>${r.coreNote?`<p class="core-note">${esc(r.coreNote)}</p>`:''}</details>`+
   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'我會說','')}<div class="grid task-phrase-grid">${r.phraseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i)).join('')}</div></section>`+
-  `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${r.hearLines.map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(p.role||role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${dgStudyHearUsage(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.sources?.length?`<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p>`:''}</article>`).join('')}</div></section>`+
+  dgStudyChangedPhrases(r)+
+  `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${dgStudyHearLines(r).map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(p.role||role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${dgStudyHearUsage(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.sources?.length?`<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p>`:''}</article>`).join('')}</div></section>`+
   dgStudyPreviewContent(r)+
   `<div class="dg-study-step-actions">${btn('用這些句子，練同一段對話 →','data-study-view="reply"','class="primary"')}</div>`+
   studyVocabulary(r).replace('class="study-block study-vocabulary" open','class="study-block study-vocabulary"')+

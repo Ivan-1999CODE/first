@@ -1,7 +1,7 @@
 /* Additions for the wider range of lesson subjects. The shared visual system
    is the same one used by Day 1. */
 body.lesson-guided .dg-task-switch button { flex: 0 0 auto; }
-body.lesson-guided .dg-task-switch button[aria-pressed=true] { font-weight: 800; box-shadow: inset 0 -3px 0 var(--on-accent); }
+body.lesson-guided .dg-task-switch button[aria-pressed=true] { font-weight: 800; box-shadow: none; }
 body.lesson-guided .dg-cover-art.dg-course-art { height: 150px; overflow: hidden; }
 body.lesson-guided .dg-course-art :is(svg,img) { height: 150px; width: 100%; object-fit: contain; }
 body.lesson-guided .dg-course-art .lesson-cast { height: 150px; min-height: 0; margin: 0; padding: 0; gap: 8px; }
@@ -40,15 +40,27 @@ body.lesson-guided .dg-scene-context h3 { margin: 0 0 8px; font-size: 1rem; }
 body.lesson-guided :is(.dg-full-context,.dg-completed-review) { margin: 16px 0; }
 body.lesson-guided .objects .object-icon { max-width: 100%; }
 body.lesson-guided .dg-quiz-options { display: grid; }
+body.lesson-guided .dg-quick-start { display: block; }
+body.lesson-guided .dg-quick-start .task { margin-bottom: 16px; }
+body.lesson-guided .dg-entry-note { margin: 0; }
+body.lesson-guided .dg-entry-note > summary { color: var(--muted); font-size: .9rem; }
+body.lesson-guided .dg-entry-note textarea { margin-top: 12px; }
+body.lesson-guided .dg-entry-next { justify-content: flex-end; }
+body.lesson-guided .dg-dialogue-preview > .dialogue-preview { margin: 16px 0 0; padding: 0; border: 0; box-shadow: none; background: transparent; }
+body.lesson-guided .dg-dialogue-preview > .dialogue-preview > .fine { display: none; }
+body.lesson-guided .dg-study-changes .grid { align-items: start; }
+body.lesson-guided .dg-change-card { min-width: 0; overflow-wrap: anywhere; }
+body.lesson-guided .dg-change-card .en { margin-bottom: 8px; }
+body.lesson-guided .dg-change-card .study-meaning { color: var(--muted); }
 @media(max-width:999px) {
  body.lesson-guided .dg-context[data-many-tasks=true] { flex-wrap: wrap; }
  body.lesson-guided .dg-context[data-many-tasks=true] .dg-context-copy { flex-basis: 100%; }
- body.lesson-guided .dg-context[data-many-tasks=true] .dg-task-switch { max-width: 100%; overflow-x: auto; padding: 4px; margin-left: auto; }
+ body.lesson-guided .dg-context[data-many-tasks=true] .dg-task-switch { max-width: 100%; overflow-x: auto; padding: 8px; margin-left: auto; }
 }
 @media(max-width:739px) {
  body.lesson-guided .dg-context { flex-wrap: wrap; }
  body.lesson-guided .dg-context-copy { flex: 1 1 130px; }
- body.lesson-guided .dg-task-switch { max-width: 100%; margin-left: auto; overflow-x: auto; padding: 4px; }
+ body.lesson-guided .dg-task-switch { max-width: 100%; margin-left: auto; overflow-x: auto; padding: 8px; }
  body.lesson-guided .dg-context[data-many-tasks=true] .dg-task-switch { width: 100%; }
  body.lesson-guided .dg-course-art :is(svg,img),body.lesson-guided .dg-cover-art.dg-course-art,body.lesson-guided .dg-course-art :is(.lesson-cast,.lesson-hero-scene) { height: 100px; }
  body.lesson-guided .dg-course-art .lesson-cast { display: block; position: relative; width: 100%; }

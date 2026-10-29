@@ -25,7 +25,7 @@ function buildDay(day){
  if(!japanese)d.lessonArtwork=require('./assets/course-illustrations.cjs').forLesson(day,d.rounds,d.course.replyRole);
  else d.studyArtwork=require('./assets/course-illustrations.cjs').forLesson(day,d.rounds,d.course.replyRole);
  const data=Object.entries(d).map(([k,v])=>`const ${k}=${JSON.stringify(v).replace(/</g,'\\u003c')};`).join('\n');
- const code=[data,runtime,read('assets/flow-guidance.js'),japanese?read('assets/day0-extra.js'):'',read('assets/task-rounds.js'),read('assets/task-rounds-expanded.js'),japanese?read('assets/day0-library.js'):read('assets/illustrated-lessons.js'),read('assets/study-library.js'),read('assets/dialogue-preview.js'),read('assets/micro-lessons.js'),d.course.mergedTasks?read('assets/merged-lessons.js'):'',...japanese?[]:['assets/lesson-guided-pages.js','assets/lesson-guided-study.js','assets/lesson-guided-scene.js','assets/lesson-guided.js'].map(read),'load();render();appearance();',japanese?read('assets/day0-audio.js'):'',japanese?read('assets/day0-glossary.js'):''].join('\n');
+ const code=[data,runtime,read('assets/flow-guidance.js'),japanese?read('assets/day0-extra.js'):'',read('assets/task-rounds.js'),read('assets/task-rounds-expanded.js'),japanese?read('assets/day0-library.js'):read('assets/illustrated-lessons.js'),read('assets/study-library.js'),read('assets/dialogue-preview.js'),read('assets/micro-lessons.js'),japanese?read('assets/day0-numbers.js'):'',d.course.mergedTasks?read('assets/merged-lessons.js'):'',...japanese?[]:['assets/lesson-guided-pages.js','assets/lesson-guided-study.js','assets/lesson-guided-scene.js','assets/lesson-guided.js'].map(read),'load();render();appearance();',japanese?read('assets/day0-audio.js'):'',japanese?read('assets/day0-glossary.js'):''].join('\n');
  const css=['assets/day1-2.css','assets/speaking-focus.css','assets/task-rounds.css',...japanese?['assets/day0-follow.css','assets/day0-library.css','assets/day0-glossary.css']:['assets/illustrated-lessons.css'],'assets/study-library.css','assets/flow-guidance.css','assets/micro-lessons.css','assets/dialogue-preview.css',...d.course.mergedTasks?['assets/merged-lessons.css']:[]].map(read).join('\n');
  let html=read('assets/task-rounds-template.html')
   .replace(/<title>[\s\S]*?<\/title>/,`<title>Travel Lab｜${title}</title>`)
@@ -40,8 +40,9 @@ function buildDay(day){
  fs.writeFileSync(file,html);
  require('./sync-appearance.cjs')(file);
  if(!japanese){
-  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css');
+  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css')+(day===5?'\n'+read('assets/lesson5-hierarchy.css'):'');
   fs.writeFileSync(file,read(file).replace('</head>',()=>`<style id="lesson-guided-styles">\n${guidedCss}\n</style>\n</head>`));
+  if(day===5)fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>read('assets/lesson5-hierarchy.js')+'\nload();render();appearance();'));
   require('./build-pwa.cjs')();
  }
  console.log(`Built ${file}: ${d.rounds.length} rounds / ${d.phrases.length} phrases / ${d.replies.length} listening exchanges.`);

@@ -10,10 +10,14 @@ function persistMicro(){
  catch{storageFailed=true;showStorage();}
 }
 for(const r of rounds)for(const kind of ['before','after','home'])fields.push(`${kind}-${r.id}`);
+// Changed questions use separate fields, never the former multi-sentence answer.
+const entryAnswerKey=(kind,r)=>`${kind}-entry-v1-${r.id}`;
+for(const r of rounds)for(const kind of ['before','after'])fields.push(entryAnswerKey(kind,r));
 const microBaseLoad=load;
 load=function(){
  microBaseLoad();
  for(const r of rounds)for(const kind of ['before','after','home'])state.answers[`${kind}-${r.id}`]??='';
+ for(const r of rounds)for(const kind of ['before','after'])state.answers[entryAnswerKey(kind,r)]??='';
  state.taskHome=Object.fromEntries(rounds.map(r=>[r.id,{listen:false,spoken:false}]));
  try{
   const saved=JSON.parse(localStorage.getItem(course.id)||'{}');
@@ -67,8 +71,9 @@ function selectedReviewRounds(){return reviewMode==='mixed'?rounds.filter(r=>rou
 function microLegacyRecords(){
  const keys=[...new Set([...(typeof previousRevisionKeys==='object'?previousRevisionKeys:[]),previousFocusKey,previousLesson.key,...(previousLesson.legacyKeys||[])])];
  const records=keys.flatMap(key=>{try{const saved=JSON.parse(localStorage.getItem(key)||'null');return saved&&typeof saved==='object'?[{key,saved}]:[];}catch{return [];}});
- if(!records.length)return '';
- return `<details class="panel old-records"><summary>改版前的第一天紀錄（保留原樣）</summary><p>舊題和本輪不同，保留供回看，不當成新題的第一次回答或熟悉紀錄。</p>${records.map(({key,saved})=>`<h3>${key===previousFocusKey?'原分輪版本':'較早版本'}</h3>${Object.entries(saved.answers||{}).filter(([,v])=>typeof v==='string'&&v).map(([k,v])=>`<p>${esc(({before:'課前嘗試',after:'課後回答',home:'課後口說'})[k]||k)}</p><div class="readonly">${esc(v)}</div>`).join('')}<details><summary>查看這版完整舊紀錄</summary><pre class="readonly">${esc(JSON.stringify(saved,null,2))}</pre></details>`).join('')}</details>`;
+ const fullTasks=rounds.filter(r=>state.answers['before-'+r.id]||state.answers['after-'+r.id]);
+ if(!records.length&&!fullTasks.length)return '';
+ return `<details class="panel old-records"><summary>改版前的第一天紀錄（保留原樣）</summary><p>舊題和現在的一句任務不同，保留供回看，不當成新題的第一次回答。</p>${fullTasks.map(r=>`<h3>任務 ${esc(r.id)}：原完整任務</h3><p>${esc(r.checkpoint.task)}</p>${['before','after'].map(kind=>state.answers[kind+'-'+r.id]?`<p>${kind==='before'?'原課前回答':'原課後回答'}</p><div class="readonly">${esc(state.answers[kind+'-'+r.id])}</div>`:'').join('')}`).join('')}${records.map(({key,saved})=>`<h3>${key===previousFocusKey?'原分輪版本':'較早版本'}</h3>${Object.entries(saved.answers||{}).filter(([,v])=>typeof v==='string'&&v).map(([k,v])=>`<p>${esc(({before:'課前嘗試',after:'課後回答',home:'課後口說'})[k]||k)}</p><div class="readonly">${esc(v)}</div>`).join('')}<details><summary>查看這版完整舊紀錄</summary><pre class="readonly">${esc(JSON.stringify(saved,null,2))}</pre></details>`).join('')}</details>`;
 }
 function progressCard(r){
  const c=r.checkpoint;

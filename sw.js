@@ -1,7 +1,7 @@
 /* Generated as sw.js by build-pwa.cjs after all lesson HTML has been rebuilt. */
 'use strict';
 
-const VERSION = "7929483bfb5e3fea";
+const VERSION = "39b764b2749d4148";
 const FILES = [
   {
     "path": "assets/pwa-icon-180.png",
@@ -38,98 +38,98 @@ const FILES = [
   },
   {
     "path": "travel-english-unit10-kind-words.html",
-    "bytes": 568767,
-    "sha256": "c7dccc4431908ea9241695dd4236860ac148eb7685745f3e29db34e14f2db03c",
+    "bytes": 571983,
+    "sha256": "52983d754a9ced3fd74110b07aee9bc70700cee8a10171f222bd79498362520f",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit11-what.html",
-    "bytes": 652807,
-    "sha256": "f975141e58b609f4c7a33d5bf5fc3ddb8584bd869e59cad45e2ab396ed18e7c8",
+    "bytes": 655990,
+    "sha256": "5d33ebe0b3b04de145846bf84db3c889f88e86977cb2047d315adaa0794ff9cb",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit12-how.html",
-    "bytes": 701780,
-    "sha256": "a5552991f72839b424b99baa925d5e9bb8098f401651273f1392a2d59e6a1110",
+    "bytes": 706123,
+    "sha256": "a9845e4ffcead843d3ace312e10ad09de979eb80456674467175574086d8122f",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit13-why-which.html",
-    "bytes": 509806,
-    "sha256": "8e073191fd6ed4e1fad8ce8b3d9289c6e635907817b5bc0d240588e68061d767",
+    "bytes": 513327,
+    "sha256": "f0e6c2dda0503771d2b54bc1a16ab900b2ce568654b4aec5d9252112543f2428",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit14-travel-questions.html",
-    "bytes": 625639,
-    "sha256": "e6cc796288ebeb6b6f0dc0c6674121659b969f078346c569096dade2c9daa4c1",
+    "bytes": 629461,
+    "sha256": "41e11ee3d874ba8428297650b1bd4c3dd5f3f582c5c7b341a2df15f563aa69c5",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit2-shopping.html",
-    "bytes": 533327,
-    "sha256": "ca3eb25a7564ca8a49a0cfc7dfa996a8cec40651bf393c89a02e900266740772",
+    "bytes": 536660,
+    "sha256": "8c8755bdd9f3245aa013562f7f99ce4e41abb7995d4887a4dd8d6268c7ad02ed",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit3-airport.html",
-    "bytes": 554044,
-    "sha256": "cb4495e2ce071ce15bdf5473d692049f1498faf9d3efe9cca0dc9d0431589381",
+    "bytes": 557665,
+    "sha256": "905246c9e2484cf7c7081ad46aff0c47c31104a94cc9f46446c3df0cea5e48e6",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit4-transit.html",
-    "bytes": 673031,
-    "sha256": "2f30e5b735fe344d0485bfda9dd2809a0c8f7b9a6bc037141ea778534a8447b7",
+    "bytes": 677057,
+    "sha256": "9bb8b610a3c2353e38bc6dfbcc9738fb1ae60354f684c3bceeef6bbcec0c6cd0",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit5-getting-around.html",
-    "bytes": 612912,
-    "sha256": "02bc7ce6a6873db87181677a29a595320312e136fa3900882f1c3b4a505f2767",
+    "bytes": 633766,
+    "sha256": "ba3f24487a601d958793c5ddc358338b470967e437e0460147b52c4a6fb7fc42",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit6-ordering.html",
-    "bytes": 3202602,
-    "sha256": "5b74f9d5977ae3d98fa9eaac3b7d7e063c0e7d6589b6f2e7bae968de333c9eda",
+    "bytes": 3206570,
+    "sha256": "43e9fa955fa1f002de57084fa552774e889157851293d6a7474e6230113a4b99",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit7-fitting.html",
-    "bytes": 562939,
-    "sha256": "b6a04f5d0b26571c0e40f75ae282a0cb1f2d492b4bf03aa305d13f54ccdbde24",
+    "bytes": 566433,
+    "sha256": "f2ebe2cabc7a8e6ed37ad69ae4c53eb9cdd09de4e90a8d9430fdf36352116292",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit8-hotel.html",
-    "bytes": 581214,
-    "sha256": "f3f800a2a77ab3d8c2c9c31d760153bd764c587b43cabe19d7c3f540dfce240e",
+    "bytes": 585114,
+    "sha256": "0731e79181f92054c505b962355b35cf02126b89e6f787c7c6d408b339300452",
     "normalizedText": true
   },
   {
     "path": "travel-english-unit9-reservations.html",
-    "bytes": 659209,
-    "sha256": "1106574b1417aa235810c0e07deeed6c4ff1f8917a729a11b7b26939a3d17e66",
+    "bytes": 662764,
+    "sha256": "a312ed49c2abc327f2e95a3f376abac262d4a1d4725f493bddb49b0df9c400b6",
     "normalizedText": true
   },
   {
     "path": "travel-english.html",
-    "bytes": 493543,
-    "sha256": "6aacebcd924cfd62ad9cef6cff34bcf36169423ed709c7414b0742e9965ece65",
+    "bytes": 497126,
+    "sha256": "f8a3a7e0ac016cba32b32302284e9836433934dde656231d52b4450b174b0b12",
     "normalizedText": true
   },
   {
     "path": "travel-japanese-day0-directions.html",
-    "bytes": 2978795,
-    "sha256": "f0dcdc8829443d0146b2aad63eb2b2a197e09db94fb686a2a6f47bc4958ce328",
+    "bytes": 2979902,
+    "sha256": "e74099c641ed65fceeb106efe1877cb830a5f6504c758af9dc8e8c262eab74ec",
     "normalizedText": true
   },
   {
     "path": "travel-korean-day0-directions.html",
-    "bytes": 2762621,
-    "sha256": "6ebcb2eb27a2b5f3ca0fd1e18dedb8153f4545717c438a0b66115d790c86ab2e",
+    "bytes": 2763728,
+    "sha256": "a92f50744c205508d0f94425989ab33828e160fb53a9b65c7878a731a07f6b72",
     "normalizedText": true
   }
 ];

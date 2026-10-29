@@ -78,6 +78,7 @@ function dgInstallShell(){
 const dgOriginalFooter=focusFooter;
 focusFooter=function(){
  if(page===7)return '';
+ if(page===0)return `<div class="footer-actions">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
  const wrapper=document.createElement('div');wrapper.innerHTML=dgOriginalFooter();
  // A former mixed-review preference never changes the current round's footer.
  if(page===5)wrapper.querySelector('.footer-actions > button:last-child').textContent=`只練任務 ${currentRound().id} 的回家挑戰 →`;

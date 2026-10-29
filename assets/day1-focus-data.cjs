@@ -277,6 +277,23 @@ for(const [i,t] of revisedTasks.entries()){
 // already known train station. Teach that listening substitution before use.
 d.rounds.at(-1).hearUsage.push({line:'Here. The post office is on the right.',target:'the post office',targetZh:'郵局',alternatives:[{word:'the train station',wordZh:'火車站',en:'Here. The train station is on the right.',zh:'這裡，火車站在右邊。'}]});
 
+// A short entry prompt is the same question in parts 01 and 06. Keep the
+// former full-task checkpoint for its existing records and lesson-wide goals.
+const entryTasks=[
+ '你想去火車站，問路人怎麼走。',
+ '路人知道你要去火車站，請他告訴你怎麼走。',
+ '剛才的指路沒聽清楚，請路人再說一次。'
+];
+for(const [i,r] of d.rounds.entries()){
+ const s=d.flows[i].steps[0];
+ r.entryCheckpoint={task:entryTasks[i],words:s.words,answer:s.answer,answerZh:s.answerZh};
+}
+// Required substitutions must be visible before the variation practice.
+d.rounds[0].practiceChanges=[{task:'④ 只把火車站換成公車站；確認右轉與道謝仍用原句。',word:'the train station → the bus stop',wordZh:'火車站 → 公車站',en:'How do I get to the bus stop?',zh:'我要怎麼去公車站？'}];
+d.rounds[1].practiceChanges=[{task:'④ 目的地換成郵局；路人已知道，你仍用同樣的 3 句。'}];
+d.rounds[2].practiceChanges=[{task:'④ 已問過的目的地換成警局；仍用同樣的 2 句求助。'}];
+d.rounds[2].integrationListening={task:'08 整合挑戰會把郵局換成火車站，先聽懂這個替換。',word:'the post office → the train station',wordZh:'郵局 → 火車站',en:'Here. The train station is on the right.',zh:'這裡，火車站在右邊。'};
+
 // These compatibility fields contain only A; the focus view renders each
 // round's checkpoint and home data directly, without pulling later tasks in.
 Object.assign(d.course,{

@@ -10,10 +10,12 @@ function persistMicro(){
  catch{storageFailed=true;showStorage();}
 }
 for(const r of rounds)for(const kind of ['before','after','home','before-alt','after-alt','home-alt'])fields.push(`${kind}-${r.id}`);
+for(const r of rounds)if(r.entryCheckpoint)for(const kind of ['entry-before','entry-after'])fields.push(`${kind}-${r.id}`);
 const microBaseLoad=load;
 load=function(){
  microBaseLoad();
  for(const r of rounds)for(const kind of ['before','after','home','before-alt','after-alt','home-alt'])state.answers[`${kind}-${r.id}`]??='';
+ for(const r of rounds)if(r.entryCheckpoint)for(const kind of ['entry-before','entry-after'])state.answers[`${kind}-${r.id}`]??='';
  state.taskHome=Object.fromEntries(rounds.map(r=>[r.id,{listen:false,spoken:false}]));
  try{
   const saved=JSON.parse(localStorage.getItem(course.id)||'{}');

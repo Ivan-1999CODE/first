@@ -123,7 +123,7 @@ function labelTasks(data){
    }
   }
  });
- return data;
+ return require('./entry-checkpoints.cjs').addEntryCheckpoints(data);
 }
 function make(day,options={}){
  const base=day===2?require('./day2-expanded.cjs'):require('./curriculum-rounds.cjs').make(day);

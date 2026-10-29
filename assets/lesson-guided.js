@@ -44,6 +44,7 @@ const dgOriginalReviewScope=reviewScope;
 reviewScope=function(){return `<details class="dg-review-options" ${reviewMode==='mixed'?'open':''}><summary>${reviewMode==='mixed'?'正在複習多個已學任務':'需要時：一起複習已學任務'}</summary>${dgOriginalReviewScope()}</details>`;};
 const dgOriginalFooter=taskFooter;
 taskFooter=function(){
+ if(page===0)return `<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
  const wrapper=document.createElement('div');wrapper.innerHTML=dgOriginalFooter();
  const nextButton=wrapper.querySelector('.footer-actions > button:last-child');
  if(page===2&&!finished)nextButton?.remove();else nextButton?.classList.add('primary');

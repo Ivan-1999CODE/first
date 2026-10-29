@@ -28,6 +28,14 @@ for (const name of [...pages, ...assets]) assert(allFiles.includes(name), `${nam
 const allowed = new Set([...allFiles, 'sw.js']);
 const state = { failBroken: true, slowBroken: false, update: false };
 const report = { redirect, normalizeLF, version: initialVersion, checks: [], screenshots: [], errors: [] };
+const entrySelector = '#field-before-entry-v1-A,#field-before-A1,#field-before-A,#field-before';
+async function openEntry(page) {
+  const entry = page.locator(entrySelector).first();
+  for (const details of await entry.locator('xpath=ancestor::details').all()) {
+    if (!await details.evaluate(node => node.open)) await details.locator(':scope > summary').click();
+  }
+  return entry;
+}
 fs.mkdirSync(out, { recursive: true });
 
 assert.equal(lessons.length, 16, 'All 16 lessons are included');
@@ -241,13 +249,13 @@ async function main() {
     const day1 = await changeLesson(page, 'travel-english.html');
     assert.equal(await page.evaluate(() => window.pwaQaIdentity), 'same document', 'Course navigation remains in travelApp');
     const answer = 'Offline answer survives a closed tab.';
-    await day1.locator('#field-before-A1,#field-before-A,#field-before').first().fill(answer);
+    await (await openEntry(day1)).fill(answer);
     await page.close();
     page = await context.newPage();
     await page.goto(base + 'travel-english.html?offline=1#main');
-    assert.equal(await page.locator('#field-before-A1,#field-before-A,#field-before').first().inputValue(), answer, 'Offline answer survives reopening');
+    assert.equal(await page.locator(entrySelector).first().inputValue(), answer, 'Offline answer survives reopening');
     await page.reload();
-    assert.equal(await page.locator('#field-before-A1,#field-before-A,#field-before').first().inputValue(), answer, 'Query/hash reload preserves offline answer');
+    assert.equal(await page.locator(entrySelector).first().inputValue(), answer, 'Query/hash reload preserves offline answer');
     for (const route of ['travel-english-unit14-travel-questions?view=offline#main', 'index?offline=1#main', 'index.html?offline=1#main']) {
       await page.goto(base + route);
       assert(await page.locator('main').isVisible(), `${route} works offline`);
@@ -334,7 +342,7 @@ async function main() {
     // lesson and saved answer stay on the old version until every tab closes.
     await page.goto(base + 'travel-english.html');
     await waitForReady(page);
-    assert.equal(await page.locator('#field-before-A1,#field-before-A,#field-before').first().inputValue(), answer);
+    assert.equal(await page.locator(entrySelector).first().inputValue(), answer);
     const secondTab = await context.newPage();
     await secondTab.goto(base + 'index.html');
     await waitForReady(secondTab);
@@ -365,7 +373,7 @@ async function main() {
     await page.goto(base + 'travel-english.html');
     assert.equal((await waitForReady(page)).version, nextVersion, 'Update activates when all old tabs have closed');
     assert.equal((await workerStatus(page, 'controller')).version, nextVersion, 'Reopened page is controlled by the new version');
-    assert.equal(await page.locator('#field-before-A1,#field-before-A,#field-before').first().inputValue(), answer, 'Update preserves lesson answers');
+    assert.equal(await page.locator(entrySelector).first().inputValue(), answer, 'Update preserves lesson answers');
     const finalPreserved = await preservedData(page);
     assert.equal(finalPreserved.saved, '保留原本作答');
     assert.equal(finalPreserved.cached, 'independent cache');
@@ -376,14 +384,14 @@ async function main() {
     report.checks.push('complete-update-waits-for-all-tabs', 'update-preserves-answers-and-other-cache-scopes', 'activation-cleans-only-own-old-version');
     await context.setOffline(true);
     await page.reload();
-    assert.equal(await page.locator('#field-before-A1,#field-before-A,#field-before').first().inputValue(), answer, 'New version remains usable offline');
+    assert.equal(await page.locator(entrySelector).first().inputValue(), answer, 'New version remains usable offline');
     report.checks.push('updated-version-offline-reload');
 
     // Existing downloaded HTML is still directly readable without an HTTP host.
     const fileContext = await browser.newContext();
     const localPage = await fileContext.newPage();
     await localPage.goto(pathToFileURL(path.join(root, 'travel-english.html')).href);
-    assert(await localPage.locator('#field-before-A1,#field-before-A,#field-before').first().isVisible());
+    assert(await (await openEntry(localPage)).isVisible());
     assert(!await localPage.evaluate(() => typeof travelApp !== 'undefined'));
     await fileContext.close();
     report.checks.push('standalone-file-reading-preserved');

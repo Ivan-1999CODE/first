@@ -26,18 +26,15 @@ intro = function() {
    <img class="dg-cover-person dg-cover-traveler" src="${studyArtwork.images.asker}" alt="" width="640" height="640">
   </div>
  </section>
- <div class="dg-grid dg-intro-grid before-panel">
-  <section class="panel dg-panel dg-task-panel">
+ <section class="panel dg-panel dg-task-panel before-panel">
    <p class="dg-role">你先說</p>
    <h2>任務 ${r.id}：先試著說</h2>
-   <p class="task">${esc(r.checkpoint.task)}</p>
-   <p class="dg-note">先口頭試說，再記下原本的說法；⑥ 會回到完全相同的題目。沒有填寫也可以練習。</p>
-  </section>
-  <section class="panel dg-panel dg-answer-panel">
-   ${field('before-'+r.id, '這一輪，第一次的嘗試')}
-   <p class="fine">每個小任務都有自己的開始與收尾。一堂課只完成一輪也可以，下次接著練。</p>
-  </section>
- </div>
+   <p class="task">${esc(r.entryCheckpoint.task)}</p>
+   <details class="dg-entry-record"><summary>記下第一次的說法（選填）</summary>
+    ${field(entryAnswerKey('before',r), '這一句，第一次的嘗試')}
+    <p class="fine">先說一句即可；⑥ 會回到同一題。</p>
+   </details>
+ </section>
  <details class="panel dg-overview">
   <summary>任務概覽與入口 · A、B、C，反覆用到會</summary>
   <h2>一輪一個小循環</h2>
@@ -142,7 +139,7 @@ function dgRating(s) {
 }
 
 progressCard = function(r) {
- const c = r.checkpoint;
+ const c = r.entryCheckpoint;
  return `<section class="checkpoint-card dg-review-card" data-review-task="${r.id}">
   <div class="dg-grid dg-checkpoint-task">
    <section class="panel dg-panel dg-task-panel">
@@ -151,15 +148,16 @@ progressCard = function(r) {
     ${guidedHint(c.words, c.answer, c.answerZh, 'progress-'+r.id)}
    </section>
    <section class="panel dg-panel dg-answer-panel">
-    ${field('after-'+r.id, '現在的我')}
+    ${field(entryAnswerKey('after',r), '現在的我')}
     <div class="dg-before-record"><h3>這一輪，第一次的我</h3>
-     <div class="readonly">${state.answers['before-'+r.id] ? esc(state.answers['before-'+r.id]) : '這一輪還沒有課前紀錄；照樣可以說說看，不補造第一次的答案。'}</div>
+     <div class="readonly">${state.answers[entryAnswerKey('before',r)] ? esc(state.answers[entryAnswerKey('before',r)]) : '這一句還沒有課前紀錄；照樣可以說說看。'}</div>
     </div>
    </section>
   </div>
   <section class="panel dg-panel dg-assessment">
    <h2>這次需要多少協助？</h2>
-   <div class="dg-grid dg-ratings">${c.skills.map(dgRating).join('')}</div>
+   <p class="fine">回想剛才各部分的練習，分別評估本任務的句子。</p>
+   <div class="dg-grid dg-ratings">${r.checkpoint.skills.map(dgRating).join('')}</div>
    <div class="dg-ready-check">
     ${check(`data-round-ready="${r.id}"`, '師生確認：不用完整範例，也能用本輪句子接話並完成任務', roundsDone.includes(r.id))}
     <p class="fine">可先看少量關鍵字，不要求逐字一樣。這個勾選由師生判斷，可取消，只作為進度參考；點完流程不會自動勾選，也不影響各輪或整合挑戰的入口。</p>

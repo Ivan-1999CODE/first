@@ -3,7 +3,7 @@ function koreanPreviewCard(p,i,me){
  return `<article class="panel japanese-preview-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(me?p.use:course.replyRole+'可能會說')}</p><p class="en" lang="ko">${esc(p.en)}</p><p class="preview-meaning">${esc(p.zh)}</p>${reading(p.en)}${audio(p.en)}${me&&p.practice?`<div class="phrase-use"><b>現在就用一次</b><p>${esc(p.practice)}</p>${hint('先想現在要表達什麼，再換地點。',p.remix)}</div>`:''}</article>`;
 }
 function koreanNumberReference(){
- return `<details class="study-block study-vocabulary japanese-numbers" open><summary class="study-heading study-words"><div><h2>韓文數字 1～10：先用在金額與分鐘</h2><p>價格與分鐘用這組數字；物品數量另外先學一個、兩個。</p><span class="number-toggle" aria-hidden="true"></span></div></summary><div class="panel"><div class="task-words">${numberWords.map(([ko,label])=>`<div><b>${esc(label)}</b><span lang="ko">${esc(ko)}</span>${reading(ko)}${audio(ko)}</div>`).join('')}</div><p class="fine number-note">數物品：한 개（一個）、두 개（兩個）。金額：삼천 원（3,000 韓元）、오천 원（5,000 韓元）、만 원（10,000 韓元）。先聽聲音，熟悉後再收起拼音。</p></div></details>`;
+ return `<details class="study-block study-vocabulary japanese-numbers" open><summary class="study-heading study-words"><div><h2>韓文數字 1～10：先用在金額與分鐘</h2><p>價格與分鐘用這組數字；物品數量另外先學一個、兩個。</p><span class="number-toggle" aria-hidden="true"></span></div></summary><div class="panel">${numberSequenceControls()}<div class="task-words">${numberWords.map(([ko,label])=>`<div><b>${esc(label)}</b><span lang="ko">${esc(ko)}</span>${reading(ko)}${audio(ko)}</div>`).join('')}</div><p class="fine number-note">數物品：한 개（一個）、두 개（兩個）。金額：삼천 원（3,000 韓元）、오천 원（5,000 韓元）、만 원（10,000 韓元）。先聽聲音，熟悉後再收起拼音。</p></div></details>`;
 }
 studyVocabulary=function(r){
  if(!r.words.length)return '';

@@ -100,12 +100,14 @@ const shot = async (p, name) => {
      assert(await p.locator('#main').innerText(), `Day ${day}, ${r.id}, part ${part + 1} renders`);
     }
     await chapter(p, 0);
-    answers['before-' + r.id] = `D${day} ${r.id} first <keep> & original`;
-    await fill(p, 'before-' + r.id, answers['before-' + r.id]);
+    const beforeKey = (r.entryCheckpoint ? 'entry-before-' : 'before-') + r.id;
+    const afterKey = (r.entryCheckpoint ? 'entry-after-' : 'after-') + r.id;
+    answers[beforeKey] = `D${day} ${r.id} first <keep> & original`;
+    await fill(p, beforeKey, answers[beforeKey]);
     if (r.alternativeCheckpoint) {
      report.alternatives++;
-     answers['before-alt-' + r.id] = `D${day} ${r.id} alternative before`;
-     await fill(p, 'before-alt-' + r.id, answers['before-alt-' + r.id]);
+     // The short entry has a single task. Older alternative answers remain
+     // readable in review; there is no second entry exercise to fill here.
     }
     // Each variation has its existing independent free-response field.
     await chapter(p, 3);
@@ -129,15 +131,16 @@ const shot = async (p, name) => {
      answers[note] = `D${day} ${r.id} live note ${pair.id}`;
      await fill(p, note, answers[note]);
      await p.locator('.dg-teacher > summary').click();
-     assert.equal(await p.locator('[data-teacher-card]').count(), pair.cards.length);
+     assert.equal(await p.locator('[data-teacher-card],[data-teacher-step]').count(), pair.cards.length);
      for (const [, line] of pair.cards) assert((await p.locator('.dg-teacher').textContent()).includes(line));
      report.pairs++;
     }
     await chapter(p, 5);
     assert.equal(await p.locator('[data-review-task]').count(), 1, 'Default review shows only current task');
-    assert.equal((await p.locator('.dg-before-record .readonly').innerText()).trim(), answers['before-' + r.id]);
-    answers['after-' + r.id] = `D${day} ${r.id} now <better> & own`;
-    await fill(p, 'after-' + r.id, answers['after-' + r.id]);
+    assert.equal((await p.locator('.dg-before-record .readonly').innerText()).trim(), answers[beforeKey]);
+    assert.equal((await p.locator('.dg-checkpoint-task .task').innerText()).trim(), (r.entryCheckpoint || r.checkpoint).task);
+    answers[afterKey] = `D${day} ${r.id} now <better> & own`;
+    await fill(p, afterKey, answers[afterKey]);
     if (r.alternativeCheckpoint) {
      answers['after-alt-' + r.id] = `D${day} ${r.id} alternative after`;
      await fill(p, 'after-alt-' + r.id, answers['after-alt-' + r.id]);
@@ -195,7 +198,8 @@ const shot = async (p, name) => {
    await verify();
    // Revisit a different task after reload, confirming restored UI values.
    await task(p, 0); await chapter(p, 0);
-   assert.equal(await p.locator(`[data-field="before-${data.rounds[0].id}"]`).inputValue(), answers['before-' + data.rounds[0].id]);
+   const restoredEntryKey = (data.rounds[0].entryCheckpoint ? 'entry-before-' : 'before-') + data.rounds[0].id;
+   assert.equal(await p.locator(`[data-field="${restoredEntryKey}"]`).inputValue(), answers[restoredEntryKey]);
    await chapter(p, 4);
    assert(await p.locator(`[data-pair-check="${data.pairs[data.rounds[0].pairIds[0]].id}:0"]`).isChecked());
    report.days.push({ day, tasks: data.rounds.length, preservedKeys: oldKeys.length, fields: Object.keys(answers).length, reload: 'PASS' });
