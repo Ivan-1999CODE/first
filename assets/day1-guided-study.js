@@ -54,7 +54,7 @@ phrasePage=function(){
   `<details class="dg-study-context"><summary>這輪的情境與練習範圍</summary><p>${esc(r.bridge)}</p></details>`+
   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,roles.label+'：我會說','')}<div class="grid task-phrase-grid">${list.map((p,i)=>dgStudyPhrase(p,i)).join('')}</div></section>`+
   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,role+'：我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${r.hearLines.map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${dgStudyHearUsage(p,r)}<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p></article>`).join('')}</div></section>`+
-  studyVariationVocabulary(r)+dgStudyPracticeChanges(r)+
+  dgStudyPracticeChanges(r)+
   dgStudyPreviewContent(r,f,role)+
   `<div class="dg-study-step-actions">${btn('用本輪句子，練同一段對話 →','data-study-view="reply"','class="primary"')}</div>`+
   studyVocabulary(r).replace('class="study-block study-vocabulary" open','class="study-block study-vocabulary"')+

@@ -50,8 +50,10 @@ const report={days:0,tasks:0,missions:0,saySentences:0,hearSentences:0,audioChec
    for(const [i,r]of data.rounds.entries()){
     await choose(p,i);report.tasks++;
     assert.deepEqual(r.variationVocabulary.map(v=>v.missionId),r.missionIds.map(id=>data.missions[id].id),'Each Part 4 prompt has its own prerequisite teaching');
-    const block=p.locator('.study-variation-vocabulary');assert.equal(await block.count(),1);assert(await block.isVisible());
-    assert.equal(await block.evaluate(e=>!!e.closest('details')),false,'Required words are not hidden in optional disclosures');
+    const block=p.locator('.study-variation-vocabulary'),vocabulary=p.locator('.study-vocabulary');assert.equal(await block.count(),1);
+    assert.equal(await block.evaluate(e=>e.parentElement.matches('.study-vocabulary')),true,'Substitution words appear only inside the vocabulary disclosure');
+    assert.equal(await vocabulary.evaluate(e=>e.open),false,'Vocabulary starts collapsed');assert.equal(await block.isVisible(),false);
+    await vocabulary.locator(':scope > summary').click();assert(await block.isVisible(),'Opening vocabulary reveals all substitution words');
     for(const entry of r.variationVocabulary){
      const card=block.locator(`[data-variation-mission="${entry.missionId}"]`);assert.equal(await card.count(),1);
      for(const [en,zh]of [entry.from,entry.to]){
@@ -88,16 +90,19 @@ const report={days:0,tasks:0,missions:0,saySentences:0,hearSentences:0,audioChec
    await p.addInitScript(({theme,size})=>{localStorage.setItem('travel-lab-theme',theme);localStorage.setItem('travel-lab-text-size',size);},{theme,size});
    for(const [day,task]of [[1,2],[5,0],[6,1],[8,3]]){
     const data=lessons[day-1];await go(p,data);await choose(p,task);
+    await p.locator('.study-vocabulary > summary').click();
     await p.locator('.study-variation-vocabulary').scrollIntoViewIfNeeded();await fits(p,`${day}/${width}/${theme}`);
     if(day===5){const text=await p.locator('.study-variation-vocabulary').innerText();for(const word of ['first','第一個','second','第二個','intersection','路口'])assert(text.includes(word));}
     const name=`day${day}-${width}-${theme}-${size}`;await p.screenshot({path:path.join(out,name+'.png')});
     // The ordinary word list must still expand using keyboard and inherit theme.
-    const disclosure=p.locator('.study-vocabulary');await disclosure.locator('summary').focus();await p.keyboard.press('Enter');assert(await disclosure.evaluate(e=>e.open));
+    const disclosure=p.locator('.study-vocabulary');await disclosure.locator('summary').focus();await p.keyboard.press('Enter');assert.equal(await disclosure.evaluate(e=>e.open),false);assert.equal(await p.locator('.study-variation-vocabulary').isVisible(),false);
+    await p.keyboard.press('Enter');assert(await disclosure.evaluate(e=>e.open));assert(await p.locator('.study-variation-vocabulary').isVisible());
     await disclosure.scrollIntoViewIfNeeded();await p.screenshot({path:path.join(out,name+'-words-open.png')});
     await p.locator('#dg-menu-open').click();await p.locator('#nav [data-page="3"]').click();
     const field=p.locator('textarea[data-field]').first();await field.fill('替換練習保留測試');const key=await field.getAttribute('data-field');
     await p.locator('#dg-menu-open').click();await p.locator('#nav [data-page="1"]').click();
-    assert(await p.locator('.study-variation-vocabulary').isVisible());
+    assert.equal(await p.locator('.study-variation-vocabulary').isVisible(),false,'Returning to Part 2 keeps substitutions inside the collapsed word list');
+    await p.locator('.study-vocabulary > summary').click();assert(await p.locator('.study-variation-vocabulary').isVisible());
     await p.locator('#dg-menu-open').click();await p.locator('#nav [data-page="3"]').click();assert.equal(await p.locator(`[data-field="${key}"]`).inputValue(),'替換練習保留測試');
    }
    report.views.push({width,height,theme,size});await c.close();

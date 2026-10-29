@@ -1470,9 +1470,9 @@ function studyVariationVocabulary(r){
  return `<section class="study-block study-variation-vocabulary" aria-label="04 會用到的替換字"><h2>換條件前，先學這些字</h2><p>04 會用到下面的變化。先看中英對照、聽發音，再放進已學的句子；有些只要聽懂，自己的問法不變。</p><div class="grid">${entries.map(entry=>`<article class="panel study-variation-word" data-variation-mission="${esc(entry.missionId)}"><h3>${esc(entry.label)}</h3><div class="study-word-pair">${[entry.from,entry.to].map(([en,zh],i)=>`<div><p class="fine">${i?'這次換成':'原來是'}</p><p class="en" lang="en">${esc(en)}</p><p class="study-meaning">${esc(zh)}</p>${audio(en)}</div>`).join('')}</div>${entry.note?`<p class="study-word-note">${esc(entry.note)}</p>`:''}</article>`).join('')}</div></section>`;
 }
 function studyVocabulary(r){
- if(!r.words.length)return '';
+ if(!r.words.length&&!r.variationVocabulary?.length)return '';
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork,japanese=course.day===0;
- return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>先看意思、聽發音，再放進這輪的句子裡試著說。</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary><div class="panel"><div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div></details>`;
+ return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>先看意思、聽發音，再放進這輪的句子裡試著說。</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary><div class="panel"><div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div>${studyVariationVocabulary(r)}</details>`;
 }
 function studyRoleHeading(me,title,subtitle){
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork;
@@ -2037,7 +2037,7 @@ phrasePage=function(){
  return navigation+
   `<details class="dg-study-context"><summary>任務 ${esc(taskLabel(r))} 的情境與練習範圍</summary><p>${esc(r.bridge)}</p>${r.coreNote?`<p class="core-note">${esc(r.coreNote)}</p>`:''}</details>`+
   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'我會說','')}<div class="grid task-phrase-grid">${r.phraseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i)).join('')}</div></section>`+
-  studyVariationVocabulary(r)+dgStudyChangedPhrases(r)+
+  dgStudyChangedPhrases(r)+
   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${dgStudyHearLines(r).map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(p.role||role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${dgStudyHearUsage(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.sources?.length?`<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p>`:''}</article>`).join('')}</div></section>`+
   dgStudyPreviewContent(r)+
   `<div class="dg-study-step-actions">${btn('用這些句子，練同一段對話 →','data-study-view="reply"','class="primary"')}</div>`+
