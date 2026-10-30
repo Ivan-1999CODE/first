@@ -1,39 +1,65 @@
-// Day 5 teacher cards use the same authored lines and event handlers.
-const d5TeacherCues = {
- 'micro-en-d5-directions-and-distance-v1-0': '學生問博物館怎麼走後，你再指路。',
- 'micro-en-d5-directions-and-distance-v1-1': '學生問遠不遠後，再告訴他步行時間。',
- 'micro-en-d5-merged-day5-taxi-trip-v1-0': '先問學生是否要搭計程車。',
- 'micro-en-d5-merged-day5-taxi-trip-v1-1': '學生決定搭車後，再問目的地。',
- 'micro-en-d5-merged-day5-taxi-trip-v1-2': '目的地已確認；等學生問車程，再回答。',
- 'micro-en-d5-merged-day5-taxi-trip-v1-3': '學生問車資後，再回答預估金額。',
- 'micro-en-d5-driver-and-pickup-v1-0': '學生確認你是不是預約司機後，再回應。',
- 'micro-en-d5-driver-and-pickup-v1-1': '確認身分後，再問學生在哪裡等車。',
- 'micro-en-d5-dropoff-and-stop-v1-0': '車還沒到入口；先問學生是否在這裡下車。',
- 'micro-en-d5-dropoff-and-stop-v1-1': '到了入口後，等學生請你停車，再回應。'
+// Shared by Days 1–11, promoted from the Day 5 pilot. DOM order follows
+// authored dialogue; the original content and saved identifiers stay intact.
+const d5ChatSections = {
+ 'micro-en-d5-directions-and-distance-v1-0': '問路線',
+ 'micro-en-d5-directions-and-distance-v1-1': '問遠近',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-0': '決定搭車',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-1': '告訴司機目的地',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-2': '目的地已確認 · 問車程',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-3': '問車資',
+ 'micro-en-d5-driver-and-pickup-v1-0': '確認預約司機',
+ 'micro-en-d5-driver-and-pickup-v1-1': '說明等車位置',
+ 'micro-en-d5-dropoff-and-stop-v1-0': '還沒到入口',
+ 'micro-en-d5-dropoff-and-stop-v1-1': '已到入口 · 可以停車'
 };
-const d5BaseTeacherGuide = dgLessonTeacherGuide;
-dgLessonTeacherGuide = function(p, r, steps) {
+function d5ChatMessage(s, r, speaker) {
+ const student = speaker === 'student';
+ const line = student ? s.answer : s.line;
+ const meaning = student ? s.answerZh : s.zh;
+ const role = student ? '學生 · 旅客' : `老師 · ${s.role || r.role || course.replyRole}`;
+ return `<article class="d5-chat-message" data-speaker="${speaker}" aria-label="${esc(role)}">
+  <p class="d5-chat-role">${esc(role)}</p>
+  <div class="d5-chat-bubble">
+   <p class="d5-chat-en" lang="en">${esc(line)}</p>
+   <p class="d5-chat-zh">${esc(meaning)}</p>
+   <div class="d5-chat-audio">${audio(line)}</div>
+  </div>
+ </article>`;
+}
+const d5BaseTeacherGuide = typeof dgLessonTeacherGuide === 'function' ? dgLessonTeacherGuide : dgTeacherGuide;
+function d5TeacherGuide(p, r, steps, prelude) {
  const wrapper = document.createElement('div');
  wrapper.innerHTML = d5BaseTeacherGuide(p, r, steps);
  const guide = wrapper.querySelector('.dg-teacher');
  const summary = guide.querySelector(':scope > summary').outerHTML;
  const opening = guide.querySelector('.dg-teacher-start').outerHTML;
  const notes = guide.querySelector(':scope > details:last-child').outerHTML;
+ // Day 1 originally nested this disclosure inside the teacher guide.
+ const help = Array.from(guide.children).find(el => el.tagName === 'DETAILS' && el.querySelector('summary')?.textContent === '學生卡住了');
+ if (help) { help.classList.add('teacher', 'dg-student-help'); guide.after(help); }
  guide.classList.add('d5-teacher-guide');
  guide.innerHTML = `${summary}
-  <div class="d5-teacher-intro"><strong>老師扮演${esc(r.role || course.replyRole)}</strong><span>${esc(p.first)}先開口 · 共 ${steps.length} 句</span></div>
-  <div class="d5-teacher-cards">${steps.map((s, i) => `
-   <article class="teacher-card d5-teacher-step" data-teacher-step="${i}" data-teacher-step-id="${esc(s.id)}">
-    <div class="d5-teacher-card-head"><span class="d5-teacher-order" aria-label="第 ${i + 1} 句">${String(i + 1).padStart(2, '0')}</span><h3>${s.askFirst ? '先聽學生，再回這句' : i === 0 ? '老師先開口' : '老師接著問'}</h3></div>
-    <p class="d5-teacher-trigger">${esc(d5TeacherCues[s.id] || s.task)}</p>
-    <div class="d5-teacher-speech">
-     <p class="d5-teacher-say-label">老師說 · ${esc(s.role || r.role || course.replyRole)}</p>
-     <p class="en d5-teacher-line" lang="en">${esc(s.line)}</p>
-     <p class="d5-teacher-translation">${esc(s.zh)}</p>
-     <div class="d5-teacher-audio">${audio(s.line)}</div>
-    </div>
-   </article>`).join('')}</div>
+  <div class="d5-teacher-intro"><strong>${esc(p.first)}先開口</strong><span>${steps.length} 段對話 · 由上往下看</span></div>
+  <p class="d5-chat-note">老師在左，學生在右；學生句子是參考說法。</p>
+  <div class="d5-teacher-chat" aria-label="師生接話順序">${prelude ? `<section class="d5-chat-exchange" data-chat-prelude>
+   <h3 class="d5-chat-divider"><span>開場 · 先聽懂，再指出位置</span></h3>
+   ${d5ChatMessage(prelude, r, 'teacher')}
+   <p class="d5-chat-context">${esc(prelude.task)}</p>
+  </section>` : ''}${steps.map((s, i) => `
+   <section class="d5-chat-exchange" data-teacher-step="${i}" data-teacher-step-id="${esc(s.id)}">
+    <h3 class="d5-chat-divider"><span>${String(i + 1).padStart(2, '0')} · ${esc(d5ChatSections[s.id] || s.label)}</span></h3>
+    ${s.sceneTitle || s.sceneContext ? `<p class="d5-chat-context">${s.sceneTitle ? `<strong>${esc(s.sceneTitle)}</strong>` : ''}${s.sceneContext ? `<span>${esc(s.sceneContext)}</span>` : ''}</p>` : ''}
+    ${(s.askFirst ? ['student', 'teacher'] : ['teacher', 'student']).map(speaker => d5ChatMessage(s, r, speaker)).join('')}
+   </section>`).join('')}</div>
   <div class="d5-teacher-extras">${opening}${notes}</div>`;
  // The separate student-help disclosure is preserved, including its hint IDs.
  return wrapper.innerHTML;
-};
+}
+if (typeof dgLessonTeacherGuide === 'function') {
+ dgLessonTeacherGuide = d5TeacherGuide;
+} else {
+ dgTeacherGuide = function(p) {
+  const r = currentRound(), f = flows[rounds.indexOf(r)];
+  return d5TeacherGuide(p, r, f.steps, f.prelude);
+ };
+}

@@ -451,13 +451,13 @@ Windows Edge 的 PWA 測試涵蓋斷網關頁重開、未曾開過的課程、�
 
 共用來源為 `assets/flow-guidance.js`、`assets/flow-guidance.css`，由兩個建置入口內嵌。驗證使用 `check-flow-guidance.cjs`、`check-all-task-rounds.cjs`、`check-unit1-focus.cjs`、`check-unit1-tablet.cjs` 與 `check-illustrated-lessons.cjs`；引導狀態報告與代表畫面在 `tmp/flow-guidance-unify/`。
 
-## 每日主題色：淺色六組循環，深色統一第一天
+## 語言配色：英文海軍藍、日語暖鈦灰、韓語冷銀灰
 
-正式課程第 0～14 天的淺色模式依序使用蜜桃、杏橙、奶油黃、暖玫瑰、柔紫、奶茶，從第 6 天開始循環。深色模式全系列統一使用第一天「問路與求助」的暖杏橙配色。每課七部分共用同一組背景、卡片、導覽與重點色。暖黃色開口提示、等待狀態與黃綠自評仍保留固定意義。
+英文第 1～14 天及課程首頁統一沿用新版第五天的海軍藍、暖米白與淡金色提示。日語第 0 天使用暖鈦灰與象牙白，韓語第 0 天使用冷銀灰與白色；以中性底色、深灰文字和少量暖灰棕／霧藍重點色呈現簡潔質感，深色模式使用石墨黑與炭灰卡片。句型與聽答的閱讀區採中性卡片，開口練習保留淡金色提示。每課七部分、課程選單及日韓查詞視窗共用主題色。暖黃色開口提示、等待狀態與黃綠自評仍保留固定意義。
 
 色彩來源為 `assets/course-palettes.css`；`sync-appearance.cjs` 依檔名設定天數與色系，將樣式內嵌到各課，既有建置入口會自動套用。深淺色與文字大小沿用共用偏好，不更改學習紀錄。
 
-驗證：`node --preserve-symlinks --preserve-symlinks-main check-course-palettes.cjs`。涵蓋 15 課的七部分、深淺色、桌面與 320 px 放大文字、主要文字至少 4.5:1 對比、偏好保存及循環一致性；畫面與報告在 `tmp/course-palette-qa/`。下方較早紀錄中的配色以本節為準。
+驗證：`node --preserve-symlinks --preserve-symlinks-main check-course-palettes.cjs`。涵蓋 16 課的七部分與首頁、深淺色、桌面與 320 px 放大文字、主要文字至少 4.5:1 對比、偏好保存及英文配色一致性；另實際展開代表課程的選單、天數切換與日韓查詞視窗，檢查滑鼠停留、鍵盤焦點與窄螢幕邊界。畫面與報告在 `tmp/language-palettes/`。下方較早紀錄中的配色以本節為準。
 
 ## 全系列第二部分：先學會說，再學聽懂回話
 

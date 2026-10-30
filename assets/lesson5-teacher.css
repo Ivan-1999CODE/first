@@ -1,41 +1,50 @@
-/* Purple marks the teacher's spoken line; context stays on a quiet surface. */
-body.lesson-guided.lesson5-hierarchy {
- --d5-teach-surface: #4b356b; --d5-teach-ink: #fffaff; --d5-teach-muted: #e5d9f2;
- --d5-teach-tint: #f0eaf7; --d5-teach-number: #4b356b; --d5-teach-border: #876aa6;
+/* Chat bubbles distinguish speakers; top-to-bottom order follows the data. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --d5-chat-bg: #e4edf4; --d5-chat-teacher: #fffefa; --d5-chat-teacher-ink: #203449;
+ --d5-chat-student: #d8f1c7; --d5-chat-student-ink: #213d27;
+ --d5-chat-teacher-line: #9eafbc; --d5-chat-student-line: #81a776;
 }
-:root[data-theme=dark] body.lesson-guided.lesson5-hierarchy {
- --d5-teach-surface: #463257; --d5-teach-ink: #fff7ff; --d5-teach-muted: #e5d4ed;
- --d5-teach-tint: #342a42; --d5-teach-number: #e1c8f7; --d5-teach-border: #b598d0;
+:root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --d5-chat-bg: #172734; --d5-chat-teacher: #304454; --d5-chat-teacher-ink: #f0f5fa;
+ --d5-chat-student: #2b513b; --d5-chat-student-ink: #efffef;
+ --d5-chat-teacher-line: #7c94a5; --d5-chat-student-line: #83ab87;
 }
-body.lesson-guided.lesson5-hierarchy .dg-teacher.d5-teacher-guide[open] { background: var(--panel); border-color: var(--d5-teach-border); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-guide[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 14px; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-intro { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; margin-bottom: 18px; font-size: .88rem; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-intro strong { color: var(--ink); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-intro span { color: var(--muted); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-cards { display: grid; gap: 22px; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-guide .d5-teacher-step { min-width: 0; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-card-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-order { display: grid; place-items: center; width: 38px; height: 38px; flex-shrink: 0; border-radius: 9px; font-size: 1.05rem; font-weight: 800; background: var(--d5-teach-tint); color: var(--d5-teach-number); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-card-head h3 { margin: 0; font-size: .98rem; line-height: 1.5; color: var(--ink); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-trigger { margin: 0; padding: 0 16px 16px; color: var(--muted); font-size: .9rem; line-height: 1.6; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-speech { padding: 18px; border-radius: 0 0 11px 11px; background: var(--d5-teach-surface); color: var(--d5-teach-ink); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-say-label { margin: 0 0 10px; color: var(--d5-teach-muted); font-size: .82rem; font-weight: 700; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-guide .teacher-card .d5-teacher-line { margin: 0 0 14px; color: var(--d5-teach-ink); font-size: 1.65rem; font-weight: 750; line-height: 1.35; overflow-wrap: anywhere; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-translation { margin: 0; color: var(--d5-teach-muted); font-size: .92rem; line-height: 1.6; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-audio { margin-top: 18px; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button { background: transparent; color: var(--d5-teach-ink); border-color: var(--d5-teach-muted); font-size: .88rem; min-height: 44px; transition: none; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button:first-child { background: var(--d5-teach-ink); color: var(--d5-teach-surface); border-color: var(--d5-teach-ink); font-weight: 750; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button:hover { background: var(--d5-teach-tint); color: var(--d5-teach-number); border-color: var(--d5-teach-border); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button:focus-visible { outline-color: var(--d5-teach-ink); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-extras { margin-top: 22px; border-top: 1px solid var(--line); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-extras > details { margin: 0; padding: 6px 0; border: 0; color: var(--muted); }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-extras > details > summary { color: var(--muted); font-size: .88rem; font-weight: 600; }
-body.lesson-guided.lesson5-hierarchy .d5-teacher-extras > details[open] { color: var(--ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-teacher.d5-teacher-guide[open] { background: var(--panel); border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-guide[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-intro { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; font-size: .9rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-intro strong { color: var(--ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-intro span { color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-note { margin: 6px 0 16px; color: var(--muted); font-size: .85rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-chat { padding: 18px 16px; background: var(--d5-chat-bg); border: 1px solid var(--line); border-radius: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-exchange { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-exchange + .d5-chat-exchange { margin-top: 28px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-divider { display: flex; justify-content: center; margin: 0; font-size: .82rem; line-height: 1.5; font-weight: 600; text-align: center; color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-divider span { max-width: 100%; padding: 5px 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); overflow-wrap: anywhere; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-context { display: grid; gap: 4px; margin: 0; padding: 10px 12px; border-inline-start: 3px solid var(--d5-listen-line); background: var(--panel); color: var(--ink); font-size: .88rem; line-height: 1.6; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message { width: fit-content; max-width: 88%; min-width: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=teacher] { align-self: flex-start; --bubble-bg: var(--d5-chat-teacher); --bubble-ink: var(--d5-chat-teacher-ink); --bubble-line: var(--d5-chat-teacher-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=student] { align-self: flex-end; --bubble-bg: var(--d5-chat-student); --bubble-ink: var(--d5-chat-student-ink); --bubble-line: var(--d5-chat-student-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-role { margin: 0 2px 6px; color: var(--ink); font-size: .85rem; font-weight: 750; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=student] .d5-chat-role { text-align: right; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-bubble { position: relative; padding: 14px 16px; border: 1px solid var(--bubble-line); border-radius: 16px; background: var(--bubble-bg); color: var(--bubble-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-bubble::before { content: ''; position: absolute; top: 13px; left: -8px; width: 0; height: 0; border-style: solid; border-width: 0 9px 10px 0; border-color: transparent var(--bubble-bg) transparent transparent; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=student] .d5-chat-bubble::before { left: auto; right: -8px; border-width: 0 0 10px 9px; border-color: transparent transparent transparent var(--bubble-bg); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-en { margin: 0 0 10px; font-size: 1.25rem; line-height: 1.45; font-weight: 700; color: var(--bubble-ink); overflow-wrap: anywhere; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-zh { margin: 0; color: var(--bubble-ink); font-size: .88rem; line-height: 1.6; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio { margin-top: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio .actions { gap: 7px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button { min-height: 44px; padding: 7px 10px; font-size: .82rem; background: var(--bubble-bg); color: var(--bubble-ink); border-color: var(--bubble-line); transition: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button:hover { background: var(--bubble-ink); color: var(--bubble-bg); border-color: var(--bubble-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button:focus-visible { outline-color: var(--bubble-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras { margin-top: 22px; border-top: 1px solid var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras > details { margin: 0; padding: 6px 0; border: 0; color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras > details > summary { color: var(--muted); font-size: .88rem; font-weight: 600; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras > details[open] { color: var(--ink); }
 @media(max-width:739px) {
- body.lesson-guided.lesson5-hierarchy .dg-teacher.d5-teacher-guide { padding-inline: 10px; }
- body.lesson-guided.lesson5-hierarchy .d5-teacher-card-head { padding: 12px 12px 8px; }
- body.lesson-guided.lesson5-hierarchy .d5-teacher-trigger { padding: 0 12px 14px; }
- body.lesson-guided.lesson5-hierarchy .d5-teacher-speech { padding: 16px 12px; }
- body.lesson-guided.lesson5-hierarchy .d5-teacher-guide .teacher-card .d5-teacher-line { font-size: 1.5rem; }
- body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button { padding-inline: 10px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-teacher.d5-teacher-guide { padding-inline: 8px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-chat { padding: 14px 10px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message { max-width: 90%; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-bubble { padding: 12px 10px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-en { font-size: 1.2rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button { padding-inline: 8px; }
 }

@@ -1,45 +1,45 @@
 /* Success and error colors describe a choice, never a role or self-rating. */
-body.lesson-guided.lesson5-hierarchy {
+body.lesson-focus:is(.day1-guided,.lesson-guided) {
  --d5-success: #216547; --d5-success-bg: #e6f4eb;
  --d5-error: #a92828; --d5-error-bg: #fff0ee;
 }
-:root[data-theme=dark] body.lesson-guided.lesson5-hierarchy {
+:root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) {
  --d5-success: #9ce0b4; --d5-success-bg: #203d31;
  --d5-error: #ffada5; --d5-error-bg: #482a2d;
 }
-body.lesson-guided.lesson5-hierarchy .d5-flow-steps {
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps {
  display: flex; flex-wrap: wrap; gap: 8px 12px; padding: 0; margin: 0 0 18px; list-style: none;
 }
-body.lesson-guided.lesson5-hierarchy .d5-flow-steps li {
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps li {
  display: flex; align-items: center; gap: 8px; padding: 7px 12px;
  border: 1px solid var(--line); border-radius: 9px; color: var(--muted); font-size: .86rem;
 }
-body.lesson-guided.lesson5-hierarchy .d5-flow-steps li span { font-weight: 800; }
-body.lesson-guided.lesson5-hierarchy .d5-flow-steps [aria-current=step] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 750; }
-body.lesson-guided.lesson5-hierarchy .d5-flow-steps .done { color: var(--d5-success); border-color: var(--d5-success); background: var(--d5-success-bg); }
-body.lesson-guided.lesson5-hierarchy .d5-dialogue-complete { background: var(--soft); align-self: start; border-color: var(--line); }
-body.lesson-guided.lesson5-hierarchy .d5-complete-label { color: var(--d5-success); font-weight: 750; }
-body.lesson-guided.lesson5-hierarchy .d5-dialogue-complete h2 { font-size: 1.25rem; }
-body.lesson-guided.lesson5-hierarchy .d5-dialogue-recap .en { font-size: 1.3rem; line-height: 1.45; overflow-wrap: anywhere; }
-body.lesson-guided.lesson5-hierarchy .d5-dialogue-recap .eyebrow { margin-bottom: 8px; }
-body.lesson-guided.lesson5-hierarchy .scene-board .object[data-result=correct] {
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps li span { font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps [aria-current=step] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 750; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps .done { color: var(--d5-success); border-color: var(--d5-success); background: var(--d5-success-bg); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-complete { background: var(--soft); align-self: start; border-color: var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-complete-label { color: var(--d5-success); font-weight: 750; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-complete h2 { font-size: 1.25rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-recap .en { font-size: 1.3rem; line-height: 1.45; overflow-wrap: anywhere; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-recap .eyebrow { margin-bottom: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .object[data-result=correct] {
  background: var(--d5-success-bg); color: var(--d5-success); border: 3px solid var(--d5-success); box-shadow: none;
 }
-body.lesson-guided.lesson5-hierarchy .scene-board .object[data-result=wrong] {
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .object[data-result=wrong] {
  background: var(--d5-error-bg); color: var(--d5-error); border: 3px solid var(--d5-error); box-shadow: none;
 }
-body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene .scene-board[data-result=correct] { border-color: var(--d5-success); }
-body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene .scene-board[data-result=wrong] { border-color: var(--d5-error); }
-body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene #flowFeedback .feedback { display: grid; gap: 6px; margin: 0; padding: 14px; border-radius: 10px; font-size: .94rem; }
-body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene #flowFeedback[data-result=correct] .feedback {
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene .scene-board[data-result=correct] { border-color: var(--d5-success); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene .scene-board[data-result=wrong] { border-color: var(--d5-error); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene #flowFeedback .feedback { display: grid; gap: 6px; margin: 0; padding: 14px; border-radius: 10px; font-size: .94rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene #flowFeedback[data-result=correct] .feedback {
  color: var(--d5-success); background: var(--d5-success-bg); border: 1px solid var(--d5-success); border-left-width: 4px;
 }
-body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene #flowFeedback[data-result=wrong] .feedback {
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene #flowFeedback[data-result=wrong] .feedback {
  color: var(--d5-error); background: var(--d5-error-bg); border: 1px solid var(--d5-error); border-left-width: 4px;
 }
-body.lesson-guided.lesson5-hierarchy .scene-board .object[data-result]:focus-visible { outline-color: var(--d5-focus); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .object[data-result]:focus-visible { outline-color: var(--d5-focus); }
 @media (max-width:739px) {
- body.lesson-guided.lesson5-hierarchy .d5-flow-steps { gap: 6px; }
- body.lesson-guided.lesson5-hierarchy .d5-flow-steps li { padding: 6px 8px; font-size: .82rem; }
- body.lesson-guided.lesson5-hierarchy .d5-dialogue-complete { padding: 16px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps { gap: 6px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps li { padding: 6px 8px; font-size: .82rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-complete { padding: 16px; }
 }

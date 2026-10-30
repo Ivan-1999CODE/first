@@ -30,9 +30,9 @@ function buildDay(day){
  fs.writeFileSync(file,html);
  require('./sync-appearance.cjs')(file);
  if(!japanese){
-  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css')+(day===5?'\n'+['assets/lesson5-hierarchy.css','assets/lesson5-map.css','assets/lesson5-flow.css','assets/lesson5-teacher.css'].map(read).join('\n'):'');
+  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css')+(day<=11?'\n'+['assets/lesson5-hierarchy.css',...(day===5?['assets/lesson5-map.css']:[]),'assets/lesson5-flow.css','assets/lesson5-teacher.css'].map(read).join('\n'):'');
   fs.writeFileSync(file,read(file).replace('</head>',()=>`<style id="lesson-guided-styles">\n${guidedCss}\n</style>\n</head>`));
-  if(day===5)fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>['assets/lesson5-map.js','assets/lesson5-flow.js','assets/lesson5-teacher.js','assets/lesson5-hierarchy.js'].map(read).join('\n')+'\nload();render();appearance();'));
+  if(day<=11)fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>[...(day===5?['assets/lesson5-map.js','assets/lesson5-flow.js']:['assets/lesson-focus-flow.js']),'assets/lesson5-teacher.js','assets/lesson5-hierarchy.js'].map(read).join('\n')+'\nload();render();appearance();'));
   require('./build-pwa.cjs')();
  }
  console.log(`Built ${file}: ${d.rounds.length} rounds / ${d.phrases.length} phrases / ${d.replies.length} listening exchanges.`);

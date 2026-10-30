@@ -1,5 +1,5 @@
 <!doctype html>
-<html data-course-day="0" data-course-palette="peach" data-appearance-kind="modern" lang="zh-Hant"><head><meta charset="utf-8">
+<html data-course-palette="titanium" data-course-day="0" data-appearance-kind="modern" lang="zh-Hant"><head><meta charset="utf-8">
 <script id="shared-appearance-init" data-appearance-init>
 // Apply shared preferences before the first paint. Learning records are untouched.
 (() => {
@@ -525,42 +525,58 @@
 @media(prefers-contrast:more){[data-appearance-fallback][data-theme=dark]{--muted:#e1ebf5;--line:#9eafc2}[data-appearance-fallback][data-theme=dark] :is(.panel,button,textarea){border:2px solid #9eafc2}}
 </style>
 <style id="course-palette-styles">
-/* Six light-mode identities; every dark lesson uses Day 1's warm apricot palette. */
-:root[data-course-palette=peach]{--course-hue:16;--course-saturation:48%}
-:root[data-course-palette=apricot]{--course-hue:30;--course-saturation:54%}
-:root[data-course-palette=butter]{--course-hue:46;--course-saturation:52%}
-:root[data-course-palette=rose]{--course-hue:350;--course-saturation:34%}
-:root[data-course-palette=mauve]{--course-hue:285;--course-saturation:24%}
-:root[data-course-palette=latte]{--course-hue:26;--course-saturation:20%}
-:root[data-course-palette][data-theme=light]{
- --bg:hsl(var(--course-hue) var(--course-saturation) 94%);
- --panel:hsl(var(--course-hue) 35% 99%);
- --ink:hsl(var(--course-hue) 18% 20%);
- --muted:hsl(var(--course-hue) 14% 37%);
- --line:hsl(var(--course-hue) 22% 73%);
- --accent:hsl(var(--course-hue) var(--course-saturation) 31%);
- --soft:hsl(var(--course-hue) var(--course-saturation) 89%);
- --on-accent:#fffdf8;
- --neutral:hsl(var(--course-hue) 16% 81%);
- --hear-bg:var(--soft);--hear-ink:var(--accent);--hear-line:hsl(var(--course-hue) 30% 56%);
- --say-bg:#fff3d8;--say-ink:#654916;--say-line:#b48a3c;
+/* Language identities: English follows Day 5; Japanese = warm titanium; Korean = cool silver.
+   Task yellow and mastery green retain their teaching meaning. */
+:root[data-course-palette=navy][data-theme=light],
+:root[data-course-palette=navy][data-theme=light] body:is(.day1-guided,.lesson-guided){
+ --bg:#f5f3ee;--panel:#fffefa;--ink:#203449;--muted:#526171;--line:#cbd1d4;
+ --accent:#204e73;--on-accent:#fff;--soft:#edf0f2;--neutral:#cbd1d4;
+ --dg-tint:#e2edf5;--dg-map:#eaf0f3;--dg-road:#c9d6df;--dg-block:#dce6e5;
+ --hear-bg:#eaf2fa;--hear-ink:#234c70;--hear-line:#7998b4;
+ --say-bg:#fff0c7;--say-ink:#513a17;--say-line:#a66a17;
+ --course-hero:#20384e;--course-hero-ink:#fff9eb;--course-hero-muted:#d5e2ec;
+ --course-focus:#9e5e12;
 }
-:root[data-course-palette][data-theme=dark]{
- --course-hue:30;--course-saturation:54%;
- --bg:hsl(var(--course-hue) 15% 17%);
- --panel:hsl(var(--course-hue) 14% 22%);
- --ink:hsl(var(--course-hue) 30% 94%);
- --muted:hsl(var(--course-hue) 20% 77%);
- --line:hsl(var(--course-hue) 18% 48%);
- --accent:hsl(var(--course-hue) var(--course-saturation) 78%);
- --soft:hsl(var(--course-hue) 20% 28%);
- --on-accent:hsl(var(--course-hue) 22% 18%);
- --neutral:hsl(var(--course-hue) 13% 39%);
- --hear-bg:var(--soft);--hear-ink:var(--accent);--hear-line:hsl(var(--course-hue) 25% 60%);
- --say-bg:#403624;--say-ink:#f4dfaf;--say-line:#c4a251;
+:root[data-course-palette=navy][data-theme=dark],
+:root[data-course-palette=navy][data-theme=dark] body:is(.day1-guided,.lesson-guided){
+ --bg:#121c26;--panel:#1d2b38;--ink:#eef3f7;--muted:#bdc9d3;--line:#4f616e;
+ --accent:#a9d2f2;--on-accent:#122b3f;--soft:#293b4b;--neutral:#4f616e;
+ --dg-tint:#30485b;--dg-map:#263d4c;--dg-road:#607482;--dg-block:#354e56;
+ --hear-bg:#22394b;--hear-ink:#cee6fa;--hear-line:#86abc6;
+ --say-bg:#40351f;--say-ink:#ffe6af;--say-line:#e7b85c;
+ --course-hero:#243d53;--course-hero-ink:#fff4d8;--course-hero-muted:#d1e0ec;
+ --course-focus:#f2c56d;
 }
+:root[data-course-palette=titanium][data-theme=light]{
+ --bg:#f5f4f1;--panel:#fffefd;--ink:#242321;--muted:#69655f;--line:#d8d5cf;
+ --accent:#66594a;--on-accent:#fff;--soft:#eae7e1;--neutral:#d5d1ca;
+ --hear-bg:#eeece7;--hear-ink:#403c36;--hear-line:#aaa398;
+ --say-bg:#faf6ea;--say-ink:#5c5039;--say-line:#aa9470;--course-focus:#66594a;
+}
+:root[data-course-palette=titanium][data-theme=dark]{
+ --bg:#181817;--panel:#242423;--ink:#f5f4f1;--muted:#bbb7af;--line:#53514c;
+ --accent:#d0c2ac;--on-accent:#27231d;--soft:#33322f;--neutral:#53514c;
+ --hear-bg:#2d2c29;--hear-ink:#e4e0d8;--hear-line:#78746b;
+ --say-bg:#302d25;--say-ink:#e7d9b8;--say-line:#a08e6c;--course-focus:#d0c2ac;
+}
+:root[data-course-palette=silver][data-theme=light]{
+ --bg:#f5f5f7;--panel:#fff;--ink:#1d1d1f;--muted:#64656b;--line:#d5d7dd;
+ --accent:#405c85;--on-accent:#fff;--soft:#e7ebf1;--neutral:#d3d6dd;
+ --hear-bg:#eceef2;--hear-ink:#363e4b;--hear-line:#9da6b5;
+ --say-bg:#faf7ee;--say-ink:#5c5039;--say-line:#aa9470;--course-focus:#405c85;
+}
+:root[data-course-palette=silver][data-theme=dark]{
+ --bg:#16171a;--panel:#232428;--ink:#f5f5f7;--muted:#b8bbc3;--line:#4f535c;
+ --accent:#adc5e7;--on-accent:#202b3a;--soft:#2f343e;--neutral:#4f535c;
+ --hear-bg:#2b2e35;--hear-ink:#dce1ea;--hear-line:#727d8f;
+ --say-bg:#302d26;--say-ink:#e7d9b8;--say-line:#a08e6c;--course-focus:#adc5e7;
+}
+/* Guided lessons declare body tokens; set aliases at that same scope. */
+:root[data-course-palette][data-theme] body:is(.day1-guided,.lesson-guided){
+ --surface:var(--panel);--dg-warm:var(--say-bg);--dg-warm-ink:var(--say-ink);--dg-warm-line:var(--say-line);
+}
+:root[data-course-palette][data-theme]{background:var(--bg);color:var(--ink)}
 :root[data-course-palette] body{background:var(--bg);color:var(--ink)}
-/* Override earlier shell generations so switching days never restores a green/black shell. */
 :root[data-course-palette] :is(.top,.day-switcher,.course-nav,.course-menu){background:var(--bg);color:var(--ink);border-color:var(--line)}
 :root[data-course-palette] :is(.course-menu>summary,.tools button,.day-switcher a){background:var(--panel);color:var(--ink);border-color:var(--line)}
 :root[data-course-palette] :is(.day-switcher a[aria-current=page],button.primary,.task-round-picker button[aria-pressed=true],.workshop-modes [aria-pressed=true],.workshop-picker [aria-pressed=true]){background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
@@ -571,9 +587,26 @@
 :root[data-course-palette] .kindness-pill{background:var(--panel);color:var(--accent)}
 :root[data-course-palette] .teacher{background:var(--hear-bg);color:var(--hear-ink);border-color:var(--hear-line)}
 :root[data-course-palette] .teacher summary{color:inherit}
+/* Neutral reading surfaces; the actual speaking task retains its warm cue. */
+:root[data-course-day="0"][data-course-palette] :is(.study-library,.japanese-hear-block){background:transparent;border-color:var(--line)}
+:root[data-course-day="0"][data-course-palette] .study-heading:is(.study-self,.study-other){background:var(--panel);color:var(--ink);border-color:var(--line)}
+:root[data-course-day="0"][data-course-palette] :is(.study-library,.japanese-hear-block)>.study-heading{background:transparent;border-bottom-color:var(--line)}
+:root[data-course-day="0"][data-course-palette] :is(.study-library .task-phrase-grid,.japanese-hear-grid)>.panel{border-color:var(--line);border-top-width:1px}
+:root[data-course-day="0"][data-course-palette] .jp-glossary{border:1px solid var(--line);box-shadow:0 16px 48px #0000001a}
+:root[data-course-day="0"][data-course-palette][data-theme=dark] .jp-glossary{box-shadow:0 16px 48px #0006}
+:root[data-course-day="0"][data-course-palette] .speaking-task{background:var(--say-bg);color:var(--say-ink);border-color:var(--say-line)}
+:root[data-course-day="0"][data-course-palette] .speaking-task summary{color:var(--say-ink)}
+:root[data-course-palette][data-theme] .jp-glossary{
+ --panel:inherit;--ink:inherit;--muted:inherit;--accent:inherit;--line:inherit;
+ --glossary-button:var(--panel);--glossary-hover:var(--soft);
+}
+:root[data-course-palette] :focus-visible{outline-color:var(--course-focus)}
+:root[data-course-palette] ::selection{background:var(--accent);color:var(--on-accent)}
+:root[data-course-palette=navy] body:is(.day1-guided,.lesson-guided) .dg-lesson-cover{background:var(--course-hero);color:var(--course-hero-ink)}
+:root[data-course-palette=navy] body:is(.day1-guided,.lesson-guided) .dg-cover-copy :is(.eyebrow,.dg-introduction){color:var(--course-hero-muted)}
 @media(prefers-contrast:more){
- :root[data-course-palette][data-theme=light]{--muted:#403832;--line:#77685e}
- :root[data-course-palette][data-theme=dark]{--muted:#f5eee5;--line:#cfbfae}
+ :root[data-course-palette][data-theme=light],:root[data-course-palette][data-theme=light] body:is(.day1-guided,.lesson-guided){--muted:var(--ink);--line:var(--accent)}
+ :root[data-course-palette][data-theme=dark],:root[data-course-palette][data-theme=dark] body:is(.day1-guided,.lesson-guided){--muted:var(--ink);--line:var(--accent)}
 }
 </style>
 <style id="responsive-layout-styles">

@@ -1,7 +1,7 @@
-/* Day 5 pilot: warm = my spoken task, blue = listen / context,
+/* Shared Days 1–11 presentation, promoted from Day 5: warm = my spoken task, blue = listen / context,
    neutral = notes. Do not change the meaning of yellow/green self-ratings. */
-:root[data-course-day="5"][data-lesson-guided] { background: #f5f3ee; }
-body.lesson-guided.lesson5-hierarchy {
+:root[data-lesson-focus] { background: #f5f3ee; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) {
  --bg: #f5f3ee; --panel: #fffefa; --surface: var(--panel);
  --ink: #203449; --muted: #526171; --line: #cbd1d4; --soft: #edf0f2;
  --accent: #204e73; --on-accent: #fff; --dg-tint: #e2edf5;
@@ -12,8 +12,8 @@ body.lesson-guided.lesson5-hierarchy {
  --dg-map: #eaf0f3; --dg-road: #c9d6df; --dg-block: #dce6e5;
  font-size: 1rem; line-height: 1.65;
 }
-:root[data-theme=dark][data-course-day="5"][data-lesson-guided] { background: #121c26; }
-:root[data-theme=dark] body.lesson-guided.lesson5-hierarchy {
+:root[data-theme=dark][data-lesson-focus] { background: #121c26; }
+:root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) {
  --bg: #121c26; --panel: #1d2b38; --ink: #eef3f7; --muted: #bdc9d3;
  --line: #4f616e; --soft: #293b4b; --accent: #a9d2f2; --on-accent: #122b3f;
  --dg-tint: #30485b; --dg-warm: #40351f; --dg-warm-line: #e7b85c; --dg-warm-ink: #ffe6af;
@@ -22,132 +22,142 @@ body.lesson-guided.lesson5-hierarchy {
  --d5-focus: #f2c56d; --d5-focus-soft: #2d291f;
  --dg-map: #263d4c; --dg-road: #607482; --dg-block: #354e56;
 }
-body.lesson-guided.lesson5-hierarchy :is(.panel,.dg-panel) { border-radius: 16px; box-shadow: none; }
-body.lesson-guided.lesson5-hierarchy :is(.fine,.dg-note) { font-size: .88rem; line-height: 1.65; }
-body.lesson-guided.lesson5-hierarchy :is(button,summary,a,input) { touch-action: manipulation; }
-body.lesson-guided.lesson5-hierarchy :is(button,summary,.checkline) { min-height: 44px; }
-body.lesson-guided.lesson5-hierarchy summary { display: list-item; padding-block: 10px; cursor: pointer; }
-body.lesson-guided.lesson5-hierarchy button { transition: background-color 120ms, border-color 120ms; }
-body.lesson-guided.lesson5-hierarchy :focus-visible { outline: 3px solid var(--d5-focus); outline-offset: 4px; }
-body.lesson-guided.lesson5-hierarchy :is(textarea,input) { scroll-margin-block: calc(var(--travel-header-height,64px) + 20px) 24px; }
-body.lesson-guided.lesson5-hierarchy textarea { font-size: 1rem; border-color: var(--d5-listen-line); }
-body.lesson-guided.lesson5-hierarchy textarea:focus { border-color: var(--accent); }
-body.lesson-guided.lesson5-hierarchy .top { border-bottom: 2px solid var(--line); }
-body.lesson-guided.lesson5-hierarchy .brand > span { background: #f3c566; color: #203449; }
-body.lesson-guided.lesson5-hierarchy #dg-menu-open { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
-body.lesson-guided.lesson5-hierarchy .dg-context { padding-block: 15px; }
-body.lesson-guided.lesson5-hierarchy .dg-current-section { color: var(--ink); font-weight: 800; }
-body.lesson-guided.lesson5-hierarchy .dg-current-round { font-size: .88rem; }
-body.lesson-guided.lesson5-hierarchy .dg-task-switch button[aria-pressed=true] { box-shadow: none; }
-body.lesson-guided.lesson5-hierarchy .dg-lesson-cover {
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.panel,.dg-panel) { border-radius: 16px; box-shadow: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.fine,.dg-note) { font-size: .88rem; line-height: 1.65; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(button,summary,a,input) { touch-action: manipulation; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(button,summary,.checkline) { min-height: 44px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) summary { display: list-item; padding-block: 10px; cursor: pointer; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) button { transition: background-color 120ms, border-color 120ms; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :focus-visible { outline: 3px solid var(--d5-focus); outline-offset: 4px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(textarea,input) { scroll-margin-block: calc(var(--travel-header-height,64px) + 20px) 24px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) textarea { font-size: 1rem; border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) textarea:focus { border-color: var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .top { border-bottom: 2px solid var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .brand > span { background: #f3c566; color: #203449; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-menu-open { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-context { padding-block: 15px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-current-section { color: var(--ink); font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-current-round { font-size: .88rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-switch button[aria-pressed=true] { box-shadow: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-switch { padding: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .dg-entry-next { display: flex; justify-content: flex-end; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .dg-entry-next > button { flex: 0 1 auto; margin-inline-start: auto; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-introduction { color: var(--d5-hero-muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-lesson-cover {
  background: var(--d5-hero); color: var(--d5-hero-ink); border: 0;
  padding: 22px 30px; grid-template-columns: minmax(0,1fr) minmax(160px,240px); gap: 24px;
 }
-body.lesson-guided.lesson5-hierarchy .dg-cover-copy .eyebrow { color: var(--d5-hero-muted); font-size: .85rem; letter-spacing: .1em; }
-body.lesson-guided.lesson5-hierarchy .dg-cover-copy h1 { color: inherit; font-size: 2.5rem; font-weight: 800; letter-spacing: -.03em; }
-body.lesson-guided.lesson5-hierarchy .d5-cover-subtitle { color: var(--d5-hero-muted); margin: 8px 0 0; font-size: 1.05rem; }
-body.lesson-guided.lesson5-hierarchy .dg-cover-art { background: #eaf0ef; border-radius: 14px; padding: 8px; }
-body.lesson-guided.lesson5-hierarchy .dg-cover-art .lesson-cast { height: 134px; align-items: center; }
-body.lesson-guided.lesson5-hierarchy .dg-cover-art .lesson-cast :is(figure,.lesson-illustration) { height: 134px; max-height: 100%; }
-body.lesson-guided.lesson5-hierarchy .d5-section-heading { display: flex; align-items: flex-start; gap: 18px; margin: 4px 0 25px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
-body.lesson-guided.lesson5-hierarchy .d5-section-number { color: var(--accent); font-size: 2.7rem; font-weight: 800; line-height: 1.15; letter-spacing: -.06em; }
-body.lesson-guided.lesson5-hierarchy .d5-section-heading h1 { margin: 0 0 6px; font-size: 1.9rem; font-weight: 800; }
-body.lesson-guided.lesson5-hierarchy .d5-section-heading p { color: var(--muted); font-size: .94rem; margin: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-copy .eyebrow { color: var(--d5-hero-muted); font-size: .85rem; letter-spacing: .1em; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-copy h1 { color: inherit; font-size: 2.5rem; font-weight: 800; letter-spacing: -.03em; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-cover-subtitle { color: var(--d5-hero-muted); margin: 8px 0 0; font-size: 1.05rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art { background: #eaf0ef; border-radius: 14px; padding: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art .lesson-cast { height: 134px; align-items: center; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art .lesson-cast :is(figure,.lesson-illustration) { height: 134px; max-height: 100%; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading { display: flex; align-items: flex-start; gap: 18px; margin: 4px 0 25px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-number { color: var(--accent); font-size: 2.7rem; font-weight: 800; line-height: 1.15; letter-spacing: -.06em; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading h1 { margin: 0 0 6px; font-size: 1.9rem; font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading p { color: var(--muted); font-size: .94rem; margin: 0; }
 /* The primary task reads as one warm surface, including its headline. */
-body.lesson-guided.lesson5-hierarchy :is(.dg-task-panel,.dg-speaker:not(.dg-listener),.dg-study-current.workshop-answer) {
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task-panel,.dg-speaker:not(.dg-listener),.dg-study-current.workshop-answer) {
  background: var(--dg-warm); color: var(--dg-warm-ink); border: 1px solid var(--dg-warm-line); border-top: 5px solid var(--dg-warm-line);
 }
-body.lesson-guided.lesson5-hierarchy :is(.dg-task-panel,.dg-speaker:not(.dg-listener)) :is(.dg-note,.fine,.dg-role) { color: var(--dg-warm-ink); }
-body.lesson-guided.lesson5-hierarchy :is(.dg-task,.dg-task-panel > .task) { font-size: 1.6rem; font-weight: 750; line-height: 1.6; }
-body.lesson-guided.lesson5-hierarchy .dg-task-panel > h2 { font-size: 1.08rem; margin-bottom: 14px; }
-body.lesson-guided.lesson5-hierarchy .dg-role { font-weight: 800; margin-bottom: 10px; }
-body.lesson-guided.lesson5-hierarchy .d5-focus-cue { align-self: flex-start; margin: 0; padding: 5px 12px; border: 1px solid var(--dg-warm-line); border-radius: 7px; color: var(--dg-warm-ink); background: var(--d5-focus-soft); font-size: .9rem; font-weight: 800; }
-body.lesson-guided.lesson5-hierarchy .dg-hint { margin-block: 16px; }
-body.lesson-guided.lesson5-hierarchy .dg-hint-tabs { background: var(--d5-focus-soft); border: 1px solid var(--dg-warm-line); }
-body.lesson-guided.lesson5-hierarchy .dg-hint-tabs button { color: var(--dg-warm-ink); white-space: normal; }
-body.lesson-guided.lesson5-hierarchy .dg-hint-tabs button[aria-pressed=true] { background: var(--dg-warm-ink); color: var(--dg-warm); box-shadow: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task-panel,.dg-speaker:not(.dg-listener)) :is(.dg-note,.fine,.dg-role) { color: var(--dg-warm-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task,.dg-task-panel > .task) { font-size: 1.6rem; font-weight: 750; line-height: 1.6; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-panel > h2 { font-size: 1.08rem; margin-bottom: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-role { font-weight: 800; margin-bottom: 10px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-focus-cue { align-self: flex-start; margin: 0; padding: 5px 12px; border: 1px solid var(--dg-warm-line); border-radius: 7px; color: var(--dg-warm-ink); background: var(--d5-focus-soft); font-size: .9rem; font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint { margin-block: 16px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-tabs { background: var(--d5-focus-soft); border: 1px solid var(--dg-warm-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-tabs button { color: var(--dg-warm-ink); white-space: normal; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-tabs button[aria-pressed=true] { background: var(--dg-warm-ink); color: var(--dg-warm); box-shadow: none; }
 /* Hidden answers do not reserve a full answer's height on a small screen.
    The controls stay above the content, so expanding grows down from them. */
-body.lesson-guided.lesson5-hierarchy .dg-hint-stage { min-height: 0; padding: 18px; background: var(--d5-focus-soft); }
-body.lesson-guided.lesson5-hierarchy .dg-hint-pane[aria-hidden=true] { display: none; }
-body.lesson-guided.lesson5-hierarchy .dg-hint-empty { font-size: .94rem; margin: 0; }
-body.lesson-guided.lesson5-hierarchy :is(.dg-listener,.dg-listen-panel,.study-hear-card,.dg-study-current.workshop-question) {
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-stage { min-height: 0; padding: 18px; background: var(--d5-focus-soft); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-pane[aria-hidden=true] { display: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-empty { font-size: .94rem; margin: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-listener,.dg-listen-panel,.study-hear-card,.dg-study-current.workshop-question) {
  background: var(--d5-listen); color: var(--d5-listen-ink); border-color: var(--d5-listen-line); border-top: 5px solid var(--d5-listen-line);
 }
-body.lesson-guided.lesson5-hierarchy .dg-listener :is(.dg-role,.fine,.flow-translation),
-body.lesson-guided.lesson5-hierarchy .study-hear-card :is(.study-meaning,.eyebrow,.fine) { color: var(--d5-listen-ink); }
-body.lesson-guided.lesson5-hierarchy .dg-listener .dg-hint-stage { background: var(--panel); color: var(--ink); border-color: var(--d5-listen-line); }
-body.lesson-guided.lesson5-hierarchy :is(.dg-answer-panel,.dg-goals) { border-top: 5px solid var(--d5-listen-line); }
-body.lesson-guided.lesson5-hierarchy .d5-support-label { font-size: .82rem; font-weight: 800; color: var(--accent); letter-spacing: .04em; margin: 0 0 14px; }
-body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene .scene-board { border-top: 5px solid var(--d5-listen-line); background: var(--panel); }
-body.lesson-guided.lesson5-hierarchy .scene-board .dg-scene-context { background: var(--d5-listen); color: var(--d5-listen-ink); border-radius: 10px; padding: 16px; }
-body.lesson-guided.lesson5-hierarchy .scene-board[data-ready=true] { border-color: var(--accent); }
-body.lesson-guided.lesson5-hierarchy .scene-board .objects { gap: 12px; }
-body.lesson-guided.lesson5-hierarchy .scene-board .object:disabled { opacity: .65; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-listener :is(.dg-role,.fine,.flow-translation),
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-hear-card :is(.study-meaning,.eyebrow,.fine) { color: var(--d5-listen-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-listener .dg-hint-stage { background: var(--panel); color: var(--ink); border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-answer-panel,.dg-goals) { border-top: 5px solid var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-support-label { font-size: .82rem; font-weight: 800; color: var(--accent); letter-spacing: .04em; margin: 0 0 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-condition-label { display: block; font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-condition-focus { display: block; font-size: 1.9rem; font-weight: 850; line-height: 1.4; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-condition-note { margin: -6px 0 20px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene .scene-board { border-top: 5px solid var(--d5-listen-line); background: var(--panel); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .dg-scene-context { background: var(--d5-listen); color: var(--d5-listen-ink); border-radius: 10px; padding: 16px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board[data-ready=true] { border-color: var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .objects { gap: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .object:disabled { opacity: .65; }
 /* Long study pages keep the same spoken / heard landmarks while scrolling. */
-body.lesson-guided.lesson5-hierarchy .study-heading:is(.study-self,.study-other) { border-radius: 12px; padding: 14px 18px; border-left: 5px solid; }
-body.lesson-guided.lesson5-hierarchy .study-heading.study-self { background: var(--dg-warm); color: var(--dg-warm-ink); border-color: var(--dg-warm-line); }
-body.lesson-guided.lesson5-hierarchy .study-heading.study-other { background: var(--d5-listen); color: var(--d5-listen-ink); border-color: var(--d5-listen-line); }
-body.lesson-guided.lesson5-hierarchy .study-heading h2 { font-size: 1.3rem; font-weight: 800; }
-body.lesson-guided.lesson5-hierarchy .study-heading p { color: inherit; font-size: .9rem; }
-body.lesson-guided.lesson5-hierarchy .study-library .task-phrase-grid > .panel { background: var(--dg-warm); color: var(--dg-warm-ink); border-color: var(--dg-warm-line); }
-body.lesson-guided.lesson5-hierarchy .dg-study-card :is(.eyebrow,.study-meaning) { color: var(--dg-warm-ink); }
-body.lesson-guided.lesson5-hierarchy .study-block { margin-bottom: 36px; }
-body.lesson-guided.lesson5-hierarchy .dg-study-card .en { font-weight: 800; }
-body.lesson-guided.lesson5-hierarchy .dg-study-card .en { min-height: 0; }
-body.lesson-guided.lesson5-hierarchy :is(.dg-situation,.dg-before-record .readonly) { background: var(--d5-focus-soft); }
-body.lesson-guided.lesson5-hierarchy :is(.dg-before-record,.dg-feedback-note,.dg-home-next) { color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading:is(.study-self,.study-other) { border-radius: 12px; padding: 14px 18px; border-left: 5px solid; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading.study-self { background: var(--dg-warm); color: var(--dg-warm-ink); border-color: var(--dg-warm-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading.study-other { background: var(--d5-listen); color: var(--d5-listen-ink); border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading h2 { font-size: 1.3rem; font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading p { color: inherit; font-size: .9rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-library .task-phrase-grid > .panel { background: var(--dg-warm); color: var(--dg-warm-ink); border-color: var(--dg-warm-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-study-card :is(.eyebrow,.study-meaning) { color: var(--dg-warm-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-block { margin-bottom: 36px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-study-card .en { font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-study-card .en { min-height: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-situation,.dg-before-record .readonly) { background: var(--d5-focus-soft); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-before-record,.dg-feedback-note,.dg-home-next) { color: var(--muted); }
 /* Supplemental disclosures have less weight than the task cards. */
-body.lesson-guided.lesson5-hierarchy details.panel { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 8px 4px; margin-block: 14px; }
-body.lesson-guided.lesson5-hierarchy details.panel > summary { font-weight: 600; color: var(--muted); }
-body.lesson-guided.lesson5-hierarchy details.panel[open] { background: var(--panel); padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
-body.lesson-guided.lesson5-hierarchy :is(.dg-teacher,.dg-student-help) { background: var(--soft); padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; }
-body.lesson-guided.lesson5-hierarchy :is(.dg-teacher,.dg-student-help) > summary { color: var(--ink); }
-body.lesson-guided.lesson5-hierarchy .teacher-card { background: var(--panel); border-left: 4px solid var(--d5-listen-line); padding: 16px; border-radius: 8px; }
-body.lesson-guided.lesson5-hierarchy .teacher-card .en { color: var(--ink); font-size: 1.35rem; }
-body.lesson-guided.lesson5-hierarchy .session-stop button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); font-size: .85rem; }
-body.lesson-guided.lesson5-hierarchy #main > .footer-actions { margin-block: 26px; padding-top: 0; border: 0; }
-body.lesson-guided.lesson5-hierarchy #main > .footer-actions > button { min-height: 48px; }
-body.lesson-guided.lesson5-hierarchy #dg-course-dialog { border-top: 5px solid var(--accent); }
-body.lesson-guided.lesson5-hierarchy #dg-course-dialog::backdrop { background: #101c2bb3; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) details.panel { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 8px 4px; margin-block: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) details.panel > summary { font-weight: 600; color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) details.panel[open] { background: var(--panel); padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-teacher,.dg-student-help) { background: var(--soft); padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-teacher,.dg-student-help) > summary { color: var(--ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .teacher-card { background: var(--panel); border-left: 4px solid var(--d5-listen-line); padding: 16px; border-radius: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .teacher-card .en { color: var(--ink); font-size: 1.35rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .session-stop button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); font-size: .85rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .footer-actions { margin-block: 26px; padding-top: 0; border: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .footer-actions > button { min-height: 48px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-course-dialog { border-top: 5px solid var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-course-dialog::backdrop { background: #101c2bb3; }
 /* Portrait tablets and large type need one readable column before phones do. */
 @media (min-width:740px) and (max-width:900px) {
- body.lesson-guided.lesson5-hierarchy :is(.dg-intro-grid,.dg-mission-grid,.dg-pair-grid,.dg-checkpoint-task,.dg-home-grid) { grid-template-columns: minmax(0,1fr); }
- body.lesson-guided.lesson5-hierarchy .dg-flow-grid { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-intro-grid,.dg-mission-grid,.dg-pair-grid,.dg-checkpoint-task,.dg-home-grid) { grid-template-columns: minmax(0,1fr); }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-flow-grid { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); }
 }
 @media (min-width:740px) and (max-width:1100px) {
- :root[data-size=large] body.lesson-guided.lesson5-hierarchy :is(.dg-grid,.scene-grid.task-scene,.dg-intro-grid,.task-phrase-grid,.study-hear-grid) { grid-template-columns: minmax(0,1fr); }
+ :root[data-size=large] body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-grid,.scene-grid.task-scene,.dg-intro-grid,.task-phrase-grid,.study-hear-grid) { grid-template-columns: minmax(0,1fr); }
 }
 @media (max-width:739px) {
- body.lesson-guided.lesson5-hierarchy .top-inner { padding-inline: 12px; }
- body.lesson-guided.lesson5-hierarchy .tools button { font-size: .8rem; padding-inline: 7px; }
- body.lesson-guided.lesson5-hierarchy .dg-context { gap: 10px; padding-block: 14px; }
- body.lesson-guided.lesson5-hierarchy .dg-context-copy { flex: 1 1 140px; }
- body.lesson-guided.lesson5-hierarchy .dg-current-round { font-size: .85rem; }
- body.lesson-guided.lesson5-hierarchy .dg-task-switch { margin-left: auto; }
- body.lesson-guided.lesson5-hierarchy .dg-task-label { display: none; }
- body.lesson-guided.lesson5-hierarchy .dg-lesson-cover { padding: 22px; grid-template-columns: minmax(0,1fr); gap: 0; }
- body.lesson-guided.lesson5-hierarchy .dg-cover-copy h1 { font-size: 2rem; }
- body.lesson-guided.lesson5-hierarchy .dg-cover-art { display: none; }
- body.lesson-guided.lesson5-hierarchy .d5-cover-subtitle { font-size: .95rem; }
- body.lesson-guided.lesson5-hierarchy .d5-section-heading { gap: 12px; margin-bottom: 20px; padding-bottom: 16px; }
- body.lesson-guided.lesson5-hierarchy .d5-section-number { font-size: 2rem; }
- body.lesson-guided.lesson5-hierarchy .d5-section-heading h1 { font-size: 1.55rem; }
- body.lesson-guided.lesson5-hierarchy .d5-section-heading p { font-size: .9rem; }
- body.lesson-guided.lesson5-hierarchy :is(.dg-task,.dg-task-panel > .task) { font-size: 1.4rem; }
- body.lesson-guided.lesson5-hierarchy .dg-hint-stage { padding: 14px; }
- body.lesson-guided.lesson5-hierarchy .scene-board .objects { grid-template-columns: minmax(0,1fr); }
- body.lesson-guided.lesson5-hierarchy .dg-task-panel > .dg-note { border-top: 1px solid var(--dg-warm-line); padding-top: 12px; }
- body.lesson-guided.lesson5-hierarchy .study-navigation { flex-direction: column; }
- body.lesson-guided.lesson5-hierarchy .study-heading { padding: 12px; }
- body.lesson-guided.lesson5-hierarchy .dg-role-row { flex-wrap: wrap; }
- body.lesson-guided.lesson5-hierarchy .dg-goals .section-title { flex-wrap: wrap; gap: 8px; }
- body.lesson-guided.lesson5-hierarchy .dg-quiz-options button { white-space: normal; overflow-wrap: anywhere; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .top-inner { padding-inline: 12px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .tools button { font-size: .8rem; padding-inline: 7px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-context { gap: 10px; padding-block: 14px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-context-copy { flex: 1 1 140px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-current-round { font-size: .85rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-switch { margin-left: auto; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-label { display: none; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-lesson-cover { padding: 22px; grid-template-columns: minmax(0,1fr); gap: 0; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-copy h1 { font-size: 2rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art { display: none; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-cover-subtitle { font-size: .95rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading { gap: 12px; margin-bottom: 20px; padding-bottom: 16px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-number { font-size: 2rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading h1 { font-size: 1.55rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading p { font-size: .9rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task,.dg-task-panel > .task) { font-size: 1.4rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-stage { padding: 14px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .objects { grid-template-columns: minmax(0,1fr); }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-panel > .dg-note { border-top: 1px solid var(--dg-warm-line); padding-top: 12px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .study-navigation { flex-direction: column; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading { padding: 12px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-role-row { flex-wrap: wrap; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-goals .section-title { flex-wrap: wrap; gap: 8px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-quiz-options button { white-space: normal; overflow-wrap: anywhere; }
 }
 @media (prefers-reduced-motion:reduce) {
- body.lesson-guided.lesson5-hierarchy button { transition: none; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) button { transition: none; }
 }
 @media (prefers-contrast:more) {
- body.lesson-guided.lesson5-hierarchy { --line: #596b79; }
- :root[data-theme=dark] body.lesson-guided.lesson5-hierarchy { --line: #aabac7; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) { --line: #596b79; }
+ :root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) { --line: #aabac7; }
+}
+@media (max-width:380px) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-section-footer > button { padding-inline: 6px; }
 }

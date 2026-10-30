@@ -6,7 +6,6 @@ const responsiveStyles=fs.readFileSync('assets/responsive-layout.css','utf8');
 const responsiveScript=fs.readFileSync('assets/responsive-layout.js','utf8');
 const offlineStyles=fs.readFileSync('assets/offline.css','utf8');
 const offlineScript=fs.readFileSync('assets/offline.js','utf8');
-const coursePalettes=['peach','apricot','butter','rose','mauve','latte'];
 module.exports=function syncAppearance(file){
  const files=file?[file]:fs.readdirSync('.').filter(f=>f==='index.html'||/^travel-(?:english(?:-unit.*)?|(?:japanese|korean)-day0-directions)\.html$/.test(f));
  for(const name of files){
@@ -21,10 +20,11 @@ module.exports=function syncAppearance(file){
   html=html.replace('<html ',`<html data-appearance-kind="${kind}"${fallback?' data-appearance-fallback':''} `);
   const courseDay=/^travel-(?:japanese|korean)-day0-directions\.html$/.test(name)?0:name==='travel-english.html'?1:Number(name.match(/^travel-english-unit(\d+)-/)?.[1]);
   html=html.replace(/ data-course-(?:palette|day)="[^"]*"/g,'');
-  if(Number.isInteger(courseDay))html=html.replace('<html ',`<html data-course-day="${courseDay}" data-course-palette="${coursePalettes[courseDay%coursePalettes.length]}" `);
+  const palette=name.startsWith('travel-japanese-')?'titanium':name.startsWith('travel-korean-')?'silver':'navy';
+  html=html.replace('<html ',`<html data-course-palette="${palette}"${Number.isInteger(courseDay)?` data-course-day="${courseDay}"`:''} `);
   html=html.replace(/(<meta charset="utf-8"\s*\/?>)/i,meta=>meta+'\n<script id="shared-appearance-init" data-appearance-init>\n'+assets['appearance-init.js']+'</script>');
   html=html.replace('</head>',()=>'<style id="shared-appearance-styles">\n'+assets['appearance.css']+'</style>\n</head>');
-  if(Number.isInteger(courseDay))html=html.replace('</head>',()=>'<style id="course-palette-styles">\n'+coursePaletteStyles+'</style>\n</head>');
+  html=html.replace('</head>',()=>'<style id="course-palette-styles">\n'+coursePaletteStyles+'</style>\n</head>');
   html=html.replace('</head>',()=>'<style id="responsive-layout-styles">\n'+responsiveStyles+'</style>\n</head>');
   html=html.replace('</head>',()=>`<!-- travel-pwa-meta -->
 <link rel="manifest" href="./manifest.webmanifest">

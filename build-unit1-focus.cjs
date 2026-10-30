@@ -21,7 +21,7 @@ module.exports=function build(){
  fs.writeFileSync('travel-english.html',html.replace('</body>',()=>'<script id="lesson-controls">\n'+controls+'</script>\n</body>'));
  require('./sync-appearance.cjs')('travel-english.html');
  // Keep the Day 1 presentation after shared appearance rules without changing other lessons.
- const styled=fs.readFileSync('travel-english.html','utf8').replace('</head>',()=>'<style id="day1-guided-styles">\n'+['assets/day1-guided.css','assets/day1-capstone.css'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+'\n</style>\n</head>');
+ const styled=fs.readFileSync('travel-english.html','utf8').replace('</head>',()=>'<style id="day1-guided-styles">\n'+['assets/day1-guided.css','assets/day1-capstone.css','assets/lesson5-hierarchy.css','assets/lesson5-flow.css','assets/lesson5-teacher.css'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+'\n</style>\n</head>').replace('load();render();appearance();',()=>['assets/lesson-focus-flow.js','assets/lesson5-teacher.js','assets/lesson5-hierarchy.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+'\nload();render();appearance();');
  fs.writeFileSync('travel-english.html',styled);
  require('./build-pwa.cjs')();
  console.log('Built Day 1 focus: '+d.phrases.length+' phrases / '+d.rounds.length+' rounds.');

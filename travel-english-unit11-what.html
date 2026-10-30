@@ -1,5 +1,5 @@
 <!doctype html>
-<html data-course-day="11" data-course-palette="latte" data-appearance-kind="modern" data-illustrated="true" lang="zh-Hant"><head><meta charset="utf-8">
+<html data-course-palette="navy" data-course-day="11" data-appearance-kind="modern" data-illustrated="true" lang="zh-Hant"><head><meta charset="utf-8">
 <script id="shared-appearance-init" data-appearance-init>
 // Apply shared preferences before the first paint. Learning records are untouched.
 (() => {
@@ -361,218 +361,7 @@
 @media(max-width:760px){.speaking-task{padding:16px}.speaking-heading{gap:9px}}
 @media(prefers-contrast:more){.speaking-task,.speaking-task .quote{border-color:currentColor}.speaking-cue{outline:2px solid currentColor}}
 
-</style><style id="shared-appearance-styles">
-/* Shared reading controls, including the course index and older lessons. */
-:root{color-scheme:light}
-:root[data-theme=dark]{color-scheme:dark}
-:root[data-size=large]{font-size:20px}
-:root[data-appearance-kind=legacy] body.large{font-size:1rem}
-:root[data-size=large] .day-switcher a{font-size:1rem}
-:root[data-size=large] .day-switcher a small{font-size:.8rem}
-.top-inner{flex-wrap:wrap}
-.top-tools,.tools{flex-wrap:wrap;margin-left:auto}
-.top-tools button,.tools button{white-space:nowrap}
-.course-menu>summary{font-size:1rem}
-.appearance-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1001;width:max-content;max-width:calc(100% - 32px);padding:14px 20px;border-radius:14px;background:#202631;color:#fff;box-shadow:0 4px 20px #0003}
-.appearance-status[hidden]{display:none}
-:root[data-theme=dark] .course-menu{background:var(--bg,var(--paper,#171c1d))}
-:root[data-theme=dark] .course-menu :is(.menu-icon,.menu-chevron){color:var(--ink,#edf1ef)}
-:root[data-theme=dark] .course-menu>summary:active{background:var(--surface,var(--panel,#2c3732))}
-
-/* The landing page uses the same controls and storage as the lessons. */
-:root[data-appearance-kind=index]{font-size:18px;--bg:#f5f5f7;--panel:#fff;--ink:#1d1d1f;--muted:#61616a;--accent:#0066cc;--line:#d7dfe0;--soft:#e8f2ff}
-:root[data-appearance-kind=index][data-size=large]{font-size:22px}
-:root[data-appearance-kind=index][data-theme=dark]{--bg:#151b1e;--panel:#222b30;--ink:#f0f4f4;--muted:#b7c5cc;--accent:#83c5ff;--line:#53646e;--soft:#2b3e50}
-[data-appearance-kind=index] body{padding:0;background:var(--bg);color:var(--ink);font-size:1rem}
-[data-appearance-kind=index] main{padding:38px 24px 70px}
-[data-appearance-kind=index] :is(p,small){color:var(--muted)}
-[data-appearance-kind=index] small{font-size:.8rem}
-[data-appearance-kind=index] main a{background:var(--panel);color:var(--accent);overflow-wrap:anywhere}
-[data-appearance-kind=index] main a:hover{background:var(--soft)}
-[data-appearance-kind=index] .top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
-[data-appearance-kind=index] .top-inner{max-width:740px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px}
-[data-appearance-kind=index] .brand{font-size:1rem;font-weight:700}
-[data-appearance-kind=index] .tools{display:flex;gap:8px}
-[data-appearance-kind=index] button{font:inherit;font-size:.85rem;min-height:44px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--ink);cursor:pointer;touch-action:manipulation}
-[data-appearance-kind=index] button:hover,[data-appearance-kind=index] button[aria-pressed=true]{background:var(--soft)}
-[data-appearance-kind=index] :focus-visible{outline:3px solid var(--accent);outline-offset:4px}
-
-/* Days 3–6 predate dark mode. Preserve scene objects' meaningful colors. */
-:root[data-appearance-fallback][data-theme=dark]{background:#171c22;color:#edf2f7;--blue:#9acbff;--muted:#b9c5d2;--line:#526172;--surface:#252e39;--paper:#171c22;--ink:#edf2f7;--teal:#9acbff}
-[data-appearance-fallback][data-theme=dark] .top{background:#171c22}
-[data-appearance-fallback][data-theme=dark] :is(.brand,.context strong){color:#edf2f7}
-[data-appearance-fallback][data-theme=dark] button{background:#354253;color:#edf2f7}
-[data-appearance-fallback][data-theme=dark] button:hover{background:#465970}
-[data-appearance-fallback][data-theme=dark] button.primary{background:#9acbff;color:#142a42}
-[data-appearance-fallback][data-theme=dark] button.plain{background:transparent;color:#9acbff}
-[data-appearance-fallback][data-theme=dark] button[aria-pressed=true]{background:#304f70;color:#e4f1ff;box-shadow:inset 0 0 0 1px #9acbff}
-[data-appearance-fallback][data-theme=dark] .course-nav button{background:transparent;color:var(--muted)}
-[data-appearance-fallback][data-theme=dark] .course-nav button[aria-current=page]{background:#304f70;color:#e4f1ff}
-[data-appearance-fallback][data-theme=dark] :is(.day-switcher,.course-menu>summary,.course-menu aside,.course-menu .course-nav){background:#252e39;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] .day-switcher a{background:#303c4a;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] :is(.day-switcher-label,.day-switcher small){color:var(--muted)}
-[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page]{background:#9acbff;color:#142a42}
-[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page] small{color:#142a42}
-[data-appearance-fallback][data-theme=dark] :is(.panel,.journey-card,.phrase,.reply-card,.quick-reply,.scene-ticket,.train-ticket,.hero-receipt,.food-card,.scene-object){background:#252e39;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] :is(.context,.hint,.scene-screen,.scene-status,.clerk-panel,.teacher-guide,.start-cue,.task-goal){background:#293a4c;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] .tinted{background:#293a4c!important}
-[data-appearance-fallback][data-theme=dark] :is(.hero-visual,.hero-food){background:#293a4c;color:#edf2f7}
-[data-appearance-fallback][data-theme=dark] :is(.hero-copy h1 span,.hero-menu-label,.hero-receipt small,.ticket-facts small,.scene-progress,.card-num){color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] :is(.ticket-seal,.ticket-stamp){color:#9dddbb}
-[data-appearance-fallback][data-theme=dark] :is(textarea,input,select){background:#1c2530;color:#edf2f7;border-color:#778ca3}
-[data-appearance-fallback][data-theme=dark] textarea::placeholder{color:#b9c5d2}
-[data-appearance-fallback][data-theme=dark] :is(.tag,.avatar){background:#304f70;color:#e4f1ff}
-[data-appearance-fallback][data-theme=dark] :is(.feedback,.scene-status.success,.scene-done){background:#244b39;color:#c9f3da}
-[data-appearance-fallback][data-theme=dark] :is(.feedback.retry,.scene-status.retry,.notice){background:#514221;color:#ffe4a2}
-[data-appearance-fallback][data-theme=dark] :focus-visible{outline-color:#9acbff}
-[data-appearance-fallback][data-theme=dark] :is(.boarding,.play-stage,.ride-card,.order-ticket,.cafe-menu,.order-card){background:#252e39;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] :is(.city-hero,.scene-board,.building-scene,.street-scene,.budget-strip,.counter-scene,.train-counter,.play-coach .checkline){background:#293a4c;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] :is(.board-label,.building-name,.journey-status,.order-card small,.order-card span,.food-card span,.food-card small,.menu-mast small,.order-ticket small,.train-ticket-grid small){color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] :is(.scene-object small,.place-symbol,.object-symbol){color:#a4d7c0}
-[data-appearance-fallback][data-theme=dark] :is(.progress-pill,.ride-icon,.ride-pill){background:#304f70;color:#e4f1ff}
-[data-appearance-fallback][data-theme=dark] :is(.scene-object.selected,.food-card.selected){background:#304f70;border-color:#9acbff}
-[data-appearance-fallback][data-theme=dark] .train-steps span{background:#354253;color:#d9e5f2}
-[data-appearance-fallback][data-theme=dark] .train-steps span.active{background:#9acbff;color:#142a42}
-[data-appearance-fallback][data-theme=dark] :is(.train-steps span.done,.train-ready){background:#244b39;color:#c9f3da}
-[data-appearance-fallback][data-theme=dark] :is(.route-arrow,.visual-caption,.ride-card small,.ride-card>span){color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] :is(.counter-choices,.platform-buttons) small{color:#b9cee4!important}
-[data-appearance-fallback][data-theme=dark] .reader-screen{background:#293a4c;color:#edf2f7}
-[data-appearance-fallback][data-theme=dark] :is(.map-titlebar,.map-titlebar strong){color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] .map-caption{color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] .travel-map .map-caption{color:#365063}
-@media(prefers-reduced-transparency:reduce){:root[data-theme=dark] .top{backdrop-filter:none}}
-@media(prefers-contrast:more){[data-appearance-fallback][data-theme=dark]{--muted:#e1ebf5;--line:#9eafc2}[data-appearance-fallback][data-theme=dark] :is(.panel,button,textarea){border:2px solid #9eafc2}}
-</style>
-<style id="course-palette-styles">
-/* Six light-mode identities; every dark lesson uses Day 1's warm apricot palette. */
-:root[data-course-palette=peach]{--course-hue:16;--course-saturation:48%}
-:root[data-course-palette=apricot]{--course-hue:30;--course-saturation:54%}
-:root[data-course-palette=butter]{--course-hue:46;--course-saturation:52%}
-:root[data-course-palette=rose]{--course-hue:350;--course-saturation:34%}
-:root[data-course-palette=mauve]{--course-hue:285;--course-saturation:24%}
-:root[data-course-palette=latte]{--course-hue:26;--course-saturation:20%}
-:root[data-course-palette][data-theme=light]{
- --bg:hsl(var(--course-hue) var(--course-saturation) 94%);
- --panel:hsl(var(--course-hue) 35% 99%);
- --ink:hsl(var(--course-hue) 18% 20%);
- --muted:hsl(var(--course-hue) 14% 37%);
- --line:hsl(var(--course-hue) 22% 73%);
- --accent:hsl(var(--course-hue) var(--course-saturation) 31%);
- --soft:hsl(var(--course-hue) var(--course-saturation) 89%);
- --on-accent:#fffdf8;
- --neutral:hsl(var(--course-hue) 16% 81%);
- --hear-bg:var(--soft);--hear-ink:var(--accent);--hear-line:hsl(var(--course-hue) 30% 56%);
- --say-bg:#fff3d8;--say-ink:#654916;--say-line:#b48a3c;
-}
-:root[data-course-palette][data-theme=dark]{
- --course-hue:30;--course-saturation:54%;
- --bg:hsl(var(--course-hue) 15% 17%);
- --panel:hsl(var(--course-hue) 14% 22%);
- --ink:hsl(var(--course-hue) 30% 94%);
- --muted:hsl(var(--course-hue) 20% 77%);
- --line:hsl(var(--course-hue) 18% 48%);
- --accent:hsl(var(--course-hue) var(--course-saturation) 78%);
- --soft:hsl(var(--course-hue) 20% 28%);
- --on-accent:hsl(var(--course-hue) 22% 18%);
- --neutral:hsl(var(--course-hue) 13% 39%);
- --hear-bg:var(--soft);--hear-ink:var(--accent);--hear-line:hsl(var(--course-hue) 25% 60%);
- --say-bg:#403624;--say-ink:#f4dfaf;--say-line:#c4a251;
-}
-:root[data-course-palette] body{background:var(--bg);color:var(--ink)}
-/* Override earlier shell generations so switching days never restores a green/black shell. */
-:root[data-course-palette] :is(.top,.day-switcher,.course-nav,.course-menu){background:var(--bg);color:var(--ink);border-color:var(--line)}
-:root[data-course-palette] :is(.course-menu>summary,.tools button,.day-switcher a){background:var(--panel);color:var(--ink);border-color:var(--line)}
-:root[data-course-palette] :is(.day-switcher a[aria-current=page],button.primary,.task-round-picker button[aria-pressed=true],.workshop-modes [aria-pressed=true],.workshop-picker [aria-pressed=true]){background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-:root[data-course-palette] .day-switcher a[aria-current=page] small{color:var(--on-accent)}
-:root[data-course-palette] .tools button[aria-pressed=true]{background:var(--soft);color:var(--accent)}
-:root[data-course-palette] :is(.home-hero .hero-art,.scene-board,.task-explainer,.workshop-question){background:var(--soft)}
-:root[data-course-palette] :is(.cafe-wordmark,.home-hero .art-caption,.workshop-role svg){color:var(--accent)}
-:root[data-course-palette] .kindness-pill{background:var(--panel);color:var(--accent)}
-:root[data-course-palette] .teacher{background:var(--hear-bg);color:var(--hear-ink);border-color:var(--hear-line)}
-:root[data-course-palette] .teacher summary{color:inherit}
-@media(prefers-contrast:more){
- :root[data-course-palette][data-theme=light]{--muted:#403832;--line:#77685e}
- :root[data-course-palette][data-theme=dark]{--muted:#f5eee5;--line:#cfbfae}
-}
-</style>
-<style id="responsive-layout-styles">
-/* One responsive shell for the index and all standalone lessons. */
-html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
-.unit-menu{margin:0;min-width:0}
-.unit-menu>summary{display:none}
-.unit-menu a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-@media(min-width:1101px){
- .layout>.course-menu{position:sticky;top:calc(var(--travel-header-height,80px) + 12px);align-self:start}
- .layout>.course-menu>.course-nav{max-height:calc(100dvh - var(--travel-header-height,80px) - 24px);overflow-y:auto;overscroll-behavior:contain}
-}
-@media(max-width:1100px){
- .day-switcher{padding:8px 16px}
- .unit-menu>summary{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 0;color:var(--ink);list-style:none;line-height:1.5;touch-action:manipulation}
- .unit-menu>summary::-webkit-details-marker{display:none}
- .unit-menu>summary::marker{content:""}
- .unit-menu>summary::after{content:"";width:9px;height:9px;margin:0 5px 4px auto;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);flex-shrink:0}
- .unit-menu[open]>summary::after{transform:rotate(225deg);margin-bottom:0}
- .unit-menu>summary>span{min-width:0}
- .unit-menu-label{display:block;color:var(--muted);font-size:.78rem;font-weight:500}
- .unit-menu-current{display:block;font-size:1rem;font-weight:650;overflow-wrap:anywhere}
- .unit-menu>summary:hover,.unit-menu>summary:active{color:var(--accent)}
- .unit-menu>summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
- .unit-menu:not([data-ready])>.day-switcher-inner{display:none}
- .unit-menu .day-switcher-inner{display:block;max-height:min(60dvh,32rem);overflow-y:auto;overscroll-behavior:contain;padding:6px 6px 8px;scroll-padding:6px}
- .unit-menu .day-switcher-label{display:none}
- .unit-menu .day-switcher-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:8px}
- .unit-menu .day-switcher-links a{flex-direction:column;justify-content:center;gap:2px;min-height:56px;padding:10px 8px;text-align:center;font-size:.94rem;overflow-wrap:anywhere}
- .unit-menu .day-switcher-links a small{font-size:.8rem}
-}
-@media(max-width:640px){
- .unit-menu .day-switcher-links{grid-template-columns:repeat(2,minmax(0,1fr))}
- .top .tools button{font-size:.8rem;padding-inline:10px}
- [data-appearance-kind=index] .top-inner{padding:10px 12px;gap:8px}
- [data-appearance-kind=index] .brand{font-size:.9rem}
-}
-@media(max-width:380px){
- .top .brand span{display:none}
- .top-inner{gap:8px}
-}
-@media(prefers-contrast:more){.unit-menu>summary{outline:1px solid currentColor;border-radius:8px;padding-inline:8px}}
-</style>
-<!-- travel-pwa-meta -->
-<link rel="manifest" href="./manifest.webmanifest">
-<meta name="theme-color" content="#fff7ed">
-<link rel="apple-touch-icon" href="./assets/pwa-icon-180.png">
-<!-- /travel-pwa-meta -->
-<style id="travel-offline-styles">
-/* Inline in each lesson so standalone HTML remains readable. */
-#travel-offline{
- --offline-bg:#fff7ed;--offline-ink:#382c22;--offline-muted:#6d5948;--offline-line:#cbb69e;--offline-soft:#f4e4d1;
- box-sizing:border-box;max-width:740px;margin:28px auto;padding:20px 24px;
- border:1px solid var(--offline-line);border-radius:18px;background:var(--offline-bg);color:var(--offline-ink);
- font:inherit;line-height:1.6;overflow-wrap:anywhere
-}
-:root[data-theme=dark] #travel-offline{
- --offline-bg:#2c2823;--offline-ink:#f5eadc;--offline-muted:#d2bfaa;--offline-line:#8f7860;--offline-soft:#44372b
-}
-#travel-offline h2{margin:0 0 6px;font-size:1.1rem;line-height:1.4;letter-spacing:0}
-#travel-offline p{margin:8px 0;color:var(--offline-ink);font-size:1rem}
-#travel-offline .offline-note{color:var(--offline-muted);font-size:.9rem}
-#travel-offline button{
- display:inline-flex;align-items:center;justify-content:center;min-height:44px;max-width:100%;
- margin:8px 8px 0 0;padding:10px 16px;border:1px solid var(--offline-line);border-radius:12px;
- background:var(--offline-bg);color:var(--offline-ink);font:inherit;white-space:normal;cursor:pointer
-}
-#travel-offline button:hover,#travel-offline button:active{background:var(--offline-soft)}
-#travel-offline button:disabled{color:var(--offline-muted);cursor:wait;border-style:dashed}
-#travel-offline :focus-visible{outline:3px solid var(--offline-ink);outline-offset:3px}
-#travel-offline [hidden]{display:none!important}
-#travel-offline details{margin-top:10px}
-#travel-offline summary{min-height:44px;padding:10px 4px;box-sizing:border-box;cursor:pointer;font-size:.95rem}
-#travel-offline summary:hover{background:var(--offline-soft);border-radius:8px}
-#travel-offline ol{padding-left:1.5em;margin:8px 0}
-#travel-offline li{margin:8px 0}
-@media(max-width:800px){#travel-offline{margin:24px 16px;padding:18px}}
-@media print{#travel-offline{display:none}}
-</style>
-<style id="lesson-guided-styles">
+</style><style id="lesson-guided-styles">
 /* Day 1 only. A compact lesson shell and one clearly marked task at a time. */
 :root[data-lesson-guided] { background: #f3f4ef; }
 :root[data-lesson-guided][data-theme=dark] { background: #111a17; }
@@ -1176,6 +965,511 @@ body.lesson-guided .dg-change-card .study-meaning { color: var(--muted); }
  body.lesson-guided .dg-study-scene { margin-inline: 18px; }
 }
 
+/* Shared Days 1–11 presentation, promoted from Day 5: warm = my spoken task, blue = listen / context,
+   neutral = notes. Do not change the meaning of yellow/green self-ratings. */
+:root[data-lesson-focus] { background: #f5f3ee; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --bg: #f5f3ee; --panel: #fffefa; --surface: var(--panel);
+ --ink: #203449; --muted: #526171; --line: #cbd1d4; --soft: #edf0f2;
+ --accent: #204e73; --on-accent: #fff; --dg-tint: #e2edf5;
+ --dg-warm: #fff0c7; --dg-warm-line: #a66a17; --dg-warm-ink: #513a17;
+ --d5-listen: #eaf2fa; --d5-listen-ink: #234c70; --d5-listen-line: #7998b4;
+ --d5-hero: #20384e; --d5-hero-ink: #fff9eb; --d5-hero-muted: #d5e2ec;
+ --d5-focus: #9e5e12; --d5-focus-soft: #fff9eb;
+ --dg-map: #eaf0f3; --dg-road: #c9d6df; --dg-block: #dce6e5;
+ font-size: 1rem; line-height: 1.65;
+}
+:root[data-theme=dark][data-lesson-focus] { background: #121c26; }
+:root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --bg: #121c26; --panel: #1d2b38; --ink: #eef3f7; --muted: #bdc9d3;
+ --line: #4f616e; --soft: #293b4b; --accent: #a9d2f2; --on-accent: #122b3f;
+ --dg-tint: #30485b; --dg-warm: #40351f; --dg-warm-line: #e7b85c; --dg-warm-ink: #ffe6af;
+ --d5-listen: #22394b; --d5-listen-ink: #cee6fa; --d5-listen-line: #86abc6;
+ --d5-hero: #243d53; --d5-hero-ink: #fff4d8; --d5-hero-muted: #d1e0ec;
+ --d5-focus: #f2c56d; --d5-focus-soft: #2d291f;
+ --dg-map: #263d4c; --dg-road: #607482; --dg-block: #354e56;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.panel,.dg-panel) { border-radius: 16px; box-shadow: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.fine,.dg-note) { font-size: .88rem; line-height: 1.65; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(button,summary,a,input) { touch-action: manipulation; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(button,summary,.checkline) { min-height: 44px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) summary { display: list-item; padding-block: 10px; cursor: pointer; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) button { transition: background-color 120ms, border-color 120ms; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :focus-visible { outline: 3px solid var(--d5-focus); outline-offset: 4px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(textarea,input) { scroll-margin-block: calc(var(--travel-header-height,64px) + 20px) 24px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) textarea { font-size: 1rem; border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) textarea:focus { border-color: var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .top { border-bottom: 2px solid var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .brand > span { background: #f3c566; color: #203449; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-menu-open { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-context { padding-block: 15px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-current-section { color: var(--ink); font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-current-round { font-size: .88rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-switch button[aria-pressed=true] { box-shadow: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-switch { padding: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .dg-entry-next { display: flex; justify-content: flex-end; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .dg-entry-next > button { flex: 0 1 auto; margin-inline-start: auto; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-introduction { color: var(--d5-hero-muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-lesson-cover {
+ background: var(--d5-hero); color: var(--d5-hero-ink); border: 0;
+ padding: 22px 30px; grid-template-columns: minmax(0,1fr) minmax(160px,240px); gap: 24px;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-copy .eyebrow { color: var(--d5-hero-muted); font-size: .85rem; letter-spacing: .1em; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-copy h1 { color: inherit; font-size: 2.5rem; font-weight: 800; letter-spacing: -.03em; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-cover-subtitle { color: var(--d5-hero-muted); margin: 8px 0 0; font-size: 1.05rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art { background: #eaf0ef; border-radius: 14px; padding: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art .lesson-cast { height: 134px; align-items: center; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art .lesson-cast :is(figure,.lesson-illustration) { height: 134px; max-height: 100%; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading { display: flex; align-items: flex-start; gap: 18px; margin: 4px 0 25px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-number { color: var(--accent); font-size: 2.7rem; font-weight: 800; line-height: 1.15; letter-spacing: -.06em; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading h1 { margin: 0 0 6px; font-size: 1.9rem; font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading p { color: var(--muted); font-size: .94rem; margin: 0; }
+/* The primary task reads as one warm surface, including its headline. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task-panel,.dg-speaker:not(.dg-listener),.dg-study-current.workshop-answer) {
+ background: var(--dg-warm); color: var(--dg-warm-ink); border: 1px solid var(--dg-warm-line); border-top: 5px solid var(--dg-warm-line);
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task-panel,.dg-speaker:not(.dg-listener)) :is(.dg-note,.fine,.dg-role) { color: var(--dg-warm-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task,.dg-task-panel > .task) { font-size: 1.6rem; font-weight: 750; line-height: 1.6; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-panel > h2 { font-size: 1.08rem; margin-bottom: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-role { font-weight: 800; margin-bottom: 10px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-focus-cue { align-self: flex-start; margin: 0; padding: 5px 12px; border: 1px solid var(--dg-warm-line); border-radius: 7px; color: var(--dg-warm-ink); background: var(--d5-focus-soft); font-size: .9rem; font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint { margin-block: 16px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-tabs { background: var(--d5-focus-soft); border: 1px solid var(--dg-warm-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-tabs button { color: var(--dg-warm-ink); white-space: normal; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-tabs button[aria-pressed=true] { background: var(--dg-warm-ink); color: var(--dg-warm); box-shadow: none; }
+/* Hidden answers do not reserve a full answer's height on a small screen.
+   The controls stay above the content, so expanding grows down from them. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-stage { min-height: 0; padding: 18px; background: var(--d5-focus-soft); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-pane[aria-hidden=true] { display: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-empty { font-size: .94rem; margin: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-listener,.dg-listen-panel,.study-hear-card,.dg-study-current.workshop-question) {
+ background: var(--d5-listen); color: var(--d5-listen-ink); border-color: var(--d5-listen-line); border-top: 5px solid var(--d5-listen-line);
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-listener :is(.dg-role,.fine,.flow-translation),
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-hear-card :is(.study-meaning,.eyebrow,.fine) { color: var(--d5-listen-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-listener .dg-hint-stage { background: var(--panel); color: var(--ink); border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-answer-panel,.dg-goals) { border-top: 5px solid var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-support-label { font-size: .82rem; font-weight: 800; color: var(--accent); letter-spacing: .04em; margin: 0 0 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-condition-label { display: block; font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-condition-focus { display: block; font-size: 1.9rem; font-weight: 850; line-height: 1.4; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-condition-note { margin: -6px 0 20px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene .scene-board { border-top: 5px solid var(--d5-listen-line); background: var(--panel); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .dg-scene-context { background: var(--d5-listen); color: var(--d5-listen-ink); border-radius: 10px; padding: 16px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board[data-ready=true] { border-color: var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .objects { gap: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .object:disabled { opacity: .65; }
+/* Long study pages keep the same spoken / heard landmarks while scrolling. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading:is(.study-self,.study-other) { border-radius: 12px; padding: 14px 18px; border-left: 5px solid; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading.study-self { background: var(--dg-warm); color: var(--dg-warm-ink); border-color: var(--dg-warm-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading.study-other { background: var(--d5-listen); color: var(--d5-listen-ink); border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading h2 { font-size: 1.3rem; font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading p { color: inherit; font-size: .9rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-library .task-phrase-grid > .panel { background: var(--dg-warm); color: var(--dg-warm-ink); border-color: var(--dg-warm-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-study-card :is(.eyebrow,.study-meaning) { color: var(--dg-warm-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-block { margin-bottom: 36px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-study-card .en { font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-study-card .en { min-height: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-situation,.dg-before-record .readonly) { background: var(--d5-focus-soft); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-before-record,.dg-feedback-note,.dg-home-next) { color: var(--muted); }
+/* Supplemental disclosures have less weight than the task cards. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) details.panel { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 8px 4px; margin-block: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) details.panel > summary { font-weight: 600; color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) details.panel[open] { background: var(--panel); padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-teacher,.dg-student-help) { background: var(--soft); padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-teacher,.dg-student-help) > summary { color: var(--ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .teacher-card { background: var(--panel); border-left: 4px solid var(--d5-listen-line); padding: 16px; border-radius: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .teacher-card .en { color: var(--ink); font-size: 1.35rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .session-stop button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); font-size: .85rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .footer-actions { margin-block: 26px; padding-top: 0; border: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .footer-actions > button { min-height: 48px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-course-dialog { border-top: 5px solid var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-course-dialog::backdrop { background: #101c2bb3; }
+/* Portrait tablets and large type need one readable column before phones do. */
+@media (min-width:740px) and (max-width:900px) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-intro-grid,.dg-mission-grid,.dg-pair-grid,.dg-checkpoint-task,.dg-home-grid) { grid-template-columns: minmax(0,1fr); }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-flow-grid { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); }
+}
+@media (min-width:740px) and (max-width:1100px) {
+ :root[data-size=large] body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-grid,.scene-grid.task-scene,.dg-intro-grid,.task-phrase-grid,.study-hear-grid) { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width:739px) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .top-inner { padding-inline: 12px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .tools button { font-size: .8rem; padding-inline: 7px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-context { gap: 10px; padding-block: 14px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-context-copy { flex: 1 1 140px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-current-round { font-size: .85rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-switch { margin-left: auto; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-label { display: none; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-lesson-cover { padding: 22px; grid-template-columns: minmax(0,1fr); gap: 0; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-copy h1 { font-size: 2rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art { display: none; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-cover-subtitle { font-size: .95rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading { gap: 12px; margin-bottom: 20px; padding-bottom: 16px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-number { font-size: 2rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading h1 { font-size: 1.55rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading p { font-size: .9rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task,.dg-task-panel > .task) { font-size: 1.4rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-stage { padding: 14px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .objects { grid-template-columns: minmax(0,1fr); }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-panel > .dg-note { border-top: 1px solid var(--dg-warm-line); padding-top: 12px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .study-navigation { flex-direction: column; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading { padding: 12px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-role-row { flex-wrap: wrap; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-goals .section-title { flex-wrap: wrap; gap: 8px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-quiz-options button { white-space: normal; overflow-wrap: anywhere; }
+}
+@media (prefers-reduced-motion:reduce) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) button { transition: none; }
+}
+@media (prefers-contrast:more) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) { --line: #596b79; }
+ :root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) { --line: #aabac7; }
+}
+@media (max-width:380px) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-section-footer > button { padding-inline: 6px; }
+}
+
+/* Success and error colors describe a choice, never a role or self-rating. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --d5-success: #216547; --d5-success-bg: #e6f4eb;
+ --d5-error: #a92828; --d5-error-bg: #fff0ee;
+}
+:root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --d5-success: #9ce0b4; --d5-success-bg: #203d31;
+ --d5-error: #ffada5; --d5-error-bg: #482a2d;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps {
+ display: flex; flex-wrap: wrap; gap: 8px 12px; padding: 0; margin: 0 0 18px; list-style: none;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps li {
+ display: flex; align-items: center; gap: 8px; padding: 7px 12px;
+ border: 1px solid var(--line); border-radius: 9px; color: var(--muted); font-size: .86rem;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps li span { font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps [aria-current=step] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 750; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps .done { color: var(--d5-success); border-color: var(--d5-success); background: var(--d5-success-bg); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-complete { background: var(--soft); align-self: start; border-color: var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-complete-label { color: var(--d5-success); font-weight: 750; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-complete h2 { font-size: 1.25rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-recap .en { font-size: 1.3rem; line-height: 1.45; overflow-wrap: anywhere; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-recap .eyebrow { margin-bottom: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .object[data-result=correct] {
+ background: var(--d5-success-bg); color: var(--d5-success); border: 3px solid var(--d5-success); box-shadow: none;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .object[data-result=wrong] {
+ background: var(--d5-error-bg); color: var(--d5-error); border: 3px solid var(--d5-error); box-shadow: none;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene .scene-board[data-result=correct] { border-color: var(--d5-success); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene .scene-board[data-result=wrong] { border-color: var(--d5-error); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene #flowFeedback .feedback { display: grid; gap: 6px; margin: 0; padding: 14px; border-radius: 10px; font-size: .94rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene #flowFeedback[data-result=correct] .feedback {
+ color: var(--d5-success); background: var(--d5-success-bg); border: 1px solid var(--d5-success); border-left-width: 4px;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene #flowFeedback[data-result=wrong] .feedback {
+ color: var(--d5-error); background: var(--d5-error-bg); border: 1px solid var(--d5-error); border-left-width: 4px;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .object[data-result]:focus-visible { outline-color: var(--d5-focus); }
+@media (max-width:739px) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps { gap: 6px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-flow-steps li { padding: 6px 8px; font-size: .82rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-dialogue-complete { padding: 16px; }
+}
+
+/* Chat bubbles distinguish speakers; top-to-bottom order follows the data. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --d5-chat-bg: #e4edf4; --d5-chat-teacher: #fffefa; --d5-chat-teacher-ink: #203449;
+ --d5-chat-student: #d8f1c7; --d5-chat-student-ink: #213d27;
+ --d5-chat-teacher-line: #9eafbc; --d5-chat-student-line: #81a776;
+}
+:root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --d5-chat-bg: #172734; --d5-chat-teacher: #304454; --d5-chat-teacher-ink: #f0f5fa;
+ --d5-chat-student: #2b513b; --d5-chat-student-ink: #efffef;
+ --d5-chat-teacher-line: #7c94a5; --d5-chat-student-line: #83ab87;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-teacher.d5-teacher-guide[open] { background: var(--panel); border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-guide[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-intro { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; font-size: .9rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-intro strong { color: var(--ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-intro span { color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-note { margin: 6px 0 16px; color: var(--muted); font-size: .85rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-chat { padding: 18px 16px; background: var(--d5-chat-bg); border: 1px solid var(--line); border-radius: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-exchange { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-exchange + .d5-chat-exchange { margin-top: 28px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-divider { display: flex; justify-content: center; margin: 0; font-size: .82rem; line-height: 1.5; font-weight: 600; text-align: center; color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-divider span { max-width: 100%; padding: 5px 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); overflow-wrap: anywhere; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-context { display: grid; gap: 4px; margin: 0; padding: 10px 12px; border-inline-start: 3px solid var(--d5-listen-line); background: var(--panel); color: var(--ink); font-size: .88rem; line-height: 1.6; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message { width: fit-content; max-width: 88%; min-width: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=teacher] { align-self: flex-start; --bubble-bg: var(--d5-chat-teacher); --bubble-ink: var(--d5-chat-teacher-ink); --bubble-line: var(--d5-chat-teacher-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=student] { align-self: flex-end; --bubble-bg: var(--d5-chat-student); --bubble-ink: var(--d5-chat-student-ink); --bubble-line: var(--d5-chat-student-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-role { margin: 0 2px 6px; color: var(--ink); font-size: .85rem; font-weight: 750; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=student] .d5-chat-role { text-align: right; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-bubble { position: relative; padding: 14px 16px; border: 1px solid var(--bubble-line); border-radius: 16px; background: var(--bubble-bg); color: var(--bubble-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-bubble::before { content: ''; position: absolute; top: 13px; left: -8px; width: 0; height: 0; border-style: solid; border-width: 0 9px 10px 0; border-color: transparent var(--bubble-bg) transparent transparent; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=student] .d5-chat-bubble::before { left: auto; right: -8px; border-width: 0 0 10px 9px; border-color: transparent transparent transparent var(--bubble-bg); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-en { margin: 0 0 10px; font-size: 1.25rem; line-height: 1.45; font-weight: 700; color: var(--bubble-ink); overflow-wrap: anywhere; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-zh { margin: 0; color: var(--bubble-ink); font-size: .88rem; line-height: 1.6; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio { margin-top: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio .actions { gap: 7px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button { min-height: 44px; padding: 7px 10px; font-size: .82rem; background: var(--bubble-bg); color: var(--bubble-ink); border-color: var(--bubble-line); transition: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button:hover { background: var(--bubble-ink); color: var(--bubble-bg); border-color: var(--bubble-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button:focus-visible { outline-color: var(--bubble-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras { margin-top: 22px; border-top: 1px solid var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras > details { margin: 0; padding: 6px 0; border: 0; color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras > details > summary { color: var(--muted); font-size: .88rem; font-weight: 600; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras > details[open] { color: var(--ink); }
+@media(max-width:739px) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-teacher.d5-teacher-guide { padding-inline: 8px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-chat { padding: 14px 10px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message { max-width: 90%; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-bubble { padding: 12px 10px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-en { font-size: 1.2rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button { padding-inline: 8px; }
+}
+
+</style>
+<style id="shared-appearance-styles">
+/* Shared reading controls, including the course index and older lessons. */
+:root{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+:root[data-size=large]{font-size:20px}
+:root[data-appearance-kind=legacy] body.large{font-size:1rem}
+:root[data-size=large] .day-switcher a{font-size:1rem}
+:root[data-size=large] .day-switcher a small{font-size:.8rem}
+.top-inner{flex-wrap:wrap}
+.top-tools,.tools{flex-wrap:wrap;margin-left:auto}
+.top-tools button,.tools button{white-space:nowrap}
+.course-menu>summary{font-size:1rem}
+.appearance-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1001;width:max-content;max-width:calc(100% - 32px);padding:14px 20px;border-radius:14px;background:#202631;color:#fff;box-shadow:0 4px 20px #0003}
+.appearance-status[hidden]{display:none}
+:root[data-theme=dark] .course-menu{background:var(--bg,var(--paper,#171c1d))}
+:root[data-theme=dark] .course-menu :is(.menu-icon,.menu-chevron){color:var(--ink,#edf1ef)}
+:root[data-theme=dark] .course-menu>summary:active{background:var(--surface,var(--panel,#2c3732))}
+
+/* The landing page uses the same controls and storage as the lessons. */
+:root[data-appearance-kind=index]{font-size:18px;--bg:#f5f5f7;--panel:#fff;--ink:#1d1d1f;--muted:#61616a;--accent:#0066cc;--line:#d7dfe0;--soft:#e8f2ff}
+:root[data-appearance-kind=index][data-size=large]{font-size:22px}
+:root[data-appearance-kind=index][data-theme=dark]{--bg:#151b1e;--panel:#222b30;--ink:#f0f4f4;--muted:#b7c5cc;--accent:#83c5ff;--line:#53646e;--soft:#2b3e50}
+[data-appearance-kind=index] body{padding:0;background:var(--bg);color:var(--ink);font-size:1rem}
+[data-appearance-kind=index] main{padding:38px 24px 70px}
+[data-appearance-kind=index] :is(p,small){color:var(--muted)}
+[data-appearance-kind=index] small{font-size:.8rem}
+[data-appearance-kind=index] main a{background:var(--panel);color:var(--accent);overflow-wrap:anywhere}
+[data-appearance-kind=index] main a:hover{background:var(--soft)}
+[data-appearance-kind=index] .top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+[data-appearance-kind=index] .top-inner{max-width:740px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px}
+[data-appearance-kind=index] .brand{font-size:1rem;font-weight:700}
+[data-appearance-kind=index] .tools{display:flex;gap:8px}
+[data-appearance-kind=index] button{font:inherit;font-size:.85rem;min-height:44px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--ink);cursor:pointer;touch-action:manipulation}
+[data-appearance-kind=index] button:hover,[data-appearance-kind=index] button[aria-pressed=true]{background:var(--soft)}
+[data-appearance-kind=index] :focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+
+/* Days 3–6 predate dark mode. Preserve scene objects' meaningful colors. */
+:root[data-appearance-fallback][data-theme=dark]{background:#171c22;color:#edf2f7;--blue:#9acbff;--muted:#b9c5d2;--line:#526172;--surface:#252e39;--paper:#171c22;--ink:#edf2f7;--teal:#9acbff}
+[data-appearance-fallback][data-theme=dark] .top{background:#171c22}
+[data-appearance-fallback][data-theme=dark] :is(.brand,.context strong){color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] button{background:#354253;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] button:hover{background:#465970}
+[data-appearance-fallback][data-theme=dark] button.primary{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] button.plain{background:transparent;color:#9acbff}
+[data-appearance-fallback][data-theme=dark] button[aria-pressed=true]{background:#304f70;color:#e4f1ff;box-shadow:inset 0 0 0 1px #9acbff}
+[data-appearance-fallback][data-theme=dark] .course-nav button{background:transparent;color:var(--muted)}
+[data-appearance-fallback][data-theme=dark] .course-nav button[aria-current=page]{background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.day-switcher,.course-menu>summary,.course-menu aside,.course-menu .course-nav){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] .day-switcher a{background:#303c4a;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.day-switcher-label,.day-switcher small){color:var(--muted)}
+[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page]{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page] small{color:#142a42}
+[data-appearance-fallback][data-theme=dark] :is(.panel,.journey-card,.phrase,.reply-card,.quick-reply,.scene-ticket,.train-ticket,.hero-receipt,.food-card,.scene-object){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.context,.hint,.scene-screen,.scene-status,.clerk-panel,.teacher-guide,.start-cue,.task-goal){background:#293a4c;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] .tinted{background:#293a4c!important}
+[data-appearance-fallback][data-theme=dark] :is(.hero-visual,.hero-food){background:#293a4c;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] :is(.hero-copy h1 span,.hero-menu-label,.hero-receipt small,.ticket-facts small,.scene-progress,.card-num){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.ticket-seal,.ticket-stamp){color:#9dddbb}
+[data-appearance-fallback][data-theme=dark] :is(textarea,input,select){background:#1c2530;color:#edf2f7;border-color:#778ca3}
+[data-appearance-fallback][data-theme=dark] textarea::placeholder{color:#b9c5d2}
+[data-appearance-fallback][data-theme=dark] :is(.tag,.avatar){background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.feedback,.scene-status.success,.scene-done){background:#244b39;color:#c9f3da}
+[data-appearance-fallback][data-theme=dark] :is(.feedback.retry,.scene-status.retry,.notice){background:#514221;color:#ffe4a2}
+[data-appearance-fallback][data-theme=dark] :focus-visible{outline-color:#9acbff}
+[data-appearance-fallback][data-theme=dark] :is(.boarding,.play-stage,.ride-card,.order-ticket,.cafe-menu,.order-card){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.city-hero,.scene-board,.building-scene,.street-scene,.budget-strip,.counter-scene,.train-counter,.play-coach .checkline){background:#293a4c;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.board-label,.building-name,.journey-status,.order-card small,.order-card span,.food-card span,.food-card small,.menu-mast small,.order-ticket small,.train-ticket-grid small){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.scene-object small,.place-symbol,.object-symbol){color:#a4d7c0}
+[data-appearance-fallback][data-theme=dark] :is(.progress-pill,.ride-icon,.ride-pill){background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.scene-object.selected,.food-card.selected){background:#304f70;border-color:#9acbff}
+[data-appearance-fallback][data-theme=dark] .train-steps span{background:#354253;color:#d9e5f2}
+[data-appearance-fallback][data-theme=dark] .train-steps span.active{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] :is(.train-steps span.done,.train-ready){background:#244b39;color:#c9f3da}
+[data-appearance-fallback][data-theme=dark] :is(.route-arrow,.visual-caption,.ride-card small,.ride-card>span){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.counter-choices,.platform-buttons) small{color:#b9cee4!important}
+[data-appearance-fallback][data-theme=dark] .reader-screen{background:#293a4c;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] :is(.map-titlebar,.map-titlebar strong){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] .map-caption{color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] .travel-map .map-caption{color:#365063}
+@media(prefers-reduced-transparency:reduce){:root[data-theme=dark] .top{backdrop-filter:none}}
+@media(prefers-contrast:more){[data-appearance-fallback][data-theme=dark]{--muted:#e1ebf5;--line:#9eafc2}[data-appearance-fallback][data-theme=dark] :is(.panel,button,textarea){border:2px solid #9eafc2}}
+</style>
+<style id="course-palette-styles">
+/* Language identities: English follows Day 5; Japanese = warm titanium; Korean = cool silver.
+   Task yellow and mastery green retain their teaching meaning. */
+:root[data-course-palette=navy][data-theme=light],
+:root[data-course-palette=navy][data-theme=light] body:is(.day1-guided,.lesson-guided){
+ --bg:#f5f3ee;--panel:#fffefa;--ink:#203449;--muted:#526171;--line:#cbd1d4;
+ --accent:#204e73;--on-accent:#fff;--soft:#edf0f2;--neutral:#cbd1d4;
+ --dg-tint:#e2edf5;--dg-map:#eaf0f3;--dg-road:#c9d6df;--dg-block:#dce6e5;
+ --hear-bg:#eaf2fa;--hear-ink:#234c70;--hear-line:#7998b4;
+ --say-bg:#fff0c7;--say-ink:#513a17;--say-line:#a66a17;
+ --course-hero:#20384e;--course-hero-ink:#fff9eb;--course-hero-muted:#d5e2ec;
+ --course-focus:#9e5e12;
+}
+:root[data-course-palette=navy][data-theme=dark],
+:root[data-course-palette=navy][data-theme=dark] body:is(.day1-guided,.lesson-guided){
+ --bg:#121c26;--panel:#1d2b38;--ink:#eef3f7;--muted:#bdc9d3;--line:#4f616e;
+ --accent:#a9d2f2;--on-accent:#122b3f;--soft:#293b4b;--neutral:#4f616e;
+ --dg-tint:#30485b;--dg-map:#263d4c;--dg-road:#607482;--dg-block:#354e56;
+ --hear-bg:#22394b;--hear-ink:#cee6fa;--hear-line:#86abc6;
+ --say-bg:#40351f;--say-ink:#ffe6af;--say-line:#e7b85c;
+ --course-hero:#243d53;--course-hero-ink:#fff4d8;--course-hero-muted:#d1e0ec;
+ --course-focus:#f2c56d;
+}
+:root[data-course-palette=titanium][data-theme=light]{
+ --bg:#f5f4f1;--panel:#fffefd;--ink:#242321;--muted:#69655f;--line:#d8d5cf;
+ --accent:#66594a;--on-accent:#fff;--soft:#eae7e1;--neutral:#d5d1ca;
+ --hear-bg:#eeece7;--hear-ink:#403c36;--hear-line:#aaa398;
+ --say-bg:#faf6ea;--say-ink:#5c5039;--say-line:#aa9470;--course-focus:#66594a;
+}
+:root[data-course-palette=titanium][data-theme=dark]{
+ --bg:#181817;--panel:#242423;--ink:#f5f4f1;--muted:#bbb7af;--line:#53514c;
+ --accent:#d0c2ac;--on-accent:#27231d;--soft:#33322f;--neutral:#53514c;
+ --hear-bg:#2d2c29;--hear-ink:#e4e0d8;--hear-line:#78746b;
+ --say-bg:#302d25;--say-ink:#e7d9b8;--say-line:#a08e6c;--course-focus:#d0c2ac;
+}
+:root[data-course-palette=silver][data-theme=light]{
+ --bg:#f5f5f7;--panel:#fff;--ink:#1d1d1f;--muted:#64656b;--line:#d5d7dd;
+ --accent:#405c85;--on-accent:#fff;--soft:#e7ebf1;--neutral:#d3d6dd;
+ --hear-bg:#eceef2;--hear-ink:#363e4b;--hear-line:#9da6b5;
+ --say-bg:#faf7ee;--say-ink:#5c5039;--say-line:#aa9470;--course-focus:#405c85;
+}
+:root[data-course-palette=silver][data-theme=dark]{
+ --bg:#16171a;--panel:#232428;--ink:#f5f5f7;--muted:#b8bbc3;--line:#4f535c;
+ --accent:#adc5e7;--on-accent:#202b3a;--soft:#2f343e;--neutral:#4f535c;
+ --hear-bg:#2b2e35;--hear-ink:#dce1ea;--hear-line:#727d8f;
+ --say-bg:#302d26;--say-ink:#e7d9b8;--say-line:#a08e6c;--course-focus:#adc5e7;
+}
+/* Guided lessons declare body tokens; set aliases at that same scope. */
+:root[data-course-palette][data-theme] body:is(.day1-guided,.lesson-guided){
+ --surface:var(--panel);--dg-warm:var(--say-bg);--dg-warm-ink:var(--say-ink);--dg-warm-line:var(--say-line);
+}
+:root[data-course-palette][data-theme]{background:var(--bg);color:var(--ink)}
+:root[data-course-palette] body{background:var(--bg);color:var(--ink)}
+:root[data-course-palette] :is(.top,.day-switcher,.course-nav,.course-menu){background:var(--bg);color:var(--ink);border-color:var(--line)}
+:root[data-course-palette] :is(.course-menu>summary,.tools button,.day-switcher a){background:var(--panel);color:var(--ink);border-color:var(--line)}
+:root[data-course-palette] :is(.day-switcher a[aria-current=page],button.primary,.task-round-picker button[aria-pressed=true],.workshop-modes [aria-pressed=true],.workshop-picker [aria-pressed=true]){background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+:root[data-course-palette] .day-switcher a[aria-current=page] small{color:var(--on-accent)}
+:root[data-course-palette] .tools button[aria-pressed=true]{background:var(--soft);color:var(--accent)}
+:root[data-course-palette] :is(.home-hero .hero-art,.scene-board,.task-explainer,.workshop-question){background:var(--soft)}
+:root[data-course-palette] :is(.cafe-wordmark,.home-hero .art-caption,.workshop-role svg){color:var(--accent)}
+:root[data-course-palette] .kindness-pill{background:var(--panel);color:var(--accent)}
+:root[data-course-palette] .teacher{background:var(--hear-bg);color:var(--hear-ink);border-color:var(--hear-line)}
+:root[data-course-palette] .teacher summary{color:inherit}
+/* Neutral reading surfaces; the actual speaking task retains its warm cue. */
+:root[data-course-day="0"][data-course-palette] :is(.study-library,.japanese-hear-block){background:transparent;border-color:var(--line)}
+:root[data-course-day="0"][data-course-palette] .study-heading:is(.study-self,.study-other){background:var(--panel);color:var(--ink);border-color:var(--line)}
+:root[data-course-day="0"][data-course-palette] :is(.study-library,.japanese-hear-block)>.study-heading{background:transparent;border-bottom-color:var(--line)}
+:root[data-course-day="0"][data-course-palette] :is(.study-library .task-phrase-grid,.japanese-hear-grid)>.panel{border-color:var(--line);border-top-width:1px}
+:root[data-course-day="0"][data-course-palette] .jp-glossary{border:1px solid var(--line);box-shadow:0 16px 48px #0000001a}
+:root[data-course-day="0"][data-course-palette][data-theme=dark] .jp-glossary{box-shadow:0 16px 48px #0006}
+:root[data-course-day="0"][data-course-palette] .speaking-task{background:var(--say-bg);color:var(--say-ink);border-color:var(--say-line)}
+:root[data-course-day="0"][data-course-palette] .speaking-task summary{color:var(--say-ink)}
+:root[data-course-palette][data-theme] .jp-glossary{
+ --panel:inherit;--ink:inherit;--muted:inherit;--accent:inherit;--line:inherit;
+ --glossary-button:var(--panel);--glossary-hover:var(--soft);
+}
+:root[data-course-palette] :focus-visible{outline-color:var(--course-focus)}
+:root[data-course-palette] ::selection{background:var(--accent);color:var(--on-accent)}
+:root[data-course-palette=navy] body:is(.day1-guided,.lesson-guided) .dg-lesson-cover{background:var(--course-hero);color:var(--course-hero-ink)}
+:root[data-course-palette=navy] body:is(.day1-guided,.lesson-guided) .dg-cover-copy :is(.eyebrow,.dg-introduction){color:var(--course-hero-muted)}
+@media(prefers-contrast:more){
+ :root[data-course-palette][data-theme=light],:root[data-course-palette][data-theme=light] body:is(.day1-guided,.lesson-guided){--muted:var(--ink);--line:var(--accent)}
+ :root[data-course-palette][data-theme=dark],:root[data-course-palette][data-theme=dark] body:is(.day1-guided,.lesson-guided){--muted:var(--ink);--line:var(--accent)}
+}
+</style>
+<style id="responsive-layout-styles">
+/* One responsive shell for the index and all standalone lessons. */
+html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
+.unit-menu{margin:0;min-width:0}
+.unit-menu>summary{display:none}
+.unit-menu a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(min-width:1101px){
+ .layout>.course-menu{position:sticky;top:calc(var(--travel-header-height,80px) + 12px);align-self:start}
+ .layout>.course-menu>.course-nav{max-height:calc(100dvh - var(--travel-header-height,80px) - 24px);overflow-y:auto;overscroll-behavior:contain}
+}
+@media(max-width:1100px){
+ .day-switcher{padding:8px 16px}
+ .unit-menu>summary{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 0;color:var(--ink);list-style:none;line-height:1.5;touch-action:manipulation}
+ .unit-menu>summary::-webkit-details-marker{display:none}
+ .unit-menu>summary::marker{content:""}
+ .unit-menu>summary::after{content:"";width:9px;height:9px;margin:0 5px 4px auto;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);flex-shrink:0}
+ .unit-menu[open]>summary::after{transform:rotate(225deg);margin-bottom:0}
+ .unit-menu>summary>span{min-width:0}
+ .unit-menu-label{display:block;color:var(--muted);font-size:.78rem;font-weight:500}
+ .unit-menu-current{display:block;font-size:1rem;font-weight:650;overflow-wrap:anywhere}
+ .unit-menu>summary:hover,.unit-menu>summary:active{color:var(--accent)}
+ .unit-menu>summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+ .unit-menu:not([data-ready])>.day-switcher-inner{display:none}
+ .unit-menu .day-switcher-inner{display:block;max-height:min(60dvh,32rem);overflow-y:auto;overscroll-behavior:contain;padding:6px 6px 8px;scroll-padding:6px}
+ .unit-menu .day-switcher-label{display:none}
+ .unit-menu .day-switcher-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:8px}
+ .unit-menu .day-switcher-links a{flex-direction:column;justify-content:center;gap:2px;min-height:56px;padding:10px 8px;text-align:center;font-size:.94rem;overflow-wrap:anywhere}
+ .unit-menu .day-switcher-links a small{font-size:.8rem}
+}
+@media(max-width:640px){
+ .unit-menu .day-switcher-links{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .top .tools button{font-size:.8rem;padding-inline:10px}
+ [data-appearance-kind=index] .top-inner{padding:10px 12px;gap:8px}
+ [data-appearance-kind=index] .brand{font-size:.9rem}
+}
+@media(max-width:380px){
+ .top .brand span{display:none}
+ .top-inner{gap:8px}
+}
+@media(prefers-contrast:more){.unit-menu>summary{outline:1px solid currentColor;border-radius:8px;padding-inline:8px}}
+</style>
+<!-- travel-pwa-meta -->
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#fff7ed">
+<link rel="apple-touch-icon" href="./assets/pwa-icon-180.png">
+<!-- /travel-pwa-meta -->
+<style id="travel-offline-styles">
+/* Inline in each lesson so standalone HTML remains readable. */
+#travel-offline{
+ --offline-bg:#fff7ed;--offline-ink:#382c22;--offline-muted:#6d5948;--offline-line:#cbb69e;--offline-soft:#f4e4d1;
+ box-sizing:border-box;max-width:740px;margin:28px auto;padding:20px 24px;
+ border:1px solid var(--offline-line);border-radius:18px;background:var(--offline-bg);color:var(--offline-ink);
+ font:inherit;line-height:1.6;overflow-wrap:anywhere
+}
+:root[data-theme=dark] #travel-offline{
+ --offline-bg:#2c2823;--offline-ink:#f5eadc;--offline-muted:#d2bfaa;--offline-line:#8f7860;--offline-soft:#44372b
+}
+#travel-offline h2{margin:0 0 6px;font-size:1.1rem;line-height:1.4;letter-spacing:0}
+#travel-offline p{margin:8px 0;color:var(--offline-ink);font-size:1rem}
+#travel-offline .offline-note{color:var(--offline-muted);font-size:.9rem}
+#travel-offline button{
+ display:inline-flex;align-items:center;justify-content:center;min-height:44px;max-width:100%;
+ margin:8px 8px 0 0;padding:10px 16px;border:1px solid var(--offline-line);border-radius:12px;
+ background:var(--offline-bg);color:var(--offline-ink);font:inherit;white-space:normal;cursor:pointer
+}
+#travel-offline button:hover,#travel-offline button:active{background:var(--offline-soft)}
+#travel-offline button:disabled{color:var(--offline-muted);cursor:wait;border-style:dashed}
+#travel-offline :focus-visible{outline:3px solid var(--offline-ink);outline-offset:3px}
+#travel-offline [hidden]{display:none!important}
+#travel-offline details{margin-top:10px}
+#travel-offline summary{min-height:44px;padding:10px 4px;box-sizing:border-box;cursor:pointer;font-size:.95rem}
+#travel-offline summary:hover{background:var(--offline-soft);border-radius:8px}
+#travel-offline ol{padding-left:1.5em;margin:8px 0}
+#travel-offline li{margin:8px 0}
+@media(max-width:800px){#travel-offline{margin:24px 16px;padding:18px}}
+@media print{#travel-offline{display:none}}
 </style>
 </head><body>
 <a class="skip" href="#main">跳到課程內容</a>
@@ -2390,6 +2684,245 @@ document.addEventListener('change',e=>{
  const region=$(heard&&spoken?'.scene-board':'.dg-speaker');if(!region)return;region.tabIndex=-1;region.focus({preventScroll:true});window.scrollTo({top:Math.max(0,region.getBoundingClientRect().top+scrollY-$('.top').getBoundingClientRect().height-12),behavior:'instant'});
 });
 dgInstallShell();
+
+// Day 1 and Days 2–11 share the Day 5 handoff and choice feedback, while
+// retaining each lesson's actual scene, branches, prelude and accepted choices.
+const focusBaseScenePage = scenePage;
+function focusChoiceState(board, buttons, selected, correct) {
+ const result = selected < 0 ? 'pending' : correct ? 'correct' : 'wrong';
+ board.dataset.result = result;
+ buttons.forEach(button => { button.dataset.result = Number(button.dataset.choice ?? button.dataset.dgPreludeChoice) === selected ? result : 'pending'; });
+ return result;
+}
+scenePage = function() {
+ const markup = focusBaseScenePage();
+ if (finished) return markup;
+ const wrapper = document.createElement('div'); wrapper.innerHTML = markup;
+ const board = wrapper.querySelector('.scene-board');
+ if (!board) return markup;
+ // The first lesson begins with a listening-and-pointing task, not a spoken reply.
+ if (wrapper.querySelector('[data-dg-prelude-heard]')) {
+  const result = focusChoiceState(board, Array.from(board.querySelectorAll('[data-dg-prelude-choice]')), dgPrelude.choice ?? -1, dgPrelude.choice === flows[flow].prelude.correct);
+  const feedback = board.querySelector('.dg-feedback');
+  feedback.id = 'flowFeedback'; feedback.dataset.result = result;
+  if (result !== 'pending') feedback.innerHTML = `<p class="feedback ${result === 'wrong' ? 'retry' : ''}">${esc(feedback.textContent)}</p>`;
+  return wrapper.innerHTML;
+ }
+ const t = currentStep(), f = flows[flow], confirmed = heard && spoken;
+ const r = typeof activeRound === 'function' ? activeRound() : currentRound();
+ const counterpart = t.role || (typeof dgActiveScene === 'function' ? dgActiveScene(f, turn)?.role : '') || r.role || course.replyRole;
+ wrapper.querySelectorAll('.dg-repeat-confirm').forEach(region => {
+  region.hidden = true;
+  region.querySelectorAll('input').forEach(input => { input.disabled = true; input.tabIndex = -1; });
+ });
+ wrapper.querySelector('[data-act="back"]')?.remove();
+ const speaker = wrapper.querySelector('.dg-speaker');
+ if (confirmed && speaker) {
+  speaker.className = 'panel dg-panel d5-dialogue-complete';
+  speaker.innerHTML = `<p class="d5-complete-label">✓ 聽與說都完成了</p>
+   <h2>接著，點選符合情境的選項</h2><p>依剛才的對話做選擇，確認你聽懂的意思。</p>
+   <details class="d5-dialogue-recap"><summary>需要時，回看剛才的對話</summary>
+    <p class="eyebrow">你說的這句</p><p class="en" lang="en">${esc(t.answer)}</p><p>${esc(t.answerZh || '')}</p>
+    <p class="eyebrow">${esc(counterpart)}說</p><p class="en" lang="en">${esc(t.line)}</p><p>${esc(t.zh)}</p>${audio(t.line)}
+   </details><div class="dg-flow-back">${btn('重新開始本任務', `data-start="${flow}"`, 'class="dg-quiet"')}</div>
+   <input id="heard" type="checkbox" checked hidden disabled tabindex="-1"><input id="spoken" type="checkbox" checked hidden disabled tabindex="-1">`;
+ }
+ const correct = choice >= 0 && accepted(t, choice);
+ const result = focusChoiceState(board, Array.from(board.querySelectorAll('[data-choice]')), choice, correct);
+ const feedbackBox = board.querySelector('#flowFeedback');
+ if (feedbackBox) {
+  feedbackBox.dataset.result = result;
+  if (choice >= 0) feedbackBox.innerHTML = `<p class="feedback ${correct ? '' : 'retry'}"><strong>${correct ? '✓ 選對了' : '✕ 再試一次'}</strong><span>${esc(feedback || (correct ? t.effect : '和剛才的對話不一樣，再聽一次或看文字後重選。'))}</span></p>`;
+ }
+ const heading = board.querySelector('.dg-role-row h2');
+ if (heading) { heading.id = 'focus-scene-action'; heading.tabIndex = -1; }
+ const stage = confirmed ? 2 : (t.askFirst ? spoken : heard) ? 1 : 0;
+ const roles = t.askFirst ? ['你先說', `聽${counterpart}回覆`] : [`先聽${counterpart}`, '換你回答'];
+ wrapper.querySelector('.scene-grid').insertAdjacentHTML('beforebegin', `<ol class="d5-flow-steps" aria-label="這一句的練習順序">${[...roles, '情境操作'].map((label,i)=>`<li class="${i<stage?'done':''}" ${i===stage?'aria-current="step"':''}><span aria-hidden="true">${i<stage?'✓':i+1}</span>${esc(label)}</li>`).join('')}</ol>`);
+ return wrapper.innerHTML;
+};
+const focusBaseSceneStep = focusSceneStep;
+function focusCurrentPracticeStage() {
+ if (page === 7) { focusBaseSceneStep(); return; }
+ const target = finished ? $('#main .dg-completion h1, #main .dg-completion h2') : heard && spoken ? $('#focus-scene-action') : $('.dg-speaker .dg-task');
+ if (!target) return;
+ target.tabIndex = -1; target.focus({preventScroll: true});
+ const rect = target.getBoundingClientRect(), inset = ($('.top')?.getBoundingClientRect().height || 0) + 18;
+ if (rect.top < inset || rect.bottom > innerHeight - 48) window.scrollTo({top: Math.max(0, scrollY + rect.top - inset), behavior: 'instant'});
+}
+focusSceneStep = focusCurrentPracticeStage;
+document.addEventListener('change', event => {
+ if (page !== 2 || finished || !['heard', 'spoken'].includes(event.target.id)) return;
+ stopAudio(); focusCurrentPracticeStage();
+ $('#dg-announcement').textContent = heard && spoken ? '聽與說已完成，現在可以做情境操作。' : $('.dg-speaker .dg-role')?.textContent || '輪到下一個角色。';
+});
+
+// Shared by Days 1–11, promoted from the Day 5 pilot. DOM order follows
+// authored dialogue; the original content and saved identifiers stay intact.
+const d5ChatSections = {
+ 'micro-en-d5-directions-and-distance-v1-0': '問路線',
+ 'micro-en-d5-directions-and-distance-v1-1': '問遠近',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-0': '決定搭車',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-1': '告訴司機目的地',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-2': '目的地已確認 · 問車程',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-3': '問車資',
+ 'micro-en-d5-driver-and-pickup-v1-0': '確認預約司機',
+ 'micro-en-d5-driver-and-pickup-v1-1': '說明等車位置',
+ 'micro-en-d5-dropoff-and-stop-v1-0': '還沒到入口',
+ 'micro-en-d5-dropoff-and-stop-v1-1': '已到入口 · 可以停車'
+};
+function d5ChatMessage(s, r, speaker) {
+ const student = speaker === 'student';
+ const line = student ? s.answer : s.line;
+ const meaning = student ? s.answerZh : s.zh;
+ const role = student ? '學生 · 旅客' : `老師 · ${s.role || r.role || course.replyRole}`;
+ return `<article class="d5-chat-message" data-speaker="${speaker}" aria-label="${esc(role)}">
+  <p class="d5-chat-role">${esc(role)}</p>
+  <div class="d5-chat-bubble">
+   <p class="d5-chat-en" lang="en">${esc(line)}</p>
+   <p class="d5-chat-zh">${esc(meaning)}</p>
+   <div class="d5-chat-audio">${audio(line)}</div>
+  </div>
+ </article>`;
+}
+const d5BaseTeacherGuide = typeof dgLessonTeacherGuide === 'function' ? dgLessonTeacherGuide : dgTeacherGuide;
+function d5TeacherGuide(p, r, steps, prelude) {
+ const wrapper = document.createElement('div');
+ wrapper.innerHTML = d5BaseTeacherGuide(p, r, steps);
+ const guide = wrapper.querySelector('.dg-teacher');
+ const summary = guide.querySelector(':scope > summary').outerHTML;
+ const opening = guide.querySelector('.dg-teacher-start').outerHTML;
+ const notes = guide.querySelector(':scope > details:last-child').outerHTML;
+ // Day 1 originally nested this disclosure inside the teacher guide.
+ const help = Array.from(guide.children).find(el => el.tagName === 'DETAILS' && el.querySelector('summary')?.textContent === '學生卡住了');
+ if (help) { help.classList.add('teacher', 'dg-student-help'); guide.after(help); }
+ guide.classList.add('d5-teacher-guide');
+ guide.innerHTML = `${summary}
+  <div class="d5-teacher-intro"><strong>${esc(p.first)}先開口</strong><span>${steps.length} 段對話 · 由上往下看</span></div>
+  <p class="d5-chat-note">老師在左，學生在右；學生句子是參考說法。</p>
+  <div class="d5-teacher-chat" aria-label="師生接話順序">${prelude ? `<section class="d5-chat-exchange" data-chat-prelude>
+   <h3 class="d5-chat-divider"><span>開場 · 先聽懂，再指出位置</span></h3>
+   ${d5ChatMessage(prelude, r, 'teacher')}
+   <p class="d5-chat-context">${esc(prelude.task)}</p>
+  </section>` : ''}${steps.map((s, i) => `
+   <section class="d5-chat-exchange" data-teacher-step="${i}" data-teacher-step-id="${esc(s.id)}">
+    <h3 class="d5-chat-divider"><span>${String(i + 1).padStart(2, '0')} · ${esc(d5ChatSections[s.id] || s.label)}</span></h3>
+    ${s.sceneTitle || s.sceneContext ? `<p class="d5-chat-context">${s.sceneTitle ? `<strong>${esc(s.sceneTitle)}</strong>` : ''}${s.sceneContext ? `<span>${esc(s.sceneContext)}</span>` : ''}</p>` : ''}
+    ${(s.askFirst ? ['student', 'teacher'] : ['teacher', 'student']).map(speaker => d5ChatMessage(s, r, speaker)).join('')}
+   </section>`).join('')}</div>
+  <div class="d5-teacher-extras">${opening}${notes}</div>`;
+ // The separate student-help disclosure is preserved, including its hint IDs.
+ return wrapper.innerHTML;
+}
+if (typeof dgLessonTeacherGuide === 'function') {
+ dgLessonTeacherGuide = d5TeacherGuide;
+} else {
+ dgTeacherGuide = function(p) {
+  const r = currentRound(), f = flows[rounds.indexOf(r)];
+  return d5TeacherGuide(p, r, f.steps, f.prelude);
+ };
+}
+
+// The Day 5 presentation is shared by Days 1–11. Topic-specific activities
+// remain in their own lessons; curriculum and saved records are not rewritten.
+const d5LessonDay = typeof focusRound === 'number' ? 1 : course.day;
+const d5ActiveRound = () => d5LessonDay === 1 ? currentRound() : activeRound();
+const d5TaskLabel = r => d5LessonDay === 1 ? r.id : taskLabel(r);
+document.body.classList.add('lesson-focus');
+if (d5LessonDay === 5) document.body.classList.add('lesson5-hierarchy');
+document.documentElement.setAttribute('data-lesson-focus', '');
+// Repetition stays within the task chosen by the teacher. Historical mixed
+// review preferences remain saved but never change the current practice scope.
+reviewScope = () => '';
+selectedReviewRounds = () => [d5ActiveRound()];
+const d5SectionIntros = [
+ null,
+ ['把句子帶著走', '先練暖黃色的「我會說」，再看藍色的「我要聽得懂」。'],
+ [d5LessonDay === 5 ? '一句一句，走完這段路' : '一句一句，完成這個任務', '跟著當前角色開口或聽回覆，再點選符合情境的物件。'],
+ ['換個條件，自己說說看', '先看清楚任務，用剛才學過的句子表達。'],
+ ['抬頭，和老師接話', '先看誰開口，再一起完成這次的溝通目標。'],
+ ['看看這次的改變', '同一個情境再說一次，對照第一次的自己。'],
+ ['再聽一次，再說一次', '用熟悉的句子練習；完成後，勾下自己的紀錄。']
+];
+const d5GuidedRender = render;
+render = function () {
+ d5GuidedRender();
+ const main = $('#main');
+ const menu = $('#dg-menu-open');
+ const label = d5TaskLabel(d5ActiveRound());
+ menu.textContent = page === 7 ? '08 · 整合選單' : `${String(page + 1).padStart(2, '0')} · ${label} 選單`;
+ menu.setAttribute('aria-label', `開啟課程選單，目前任務 ${label}，第 ${page + 1} 部分：${dgLabels[page]}`);
+ menu.title = `任務 ${label} · ${dgLabels[page]} · 開啟課程選單`;
+ main.dataset.lessonSection = String(page + 1);
+ if (page === 0) {
+  if (d5LessonDay === 5) $('.dg-cover-copy').insertAdjacentHTML('beforeend', '<p class="d5-cover-subtitle">問清方向，也能安心搭車。</p>');
+  main.querySelectorAll(':scope > .dg-teacher-notes').forEach(panel => panel.remove());
+  const firstAttempt = main.querySelector('.dg-entry-note, .dg-entry-record');
+  if (firstAttempt) firstAttempt.open = true;
+  main.querySelector(':scope > .footer-actions')?.classList.add('dg-entry-next');
+ } else if (page < 7) {
+  let [title, description] = d5SectionIntros[page];
+  if (page === 3 && d5ActiveRound().variationMode === 'repeat') {
+   title = '同一段，試著自己說'; description = '沿用剛才的情境，少看一點提示，再說一次。';
+  } else if (page === 3 && d5ActiveRound().variationMode === 'core') {
+   title = '用學過的句子，再練一段'; description = '看清楚這次的情境，再用自己的英文表達。';
+  }
+  // The chapter title is the page heading; the current spoken task is a subheading.
+  main.querySelectorAll('h1').forEach(el => {
+   const h2 = document.createElement('h2');
+   for (const attr of el.attributes) h2.setAttribute(attr.name, attr.value);
+   h2.innerHTML = el.innerHTML; el.replaceWith(h2);
+  });
+  const heading = document.createElement('header');
+  heading.className = 'd5-section-heading';
+  heading.innerHTML = `<span class="d5-section-number" aria-hidden="true">${String(page + 1).padStart(2, '0')}</span><div><h1>${esc(title)}</h1><p>${esc(description)}</p></div>`;
+  main.prepend(heading);
+ }
+ main.querySelectorAll('.dg-speaker:not(.dg-listener)').forEach(panel => {
+  panel.querySelector('.dg-role-row')?.insertAdjacentHTML('afterend', '<p class="d5-focus-cue">↓ 看這裡，換你說</p>');
+ });
+ main.querySelectorAll('.dg-answer-panel').forEach(panel => {
+  panel.insertAdjacentHTML('afterbegin', '<p class="d5-support-label">留下自己的說法</p>');
+ });
+ if (page === 3 && missions[mission].id === 'micro-en-d5-dropoff-and-stop-v1-change') {
+  const condition = missions[mission].task.match(/^(.+?)「(.+?)」。(.+)$/u);
+  const task = main.querySelector('.dg-task-panel > .task');
+  if (condition && task) {
+   task.innerHTML = `<span class="d5-condition-label">${esc(condition[1])}</span><strong class="d5-condition-focus">${esc(condition[2])}</strong>`;
+   const note = document.createElement('p');
+   note.className = 'fine d5-condition-note'; note.textContent = condition[3];
+   task.after(note);
+  }
+ }
+ const scene = main.querySelector('.scene-board');
+ if (scene) {
+  const listeningPrelude = d5LessonDay === 1 && page === 2 && flows[flow].prelude && !dgPrelude.done;
+  const ready = listeningPrelude ? dgPrelude.heard : heard && spoken;
+  scene.dataset.ready = String(ready);
+  scene.insertAdjacentHTML('afterbegin', `<p class="d5-support-label">${ready ? '接著做 · 點選情境' : listeningPrelude ? '情境參考 · 聽完再操作' : '情境參考 · 說完再操作'}</p>`);
+ }
+ if (page === 4) main.querySelector('.dg-pair-note')?.remove();
+ if (page === 5) {
+  const next = main.querySelector(':scope > .footer-actions > button:last-child');
+  if (next) next.textContent = `只練任務 ${label} 的回家挑戰 →`;
+ }
+};
+
+// Day 1 has its own runtime. Match the same chapter navigation while leaving
+// its separate eighth-part capstone and all flow gates available.
+if (d5LessonDay === 1) {
+ const originalFooter = focusFooter;
+ focusFooter = function() {
+  if (page === 1) return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分', 'data-page="0"')}${btn('前往 03 跟著做 →', `data-start="${focusRound}"`, 'class="primary"')}</div>`;
+  if (page === 2) return `<div class="footer-actions dg-section-footer">${btn('← 上一部分', 'data-page="1"')}${btn('前往 04 換條件 →', 'data-page="3"', 'class="primary"')}</div>`;
+  const wrapper = document.createElement('div'); wrapper.innerHTML = originalFooter();
+  if (page === 6) {
+   const back = wrapper.querySelector('.footer-actions > button:last-child');
+   if (back) back.textContent = '← 回到課前首頁';
+  }
+  return wrapper.innerHTML;
+ };
+}
 
 load();render();appearance();
 

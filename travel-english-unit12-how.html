@@ -1,5 +1,5 @@
 <!doctype html>
-<html data-course-day="12" data-course-palette="peach" data-appearance-kind="modern" data-illustrated="true" lang="zh-Hant"><head><meta charset="utf-8">
+<html data-course-palette="navy" data-course-day="12" data-appearance-kind="modern" data-illustrated="true" lang="zh-Hant"><head><meta charset="utf-8">
 <script id="shared-appearance-init" data-appearance-init>
 // Apply shared preferences before the first paint. Learning records are untouched.
 (() => {
@@ -343,218 +343,7 @@
 @media(max-width:760px){.speaking-task{padding:16px}.speaking-heading{gap:9px}}
 @media(prefers-contrast:more){.speaking-task,.speaking-task .quote{border-color:currentColor}.speaking-cue{outline:2px solid currentColor}}
 
-</style><style id="shared-appearance-styles">
-/* Shared reading controls, including the course index and older lessons. */
-:root{color-scheme:light}
-:root[data-theme=dark]{color-scheme:dark}
-:root[data-size=large]{font-size:20px}
-:root[data-appearance-kind=legacy] body.large{font-size:1rem}
-:root[data-size=large] .day-switcher a{font-size:1rem}
-:root[data-size=large] .day-switcher a small{font-size:.8rem}
-.top-inner{flex-wrap:wrap}
-.top-tools,.tools{flex-wrap:wrap;margin-left:auto}
-.top-tools button,.tools button{white-space:nowrap}
-.course-menu>summary{font-size:1rem}
-.appearance-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1001;width:max-content;max-width:calc(100% - 32px);padding:14px 20px;border-radius:14px;background:#202631;color:#fff;box-shadow:0 4px 20px #0003}
-.appearance-status[hidden]{display:none}
-:root[data-theme=dark] .course-menu{background:var(--bg,var(--paper,#171c1d))}
-:root[data-theme=dark] .course-menu :is(.menu-icon,.menu-chevron){color:var(--ink,#edf1ef)}
-:root[data-theme=dark] .course-menu>summary:active{background:var(--surface,var(--panel,#2c3732))}
-
-/* The landing page uses the same controls and storage as the lessons. */
-:root[data-appearance-kind=index]{font-size:18px;--bg:#f5f5f7;--panel:#fff;--ink:#1d1d1f;--muted:#61616a;--accent:#0066cc;--line:#d7dfe0;--soft:#e8f2ff}
-:root[data-appearance-kind=index][data-size=large]{font-size:22px}
-:root[data-appearance-kind=index][data-theme=dark]{--bg:#151b1e;--panel:#222b30;--ink:#f0f4f4;--muted:#b7c5cc;--accent:#83c5ff;--line:#53646e;--soft:#2b3e50}
-[data-appearance-kind=index] body{padding:0;background:var(--bg);color:var(--ink);font-size:1rem}
-[data-appearance-kind=index] main{padding:38px 24px 70px}
-[data-appearance-kind=index] :is(p,small){color:var(--muted)}
-[data-appearance-kind=index] small{font-size:.8rem}
-[data-appearance-kind=index] main a{background:var(--panel);color:var(--accent);overflow-wrap:anywhere}
-[data-appearance-kind=index] main a:hover{background:var(--soft)}
-[data-appearance-kind=index] .top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
-[data-appearance-kind=index] .top-inner{max-width:740px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px}
-[data-appearance-kind=index] .brand{font-size:1rem;font-weight:700}
-[data-appearance-kind=index] .tools{display:flex;gap:8px}
-[data-appearance-kind=index] button{font:inherit;font-size:.85rem;min-height:44px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--ink);cursor:pointer;touch-action:manipulation}
-[data-appearance-kind=index] button:hover,[data-appearance-kind=index] button[aria-pressed=true]{background:var(--soft)}
-[data-appearance-kind=index] :focus-visible{outline:3px solid var(--accent);outline-offset:4px}
-
-/* Days 3–6 predate dark mode. Preserve scene objects' meaningful colors. */
-:root[data-appearance-fallback][data-theme=dark]{background:#171c22;color:#edf2f7;--blue:#9acbff;--muted:#b9c5d2;--line:#526172;--surface:#252e39;--paper:#171c22;--ink:#edf2f7;--teal:#9acbff}
-[data-appearance-fallback][data-theme=dark] .top{background:#171c22}
-[data-appearance-fallback][data-theme=dark] :is(.brand,.context strong){color:#edf2f7}
-[data-appearance-fallback][data-theme=dark] button{background:#354253;color:#edf2f7}
-[data-appearance-fallback][data-theme=dark] button:hover{background:#465970}
-[data-appearance-fallback][data-theme=dark] button.primary{background:#9acbff;color:#142a42}
-[data-appearance-fallback][data-theme=dark] button.plain{background:transparent;color:#9acbff}
-[data-appearance-fallback][data-theme=dark] button[aria-pressed=true]{background:#304f70;color:#e4f1ff;box-shadow:inset 0 0 0 1px #9acbff}
-[data-appearance-fallback][data-theme=dark] .course-nav button{background:transparent;color:var(--muted)}
-[data-appearance-fallback][data-theme=dark] .course-nav button[aria-current=page]{background:#304f70;color:#e4f1ff}
-[data-appearance-fallback][data-theme=dark] :is(.day-switcher,.course-menu>summary,.course-menu aside,.course-menu .course-nav){background:#252e39;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] .day-switcher a{background:#303c4a;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] :is(.day-switcher-label,.day-switcher small){color:var(--muted)}
-[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page]{background:#9acbff;color:#142a42}
-[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page] small{color:#142a42}
-[data-appearance-fallback][data-theme=dark] :is(.panel,.journey-card,.phrase,.reply-card,.quick-reply,.scene-ticket,.train-ticket,.hero-receipt,.food-card,.scene-object){background:#252e39;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] :is(.context,.hint,.scene-screen,.scene-status,.clerk-panel,.teacher-guide,.start-cue,.task-goal){background:#293a4c;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] .tinted{background:#293a4c!important}
-[data-appearance-fallback][data-theme=dark] :is(.hero-visual,.hero-food){background:#293a4c;color:#edf2f7}
-[data-appearance-fallback][data-theme=dark] :is(.hero-copy h1 span,.hero-menu-label,.hero-receipt small,.ticket-facts small,.scene-progress,.card-num){color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] :is(.ticket-seal,.ticket-stamp){color:#9dddbb}
-[data-appearance-fallback][data-theme=dark] :is(textarea,input,select){background:#1c2530;color:#edf2f7;border-color:#778ca3}
-[data-appearance-fallback][data-theme=dark] textarea::placeholder{color:#b9c5d2}
-[data-appearance-fallback][data-theme=dark] :is(.tag,.avatar){background:#304f70;color:#e4f1ff}
-[data-appearance-fallback][data-theme=dark] :is(.feedback,.scene-status.success,.scene-done){background:#244b39;color:#c9f3da}
-[data-appearance-fallback][data-theme=dark] :is(.feedback.retry,.scene-status.retry,.notice){background:#514221;color:#ffe4a2}
-[data-appearance-fallback][data-theme=dark] :focus-visible{outline-color:#9acbff}
-[data-appearance-fallback][data-theme=dark] :is(.boarding,.play-stage,.ride-card,.order-ticket,.cafe-menu,.order-card){background:#252e39;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] :is(.city-hero,.scene-board,.building-scene,.street-scene,.budget-strip,.counter-scene,.train-counter,.play-coach .checkline){background:#293a4c;color:#edf2f7;border-color:#526172}
-[data-appearance-fallback][data-theme=dark] :is(.board-label,.building-name,.journey-status,.order-card small,.order-card span,.food-card span,.food-card small,.menu-mast small,.order-ticket small,.train-ticket-grid small){color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] :is(.scene-object small,.place-symbol,.object-symbol){color:#a4d7c0}
-[data-appearance-fallback][data-theme=dark] :is(.progress-pill,.ride-icon,.ride-pill){background:#304f70;color:#e4f1ff}
-[data-appearance-fallback][data-theme=dark] :is(.scene-object.selected,.food-card.selected){background:#304f70;border-color:#9acbff}
-[data-appearance-fallback][data-theme=dark] .train-steps span{background:#354253;color:#d9e5f2}
-[data-appearance-fallback][data-theme=dark] .train-steps span.active{background:#9acbff;color:#142a42}
-[data-appearance-fallback][data-theme=dark] :is(.train-steps span.done,.train-ready){background:#244b39;color:#c9f3da}
-[data-appearance-fallback][data-theme=dark] :is(.route-arrow,.visual-caption,.ride-card small,.ride-card>span){color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] :is(.counter-choices,.platform-buttons) small{color:#b9cee4!important}
-[data-appearance-fallback][data-theme=dark] .reader-screen{background:#293a4c;color:#edf2f7}
-[data-appearance-fallback][data-theme=dark] :is(.map-titlebar,.map-titlebar strong){color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] .map-caption{color:#b9cee4}
-[data-appearance-fallback][data-theme=dark] .travel-map .map-caption{color:#365063}
-@media(prefers-reduced-transparency:reduce){:root[data-theme=dark] .top{backdrop-filter:none}}
-@media(prefers-contrast:more){[data-appearance-fallback][data-theme=dark]{--muted:#e1ebf5;--line:#9eafc2}[data-appearance-fallback][data-theme=dark] :is(.panel,button,textarea){border:2px solid #9eafc2}}
-</style>
-<style id="course-palette-styles">
-/* Six light-mode identities; every dark lesson uses Day 1's warm apricot palette. */
-:root[data-course-palette=peach]{--course-hue:16;--course-saturation:48%}
-:root[data-course-palette=apricot]{--course-hue:30;--course-saturation:54%}
-:root[data-course-palette=butter]{--course-hue:46;--course-saturation:52%}
-:root[data-course-palette=rose]{--course-hue:350;--course-saturation:34%}
-:root[data-course-palette=mauve]{--course-hue:285;--course-saturation:24%}
-:root[data-course-palette=latte]{--course-hue:26;--course-saturation:20%}
-:root[data-course-palette][data-theme=light]{
- --bg:hsl(var(--course-hue) var(--course-saturation) 94%);
- --panel:hsl(var(--course-hue) 35% 99%);
- --ink:hsl(var(--course-hue) 18% 20%);
- --muted:hsl(var(--course-hue) 14% 37%);
- --line:hsl(var(--course-hue) 22% 73%);
- --accent:hsl(var(--course-hue) var(--course-saturation) 31%);
- --soft:hsl(var(--course-hue) var(--course-saturation) 89%);
- --on-accent:#fffdf8;
- --neutral:hsl(var(--course-hue) 16% 81%);
- --hear-bg:var(--soft);--hear-ink:var(--accent);--hear-line:hsl(var(--course-hue) 30% 56%);
- --say-bg:#fff3d8;--say-ink:#654916;--say-line:#b48a3c;
-}
-:root[data-course-palette][data-theme=dark]{
- --course-hue:30;--course-saturation:54%;
- --bg:hsl(var(--course-hue) 15% 17%);
- --panel:hsl(var(--course-hue) 14% 22%);
- --ink:hsl(var(--course-hue) 30% 94%);
- --muted:hsl(var(--course-hue) 20% 77%);
- --line:hsl(var(--course-hue) 18% 48%);
- --accent:hsl(var(--course-hue) var(--course-saturation) 78%);
- --soft:hsl(var(--course-hue) 20% 28%);
- --on-accent:hsl(var(--course-hue) 22% 18%);
- --neutral:hsl(var(--course-hue) 13% 39%);
- --hear-bg:var(--soft);--hear-ink:var(--accent);--hear-line:hsl(var(--course-hue) 25% 60%);
- --say-bg:#403624;--say-ink:#f4dfaf;--say-line:#c4a251;
-}
-:root[data-course-palette] body{background:var(--bg);color:var(--ink)}
-/* Override earlier shell generations so switching days never restores a green/black shell. */
-:root[data-course-palette] :is(.top,.day-switcher,.course-nav,.course-menu){background:var(--bg);color:var(--ink);border-color:var(--line)}
-:root[data-course-palette] :is(.course-menu>summary,.tools button,.day-switcher a){background:var(--panel);color:var(--ink);border-color:var(--line)}
-:root[data-course-palette] :is(.day-switcher a[aria-current=page],button.primary,.task-round-picker button[aria-pressed=true],.workshop-modes [aria-pressed=true],.workshop-picker [aria-pressed=true]){background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-:root[data-course-palette] .day-switcher a[aria-current=page] small{color:var(--on-accent)}
-:root[data-course-palette] .tools button[aria-pressed=true]{background:var(--soft);color:var(--accent)}
-:root[data-course-palette] :is(.home-hero .hero-art,.scene-board,.task-explainer,.workshop-question){background:var(--soft)}
-:root[data-course-palette] :is(.cafe-wordmark,.home-hero .art-caption,.workshop-role svg){color:var(--accent)}
-:root[data-course-palette] .kindness-pill{background:var(--panel);color:var(--accent)}
-:root[data-course-palette] .teacher{background:var(--hear-bg);color:var(--hear-ink);border-color:var(--hear-line)}
-:root[data-course-palette] .teacher summary{color:inherit}
-@media(prefers-contrast:more){
- :root[data-course-palette][data-theme=light]{--muted:#403832;--line:#77685e}
- :root[data-course-palette][data-theme=dark]{--muted:#f5eee5;--line:#cfbfae}
-}
-</style>
-<style id="responsive-layout-styles">
-/* One responsive shell for the index and all standalone lessons. */
-html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
-.unit-menu{margin:0;min-width:0}
-.unit-menu>summary{display:none}
-.unit-menu a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-@media(min-width:1101px){
- .layout>.course-menu{position:sticky;top:calc(var(--travel-header-height,80px) + 12px);align-self:start}
- .layout>.course-menu>.course-nav{max-height:calc(100dvh - var(--travel-header-height,80px) - 24px);overflow-y:auto;overscroll-behavior:contain}
-}
-@media(max-width:1100px){
- .day-switcher{padding:8px 16px}
- .unit-menu>summary{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 0;color:var(--ink);list-style:none;line-height:1.5;touch-action:manipulation}
- .unit-menu>summary::-webkit-details-marker{display:none}
- .unit-menu>summary::marker{content:""}
- .unit-menu>summary::after{content:"";width:9px;height:9px;margin:0 5px 4px auto;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);flex-shrink:0}
- .unit-menu[open]>summary::after{transform:rotate(225deg);margin-bottom:0}
- .unit-menu>summary>span{min-width:0}
- .unit-menu-label{display:block;color:var(--muted);font-size:.78rem;font-weight:500}
- .unit-menu-current{display:block;font-size:1rem;font-weight:650;overflow-wrap:anywhere}
- .unit-menu>summary:hover,.unit-menu>summary:active{color:var(--accent)}
- .unit-menu>summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
- .unit-menu:not([data-ready])>.day-switcher-inner{display:none}
- .unit-menu .day-switcher-inner{display:block;max-height:min(60dvh,32rem);overflow-y:auto;overscroll-behavior:contain;padding:6px 6px 8px;scroll-padding:6px}
- .unit-menu .day-switcher-label{display:none}
- .unit-menu .day-switcher-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:8px}
- .unit-menu .day-switcher-links a{flex-direction:column;justify-content:center;gap:2px;min-height:56px;padding:10px 8px;text-align:center;font-size:.94rem;overflow-wrap:anywhere}
- .unit-menu .day-switcher-links a small{font-size:.8rem}
-}
-@media(max-width:640px){
- .unit-menu .day-switcher-links{grid-template-columns:repeat(2,minmax(0,1fr))}
- .top .tools button{font-size:.8rem;padding-inline:10px}
- [data-appearance-kind=index] .top-inner{padding:10px 12px;gap:8px}
- [data-appearance-kind=index] .brand{font-size:.9rem}
-}
-@media(max-width:380px){
- .top .brand span{display:none}
- .top-inner{gap:8px}
-}
-@media(prefers-contrast:more){.unit-menu>summary{outline:1px solid currentColor;border-radius:8px;padding-inline:8px}}
-</style>
-<!-- travel-pwa-meta -->
-<link rel="manifest" href="./manifest.webmanifest">
-<meta name="theme-color" content="#fff7ed">
-<link rel="apple-touch-icon" href="./assets/pwa-icon-180.png">
-<!-- /travel-pwa-meta -->
-<style id="travel-offline-styles">
-/* Inline in each lesson so standalone HTML remains readable. */
-#travel-offline{
- --offline-bg:#fff7ed;--offline-ink:#382c22;--offline-muted:#6d5948;--offline-line:#cbb69e;--offline-soft:#f4e4d1;
- box-sizing:border-box;max-width:740px;margin:28px auto;padding:20px 24px;
- border:1px solid var(--offline-line);border-radius:18px;background:var(--offline-bg);color:var(--offline-ink);
- font:inherit;line-height:1.6;overflow-wrap:anywhere
-}
-:root[data-theme=dark] #travel-offline{
- --offline-bg:#2c2823;--offline-ink:#f5eadc;--offline-muted:#d2bfaa;--offline-line:#8f7860;--offline-soft:#44372b
-}
-#travel-offline h2{margin:0 0 6px;font-size:1.1rem;line-height:1.4;letter-spacing:0}
-#travel-offline p{margin:8px 0;color:var(--offline-ink);font-size:1rem}
-#travel-offline .offline-note{color:var(--offline-muted);font-size:.9rem}
-#travel-offline button{
- display:inline-flex;align-items:center;justify-content:center;min-height:44px;max-width:100%;
- margin:8px 8px 0 0;padding:10px 16px;border:1px solid var(--offline-line);border-radius:12px;
- background:var(--offline-bg);color:var(--offline-ink);font:inherit;white-space:normal;cursor:pointer
-}
-#travel-offline button:hover,#travel-offline button:active{background:var(--offline-soft)}
-#travel-offline button:disabled{color:var(--offline-muted);cursor:wait;border-style:dashed}
-#travel-offline :focus-visible{outline:3px solid var(--offline-ink);outline-offset:3px}
-#travel-offline [hidden]{display:none!important}
-#travel-offline details{margin-top:10px}
-#travel-offline summary{min-height:44px;padding:10px 4px;box-sizing:border-box;cursor:pointer;font-size:.95rem}
-#travel-offline summary:hover{background:var(--offline-soft);border-radius:8px}
-#travel-offline ol{padding-left:1.5em;margin:8px 0}
-#travel-offline li{margin:8px 0}
-@media(max-width:800px){#travel-offline{margin:24px 16px;padding:18px}}
-@media print{#travel-offline{display:none}}
-</style>
-<style id="lesson-guided-styles">
+</style><style id="lesson-guided-styles">
 /* Day 1 only. A compact lesson shell and one clearly marked task at a time. */
 :root[data-lesson-guided] { background: #f3f4ef; }
 :root[data-lesson-guided][data-theme=dark] { background: #111a17; }
@@ -1158,6 +947,250 @@ body.lesson-guided .dg-change-card .study-meaning { color: var(--muted); }
  body.lesson-guided .dg-study-scene { margin-inline: 18px; }
 }
 
+</style>
+<style id="shared-appearance-styles">
+/* Shared reading controls, including the course index and older lessons. */
+:root{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+:root[data-size=large]{font-size:20px}
+:root[data-appearance-kind=legacy] body.large{font-size:1rem}
+:root[data-size=large] .day-switcher a{font-size:1rem}
+:root[data-size=large] .day-switcher a small{font-size:.8rem}
+.top-inner{flex-wrap:wrap}
+.top-tools,.tools{flex-wrap:wrap;margin-left:auto}
+.top-tools button,.tools button{white-space:nowrap}
+.course-menu>summary{font-size:1rem}
+.appearance-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1001;width:max-content;max-width:calc(100% - 32px);padding:14px 20px;border-radius:14px;background:#202631;color:#fff;box-shadow:0 4px 20px #0003}
+.appearance-status[hidden]{display:none}
+:root[data-theme=dark] .course-menu{background:var(--bg,var(--paper,#171c1d))}
+:root[data-theme=dark] .course-menu :is(.menu-icon,.menu-chevron){color:var(--ink,#edf1ef)}
+:root[data-theme=dark] .course-menu>summary:active{background:var(--surface,var(--panel,#2c3732))}
+
+/* The landing page uses the same controls and storage as the lessons. */
+:root[data-appearance-kind=index]{font-size:18px;--bg:#f5f5f7;--panel:#fff;--ink:#1d1d1f;--muted:#61616a;--accent:#0066cc;--line:#d7dfe0;--soft:#e8f2ff}
+:root[data-appearance-kind=index][data-size=large]{font-size:22px}
+:root[data-appearance-kind=index][data-theme=dark]{--bg:#151b1e;--panel:#222b30;--ink:#f0f4f4;--muted:#b7c5cc;--accent:#83c5ff;--line:#53646e;--soft:#2b3e50}
+[data-appearance-kind=index] body{padding:0;background:var(--bg);color:var(--ink);font-size:1rem}
+[data-appearance-kind=index] main{padding:38px 24px 70px}
+[data-appearance-kind=index] :is(p,small){color:var(--muted)}
+[data-appearance-kind=index] small{font-size:.8rem}
+[data-appearance-kind=index] main a{background:var(--panel);color:var(--accent);overflow-wrap:anywhere}
+[data-appearance-kind=index] main a:hover{background:var(--soft)}
+[data-appearance-kind=index] .top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+[data-appearance-kind=index] .top-inner{max-width:740px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px}
+[data-appearance-kind=index] .brand{font-size:1rem;font-weight:700}
+[data-appearance-kind=index] .tools{display:flex;gap:8px}
+[data-appearance-kind=index] button{font:inherit;font-size:.85rem;min-height:44px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--ink);cursor:pointer;touch-action:manipulation}
+[data-appearance-kind=index] button:hover,[data-appearance-kind=index] button[aria-pressed=true]{background:var(--soft)}
+[data-appearance-kind=index] :focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+
+/* Days 3–6 predate dark mode. Preserve scene objects' meaningful colors. */
+:root[data-appearance-fallback][data-theme=dark]{background:#171c22;color:#edf2f7;--blue:#9acbff;--muted:#b9c5d2;--line:#526172;--surface:#252e39;--paper:#171c22;--ink:#edf2f7;--teal:#9acbff}
+[data-appearance-fallback][data-theme=dark] .top{background:#171c22}
+[data-appearance-fallback][data-theme=dark] :is(.brand,.context strong){color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] button{background:#354253;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] button:hover{background:#465970}
+[data-appearance-fallback][data-theme=dark] button.primary{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] button.plain{background:transparent;color:#9acbff}
+[data-appearance-fallback][data-theme=dark] button[aria-pressed=true]{background:#304f70;color:#e4f1ff;box-shadow:inset 0 0 0 1px #9acbff}
+[data-appearance-fallback][data-theme=dark] .course-nav button{background:transparent;color:var(--muted)}
+[data-appearance-fallback][data-theme=dark] .course-nav button[aria-current=page]{background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.day-switcher,.course-menu>summary,.course-menu aside,.course-menu .course-nav){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] .day-switcher a{background:#303c4a;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.day-switcher-label,.day-switcher small){color:var(--muted)}
+[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page]{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] .day-switcher a[aria-current=page] small{color:#142a42}
+[data-appearance-fallback][data-theme=dark] :is(.panel,.journey-card,.phrase,.reply-card,.quick-reply,.scene-ticket,.train-ticket,.hero-receipt,.food-card,.scene-object){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.context,.hint,.scene-screen,.scene-status,.clerk-panel,.teacher-guide,.start-cue,.task-goal){background:#293a4c;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] .tinted{background:#293a4c!important}
+[data-appearance-fallback][data-theme=dark] :is(.hero-visual,.hero-food){background:#293a4c;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] :is(.hero-copy h1 span,.hero-menu-label,.hero-receipt small,.ticket-facts small,.scene-progress,.card-num){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.ticket-seal,.ticket-stamp){color:#9dddbb}
+[data-appearance-fallback][data-theme=dark] :is(textarea,input,select){background:#1c2530;color:#edf2f7;border-color:#778ca3}
+[data-appearance-fallback][data-theme=dark] textarea::placeholder{color:#b9c5d2}
+[data-appearance-fallback][data-theme=dark] :is(.tag,.avatar){background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.feedback,.scene-status.success,.scene-done){background:#244b39;color:#c9f3da}
+[data-appearance-fallback][data-theme=dark] :is(.feedback.retry,.scene-status.retry,.notice){background:#514221;color:#ffe4a2}
+[data-appearance-fallback][data-theme=dark] :focus-visible{outline-color:#9acbff}
+[data-appearance-fallback][data-theme=dark] :is(.boarding,.play-stage,.ride-card,.order-ticket,.cafe-menu,.order-card){background:#252e39;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.city-hero,.scene-board,.building-scene,.street-scene,.budget-strip,.counter-scene,.train-counter,.play-coach .checkline){background:#293a4c;color:#edf2f7;border-color:#526172}
+[data-appearance-fallback][data-theme=dark] :is(.board-label,.building-name,.journey-status,.order-card small,.order-card span,.food-card span,.food-card small,.menu-mast small,.order-ticket small,.train-ticket-grid small){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.scene-object small,.place-symbol,.object-symbol){color:#a4d7c0}
+[data-appearance-fallback][data-theme=dark] :is(.progress-pill,.ride-icon,.ride-pill){background:#304f70;color:#e4f1ff}
+[data-appearance-fallback][data-theme=dark] :is(.scene-object.selected,.food-card.selected){background:#304f70;border-color:#9acbff}
+[data-appearance-fallback][data-theme=dark] .train-steps span{background:#354253;color:#d9e5f2}
+[data-appearance-fallback][data-theme=dark] .train-steps span.active{background:#9acbff;color:#142a42}
+[data-appearance-fallback][data-theme=dark] :is(.train-steps span.done,.train-ready){background:#244b39;color:#c9f3da}
+[data-appearance-fallback][data-theme=dark] :is(.route-arrow,.visual-caption,.ride-card small,.ride-card>span){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] :is(.counter-choices,.platform-buttons) small{color:#b9cee4!important}
+[data-appearance-fallback][data-theme=dark] .reader-screen{background:#293a4c;color:#edf2f7}
+[data-appearance-fallback][data-theme=dark] :is(.map-titlebar,.map-titlebar strong){color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] .map-caption{color:#b9cee4}
+[data-appearance-fallback][data-theme=dark] .travel-map .map-caption{color:#365063}
+@media(prefers-reduced-transparency:reduce){:root[data-theme=dark] .top{backdrop-filter:none}}
+@media(prefers-contrast:more){[data-appearance-fallback][data-theme=dark]{--muted:#e1ebf5;--line:#9eafc2}[data-appearance-fallback][data-theme=dark] :is(.panel,button,textarea){border:2px solid #9eafc2}}
+</style>
+<style id="course-palette-styles">
+/* Language identities: English follows Day 5; Japanese = warm titanium; Korean = cool silver.
+   Task yellow and mastery green retain their teaching meaning. */
+:root[data-course-palette=navy][data-theme=light],
+:root[data-course-palette=navy][data-theme=light] body:is(.day1-guided,.lesson-guided){
+ --bg:#f5f3ee;--panel:#fffefa;--ink:#203449;--muted:#526171;--line:#cbd1d4;
+ --accent:#204e73;--on-accent:#fff;--soft:#edf0f2;--neutral:#cbd1d4;
+ --dg-tint:#e2edf5;--dg-map:#eaf0f3;--dg-road:#c9d6df;--dg-block:#dce6e5;
+ --hear-bg:#eaf2fa;--hear-ink:#234c70;--hear-line:#7998b4;
+ --say-bg:#fff0c7;--say-ink:#513a17;--say-line:#a66a17;
+ --course-hero:#20384e;--course-hero-ink:#fff9eb;--course-hero-muted:#d5e2ec;
+ --course-focus:#9e5e12;
+}
+:root[data-course-palette=navy][data-theme=dark],
+:root[data-course-palette=navy][data-theme=dark] body:is(.day1-guided,.lesson-guided){
+ --bg:#121c26;--panel:#1d2b38;--ink:#eef3f7;--muted:#bdc9d3;--line:#4f616e;
+ --accent:#a9d2f2;--on-accent:#122b3f;--soft:#293b4b;--neutral:#4f616e;
+ --dg-tint:#30485b;--dg-map:#263d4c;--dg-road:#607482;--dg-block:#354e56;
+ --hear-bg:#22394b;--hear-ink:#cee6fa;--hear-line:#86abc6;
+ --say-bg:#40351f;--say-ink:#ffe6af;--say-line:#e7b85c;
+ --course-hero:#243d53;--course-hero-ink:#fff4d8;--course-hero-muted:#d1e0ec;
+ --course-focus:#f2c56d;
+}
+:root[data-course-palette=titanium][data-theme=light]{
+ --bg:#f5f4f1;--panel:#fffefd;--ink:#242321;--muted:#69655f;--line:#d8d5cf;
+ --accent:#66594a;--on-accent:#fff;--soft:#eae7e1;--neutral:#d5d1ca;
+ --hear-bg:#eeece7;--hear-ink:#403c36;--hear-line:#aaa398;
+ --say-bg:#faf6ea;--say-ink:#5c5039;--say-line:#aa9470;--course-focus:#66594a;
+}
+:root[data-course-palette=titanium][data-theme=dark]{
+ --bg:#181817;--panel:#242423;--ink:#f5f4f1;--muted:#bbb7af;--line:#53514c;
+ --accent:#d0c2ac;--on-accent:#27231d;--soft:#33322f;--neutral:#53514c;
+ --hear-bg:#2d2c29;--hear-ink:#e4e0d8;--hear-line:#78746b;
+ --say-bg:#302d25;--say-ink:#e7d9b8;--say-line:#a08e6c;--course-focus:#d0c2ac;
+}
+:root[data-course-palette=silver][data-theme=light]{
+ --bg:#f5f5f7;--panel:#fff;--ink:#1d1d1f;--muted:#64656b;--line:#d5d7dd;
+ --accent:#405c85;--on-accent:#fff;--soft:#e7ebf1;--neutral:#d3d6dd;
+ --hear-bg:#eceef2;--hear-ink:#363e4b;--hear-line:#9da6b5;
+ --say-bg:#faf7ee;--say-ink:#5c5039;--say-line:#aa9470;--course-focus:#405c85;
+}
+:root[data-course-palette=silver][data-theme=dark]{
+ --bg:#16171a;--panel:#232428;--ink:#f5f5f7;--muted:#b8bbc3;--line:#4f535c;
+ --accent:#adc5e7;--on-accent:#202b3a;--soft:#2f343e;--neutral:#4f535c;
+ --hear-bg:#2b2e35;--hear-ink:#dce1ea;--hear-line:#727d8f;
+ --say-bg:#302d26;--say-ink:#e7d9b8;--say-line:#a08e6c;--course-focus:#adc5e7;
+}
+/* Guided lessons declare body tokens; set aliases at that same scope. */
+:root[data-course-palette][data-theme] body:is(.day1-guided,.lesson-guided){
+ --surface:var(--panel);--dg-warm:var(--say-bg);--dg-warm-ink:var(--say-ink);--dg-warm-line:var(--say-line);
+}
+:root[data-course-palette][data-theme]{background:var(--bg);color:var(--ink)}
+:root[data-course-palette] body{background:var(--bg);color:var(--ink)}
+:root[data-course-palette] :is(.top,.day-switcher,.course-nav,.course-menu){background:var(--bg);color:var(--ink);border-color:var(--line)}
+:root[data-course-palette] :is(.course-menu>summary,.tools button,.day-switcher a){background:var(--panel);color:var(--ink);border-color:var(--line)}
+:root[data-course-palette] :is(.day-switcher a[aria-current=page],button.primary,.task-round-picker button[aria-pressed=true],.workshop-modes [aria-pressed=true],.workshop-picker [aria-pressed=true]){background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+:root[data-course-palette] .day-switcher a[aria-current=page] small{color:var(--on-accent)}
+:root[data-course-palette] .tools button[aria-pressed=true]{background:var(--soft);color:var(--accent)}
+:root[data-course-palette] :is(.home-hero .hero-art,.scene-board,.task-explainer,.workshop-question){background:var(--soft)}
+:root[data-course-palette] :is(.cafe-wordmark,.home-hero .art-caption,.workshop-role svg){color:var(--accent)}
+:root[data-course-palette] .kindness-pill{background:var(--panel);color:var(--accent)}
+:root[data-course-palette] .teacher{background:var(--hear-bg);color:var(--hear-ink);border-color:var(--hear-line)}
+:root[data-course-palette] .teacher summary{color:inherit}
+/* Neutral reading surfaces; the actual speaking task retains its warm cue. */
+:root[data-course-day="0"][data-course-palette] :is(.study-library,.japanese-hear-block){background:transparent;border-color:var(--line)}
+:root[data-course-day="0"][data-course-palette] .study-heading:is(.study-self,.study-other){background:var(--panel);color:var(--ink);border-color:var(--line)}
+:root[data-course-day="0"][data-course-palette] :is(.study-library,.japanese-hear-block)>.study-heading{background:transparent;border-bottom-color:var(--line)}
+:root[data-course-day="0"][data-course-palette] :is(.study-library .task-phrase-grid,.japanese-hear-grid)>.panel{border-color:var(--line);border-top-width:1px}
+:root[data-course-day="0"][data-course-palette] .jp-glossary{border:1px solid var(--line);box-shadow:0 16px 48px #0000001a}
+:root[data-course-day="0"][data-course-palette][data-theme=dark] .jp-glossary{box-shadow:0 16px 48px #0006}
+:root[data-course-day="0"][data-course-palette] .speaking-task{background:var(--say-bg);color:var(--say-ink);border-color:var(--say-line)}
+:root[data-course-day="0"][data-course-palette] .speaking-task summary{color:var(--say-ink)}
+:root[data-course-palette][data-theme] .jp-glossary{
+ --panel:inherit;--ink:inherit;--muted:inherit;--accent:inherit;--line:inherit;
+ --glossary-button:var(--panel);--glossary-hover:var(--soft);
+}
+:root[data-course-palette] :focus-visible{outline-color:var(--course-focus)}
+:root[data-course-palette] ::selection{background:var(--accent);color:var(--on-accent)}
+:root[data-course-palette=navy] body:is(.day1-guided,.lesson-guided) .dg-lesson-cover{background:var(--course-hero);color:var(--course-hero-ink)}
+:root[data-course-palette=navy] body:is(.day1-guided,.lesson-guided) .dg-cover-copy :is(.eyebrow,.dg-introduction){color:var(--course-hero-muted)}
+@media(prefers-contrast:more){
+ :root[data-course-palette][data-theme=light],:root[data-course-palette][data-theme=light] body:is(.day1-guided,.lesson-guided){--muted:var(--ink);--line:var(--accent)}
+ :root[data-course-palette][data-theme=dark],:root[data-course-palette][data-theme=dark] body:is(.day1-guided,.lesson-guided){--muted:var(--ink);--line:var(--accent)}
+}
+</style>
+<style id="responsive-layout-styles">
+/* One responsive shell for the index and all standalone lessons. */
+html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
+.unit-menu{margin:0;min-width:0}
+.unit-menu>summary{display:none}
+.unit-menu a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(min-width:1101px){
+ .layout>.course-menu{position:sticky;top:calc(var(--travel-header-height,80px) + 12px);align-self:start}
+ .layout>.course-menu>.course-nav{max-height:calc(100dvh - var(--travel-header-height,80px) - 24px);overflow-y:auto;overscroll-behavior:contain}
+}
+@media(max-width:1100px){
+ .day-switcher{padding:8px 16px}
+ .unit-menu>summary{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 0;color:var(--ink);list-style:none;line-height:1.5;touch-action:manipulation}
+ .unit-menu>summary::-webkit-details-marker{display:none}
+ .unit-menu>summary::marker{content:""}
+ .unit-menu>summary::after{content:"";width:9px;height:9px;margin:0 5px 4px auto;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);flex-shrink:0}
+ .unit-menu[open]>summary::after{transform:rotate(225deg);margin-bottom:0}
+ .unit-menu>summary>span{min-width:0}
+ .unit-menu-label{display:block;color:var(--muted);font-size:.78rem;font-weight:500}
+ .unit-menu-current{display:block;font-size:1rem;font-weight:650;overflow-wrap:anywhere}
+ .unit-menu>summary:hover,.unit-menu>summary:active{color:var(--accent)}
+ .unit-menu>summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+ .unit-menu:not([data-ready])>.day-switcher-inner{display:none}
+ .unit-menu .day-switcher-inner{display:block;max-height:min(60dvh,32rem);overflow-y:auto;overscroll-behavior:contain;padding:6px 6px 8px;scroll-padding:6px}
+ .unit-menu .day-switcher-label{display:none}
+ .unit-menu .day-switcher-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:8px}
+ .unit-menu .day-switcher-links a{flex-direction:column;justify-content:center;gap:2px;min-height:56px;padding:10px 8px;text-align:center;font-size:.94rem;overflow-wrap:anywhere}
+ .unit-menu .day-switcher-links a small{font-size:.8rem}
+}
+@media(max-width:640px){
+ .unit-menu .day-switcher-links{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .top .tools button{font-size:.8rem;padding-inline:10px}
+ [data-appearance-kind=index] .top-inner{padding:10px 12px;gap:8px}
+ [data-appearance-kind=index] .brand{font-size:.9rem}
+}
+@media(max-width:380px){
+ .top .brand span{display:none}
+ .top-inner{gap:8px}
+}
+@media(prefers-contrast:more){.unit-menu>summary{outline:1px solid currentColor;border-radius:8px;padding-inline:8px}}
+</style>
+<!-- travel-pwa-meta -->
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#fff7ed">
+<link rel="apple-touch-icon" href="./assets/pwa-icon-180.png">
+<!-- /travel-pwa-meta -->
+<style id="travel-offline-styles">
+/* Inline in each lesson so standalone HTML remains readable. */
+#travel-offline{
+ --offline-bg:#fff7ed;--offline-ink:#382c22;--offline-muted:#6d5948;--offline-line:#cbb69e;--offline-soft:#f4e4d1;
+ box-sizing:border-box;max-width:740px;margin:28px auto;padding:20px 24px;
+ border:1px solid var(--offline-line);border-radius:18px;background:var(--offline-bg);color:var(--offline-ink);
+ font:inherit;line-height:1.6;overflow-wrap:anywhere
+}
+:root[data-theme=dark] #travel-offline{
+ --offline-bg:#2c2823;--offline-ink:#f5eadc;--offline-muted:#d2bfaa;--offline-line:#8f7860;--offline-soft:#44372b
+}
+#travel-offline h2{margin:0 0 6px;font-size:1.1rem;line-height:1.4;letter-spacing:0}
+#travel-offline p{margin:8px 0;color:var(--offline-ink);font-size:1rem}
+#travel-offline .offline-note{color:var(--offline-muted);font-size:.9rem}
+#travel-offline button{
+ display:inline-flex;align-items:center;justify-content:center;min-height:44px;max-width:100%;
+ margin:8px 8px 0 0;padding:10px 16px;border:1px solid var(--offline-line);border-radius:12px;
+ background:var(--offline-bg);color:var(--offline-ink);font:inherit;white-space:normal;cursor:pointer
+}
+#travel-offline button:hover,#travel-offline button:active{background:var(--offline-soft)}
+#travel-offline button:disabled{color:var(--offline-muted);cursor:wait;border-style:dashed}
+#travel-offline :focus-visible{outline:3px solid var(--offline-ink);outline-offset:3px}
+#travel-offline [hidden]{display:none!important}
+#travel-offline details{margin-top:10px}
+#travel-offline summary{min-height:44px;padding:10px 4px;box-sizing:border-box;cursor:pointer;font-size:.95rem}
+#travel-offline summary:hover{background:var(--offline-soft);border-radius:8px}
+#travel-offline ol{padding-left:1.5em;margin:8px 0}
+#travel-offline li{margin:8px 0}
+@media(max-width:800px){#travel-offline{margin:24px 16px;padding:18px}}
+@media print{#travel-offline{display:none}}
 </style>
 </head><body>
 <a class="skip" href="#main">跳到課程內容</a>
