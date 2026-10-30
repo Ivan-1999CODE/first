@@ -1,0 +1,41 @@
+body.lesson-guided.lesson5-hierarchy .d5-map-container { grid-column: 1 / -1; min-width: 0; width: 100%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-heading { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center; }
+body.lesson-guided.lesson5-hierarchy .d5-map-heading strong { font-size: 1.06rem; }
+body.lesson-guided.lesson5-hierarchy .d5-map-heading > span { font-size: .83rem; color: var(--muted); }
+body.lesson-guided.lesson5-hierarchy .d5-map-instruction { margin: 8px 0 14px; font-size: .9rem; line-height: 1.6; }
+body.lesson-guided.lesson5-hierarchy .d5-map-canvas { position: relative; width: 100%; aspect-ratio: 4 / 3; min-height: 270px; border: 1px solid var(--d5-listen-line); border-radius: 16px; background: var(--dg-map); }
+body.lesson-guided.lesson5-hierarchy .d5-map-canvas > svg { display: block; position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; border-radius: inherit; }
+body.lesson-guided.lesson5-hierarchy .d5-map-ground { fill: var(--dg-map); }
+body.lesson-guided.lesson5-hierarchy .d5-map-block { fill: var(--dg-block); }
+body.lesson-guided.lesson5-hierarchy .d5-map-road { stroke: var(--dg-road); stroke-width: 35; fill: none; }
+body.lesson-guided.lesson5-hierarchy .d5-map-road-line { stroke: var(--panel); stroke-width: 2; stroke-dasharray: 6 8; fill: none; opacity: .8; }
+body.lesson-guided.lesson5-hierarchy .d5-map-crossing { stroke: var(--panel); stroke-width: 4; opacity: .8; }
+body.lesson-guided.lesson5-hierarchy .d5-map-trees { fill: #71a68a; }
+body.lesson-guided.lesson5-hierarchy .d5-map-route { fill: none; stroke: var(--accent); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=correct] .d5-map-route { stroke: var(--d5-success, #216547); }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=wrong] .d5-map-route { stroke: var(--d5-error, #a92828); stroke-dasharray: 8 6; }
+body.lesson-guided.lesson5-hierarchy .d5-map-start { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
+body.lesson-guided.lesson5-hierarchy .d5-map-place { position: absolute; color: var(--ink); font-size: max(14px,.8rem); font-weight: 750; line-height: 1.4; max-width: 44%; white-space: nowrap; }
+body.lesson-guided.lesson5-hierarchy .d5-map-cafe { left: 5%; top: 10%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-museum { left: 5%; top: 44%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-park { right: 8%; top: 38%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-hotel { right: 8%; top: 66%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-origin { position: absolute; left: 5%; top: 85%; font-size: max(14px,.78rem); color: var(--muted); font-weight: 650; }
+body.lesson-guided.lesson5-hierarchy .d5-map-mover { position: absolute; transform: translate(-50%,-50%); z-index: 2; display: grid; place-items: center; width: 38px; height: 38px; border: 2px solid var(--accent); border-radius: 50%; background: var(--panel); font-size: 1.3rem; line-height: 1; box-shadow: 0 2px 5px #172d4426; pointer-events: none; }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=correct] .d5-map-mover { border-color: var(--d5-success, #216547); }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=wrong] .d5-map-mover { border-color: var(--d5-error, #a92828); }
+body.lesson-guided.lesson5-hierarchy .scene-board .d5-map-pin { position: absolute; transform: translate(-50%,-50%); z-index: 3; display: grid; place-items: center; width: 46px; height: 46px; min-height: 46px; padding: 0; border: 2px solid var(--accent); border-radius: 50%; font-size: 1.35rem; line-height: 1; background: var(--panel); color: var(--ink); }
+body.lesson-guided.lesson5-hierarchy .scene-board .d5-map-pin:active { transform: translate(-50%,-50%); }
+body.lesson-guided.lesson5-hierarchy .scene-board .d5-map-pin:focus-visible { outline-offset: 3px; }
+body.lesson-guided.lesson5-hierarchy .d5-map-key { display: grid; gap: 4px; margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: var(--soft); }
+body.lesson-guided.lesson5-hierarchy .d5-map-key p { margin: 0; font-size: .88rem; }
+body.lesson-guided.lesson5-hierarchy .d5-map-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin-top: 14px; }
+body.lesson-guided.lesson5-hierarchy .scene-board .d5-map-option { min-width: 0; min-height: 48px; text-align: left; font-size: 1rem; padding: 12px; }
+body.lesson-guided.lesson5-hierarchy .d5-map-status { margin: 12px 0 0; font-size: .9rem; font-weight: 700; color: var(--muted); }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=correct] .d5-map-status { color: var(--d5-success, #216547); }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=wrong] .d5-map-status { color: var(--d5-error, #a92828); }
+body.lesson-guided.lesson5-hierarchy .d5-map-scale { color: var(--muted); font-size: .78rem; margin: 8px 0 0; }
+@media (max-width:739px) {
+ body.lesson-guided.lesson5-hierarchy .d5-map-options { grid-template-columns: minmax(0,1fr); }
+ body.lesson-guided.lesson5-hierarchy .d5-map-canvas { min-height: 280px; }
+}

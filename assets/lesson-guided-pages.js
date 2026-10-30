@@ -96,17 +96,17 @@ function dgLessonTeacherGuide(p, r, steps) {
    <b>${esc(s.askFirst ? s.task : '老師先說，讓學生回答')} →</b>
    <p class="en" lang="${language}">${esc(s.line)}</p><p>${esc(s.zh)}</p>${audio(s.line)}
   </div>`).join('') : dgLessonTeacherCards(p)}
-  <details><summary>學生卡住了</summary>
-   <p>先問：「現在想讓對方知道什麼？」接受單字或短句，再用關鍵字協助。</p>
-   ${merged ? steps.map((s, i) => `<section class="merged-student-cue">
-    <h4>${i + 1}. ${esc(s.task)}</h4>${guidedHint(s.words, s.answer, s.answerZh, 'pair-step-' + p.id + '-' + i)}
-   </section>`).join('') : ''}
-   ${merged ? '' : guidedHint(p.words, p.answer, p.answerZh, 'pair-' + p.id)}
-  </details>
   <details><summary>帶領小提醒與完整條件</summary>
    <p>${esc(p.tags)}</p>
    <p>回應以學生實際說法為準，已說清楚的資訊不必重問。不同條件分次練，肯定與拒絕不當作同時發生；短答能傳達正確資訊，就可以繼續接話。</p>
   </details>
+ </details>
+ <details class="teacher dg-student-help"><summary>學生卡住了</summary>
+  <p>先問：「現在想讓對方知道什麼？」接受單字或短句，再用關鍵字協助。</p>
+  ${merged ? steps.map((s, i) => `<section class="merged-student-cue">
+   <h4>${i + 1}. ${esc(s.task)}</h4>${guidedHint(s.words, s.answer, s.answerZh, 'pair-step-' + p.id + '-' + i)}
+  </section>`).join('') : ''}
+  ${merged ? '' : guidedHint(p.words, p.answer, p.answerZh, 'pair-' + p.id)}
  </details>`;
 }
 
@@ -132,9 +132,6 @@ pairPage = function() {
    ${p.goals.map((g, i) => check(`data-pair-check="${p.id}:${i}"`, g, state.checks[p.id][i])).join('')}
    <p class="fine">老師依實際表達勾選，也能取消。先沿用本任務順序，熟悉後再收起提示。</p>
    ${dgLessonTeacherGuide(p, r, steps)}
-   <details class="dg-pair-note"><summary>記下一句真正用到的英文</summary>
-    ${field('note-' + p.id, '記下一句真正用到的英文')}
-   </details>
    <p class="fine">師生共看同一個畫面，自然接話；勾選記錄溝通目標，不是自動評分。</p>
   </section>
  </div>`;
@@ -234,7 +231,7 @@ homePage = function() {
  <section class="panel dg-panel dg-home-next">
   <h2>下次從哪裡接著練？</h2>
   <div class="actions">${btn(`再練任務 ${esc(taskLabel(r))}`, `data-repeat-round="${taskRound}"`)}
-   ${btn('回到本任務的進步紀錄', 'data-page="5"')}
+   ${btn('← 回到本任務的進步紀錄', 'data-page="5"')}
   </div>
   <p class="fine">由老師依當天進度選擇任務，各任務可以分幾堂課完成；右上角的任務按鈕可以隨時切換。</p>
   <p class="fine">先練本任務的聽力題，再把同樣句子說出口；想多練就重來。</p>

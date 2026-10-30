@@ -1,5 +1,5 @@
 // Reuse the lesson's authored meanings for the complete line above its audio cards.
-module.exports=function audioTranslations(lesson,audioTexts){
+module.exports=function audioTranslations(lesson,audioTexts,{allowUnknown=false}={}){
  const translations={};
  const add=(text,meaning)=>{if(text&&meaning&&!Object.hasOwn(translations,text))translations[text]=meaning;};
  // Main phrase cards take precedence so their repeated meaning stays identical.
@@ -26,7 +26,10 @@ module.exports=function audioTranslations(lesson,audioTexts){
  for(const text of audioTexts){
   if(translations[text])continue;
   const sentences=text.match(/[^。！？]+[。！？]?/g)||[];
-  if(!sentences.length||sentences.some(sentence=>!translations[sentence]))throw Error('Missing Japanese audio translation: '+text);
+  if(!sentences.length||sentences.some(sentence=>!translations[sentence])){
+   if(allowUnknown)continue; // A later curriculum layer supplies meanings for its new recordings.
+   throw Error('Missing Japanese audio translation: '+text);
+  }
   translations[text]=sentences.map(sentence=>{
    const meaning=translations[sentence];return /[。！？!?]$/.test(meaning)?meaning:meaning+'。';
   }).join('');

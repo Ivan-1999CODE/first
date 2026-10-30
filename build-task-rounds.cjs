@@ -10,23 +10,13 @@ function buildDay(day){
  const title=`第 ${day} 天：${d.course.title}・分任務練習`;
  let runtime=read('assets/day1-2-runtime.js').replace('const tabs=','let tabs=').replace('const hint=','let hint=').replace('load();render();appearance();','');
  if(japanese){runtime=runtime.replaceAll('英文','日文').replaceAll('lang="en"','lang="ja"');runtime=runtime.replace('${esc(en)}</p><p>${esc(zh)}','${esc(en)}</p>${reading(en)}<p>${esc(zh)}').replace('${audio(answer)}<p class="fine">','${reading(answer)}${audio(answer)}<p class="fine">');
-  const manifest=JSON.parse(read('assets/day0-audio/manifest.json'));
-  const timings=JSON.parse(read('assets/day0-audio/timings.json'));
-  const followReadings=require('./assets/day0-follow-readings.cjs');
-  d.day0GlossaryData=require('./assets/day0-glossary-data.cjs');
-  // Keep the recorded vocabulary translations while rearranging lesson tasks.
-  d.day0Timings=Object.fromEntries(Object.entries(manifest).map(([text,name])=>{
-   const entry=timings[text],hash=require('crypto').createHash('sha256').update(fs.readFileSync('assets/day0-audio/'+name)).digest('hex');
-   if(!entry||entry.sha256!==hash)throw Error('Audio/timing mismatch: '+text);
-   return [text,entry.cues.map(c=>{if(!followReadings[c.text])throw Error('Missing follow-along reading: '+c.text);return {...c,romaji:followReadings[c.text]};})];
-  }));
-  d.day0Audio=Object.fromEntries(Object.entries(manifest).map(([text,name])=>[text,'data:audio/mpeg;base64,'+fs.readFileSync('assets/day0-audio/'+name).toString('base64')]));
+  require('./assets/day0-learning-build.cjs')(d);
  }
  if(!japanese)d.lessonArtwork=require('./assets/course-illustrations.cjs').forLesson(day,d.rounds,d.course.replyRole);
  else d.studyArtwork=require('./assets/course-illustrations.cjs').forLesson(day,d.rounds,d.course.replyRole);
  const data=Object.entries(d).map(([k,v])=>`const ${k}=${JSON.stringify(v).replace(/</g,'\\u003c')};`).join('\n');
- const code=[data,runtime,read('assets/flow-guidance.js'),japanese?read('assets/day0-extra.js'):'',read('assets/task-rounds.js'),read('assets/task-rounds-expanded.js'),japanese?read('assets/day0-library.js'):read('assets/illustrated-lessons.js'),read('assets/study-library.js'),read('assets/dialogue-preview.js'),read('assets/micro-lessons.js'),japanese?read('assets/day0-numbers.js'):'',d.course.mergedTasks?read('assets/merged-lessons.js'):'',...japanese?[]:['assets/lesson-guided-pages.js','assets/lesson-guided-study.js','assets/lesson-guided-scene.js','assets/lesson-guided.js'].map(read),'load();render();appearance();',japanese?read('assets/day0-audio.js'):'',japanese?read('assets/day0-glossary.js'):''].join('\n');
- const css=['assets/day1-2.css','assets/speaking-focus.css','assets/task-rounds.css',...japanese?['assets/day0-follow.css','assets/day0-library.css','assets/day0-glossary.css']:['assets/illustrated-lessons.css'],'assets/study-library.css','assets/flow-guidance.css','assets/micro-lessons.css','assets/dialogue-preview.css',...d.course.mergedTasks?['assets/merged-lessons.css']:[]].map(read).join('\n');
+ const code=[data,runtime,read('assets/flow-guidance.js'),japanese?read('assets/day0-extra.js'):'',read('assets/task-rounds.js'),read('assets/task-rounds-expanded.js'),japanese?read('assets/day0-library.js'):read('assets/illustrated-lessons.js'),read('assets/study-library.js'),read('assets/dialogue-preview.js'),read('assets/micro-lessons.js'),japanese?read('assets/day0-numbers.js'):'',japanese?read('assets/day0-practical.js'):'',japanese?read('assets/day0-primer.js'):'',d.course.mergedTasks?read('assets/merged-lessons.js'):'',...japanese?[]:['assets/lesson-guided-pages.js','assets/lesson-guided-study.js','assets/lesson-guided-scene.js','assets/lesson-guided.js'].map(read),'load();render();appearance();',japanese?read('assets/day0-audio.js'):'',japanese?read('assets/day0-glossary.js'):''].join('\n');
+ const css=['assets/day1-2.css','assets/speaking-focus.css','assets/task-rounds.css',...japanese?['assets/day0-follow.css','assets/day0-library.css','assets/day0-glossary.css','assets/day0-practical.css','assets/day0-primer.css']:['assets/illustrated-lessons.css'],'assets/study-library.css','assets/flow-guidance.css','assets/micro-lessons.css','assets/dialogue-preview.css',...d.course.mergedTasks?['assets/merged-lessons.css']:[]].map(read).join('\n');
  let html=read('assets/task-rounds-template.html')
   .replace(/<title>[\s\S]*?<\/title>/,`<title>Travel Lab｜${title}</title>`)
   .replace(/<meta name="description"[^>]*>/,`<meta name="description" content="${d.course.description}">`)
@@ -40,9 +30,9 @@ function buildDay(day){
  fs.writeFileSync(file,html);
  require('./sync-appearance.cjs')(file);
  if(!japanese){
-  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css')+(day===5?'\n'+read('assets/lesson5-hierarchy.css'):'');
+  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css')+(day===5?'\n'+['assets/lesson5-hierarchy.css','assets/lesson5-map.css','assets/lesson5-flow.css','assets/lesson5-teacher.css'].map(read).join('\n'):'');
   fs.writeFileSync(file,read(file).replace('</head>',()=>`<style id="lesson-guided-styles">\n${guidedCss}\n</style>\n</head>`));
-  if(day===5)fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>read('assets/lesson5-hierarchy.js')+'\nload();render();appearance();'));
+  if(day===5)fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>['assets/lesson5-map.js','assets/lesson5-flow.js','assets/lesson5-teacher.js','assets/lesson5-hierarchy.js'].map(read).join('\n')+'\nload();render();appearance();'));
   require('./build-pwa.cjs')();
  }
  console.log(`Built ${file}: ${d.rounds.length} rounds / ${d.phrases.length} phrases / ${d.replies.length} listening exchanges.`);

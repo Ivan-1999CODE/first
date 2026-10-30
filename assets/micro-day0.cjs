@@ -1,6 +1,6 @@
 const {compile}=require('./micro-curriculum.cjs');
 const clone=x=>JSON.parse(JSON.stringify(x));
-function make(language){
+function makeLegacy(language){
  const ko=language==='ko',base=clone(require(ko?'./korean-day0-data.cjs':'./day0-expanded.cjs'));
  const text=(ja,kr)=>ko?kr:ja,station=ko?'地鐵站':'車站';
  const S=(label,answer,answerZh,line,zh,task,options,askFirst=true)=>({id:label,label,answer,answerZh,line,zh,task,words:answer,objects:options.map(x=>['▣',x]),valid:[0],askFirst,effect:'✓ 已更新這一步的資訊，沿用同一句再練習。'});
@@ -31,8 +31,12 @@ function make(language){
  // Reuse existing recorded utterances and readings; no new voice is required.
  if(!ko){
   d.day0GlossaryData=require('./day0-glossary-data.cjs');
-  d.day0AudioTranslations=require('./day0-audio-translations.cjs')(base,Object.keys(require('./day0-audio/manifest.json')));
+  d.day0AudioTranslations=require('./day0-audio-translations.cjs')(base,Object.keys(require('./day0-audio/manifest.json')),{allowUnknown:true});
  }
  return d;
+}
+function make(language,options={}){
+ const base=makeLegacy(language);
+ return options.legacy?base:require('./day0-practical.cjs').make(language,base);
 }
 module.exports={make};

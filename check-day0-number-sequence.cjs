@@ -43,6 +43,7 @@ fs.mkdirSync(out,{recursive:true});
    await p.evaluate(()=>qaStarts=[]);await normal.click();
    await p.waitForFunction(()=>qaStarts.length===10&&qaAudio.ended,null,{timeout:60000});
    assert.deepEqual(await p.evaluate(()=>qaStarts),expected.map(text=>({text,rate:1})));
+   assert.equal(await section.locator('.follow-translation').innerText(),d.numberWords.map(row=>row[1]).join(' '),'Number subtitles retain numeric meanings rather than primer sound descriptions');
    assert.match(await section.locator('.follow-heading strong').innerText(),/播放完畢/);
    assert.equal(await p.locator('.follow-token.is-current').count(),0);
    assert.equal(await p.locator('.day0-audio-status').isVisible(),false);

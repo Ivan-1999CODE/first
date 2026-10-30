@@ -232,6 +232,13 @@
 @media(prefers-contrast:more){:root[data-illustrated]{--line:currentColor}[data-illustrated] .role-frame{border-width:2px}[data-illustrated] .role-self{border-left-width:4px}}
 
 .study-block{margin-bottom:34px;min-width:0}
+.study-variation-vocabulary .grid{align-items:start}
+.study-variation-word{overflow-wrap:anywhere}
+.study-word-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.study-word-pair>div{min-width:0;border-top:1px solid var(--line);padding-top:12px}
+.study-word-pair .fine{margin-bottom:6px}.study-word-pair .en{margin-bottom:8px}
+.study-word-note{margin:16px 0 0;line-height:1.8}
+@media(max-width:600px){.study-word-pair{grid-template-columns:minmax(0,1fr)}}
 .study-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
 .study-navigation button{min-width:0;text-align:left;padding:13px 15px;background:var(--panel);color:var(--ink)}
 .study-navigation strong,.study-navigation small{display:block}
@@ -1095,6 +1102,7 @@ body.lesson-guided .dg-home-question + .dg-home-question { margin-top: 22px; pad
 body.lesson-guided .inventory-scroll { overflow-x: auto; }
 body.lesson-guided .inventory-scroll table { width: 100%; }
 body.lesson-guided .dg-teacher :is(.merged-scene-heading,.dg-scene-heading) { margin-top: 20px; padding: 12px; background: var(--soft); border-radius: 10px; }
+body.lesson-guided .teacher.dg-student-help { margin-top: 16px; padding: 12px 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--ink); order: initial; }
 body.lesson-guided .micro-alternative { background: var(--soft); }
 body.lesson-guided .dg-study-dialogue .workshop-card-top { display: flex; justify-content: space-between; align-items: center; }
 body.lesson-guided .dg-study-dialogue .workshop-card-top h2 { margin: 0; }
@@ -1110,7 +1118,15 @@ body.lesson-guided .dg-quick-start .task { margin-bottom: 16px; }
 body.lesson-guided .dg-entry-note { margin: 0; }
 body.lesson-guided .dg-entry-note > summary { color: var(--muted); font-size: .9rem; }
 body.lesson-guided .dg-entry-note textarea { margin-top: 12px; }
-body.lesson-guided .dg-entry-next { justify-content: flex-end; }
+body.lesson-guided #main > .dg-entry-next { justify-content: flex-end; }
+body.lesson-guided #main > .dg-entry-next > button { flex: 0 1 auto; margin-inline-start: auto; max-width: 100%; }
+body.lesson-guided #main > .dg-section-footer { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+body.lesson-guided #main > .dg-section-footer > button { min-width: 0; max-width: 100%; min-height: 48px; margin: 0; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
+body.lesson-guided #main > .dg-section-footer > button:first-child { justify-self: start; }
+body.lesson-guided #main > .dg-section-footer > button:last-child { justify-self: end; }
+@media(max-width:380px) {
+ body.lesson-guided #main > .dg-section-footer > button { padding-inline: 6px; }
+}
 body.lesson-guided .dg-dialogue-preview > .dialogue-preview { margin: 16px 0 0; padding: 0; border: 0; box-shadow: none; background: transparent; }
 body.lesson-guided .dg-dialogue-preview > .dialogue-preview > .fine { display: none; }
 body.lesson-guided .dg-study-changes .grid { align-items: start; }
@@ -1146,7 +1162,7 @@ body.lesson-guided .dg-change-card .study-meaning { color: var(--muted); }
 </head><body>
 <a class="skip" href="#main">跳到課程內容</a>
 <header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
-<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 13 天 · 表達需求、調整計畫</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文問路與購物</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文問路與購物</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html"><strong>第 12 天</strong><small>安排今天的行程</small></a><a tabindex="0" href="travel-english-unit13-why-which.html" aria-current="page"><strong>第 13 天</strong><small>表達需求、調整計畫</small></a><a tabindex="0" href="travel-english-unit14-travel-questions.html"><strong>第 14 天</strong><small>問清楚團體行程</small></a></div></div></details></nav>
+<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 13 天 · 表達需求、調整計畫</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文旅行實用會話</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文旅行實用會話</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html"><strong>第 12 天</strong><small>安排今天的行程</small></a><a tabindex="0" href="travel-english-unit13-why-which.html" aria-current="page"><strong>第 13 天</strong><small>表達需求、調整計畫</small></a><a tabindex="0" href="travel-english-unit14-travel-questions.html"><strong>第 14 天</strong><small>問清楚團體行程</small></a></div></div></details></nav>
 <div id="storageNotice" class="notice" role="status" hidden></div>
 <div class="layout"><details id="courseMenu" class="course-menu" open><summary aria-label="課程選單"><svg class="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16m4-11h4m-4 5h4"/></svg><span class="menu-label">課程選單</span><svg class="menu-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 7.5 5 5 5-5"/></svg></summary><nav class="course-nav" aria-label="第 13 天的七部分課程"><span class="day">DAY 13</span><div id="nav"></div></nav></details><main id="main" tabindex="-1"></main></div>
 <footer class="bottom"><a href="index.html">全部課程</a> · 第 13 天：表達需求，一起調整計畫・分任務練習</footer><div id="toast" role="status" hidden></div>
@@ -1457,10 +1473,15 @@ render=function(){
  }
 };
 
+function studyVariationVocabulary(r){
+ const entries=r.variationVocabulary||[];
+ if(!entries.length)return '';
+ return `<section class="study-block study-variation-vocabulary" aria-label="04 會用到的替換字"><h2>換條件前，先學這些字</h2><p>04 會用到下面的變化。先看中英對照、聽發音，再放進已學的句子；有些只要聽懂，自己的問法不變。</p><div class="grid">${entries.map(entry=>`<article class="panel study-variation-word" data-variation-mission="${esc(entry.missionId)}"><h3>${esc(entry.label)}</h3><div class="study-word-pair">${[entry.from,entry.to].map(([en,zh],i)=>`<div><p class="fine">${i?'這次換成':'原來是'}</p><p class="en" lang="en">${esc(en)}</p><p class="study-meaning">${esc(zh)}</p>${audio(en)}</div>`).join('')}</div>${entry.note?`<p class="study-word-note">${esc(entry.note)}</p>`:''}</article>`).join('')}</div></section>`;
+}
 function studyVocabulary(r){
- if(!r.words.length)return '';
+ if(!r.words.length&&!r.variationVocabulary?.length)return '';
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork,japanese=course.day===0;
- return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>先看意思、聽發音，再放進這輪的句子裡試著說。</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary><div class="panel"><div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div></details>`;
+ return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>先看意思、聽發音，再放進這輪的句子裡試著說。</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary><div class="panel"><div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div>${studyVariationVocabulary(r)}</details>`;
 }
 function studyRoleHeading(me,title,subtitle){
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork;
@@ -1723,6 +1744,8 @@ document.addEventListener('change',e=>{
 
 
 
+
+
 // Presentation for the existing Day 2–14 task curriculum. All task IDs,
 // answer fields, checks and quiz handlers continue to use their original keys.
 function dgLessonInventory() {
@@ -1821,17 +1844,17 @@ function dgLessonTeacherGuide(p, r, steps) {
    <b>${esc(s.askFirst ? s.task : '老師先說，讓學生回答')} →</b>
    <p class="en" lang="${language}">${esc(s.line)}</p><p>${esc(s.zh)}</p>${audio(s.line)}
   </div>`).join('') : dgLessonTeacherCards(p)}
-  <details><summary>學生卡住了</summary>
-   <p>先問：「現在想讓對方知道什麼？」接受單字或短句，再用關鍵字協助。</p>
-   ${merged ? steps.map((s, i) => `<section class="merged-student-cue">
-    <h4>${i + 1}. ${esc(s.task)}</h4>${guidedHint(s.words, s.answer, s.answerZh, 'pair-step-' + p.id + '-' + i)}
-   </section>`).join('') : ''}
-   ${merged ? '' : guidedHint(p.words, p.answer, p.answerZh, 'pair-' + p.id)}
-  </details>
   <details><summary>帶領小提醒與完整條件</summary>
    <p>${esc(p.tags)}</p>
    <p>回應以學生實際說法為準，已說清楚的資訊不必重問。不同條件分次練，肯定與拒絕不當作同時發生；短答能傳達正確資訊，就可以繼續接話。</p>
   </details>
+ </details>
+ <details class="teacher dg-student-help"><summary>學生卡住了</summary>
+  <p>先問：「現在想讓對方知道什麼？」接受單字或短句，再用關鍵字協助。</p>
+  ${merged ? steps.map((s, i) => `<section class="merged-student-cue">
+   <h4>${i + 1}. ${esc(s.task)}</h4>${guidedHint(s.words, s.answer, s.answerZh, 'pair-step-' + p.id + '-' + i)}
+  </section>`).join('') : ''}
+  ${merged ? '' : guidedHint(p.words, p.answer, p.answerZh, 'pair-' + p.id)}
  </details>`;
 }
 
@@ -1857,9 +1880,6 @@ pairPage = function() {
    ${p.goals.map((g, i) => check(`data-pair-check="${p.id}:${i}"`, g, state.checks[p.id][i])).join('')}
    <p class="fine">老師依實際表達勾選，也能取消。先沿用本任務順序，熟悉後再收起提示。</p>
    ${dgLessonTeacherGuide(p, r, steps)}
-   <details class="dg-pair-note"><summary>記下一句真正用到的英文</summary>
-    ${field('note-' + p.id, '記下一句真正用到的英文')}
-   </details>
    <p class="fine">師生共看同一個畫面，自然接話；勾選記錄溝通目標，不是自動評分。</p>
   </section>
  </div>`;
@@ -1959,7 +1979,7 @@ homePage = function() {
  <section class="panel dg-panel dg-home-next">
   <h2>下次從哪裡接著練？</h2>
   <div class="actions">${btn(`再練任務 ${esc(taskLabel(r))}`, `data-repeat-round="${taskRound}"`)}
-   ${btn('回到本任務的進步紀錄', 'data-page="5"')}
+   ${btn('← 回到本任務的進步紀錄', 'data-page="5"')}
   </div>
   <p class="fine">由老師依當天進度選擇任務，各任務可以分幾堂課完成；右上角的任務按鈕可以隨時切換。</p>
   <p class="fine">先練本任務的聽力題，再把同樣句子說出口；想多練就重來。</p>
@@ -2118,7 +2138,7 @@ scenePage = function() {
     <details class="dg-completed-review"><summary>回看這次用過的句子</summary>
      <div class="dg-completed-lines">${resolved.map(t => `<p class="dg-en" lang="${language}">${esc(t.answer)}</p>`).join('')}</div>
     </details>
-    <div class="actions">${btn('收起提示再練一次', `data-start="${flow}"`)}${btn('進入第 04 部分 →', 'data-page="3"', 'class="primary"')}</div>
+    <div class="actions">${btn('收起提示再練一次', `data-start="${flow}"`)}${btn(`前往 04 ${course.day===5?'換條件':esc(dgLabels[3])} →`, 'data-page="3"', 'class="primary"')}</div>
     <p class="fine">完成標記會保留；是否熟悉，仍由師生在第六部分確認。</p>
    </section>
    <section class="panel dg-panel"><h2>這次完成的事</h2>${sceneState()}</section>
@@ -2210,9 +2230,13 @@ reviewScope=function(){return `<details class="dg-review-options" ${reviewMode==
 const dgOriginalFooter=taskFooter;
 taskFooter=function(){
  if(page===0)return `<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
+ // Chapter navigation stays separate from conversation steps and early wrap-up.
+ if(page===1)return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分','data-page="0"')}${btn('前往 03 跟著做 →',`data-start="${activeRound().flowIds[0]}"`,'class="primary"')}</div>`;
+ if(page===2)return `<div class="footer-actions dg-section-footer">${btn('← 上一部分','data-page="1"')}${btn(`前往 04 ${course.day===5?'換條件':esc(dgLabels[3])} →`,'data-page="3"','class="primary"')}</div>`;
  const wrapper=document.createElement('div');wrapper.innerHTML=dgOriginalFooter();
  const nextButton=wrapper.querySelector('.footer-actions > button:last-child');
- if(page===2&&!finished)nextButton?.remove();else nextButton?.classList.add('primary');
+ nextButton?.classList.add('primary');
+ if(nextButton?.dataset.page==='0')nextButton.textContent='← '+nextButton.textContent;
  return wrapper.innerHTML;
 };
 render=function(){

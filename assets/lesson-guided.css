@@ -30,6 +30,7 @@ body.lesson-guided .dg-home-question + .dg-home-question { margin-top: 22px; pad
 body.lesson-guided .inventory-scroll { overflow-x: auto; }
 body.lesson-guided .inventory-scroll table { width: 100%; }
 body.lesson-guided .dg-teacher :is(.merged-scene-heading,.dg-scene-heading) { margin-top: 20px; padding: 12px; background: var(--soft); border-radius: 10px; }
+body.lesson-guided .teacher.dg-student-help { margin-top: 16px; padding: 12px 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--ink); order: initial; }
 body.lesson-guided .micro-alternative { background: var(--soft); }
 body.lesson-guided .dg-study-dialogue .workshop-card-top { display: flex; justify-content: space-between; align-items: center; }
 body.lesson-guided .dg-study-dialogue .workshop-card-top h2 { margin: 0; }
@@ -45,7 +46,15 @@ body.lesson-guided .dg-quick-start .task { margin-bottom: 16px; }
 body.lesson-guided .dg-entry-note { margin: 0; }
 body.lesson-guided .dg-entry-note > summary { color: var(--muted); font-size: .9rem; }
 body.lesson-guided .dg-entry-note textarea { margin-top: 12px; }
-body.lesson-guided .dg-entry-next { justify-content: flex-end; }
+body.lesson-guided #main > .dg-entry-next { justify-content: flex-end; }
+body.lesson-guided #main > .dg-entry-next > button { flex: 0 1 auto; margin-inline-start: auto; max-width: 100%; }
+body.lesson-guided #main > .dg-section-footer { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+body.lesson-guided #main > .dg-section-footer > button { min-width: 0; max-width: 100%; min-height: 48px; margin: 0; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
+body.lesson-guided #main > .dg-section-footer > button:first-child { justify-self: start; }
+body.lesson-guided #main > .dg-section-footer > button:last-child { justify-self: end; }
+@media(max-width:380px) {
+ body.lesson-guided #main > .dg-section-footer > button { padding-inline: 6px; }
+}
 body.lesson-guided .dg-dialogue-preview > .dialogue-preview { margin: 16px 0 0; padding: 0; border: 0; box-shadow: none; background: transparent; }
 body.lesson-guided .dg-dialogue-preview > .dialogue-preview > .fine { display: none; }
 body.lesson-guided .dg-study-changes .grid { align-items: start; }

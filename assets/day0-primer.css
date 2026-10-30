@@ -1,0 +1,71 @@
+/* Script primer inherits the lesson's shared theme and root font size. */
+.primer-entry{display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--soft)}
+.primer-entry>div:first-child{min-width:0;flex:1}
+.primer-entry h2{font-size:1.35rem}
+.primer-entry p{margin-bottom:10px}
+.primer-entry>.actions{flex-shrink:0}
+.primer-header{margin:0 0 26px}
+.primer-header h1{font-size:clamp(1.8rem,4vw,3rem);scroll-margin-top:110px}
+.primer-header .lead{max-width:48rem}
+.primer-workspace{padding:26px}
+.primer-categories,.primer-groups,.primer-view-tabs{display:flex;flex-wrap:wrap;gap:9px}
+.primer-categories{margin-bottom:20px}
+.primer-categories button{flex:1;min-width:150px;font-weight:650}
+.primer-groups{padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.primer-groups button{min-width:72px;padding:9px 14px}
+.primer-group-heading h2{margin-bottom:10px}
+.primer-group-heading .eyebrow{margin-bottom:6px}
+.primer-view-tabs{margin:20px 0}
+.primer-view-tabs button{min-width:135px}
+.primer-sequence{margin-bottom:18px}
+.primer-letter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(136px,1fr));gap:13px;align-items:start}
+.primer-letter-card{min-width:0;padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--bg)}
+.primer-card-play{display:grid;gap:9px}
+.primer-letter-button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px 8px;min-height:155px}
+.primer-glyph{font-size:2.7rem;line-height:1.35;overflow-wrap:anywhere;word-break:keep-all}
+.primer-romaji{font-size:.95rem;font-weight:600;color:var(--muted)}
+.primer-play-label{font-size:.76rem;color:var(--accent)}
+.primer-demo{font-size:.82rem;line-height:1.65;color:var(--muted)}
+.primer-demo b{font-size:1.35rem;color:var(--ink);white-space:nowrap}
+.primer-letter-card>.fine{margin:12px 0 0}
+.primer-note{font-size:.84rem;color:var(--muted);margin:12px 0 0;overflow-wrap:anywhere}
+.primer-footnote{margin-top:18px}
+.primer-follow .follow-token:disabled{opacity:1;cursor:default}
+.primer-letter-card .follow-along{display:none!important}
+.primer-builder-grid{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.primer-parts{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 0 15px}
+.primer-parts span{font-size:1.7rem;border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:3px 10px}
+.primer-parts b{font-size:.8rem;color:var(--muted)}
+.primer-build-placeholder{min-height:155px;display:grid;align-content:center}
+.primer-quiz{border:1px solid var(--line);border-radius:18px;padding:23px;background:var(--bg)}
+.primer-quiz h3{font-size:1.25rem;scroll-margin-top:110px}
+/* The shared player still runs; its transcript is intentionally hidden in the
+   listening exercise. A separate, explicit transcript remains available below. */
+.primer-quiz .follow-along{display:none!important}
+.primer-quiz-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+.primer-quiz-options button{font-size:2rem;min-height:95px;overflow-wrap:anywhere;padding:16px 8px}
+.primer-feedback:empty{display:none}
+.primer-quiz-transcript{padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.primer-quiz-transcript summary{padding:12px 0}
+.primer-transcript-text{font-size:1.6rem;margin-right:12px}
+.primer-question-actions{margin:20px 0}
+.primer-footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:26px;border-top:1px solid var(--line);padding-top:20px}
+.day0-primer button:focus-visible,.primer-entry button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+@media(max-width:700px){
+ .primer-entry{align-items:stretch;flex-direction:column;gap:12px}
+ .primer-workspace{padding:18px}
+ .primer-categories{gap:7px}
+ .primer-categories button{min-width:0;flex-basis:100%;text-align:left}
+ .primer-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+ .primer-groups button{min-width:0;padding:9px 5px;font-size:.88rem}
+ .primer-letter-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .primer-letter-card{padding:10px}
+ .primer-letter-button{padding:14px 5px;min-height:145px}
+ .primer-glyph{font-size:2.3rem}
+ .primer-builder-grid{grid-template-columns:1fr}
+ .primer-quiz{padding:17px}
+ .primer-quiz-options{gap:8px}
+ .primer-quiz-options button{font-size:1.5rem;min-height:76px}
+ .primer-view-tabs button{min-width:0;flex:1}
+}
+@media(prefers-reduced-motion:reduce){.day0-primer button:active,.primer-entry button:active{transform:none}}

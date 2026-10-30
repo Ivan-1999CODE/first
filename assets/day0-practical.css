@@ -1,0 +1,29 @@
+.practical-hero .hero-art{min-height:0;display:flex;align-items:center;justify-content:center}
+.practical-hero .hero-art img{width:min(100%,260px);height:auto;object-fit:contain}
+.practical-picker{margin:16px 0}
+.practical-chapters{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:14px 18px}
+.practical-chapters>summary{cursor:pointer;font-weight:650;min-height:44px;align-content:center}
+.practical-chapters>summary span{display:inline-block;margin-left:12px;color:var(--muted);font-size:.85rem}
+.practical-chapter-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.practical-chapter-grid>button{min-width:0;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:6px;padding:16px;white-space:normal;overflow-wrap:anywhere}
+.practical-chapter-grid small{color:var(--muted)}
+.practical-chapter-grid>button[aria-pressed=true] small{color:inherit}
+.practical-tasks{margin-top:12px;flex-wrap:wrap}
+.practical-tasks>button{min-width:0;white-space:normal;overflow-wrap:anywhere}
+.practical-banner>strong{font-size:1.2rem;margin:8px 0}
+.practical-banner>.eyebrow{margin-bottom:4px}
+.practical-tools{margin-top:28px}
+.practical-tools>summary,.practical-number-drawer>summary{font-weight:650;min-height:44px;align-content:center;cursor:pointer}
+.practical-tools article{border-top:1px solid var(--line);padding:12px 0;min-width:0}
+.practical-tools .en{overflow-wrap:anywhere}
+.practical-number-drawer .japanese-numbers{margin-top:16px;margin-bottom:0}
+.practical-hero .lead{max-width:40em}
+@media(max-width:800px){.practical-chapter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.practical-hero .hero-art{display:none}}
+@media(max-width:420px){.practical-chapters{padding:12px}.practical-chapter-grid{grid-template-columns:1fr}.practical-tasks{display:grid;grid-template-columns:1fr}}
+.practical-phone-map{margin:0 0 1rem;padding:1rem;border:1px solid var(--line);border-radius:18px;background:var(--soft);text-align:center}
+.practical-phone-map svg{display:block;width:min(100%,300px);margin:auto;color:var(--ink)}
+.practical-phone-map .map-phone{fill:var(--panel);stroke:var(--line);stroke-width:3}
+.practical-phone-map .map-road{stroke:var(--line);stroke-width:24;fill:none;stroke-linecap:round}
+.practical-phone-map .map-route,.practical-phone-map .map-arrow{stroke:var(--accent);stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.practical-phone-map .map-start{fill:var(--accent)}
+.practical-phone-map text{fill:currentColor;font-size:12px}.practical-phone-map figcaption{font-weight:700}.practical-phone-map small{display:block;color:var(--muted);font-size:.78em;font-weight:400}

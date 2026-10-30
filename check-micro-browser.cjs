@@ -85,7 +85,7 @@ async function checkLesson(browser,d){
   const scopeIds=()=>p.locator('[data-review-task]').evaluateAll(es=>es.map(e=>e.dataset.reviewTask));
   const orderedIds=d.course.mergedTasks?d.rounds.map(r=>r.id):flattenGroups(d);
   const nextIndex=r=>d.rounds.findIndex(x=>x.id===orderedIds[orderedIds.indexOf(r.id)+1]);
-  const closed=async selector=>assert.equal(await p.locator(`${selector} details[open]`).count(),0,`${stage}: examples start collapsed`);
+  const closed=async selector=>assert.equal(await p.locator(`${selector} details[open]:not(.practical-chapters):not(.japanese-numbers)`).count(),0,`${stage}: examples start collapsed`);
   const select=async i=>{
    await nav(0);await p.locator(`[data-before-round="${i}"]`).first().click();
    assert.equal(await p.evaluate(()=>page),0);
@@ -145,7 +145,10 @@ async function checkLesson(browser,d){
    report.checks.push('Merged source tasks have one complete task entry each, with no sub-round navigation or utterance cap');
   }else if(d.course.taskGroups){
    assert.deepEqual(await p.locator('.task-chapter').evaluateAll(es=>es.map(e=>e.dataset.chapter)),d.course.taskGroups.map(g=>g.id));
-   assert.deepEqual(await p.locator('.before-panel .chapter-rounds').evaluateAll(es=>es.map(e=>[...e.querySelectorAll('[data-before-round]')].map(b=>Number(b.dataset.beforeRound)))),d.course.taskGroups.map(g=>g.roundIds.map(id=>d.rounds.findIndex(r=>r.id===id))));
+   if(d.practicalSupport){
+    assert.deepEqual(await p.locator('.before-panel [data-practical-chapter]').evaluateAll(es=>es.map(e=>Number(e.dataset.practicalChapter))),d.course.taskGroups.map((_,i)=>i));
+    assert.deepEqual(await p.locator('.before-panel .practical-tasks [data-before-round]').evaluateAll(es=>es.map(e=>Number(e.dataset.beforeRound))),d.course.taskGroups[0].roundIds.map(id=>d.rounds.findIndex(r=>r.id===id)));
+   }else assert.deepEqual(await p.locator('.before-panel .chapter-rounds').evaluateAll(es=>es.map(e=>[...e.querySelectorAll('[data-before-round]')].map(b=>Number(b.dataset.beforeRound)))),d.course.taskGroups.map(g=>g.roundIds.map(id=>d.rounds.findIndex(r=>r.id===id))));
    report.checks.push('Approved chapters and small-round display order match their complete mappings');
   }
 

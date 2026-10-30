@@ -46,7 +46,7 @@ scenePage = function() {
     <details class="dg-completed-review"><summary>回看這次用過的句子</summary>
      <div class="dg-completed-lines">${resolved.map(t => `<p class="dg-en" lang="${language}">${esc(t.answer)}</p>`).join('')}</div>
     </details>
-    <div class="actions">${btn('收起提示再練一次', `data-start="${flow}"`)}${btn('進入第 04 部分 →', 'data-page="3"', 'class="primary"')}</div>
+    <div class="actions">${btn('收起提示再練一次', `data-start="${flow}"`)}${btn(`前往 04 ${course.day===5?'換條件':esc(dgLabels[3])} →`, 'data-page="3"', 'class="primary"')}</div>
     <p class="fine">完成標記會保留；是否熟悉，仍由師生在第六部分確認。</p>
    </section>
    <section class="panel dg-panel"><h2>這次完成的事</h2>${sceneState()}</section>

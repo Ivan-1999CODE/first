@@ -45,9 +45,13 @@ reviewScope=function(){return `<details class="dg-review-options" ${reviewMode==
 const dgOriginalFooter=taskFooter;
 taskFooter=function(){
  if(page===0)return `<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
+ // Chapter navigation stays separate from conversation steps and early wrap-up.
+ if(page===1)return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分','data-page="0"')}${btn('前往 03 跟著做 →',`data-start="${activeRound().flowIds[0]}"`,'class="primary"')}</div>`;
+ if(page===2)return `<div class="footer-actions dg-section-footer">${btn('← 上一部分','data-page="1"')}${btn(`前往 04 ${course.day===5?'換條件':esc(dgLabels[3])} →`,'data-page="3"','class="primary"')}</div>`;
  const wrapper=document.createElement('div');wrapper.innerHTML=dgOriginalFooter();
  const nextButton=wrapper.querySelector('.footer-actions > button:last-child');
- if(page===2&&!finished)nextButton?.remove();else nextButton?.classList.add('primary');
+ nextButton?.classList.add('primary');
+ if(nextButton?.dataset.page==='0')nextButton.textContent='← '+nextButton.textContent;
  return wrapper.innerHTML;
 };
 render=function(){

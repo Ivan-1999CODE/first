@@ -1120,6 +1120,7 @@ body.lesson-guided .dg-home-question + .dg-home-question { margin-top: 22px; pad
 body.lesson-guided .inventory-scroll { overflow-x: auto; }
 body.lesson-guided .inventory-scroll table { width: 100%; }
 body.lesson-guided .dg-teacher :is(.merged-scene-heading,.dg-scene-heading) { margin-top: 20px; padding: 12px; background: var(--soft); border-radius: 10px; }
+body.lesson-guided .teacher.dg-student-help { margin-top: 16px; padding: 12px 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--ink); order: initial; }
 body.lesson-guided .micro-alternative { background: var(--soft); }
 body.lesson-guided .dg-study-dialogue .workshop-card-top { display: flex; justify-content: space-between; align-items: center; }
 body.lesson-guided .dg-study-dialogue .workshop-card-top h2 { margin: 0; }
@@ -1135,7 +1136,15 @@ body.lesson-guided .dg-quick-start .task { margin-bottom: 16px; }
 body.lesson-guided .dg-entry-note { margin: 0; }
 body.lesson-guided .dg-entry-note > summary { color: var(--muted); font-size: .9rem; }
 body.lesson-guided .dg-entry-note textarea { margin-top: 12px; }
-body.lesson-guided .dg-entry-next { justify-content: flex-end; }
+body.lesson-guided #main > .dg-entry-next { justify-content: flex-end; }
+body.lesson-guided #main > .dg-entry-next > button { flex: 0 1 auto; margin-inline-start: auto; max-width: 100%; }
+body.lesson-guided #main > .dg-section-footer { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+body.lesson-guided #main > .dg-section-footer > button { min-width: 0; max-width: 100%; min-height: 48px; margin: 0; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
+body.lesson-guided #main > .dg-section-footer > button:first-child { justify-self: start; }
+body.lesson-guided #main > .dg-section-footer > button:last-child { justify-self: end; }
+@media(max-width:380px) {
+ body.lesson-guided #main > .dg-section-footer > button { padding-inline: 6px; }
+}
 body.lesson-guided .dg-dialogue-preview > .dialogue-preview { margin: 16px 0 0; padding: 0; border: 0; box-shadow: none; background: transparent; }
 body.lesson-guided .dg-dialogue-preview > .dialogue-preview > .fine { display: none; }
 body.lesson-guided .dg-study-changes .grid { align-items: start; }
@@ -1270,8 +1279,8 @@ body.lesson-guided.lesson5-hierarchy :is(.dg-before-record,.dg-feedback-note,.dg
 body.lesson-guided.lesson5-hierarchy details.panel { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 8px 4px; margin-block: 14px; }
 body.lesson-guided.lesson5-hierarchy details.panel > summary { font-weight: 600; color: var(--muted); }
 body.lesson-guided.lesson5-hierarchy details.panel[open] { background: var(--panel); padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
-body.lesson-guided.lesson5-hierarchy .dg-teacher { background: var(--soft); padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; }
-body.lesson-guided.lesson5-hierarchy .dg-teacher > summary { color: var(--ink); }
+body.lesson-guided.lesson5-hierarchy :is(.dg-teacher,.dg-student-help) { background: var(--soft); padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; }
+body.lesson-guided.lesson5-hierarchy :is(.dg-teacher,.dg-student-help) > summary { color: var(--ink); }
 body.lesson-guided.lesson5-hierarchy .teacher-card { background: var(--panel); border-left: 4px solid var(--d5-listen-line); padding: 16px; border-radius: 8px; }
 body.lesson-guided.lesson5-hierarchy .teacher-card .en { color: var(--ink); font-size: 1.35rem; }
 body.lesson-guided.lesson5-hierarchy .session-stop button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); font-size: .85rem; }
@@ -1321,11 +1330,141 @@ body.lesson-guided.lesson5-hierarchy #dg-course-dialog::backdrop { background: #
  :root[data-theme=dark] body.lesson-guided.lesson5-hierarchy { --line: #aabac7; }
 }
 
+body.lesson-guided.lesson5-hierarchy .d5-map-container { grid-column: 1 / -1; min-width: 0; width: 100%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-heading { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center; }
+body.lesson-guided.lesson5-hierarchy .d5-map-heading strong { font-size: 1.06rem; }
+body.lesson-guided.lesson5-hierarchy .d5-map-heading > span { font-size: .83rem; color: var(--muted); }
+body.lesson-guided.lesson5-hierarchy .d5-map-instruction { margin: 8px 0 14px; font-size: .9rem; line-height: 1.6; }
+body.lesson-guided.lesson5-hierarchy .d5-map-canvas { position: relative; width: 100%; aspect-ratio: 4 / 3; min-height: 270px; border: 1px solid var(--d5-listen-line); border-radius: 16px; background: var(--dg-map); }
+body.lesson-guided.lesson5-hierarchy .d5-map-canvas > svg { display: block; position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; border-radius: inherit; }
+body.lesson-guided.lesson5-hierarchy .d5-map-ground { fill: var(--dg-map); }
+body.lesson-guided.lesson5-hierarchy .d5-map-block { fill: var(--dg-block); }
+body.lesson-guided.lesson5-hierarchy .d5-map-road { stroke: var(--dg-road); stroke-width: 35; fill: none; }
+body.lesson-guided.lesson5-hierarchy .d5-map-road-line { stroke: var(--panel); stroke-width: 2; stroke-dasharray: 6 8; fill: none; opacity: .8; }
+body.lesson-guided.lesson5-hierarchy .d5-map-crossing { stroke: var(--panel); stroke-width: 4; opacity: .8; }
+body.lesson-guided.lesson5-hierarchy .d5-map-trees { fill: #71a68a; }
+body.lesson-guided.lesson5-hierarchy .d5-map-route { fill: none; stroke: var(--accent); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=correct] .d5-map-route { stroke: var(--d5-success, #216547); }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=wrong] .d5-map-route { stroke: var(--d5-error, #a92828); stroke-dasharray: 8 6; }
+body.lesson-guided.lesson5-hierarchy .d5-map-start { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
+body.lesson-guided.lesson5-hierarchy .d5-map-place { position: absolute; color: var(--ink); font-size: max(14px,.8rem); font-weight: 750; line-height: 1.4; max-width: 44%; white-space: nowrap; }
+body.lesson-guided.lesson5-hierarchy .d5-map-cafe { left: 5%; top: 10%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-museum { left: 5%; top: 44%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-park { right: 8%; top: 38%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-hotel { right: 8%; top: 66%; }
+body.lesson-guided.lesson5-hierarchy .d5-map-origin { position: absolute; left: 5%; top: 85%; font-size: max(14px,.78rem); color: var(--muted); font-weight: 650; }
+body.lesson-guided.lesson5-hierarchy .d5-map-mover { position: absolute; transform: translate(-50%,-50%); z-index: 2; display: grid; place-items: center; width: 38px; height: 38px; border: 2px solid var(--accent); border-radius: 50%; background: var(--panel); font-size: 1.3rem; line-height: 1; box-shadow: 0 2px 5px #172d4426; pointer-events: none; }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=correct] .d5-map-mover { border-color: var(--d5-success, #216547); }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=wrong] .d5-map-mover { border-color: var(--d5-error, #a92828); }
+body.lesson-guided.lesson5-hierarchy .scene-board .d5-map-pin { position: absolute; transform: translate(-50%,-50%); z-index: 3; display: grid; place-items: center; width: 46px; height: 46px; min-height: 46px; padding: 0; border: 2px solid var(--accent); border-radius: 50%; font-size: 1.35rem; line-height: 1; background: var(--panel); color: var(--ink); }
+body.lesson-guided.lesson5-hierarchy .scene-board .d5-map-pin:active { transform: translate(-50%,-50%); }
+body.lesson-guided.lesson5-hierarchy .scene-board .d5-map-pin:focus-visible { outline-offset: 3px; }
+body.lesson-guided.lesson5-hierarchy .d5-map-key { display: grid; gap: 4px; margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: var(--soft); }
+body.lesson-guided.lesson5-hierarchy .d5-map-key p { margin: 0; font-size: .88rem; }
+body.lesson-guided.lesson5-hierarchy .d5-map-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin-top: 14px; }
+body.lesson-guided.lesson5-hierarchy .scene-board .d5-map-option { min-width: 0; min-height: 48px; text-align: left; font-size: 1rem; padding: 12px; }
+body.lesson-guided.lesson5-hierarchy .d5-map-status { margin: 12px 0 0; font-size: .9rem; font-weight: 700; color: var(--muted); }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=correct] .d5-map-status { color: var(--d5-success, #216547); }
+body.lesson-guided.lesson5-hierarchy .d5-map-container[data-map-result=wrong] .d5-map-status { color: var(--d5-error, #a92828); }
+body.lesson-guided.lesson5-hierarchy .d5-map-scale { color: var(--muted); font-size: .78rem; margin: 8px 0 0; }
+@media (max-width:739px) {
+ body.lesson-guided.lesson5-hierarchy .d5-map-options { grid-template-columns: minmax(0,1fr); }
+ body.lesson-guided.lesson5-hierarchy .d5-map-canvas { min-height: 280px; }
+}
+
+/* Success and error colors describe a choice, never a role or self-rating. */
+body.lesson-guided.lesson5-hierarchy {
+ --d5-success: #216547; --d5-success-bg: #e6f4eb;
+ --d5-error: #a92828; --d5-error-bg: #fff0ee;
+}
+:root[data-theme=dark] body.lesson-guided.lesson5-hierarchy {
+ --d5-success: #9ce0b4; --d5-success-bg: #203d31;
+ --d5-error: #ffada5; --d5-error-bg: #482a2d;
+}
+body.lesson-guided.lesson5-hierarchy .d5-flow-steps {
+ display: flex; flex-wrap: wrap; gap: 8px 12px; padding: 0; margin: 0 0 18px; list-style: none;
+}
+body.lesson-guided.lesson5-hierarchy .d5-flow-steps li {
+ display: flex; align-items: center; gap: 8px; padding: 7px 12px;
+ border: 1px solid var(--line); border-radius: 9px; color: var(--muted); font-size: .86rem;
+}
+body.lesson-guided.lesson5-hierarchy .d5-flow-steps li span { font-weight: 800; }
+body.lesson-guided.lesson5-hierarchy .d5-flow-steps [aria-current=step] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 750; }
+body.lesson-guided.lesson5-hierarchy .d5-flow-steps .done { color: var(--d5-success); border-color: var(--d5-success); background: var(--d5-success-bg); }
+body.lesson-guided.lesson5-hierarchy .d5-dialogue-complete { background: var(--soft); align-self: start; border-color: var(--line); }
+body.lesson-guided.lesson5-hierarchy .d5-complete-label { color: var(--d5-success); font-weight: 750; }
+body.lesson-guided.lesson5-hierarchy .d5-dialogue-complete h2 { font-size: 1.25rem; }
+body.lesson-guided.lesson5-hierarchy .d5-dialogue-recap .en { font-size: 1.3rem; line-height: 1.45; overflow-wrap: anywhere; }
+body.lesson-guided.lesson5-hierarchy .d5-dialogue-recap .eyebrow { margin-bottom: 8px; }
+body.lesson-guided.lesson5-hierarchy .scene-board .object[data-result=correct] {
+ background: var(--d5-success-bg); color: var(--d5-success); border: 3px solid var(--d5-success); box-shadow: none;
+}
+body.lesson-guided.lesson5-hierarchy .scene-board .object[data-result=wrong] {
+ background: var(--d5-error-bg); color: var(--d5-error); border: 3px solid var(--d5-error); box-shadow: none;
+}
+body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene .scene-board[data-result=correct] { border-color: var(--d5-success); }
+body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene .scene-board[data-result=wrong] { border-color: var(--d5-error); }
+body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene #flowFeedback .feedback { display: grid; gap: 6px; margin: 0; padding: 14px; border-radius: 10px; font-size: .94rem; }
+body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene #flowFeedback[data-result=correct] .feedback {
+ color: var(--d5-success); background: var(--d5-success-bg); border: 1px solid var(--d5-success); border-left-width: 4px;
+}
+body.lesson-guided.lesson5-hierarchy .scene-grid.task-scene #flowFeedback[data-result=wrong] .feedback {
+ color: var(--d5-error); background: var(--d5-error-bg); border: 1px solid var(--d5-error); border-left-width: 4px;
+}
+body.lesson-guided.lesson5-hierarchy .scene-board .object[data-result]:focus-visible { outline-color: var(--d5-focus); }
+@media (max-width:739px) {
+ body.lesson-guided.lesson5-hierarchy .d5-flow-steps { gap: 6px; }
+ body.lesson-guided.lesson5-hierarchy .d5-flow-steps li { padding: 6px 8px; font-size: .82rem; }
+ body.lesson-guided.lesson5-hierarchy .d5-dialogue-complete { padding: 16px; }
+}
+
+/* Purple marks the teacher's spoken line; context stays on a quiet surface. */
+body.lesson-guided.lesson5-hierarchy {
+ --d5-teach-surface: #4b356b; --d5-teach-ink: #fffaff; --d5-teach-muted: #e5d9f2;
+ --d5-teach-tint: #f0eaf7; --d5-teach-number: #4b356b; --d5-teach-border: #876aa6;
+}
+:root[data-theme=dark] body.lesson-guided.lesson5-hierarchy {
+ --d5-teach-surface: #463257; --d5-teach-ink: #fff7ff; --d5-teach-muted: #e5d4ed;
+ --d5-teach-tint: #342a42; --d5-teach-number: #e1c8f7; --d5-teach-border: #b598d0;
+}
+body.lesson-guided.lesson5-hierarchy .dg-teacher.d5-teacher-guide[open] { background: var(--panel); border-color: var(--d5-teach-border); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-guide[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-intro { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; margin-bottom: 18px; font-size: .88rem; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-intro strong { color: var(--ink); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-intro span { color: var(--muted); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-cards { display: grid; gap: 22px; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-guide .d5-teacher-step { min-width: 0; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-card-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-order { display: grid; place-items: center; width: 38px; height: 38px; flex-shrink: 0; border-radius: 9px; font-size: 1.05rem; font-weight: 800; background: var(--d5-teach-tint); color: var(--d5-teach-number); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-card-head h3 { margin: 0; font-size: .98rem; line-height: 1.5; color: var(--ink); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-trigger { margin: 0; padding: 0 16px 16px; color: var(--muted); font-size: .9rem; line-height: 1.6; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-speech { padding: 18px; border-radius: 0 0 11px 11px; background: var(--d5-teach-surface); color: var(--d5-teach-ink); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-say-label { margin: 0 0 10px; color: var(--d5-teach-muted); font-size: .82rem; font-weight: 700; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-guide .teacher-card .d5-teacher-line { margin: 0 0 14px; color: var(--d5-teach-ink); font-size: 1.65rem; font-weight: 750; line-height: 1.35; overflow-wrap: anywhere; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-translation { margin: 0; color: var(--d5-teach-muted); font-size: .92rem; line-height: 1.6; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-audio { margin-top: 18px; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button { background: transparent; color: var(--d5-teach-ink); border-color: var(--d5-teach-muted); font-size: .88rem; min-height: 44px; transition: none; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button:first-child { background: var(--d5-teach-ink); color: var(--d5-teach-surface); border-color: var(--d5-teach-ink); font-weight: 750; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button:hover { background: var(--d5-teach-tint); color: var(--d5-teach-number); border-color: var(--d5-teach-border); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button:focus-visible { outline-color: var(--d5-teach-ink); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-extras { margin-top: 22px; border-top: 1px solid var(--line); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-extras > details { margin: 0; padding: 6px 0; border: 0; color: var(--muted); }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-extras > details > summary { color: var(--muted); font-size: .88rem; font-weight: 600; }
+body.lesson-guided.lesson5-hierarchy .d5-teacher-extras > details[open] { color: var(--ink); }
+@media(max-width:739px) {
+ body.lesson-guided.lesson5-hierarchy .dg-teacher.d5-teacher-guide { padding-inline: 10px; }
+ body.lesson-guided.lesson5-hierarchy .d5-teacher-card-head { padding: 12px 12px 8px; }
+ body.lesson-guided.lesson5-hierarchy .d5-teacher-trigger { padding: 0 12px 14px; }
+ body.lesson-guided.lesson5-hierarchy .d5-teacher-speech { padding: 16px 12px; }
+ body.lesson-guided.lesson5-hierarchy .d5-teacher-guide .teacher-card .d5-teacher-line { font-size: 1.5rem; }
+ body.lesson-guided.lesson5-hierarchy .d5-teacher-audio button { padding-inline: 10px; }
+}
+
 </style>
 </head><body>
 <a class="skip" href="#main">跳到課程內容</a>
 <header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
-<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 5 天 · 問路、計程車與 Uber</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文問路與購物</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文問路與購物</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html" aria-current="page"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html"><strong>第 12 天</strong><small>安排今天的行程</small></a><a tabindex="0" href="travel-english-unit13-why-which.html"><strong>第 13 天</strong><small>表達需求、調整計畫</small></a><a tabindex="0" href="travel-english-unit14-travel-questions.html"><strong>第 14 天</strong><small>問清楚團體行程</small></a></div></div></details></nav>
+<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 5 天 · 問路、計程車與 Uber</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文旅行實用會話</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文旅行實用會話</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html" aria-current="page"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html"><strong>第 12 天</strong><small>安排今天的行程</small></a><a tabindex="0" href="travel-english-unit13-why-which.html"><strong>第 13 天</strong><small>表達需求、調整計畫</small></a><a tabindex="0" href="travel-english-unit14-travel-questions.html"><strong>第 14 天</strong><small>問清楚團體行程</small></a></div></div></details></nav>
 <div id="storageNotice" class="notice" role="status" hidden></div>
 <div class="layout"><details id="courseMenu" class="course-menu" open><summary aria-label="課程選單"><svg class="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16m4-11h4m-4 5h4"/></svg><span class="menu-label">課程選單</span><svg class="menu-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 7.5 5 5 5-5"/></svg></summary><nav class="course-nav" aria-label="第 5 天的七部分課程"><span class="day">DAY 5</span><div id="nav"></div></nav></details><main id="main" tabindex="-1"></main></div>
 <footer class="bottom"><a href="index.html">全部課程</a> · 第 5 天：城市移動・分任務練習</footer><div id="toast" role="status" hidden></div>
@@ -1907,6 +2046,8 @@ document.addEventListener('change',e=>{
 });
 
 
+
+
 // A merged task owns one set of seven parts. Display letters follow the lesson
 // order; source IDs remain internal for saved answers and content checks.
 if(course.mergedTasks){
@@ -2105,17 +2246,17 @@ function dgLessonTeacherGuide(p, r, steps) {
    <b>${esc(s.askFirst ? s.task : '老師先說，讓學生回答')} →</b>
    <p class="en" lang="${language}">${esc(s.line)}</p><p>${esc(s.zh)}</p>${audio(s.line)}
   </div>`).join('') : dgLessonTeacherCards(p)}
-  <details><summary>學生卡住了</summary>
-   <p>先問：「現在想讓對方知道什麼？」接受單字或短句，再用關鍵字協助。</p>
-   ${merged ? steps.map((s, i) => `<section class="merged-student-cue">
-    <h4>${i + 1}. ${esc(s.task)}</h4>${guidedHint(s.words, s.answer, s.answerZh, 'pair-step-' + p.id + '-' + i)}
-   </section>`).join('') : ''}
-   ${merged ? '' : guidedHint(p.words, p.answer, p.answerZh, 'pair-' + p.id)}
-  </details>
   <details><summary>帶領小提醒與完整條件</summary>
    <p>${esc(p.tags)}</p>
    <p>回應以學生實際說法為準，已說清楚的資訊不必重問。不同條件分次練，肯定與拒絕不當作同時發生；短答能傳達正確資訊，就可以繼續接話。</p>
   </details>
+ </details>
+ <details class="teacher dg-student-help"><summary>學生卡住了</summary>
+  <p>先問：「現在想讓對方知道什麼？」接受單字或短句，再用關鍵字協助。</p>
+  ${merged ? steps.map((s, i) => `<section class="merged-student-cue">
+   <h4>${i + 1}. ${esc(s.task)}</h4>${guidedHint(s.words, s.answer, s.answerZh, 'pair-step-' + p.id + '-' + i)}
+  </section>`).join('') : ''}
+  ${merged ? '' : guidedHint(p.words, p.answer, p.answerZh, 'pair-' + p.id)}
  </details>`;
 }
 
@@ -2141,9 +2282,6 @@ pairPage = function() {
    ${p.goals.map((g, i) => check(`data-pair-check="${p.id}:${i}"`, g, state.checks[p.id][i])).join('')}
    <p class="fine">老師依實際表達勾選，也能取消。先沿用本任務順序，熟悉後再收起提示。</p>
    ${dgLessonTeacherGuide(p, r, steps)}
-   <details class="dg-pair-note"><summary>記下一句真正用到的英文</summary>
-    ${field('note-' + p.id, '記下一句真正用到的英文')}
-   </details>
    <p class="fine">師生共看同一個畫面，自然接話；勾選記錄溝通目標，不是自動評分。</p>
   </section>
  </div>`;
@@ -2243,7 +2381,7 @@ homePage = function() {
  <section class="panel dg-panel dg-home-next">
   <h2>下次從哪裡接著練？</h2>
   <div class="actions">${btn(`再練任務 ${esc(taskLabel(r))}`, `data-repeat-round="${taskRound}"`)}
-   ${btn('回到本任務的進步紀錄', 'data-page="5"')}
+   ${btn('← 回到本任務的進步紀錄', 'data-page="5"')}
   </div>
   <p class="fine">由老師依當天進度選擇任務，各任務可以分幾堂課完成；右上角的任務按鈕可以隨時切換。</p>
   <p class="fine">先練本任務的聽力題，再把同樣句子說出口；想多練就重來。</p>
@@ -2402,7 +2540,7 @@ scenePage = function() {
     <details class="dg-completed-review"><summary>回看這次用過的句子</summary>
      <div class="dg-completed-lines">${resolved.map(t => `<p class="dg-en" lang="${language}">${esc(t.answer)}</p>`).join('')}</div>
     </details>
-    <div class="actions">${btn('收起提示再練一次', `data-start="${flow}"`)}${btn('進入第 04 部分 →', 'data-page="3"', 'class="primary"')}</div>
+    <div class="actions">${btn('收起提示再練一次', `data-start="${flow}"`)}${btn(`前往 04 ${course.day===5?'換條件':esc(dgLabels[3])} →`, 'data-page="3"', 'class="primary"')}</div>
     <p class="fine">完成標記會保留；是否熟悉，仍由師生在第六部分確認。</p>
    </section>
    <section class="panel dg-panel"><h2>這次完成的事</h2>${sceneState()}</section>
@@ -2494,9 +2632,13 @@ reviewScope=function(){return `<details class="dg-review-options" ${reviewMode==
 const dgOriginalFooter=taskFooter;
 taskFooter=function(){
  if(page===0)return `<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
+ // Chapter navigation stays separate from conversation steps and early wrap-up.
+ if(page===1)return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分','data-page="0"')}${btn('前往 03 跟著做 →',`data-start="${activeRound().flowIds[0]}"`,'class="primary"')}</div>`;
+ if(page===2)return `<div class="footer-actions dg-section-footer">${btn('← 上一部分','data-page="1"')}${btn(`前往 04 ${course.day===5?'換條件':esc(dgLabels[3])} →`,'data-page="3"','class="primary"')}</div>`;
  const wrapper=document.createElement('div');wrapper.innerHTML=dgOriginalFooter();
  const nextButton=wrapper.querySelector('.footer-actions > button:last-child');
- if(page===2&&!finished)nextButton?.remove();else nextButton?.classList.add('primary');
+ nextButton?.classList.add('primary');
+ if(nextButton?.dataset.page==='0')nextButton.textContent='← '+nextButton.textContent;
  return wrapper.innerHTML;
 };
 render=function(){
@@ -2532,6 +2674,218 @@ document.addEventListener('change',e=>{
  const region=$(heard&&spoken?'.scene-board':'.dg-speaker');if(!region)return;region.tabIndex=-1;region.focus({preventScroll:true});window.scrollTo({top:Math.max(0,region.getBoundingClientRect().top+scrollY-$('.top').getBoundingClientRect().height-12),behavior:'instant'});
 });
 dgInstallShell();
+
+// Day 5 map presentation: choices keep the existing lesson events and gates.
+function d5MapMarkup(f, t, {choice, confirmed, correct}) {
+ if (!f.id.startsWith('micro-en-d5-')) return '';
+ const index = f.steps.findIndex(step => step.id === t.id);
+ if (index < 0) return '';
+ const selected = Number.isInteger(choice) && choice >= 0 && choice < t.objects.length;
+ const label = selected ? t.objects[choice][1] : '';
+ const result = selected ? (correct ? 'correct' : 'wrong') : 'pending';
+ const directions = f.id.includes('directions-and-distance');
+ const taxi = f.id.includes('taxi-trip');
+ const pickup = f.id.includes('driver-and-pickup');
+ const dropoff = f.id.includes('dropoff-and-stop');
+ if (!directions && !taxi && !pickup && !dropoff) return '';
+ const routeChoice = directions && index === 0;
+ const museumRoute = 'M208 276 V180 H72';
+ const cafeRoute = 'M208 276 V84 H72';
+ const hotelRoute = 'M208 276 V180 H330';
+ let route = '', point = [208, 276], vehicle = !directions, prompt = '完成對話後，點選符合情境的選項。';
+ if (directions) {
+  prompt = index === 0 ? '面朝地圖上方。點路口的 ① 或 ②，看看你會走到哪裡。' : '路線已問清楚，接著聽步行時間。';
+  if (selected || index > 0) {
+   const second = index === 0 && label.includes('第二個');
+   route = second ? cafeRoute : museumRoute;
+   point = second ? [72, 84] : [72, 180];
+  }
+ } else if (taxi) {
+  prompt = ['先決定怎麼移動，再告訴司機目的地。','選一個目的地，看看計程車往哪裡走。','車程多久？聽完後選一個時間。','這趟車多少錢？選出你聽到的車資。'][index] || prompt;
+  if (index === 0 && selected) vehicle = !label.includes('走路');
+  if ((index === 1 && selected) || index > 1) {
+   const hotel = index === 1 && label.includes('飯店');
+   route = hotel ? hotelRoute : museumRoute;
+   point = hotel ? [330, 180] : [72, 180];
+  }
+ } else if (pickup) {
+  point = [330, 180];
+  prompt = index === 0 ? '先確認接你的司機，再說等車位置。' : '選出你的等車位置，讓司機知道去哪裡接你。';
+  if (selected) {
+   if (index === 1 && label.includes('博物館')) {point = [72, 180]; route = 'M208 276 V180 H72';}
+   else if (index === 0 && label.includes('不是')) {point = [208, 248]; route = 'M208 276 V248';}
+   else route = hotelRoute;
+  }
+ } else {
+  point = index === 0 ? [150, 180] : [72, 180];
+  prompt = index === 0 ? '車還沒到入口。選擇你要在哪裡下車。' : '現在到了入口。告訴司機要停下，還是繼續前進。';
+  if (selected) {
+   if (index === 0) {point = label.includes('現在') ? [150, 180] : [72, 180]; route = `M150 180 H${point[0]}`;}
+   else {point = label.includes('繼續') ? [30, 180] : [72, 180]; route = `M150 180 H${point[0]}`;}
+  }
+ }
+ const stateText = selected ? `${correct ? '✓' : '×'} ${label}${correct ? '' : '，再試一次。'}` : confirmed ? '可以操作了，選一個符合對話的答案。' : '先完成聽、說，地圖就會開放操作。';
+ const choiceButton = (item, i, pin = false) => {
+  const number = item[1].includes('第二個') ? '②' : '①';
+  const style = pin ? `style="left:52%;top:${number === '②' ? 28 : 60}%"` : '';
+  return `<button type="button" class="object ${pin ? 'd5-map-pin' : 'd5-map-option'}" data-choice="${i}" aria-pressed="${choice === i}" aria-label="${esc(item[1])}" ${style} ${confirmed ? '' : 'disabled'}>${pin ? `<span aria-hidden="true">${number}</span>` : `<span>${esc(item[1])}${choice === i ? correct ? ' ✓' : ' · 再試一次' : ''}</span>`}</button>`;
+ };
+ return `<div class="d5-map-container" data-map-step="${esc(t.id)}" data-map-choice="${selected ? choice : ''}" data-map-result="${result}">
+  <div class="d5-map-heading"><strong>城市小地圖</strong><span>↑ 面朝上方</span></div>
+  <p class="d5-map-instruction">${esc(prompt)}</p>
+  <div class="d5-map-canvas" aria-label="城市街道與目前位置">
+   <svg viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <rect class="d5-map-ground" width="400" height="300" rx="16"/>
+    <g class="d5-map-block"><rect x="16" y="14" width="164" height="44" rx="9"/><rect x="16" y="111" width="164" height="42" rx="9"/><rect x="16" y="207" width="164" height="77" rx="9"/><rect x="244" y="14" width="140" height="44" rx="9"/><rect x="244" y="111" width="140" height="42" rx="9"/><rect x="244" y="207" width="140" height="77" rx="9"/></g>
+    <g class="d5-map-road"><path d="M208 15 V288 M20 84 H380 M20 180 H380"/></g>
+    <path class="d5-map-road-line" d="M208 15 V288 M20 84 H380 M20 180 H380"/>
+    <g class="d5-map-crossing"><path d="M188 204 H228 M188 212 H228 M188 220 H228 M188 108 H228 M188 116 H228"/></g>
+    <g class="d5-map-trees"><circle cx="275" cy="124" r="9"/><circle cx="302" cy="136" r="10"/><circle cx="349" cy="122" r="8"/></g>
+    ${route ? `<path class="d5-map-route" d="${route}"/>` : ''}
+    <circle class="d5-map-start" cx="208" cy="276" r="5"/>
+   </svg>
+   <span class="d5-map-place d5-map-cafe"><span aria-hidden="true">☕</span> 咖啡店</span>
+   <span class="d5-map-place d5-map-museum"><span aria-hidden="true">🏛</span> 博物館</span>
+   <span class="d5-map-place d5-map-park"><span aria-hidden="true">🌳</span> 公園</span>
+   <span class="d5-map-place d5-map-hotel"><span aria-hidden="true">🏨</span> 飯店</span>
+   <span class="d5-map-origin">出發位置 ↑</span>
+   <span class="d5-map-mover" data-map-x="${point[0]}" data-map-y="${point[1]}" style="left:${point[0] / 4}%;top:${point[1] / 3}%" role="img" aria-label="${vehicle ? '計程車' : '旅客'}目前位置"><span aria-hidden="true">${vehicle ? '🚕' : '🚶'}</span></span>
+   ${routeChoice ? t.objects.map((item, i) => choiceButton(item, i, true)).join('') : ''}
+  </div>
+  ${routeChoice ? `<div class="d5-map-key" aria-label="路口選項說明">${t.objects.map((item, i) => `<p>${item[1].includes('第二個') ? '②' : '①'} ${esc(item[1])}</p>`).join('')}</div>` : `<div class="d5-map-options">${t.objects.map((item, i) => choiceButton(item, i)).join('')}</div>`}
+  <p class="d5-map-status" aria-live="polite">${esc(stateText)}</p>
+  <p class="d5-map-scale">教學示意地圖；時間與距離以本題對話為準。</p>
+ </div>`;
+}
+
+// Day 5: hand each confirmation to the next role, then to the city activity.
+// Keep the existing heard/spoken gates, choice validation and saved identifiers.
+const d5OriginalScenePage = scenePage;
+function d5FlowStage(t) {
+ return heard && spoken ? 2 : (t.askFirst ? spoken : heard) ? 1 : 0;
+}
+function d5FlowSteps(t, counterpart) {
+ const stage = d5FlowStage(t);
+ const roles = t.askFirst ? ['你先說', `聽${counterpart}回覆`] : [`先聽${counterpart}`, '換你回答'];
+ return `<ol class="d5-flow-steps" aria-label="這一句的練習順序">${[...roles, '地圖操作'].map((label, i) =>
+  `<li class="${i < stage ? 'done' : ''}" ${i === stage ? 'aria-current="step"' : ''}><span aria-hidden="true">${i < stage ? '✓' : i + 1}</span>${esc(label)}</li>`
+ ).join('')}</ol>`;
+}
+scenePage = function () {
+ const markup = d5OriginalScenePage();
+ if (finished) return markup;
+ const f = flows[flow], t = currentStep(), confirmed = heard && spoken;
+ const counterpart = t.role || dgActiveScene(f, turn)?.role || activeRound().role || course.replyRole;
+ const correct = choice >= 0 && accepted(t, choice);
+ const result = choice < 0 ? 'pending' : correct ? 'correct' : 'wrong';
+ const wrapper = document.createElement('div');
+ wrapper.innerHTML = markup;
+ // These IDs remain for the shared change handler's focus call, but completed
+ // confirmations no longer offer a backwards route through the conversation.
+ wrapper.querySelectorAll('.dg-repeat-confirm').forEach(region => {
+  region.hidden = true;
+  region.querySelectorAll('input').forEach(input => { input.disabled = true; input.tabIndex = -1; });
+ });
+ wrapper.querySelector('[data-act="back"]')?.remove();
+ const speaker = wrapper.querySelector('.dg-speaker');
+ if (confirmed && speaker) {
+  speaker.className = 'panel dg-panel d5-dialogue-complete';
+  speaker.innerHTML = `<p class="d5-complete-label">✓ 聽與說都完成了</p>
+   <h2>接著，在地圖上做選擇</h2><p>依剛才的對話點選，看看路線或位置怎麼變。</p>
+   <details class="d5-dialogue-recap"><summary>需要時，回看剛才的對話</summary>
+    <p class="eyebrow">你說的這句</p><p class="en" lang="en">${esc(t.answer)}</p>
+    <p class="eyebrow">${esc(counterpart)}說</p><p class="en" lang="en">${esc(t.line)}</p><p>${esc(t.zh)}</p>${audio(t.line)}
+   </details>
+   <div class="dg-flow-back">${btn('重新開始本任務', `data-start="${flow}"`, 'class="dg-quiet"')}</div>
+   <input id="heard" type="checkbox" checked hidden disabled tabindex="-1">
+   <input id="spoken" type="checkbox" checked hidden disabled tabindex="-1">`;
+ }
+ const board = wrapper.querySelector('.scene-board');
+ if (board) {
+  board.dataset.result = result;
+  const heading = board.querySelector('.dg-role-row h2');
+  heading.id = 'd5-scene-action'; heading.tabIndex = -1;
+  heading.textContent = confirmed ? '換你操作，讓旅程往前走' : '城市小地圖 · 聽說完成後開放';
+  const map = typeof d5MapMarkup === 'function' ? d5MapMarkup(f, t, {choice, confirmed, correct}) : '';
+  if (map) {
+   const holder = document.createElement('div'); holder.innerHTML = map;
+   board.querySelector('.objects').replaceWith(...holder.childNodes);
+  }
+  board.querySelectorAll('[data-choice]').forEach((button, i) => {
+   const index = Number(button.dataset.choice);
+   button.classList.add('object');
+   button.dataset.result = choice === index ? result : 'pending';
+   button.setAttribute('aria-pressed', String(choice === index));
+   button.disabled = !confirmed;
+   // Plain text alternatives keep the same visible success/error vocabulary.
+   if (!map && choice === index) button.querySelector('.dg-object-label').textContent = `${t.objects[index][1]} ${correct ? '✓ 選對了' : '✕ 再試一次'}`;
+  });
+  const feedbackBox = board.querySelector('#flowFeedback');
+  feedbackBox.dataset.result = result;
+  if (choice >= 0) feedbackBox.innerHTML = `<p class="feedback ${correct ? 'd5-correct' : 'retry'}"><strong>${correct ? '✓ 選對了' : '✕ 再試一次'}</strong><span>${esc(correct ? t.effect || '這個選擇符合剛才的對話，可以繼續。' : '這個選擇和剛才的對話不一樣。看看紅色標記，或展開剛才的對話重聽，再選一次。')}</span></p>`;
+  board.querySelector('.dg-flow-actions [data-act="next"]').textContent = turn === f.steps.length - 1 ? '完成這段旅程 →' : '選好了，接著下一句 →';
+ }
+ const progress = document.createElement('div'); progress.innerHTML = d5FlowSteps(t, counterpart);
+ wrapper.querySelector('.dg-flow-grid').before(progress.firstElementChild);
+ return wrapper.innerHTML;
+};
+function d5FocusCurrentStage() {
+ const target = finished ? $('#main .dg-completion h1, #main .dg-completion h2') : heard && spoken ? $('#d5-scene-action') : $('.dg-speaker .dg-task');
+ if (!target) return;
+ target.tabIndex = -1;
+ target.focus({preventScroll: true});
+ const rect = target.getBoundingClientRect(), inset = ($('.top')?.getBoundingClientRect().height || 0) + 18;
+ if (rect.top < inset || rect.bottom > innerHeight - 48) window.scrollTo({top: Math.max(0, scrollY + rect.top - inset), behavior: 'instant'});
+}
+focusSceneStep = d5FocusCurrentStage;
+// Registered after the shared handlers: their state update finishes first.
+document.addEventListener('change', event => {
+ if (page !== 2 || finished || !['heard', 'spoken'].includes(event.target.id)) return;
+ stopAudio();
+ d5FocusCurrentStage();
+ const text = heard && spoken ? '聽與說已完成，現在可以操作地圖。' : $('.dg-speaker .dg-role')?.textContent;
+ $('#dg-announcement').textContent = text || '輪到下一個角色。';
+});
+
+// Day 5 teacher cards use the same authored lines and event handlers.
+const d5TeacherCues = {
+ 'micro-en-d5-directions-and-distance-v1-0': '學生問博物館怎麼走後，你再指路。',
+ 'micro-en-d5-directions-and-distance-v1-1': '學生問遠不遠後，再告訴他步行時間。',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-0': '先問學生是否要搭計程車。',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-1': '學生決定搭車後，再問目的地。',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-2': '目的地已確認；等學生問車程，再回答。',
+ 'micro-en-d5-merged-day5-taxi-trip-v1-3': '學生問車資後，再回答預估金額。',
+ 'micro-en-d5-driver-and-pickup-v1-0': '學生確認你是不是預約司機後，再回應。',
+ 'micro-en-d5-driver-and-pickup-v1-1': '確認身分後，再問學生在哪裡等車。',
+ 'micro-en-d5-dropoff-and-stop-v1-0': '車還沒到入口；先問學生是否在這裡下車。',
+ 'micro-en-d5-dropoff-and-stop-v1-1': '到了入口後，等學生請你停車，再回應。'
+};
+const d5BaseTeacherGuide = dgLessonTeacherGuide;
+dgLessonTeacherGuide = function(p, r, steps) {
+ const wrapper = document.createElement('div');
+ wrapper.innerHTML = d5BaseTeacherGuide(p, r, steps);
+ const guide = wrapper.querySelector('.dg-teacher');
+ const summary = guide.querySelector(':scope > summary').outerHTML;
+ const opening = guide.querySelector('.dg-teacher-start').outerHTML;
+ const notes = guide.querySelector(':scope > details:last-child').outerHTML;
+ guide.classList.add('d5-teacher-guide');
+ guide.innerHTML = `${summary}
+  <div class="d5-teacher-intro"><strong>老師扮演${esc(r.role || course.replyRole)}</strong><span>${esc(p.first)}先開口 · 共 ${steps.length} 句</span></div>
+  <div class="d5-teacher-cards">${steps.map((s, i) => `
+   <article class="teacher-card d5-teacher-step" data-teacher-step="${i}" data-teacher-step-id="${esc(s.id)}">
+    <div class="d5-teacher-card-head"><span class="d5-teacher-order" aria-label="第 ${i + 1} 句">${String(i + 1).padStart(2, '0')}</span><h3>${s.askFirst ? '先聽學生，再回這句' : i === 0 ? '老師先開口' : '老師接著問'}</h3></div>
+    <p class="d5-teacher-trigger">${esc(d5TeacherCues[s.id] || s.task)}</p>
+    <div class="d5-teacher-speech">
+     <p class="d5-teacher-say-label">老師說 · ${esc(s.role || r.role || course.replyRole)}</p>
+     <p class="en d5-teacher-line" lang="en">${esc(s.line)}</p>
+     <p class="d5-teacher-translation">${esc(s.zh)}</p>
+     <div class="d5-teacher-audio">${audio(s.line)}</div>
+    </div>
+   </article>`).join('')}</div>
+  <div class="d5-teacher-extras">${opening}${notes}</div>`;
+ // The separate student-help disclosure is preserved, including its hint IDs.
+ return wrapper.innerHTML;
+};
 
 // Day 5 presentation pilot. Curriculum, events and persisted state stay owned
 // by the guided lesson runtime. Rebuilt into the standalone HTML.

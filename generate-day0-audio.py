@@ -5,15 +5,24 @@ import json
 import pathlib
 import sys
 import re
+import argparse
+
+ROOT = pathlib.Path(__file__).resolve().parent
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--korean', action='store_true')
+parser.add_argument('--deps-dir', type=pathlib.Path,
+                    help='Use an existing compatible edge-tts dependency directory.')
+options = parser.parse_args()
+if options.deps_dir:
+    sys.path.insert(0, str(options.deps_dir.resolve()))
 try:
     import edge_tts
 except ImportError:
-    dependency_dir = 'korean-audio-deps' if '--korean' in sys.argv else 'japanese-audio-deps'
-    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / 'tmp' / dependency_dir))
+    dependency_dir = 'korean-audio-deps' if options.korean else 'japanese-audio-deps'
+    sys.path.insert(0, str(ROOT / 'tmp' / dependency_dir))
     import edge_tts
 
-ROOT = pathlib.Path(__file__).resolve().parent
-KOREAN = '--korean' in sys.argv
+KOREAN = options.korean
 LANGUAGE = 'Korean' if KOREAN else 'Japanese'
 VOICE = 'ko-KR-SunHiNeural' if KOREAN else 'ja-JP-NanamiNeural'
 OUT = ROOT / 'assets' / ('korean-day0-audio' if KOREAN else 'day0-audio')
