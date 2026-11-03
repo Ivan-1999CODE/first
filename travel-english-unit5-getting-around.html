@@ -1055,8 +1055,8 @@ body.lesson-guided .study-hear-grid > .panel { border-top: 3px solid var(--line)
 body.lesson-guided .study-vocabulary { margin-top: 20px; }
 body.lesson-guided .study-vocabulary > summary { padding: 14px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
 body.lesson-guided .vocabulary-toggle { margin-top: 3px; font-size: .78rem; }
-body.lesson-guided .workshop-picker { gap: 8px; margin-bottom: 16px; }
-body.lesson-guided .workshop-picker button { font-size: .88rem; }
+body.lesson-guided .workshop-picker { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+body.lesson-guided .workshop-picker button { font-size: .88rem; min-width: 0; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 body.lesson-guided .dg-study-dialogue { padding: 0; overflow: hidden; }
 body.lesson-guided .dg-study-dialogue .workshop-card-top { padding: 18px 26px; gap: 12px; }
 body.lesson-guided .dg-study-dialogue .workshop-card-top h2 { font-size: 1.05rem; }
@@ -1465,6 +1465,20 @@ body.lesson-guided.lesson5-hierarchy .d5-map-scale { color: var(--muted); font-s
  body.lesson-guided.lesson5-hierarchy .d5-map-options { grid-template-columns: minmax(0,1fr); }
  body.lesson-guided.lesson5-hierarchy .d5-map-canvas { min-height: 280px; }
 }
+/* Keep Day 5 route choices below the map so growing labels cannot overlap. */
+html body.lesson5-hierarchy #main .vf-interaction .vf-map {
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;
+ height:auto;padding:0 12px 12px;overflow:visible;
+}
+html body.lesson5-hierarchy #main .vf-map > svg {grid-column:1 / -1;height:240px;margin-bottom:24px}
+html body.lesson5-hierarchy #main .vf-map > .vf-road-name.first {top:182px}
+html body.lesson5-hierarchy #main .vf-map > .vf-road-name.second {top:26px}
+html body.lesson5-hierarchy #main .vf-map > .vf-origin {top:240px;bottom:auto}
+html body.lesson5-hierarchy #main .vf-interaction .vf-map .vf-hotspot.vf-pick {
+ position:static;transform:none!important;display:grid;align-content:start;
+ width:auto;min-width:0;height:max-content;appearance:none;overflow-wrap:anywhere;
+}
+html body.lesson5-hierarchy #main .vf-map .vf-choice-action svg {width:17px;height:17px}
 
 /* Success and error colors describe a choice, never a role or self-rating. */
 body.lesson-focus:is(.day1-guided,.lesson-guided) {

@@ -397,8 +397,8 @@ body.day1-guided .study-hear-grid > .panel { border-top: 3px solid var(--line); 
 body.day1-guided .study-vocabulary { margin-top: 20px; }
 body.day1-guided .study-vocabulary > summary { padding: 14px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
 body.day1-guided .vocabulary-toggle { margin-top: 3px; font-size: .78rem; }
-body.day1-guided .workshop-picker { gap: 8px; margin-bottom: 16px; }
-body.day1-guided .workshop-picker button { font-size: .88rem; }
+body.day1-guided .workshop-picker { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+body.day1-guided .workshop-picker button { font-size: .88rem; min-width: 0; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 body.day1-guided .dg-study-dialogue { padding: 0; overflow: hidden; }
 body.day1-guided .dg-study-dialogue .workshop-card-top { padding: 18px 26px; gap: 12px; }
 body.day1-guided .dg-study-dialogue .workshop-card-top h2 { font-size: 1.05rem; }

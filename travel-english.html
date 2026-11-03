@@ -127,6 +127,12 @@
 @media(max-width:700px){.workshop-card>.workshop-remix{padding:20px}}
 #main.lesson-phrase-page > .grid{margin-bottom:22px}
 @media(max-width:1100px) and (orientation:portrait),(pointer:coarse) and (orientation:portrait){.scene-board .scene-step-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.scene-board .scene-step-controls button{padding:12px 10px}}
+/* Day 1 direction cards use vf-spatial-options instead of the regular vf-objects grid. */
+html body.day1-guided #main .vf-spatial-options > .vf-object {
+ flex-direction:column;align-items:center;justify-content:space-between;
+ min-width:0;gap:8px;text-align:center;white-space:normal;overflow-wrap:anywhere;
+}
+html body.day1-guided #main .vf-spatial-options > .vf-object > span {width:100%;min-width:0}
 
 .homework-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
 .homework-course-link{min-width:0}.homework-export{flex-shrink:0}
@@ -933,8 +939,8 @@ body.day1-guided .study-hear-grid > .panel { border-top: 3px solid var(--line); 
 body.day1-guided .study-vocabulary { margin-top: 20px; }
 body.day1-guided .study-vocabulary > summary { padding: 14px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
 body.day1-guided .vocabulary-toggle { margin-top: 3px; font-size: .78rem; }
-body.day1-guided .workshop-picker { gap: 8px; margin-bottom: 16px; }
-body.day1-guided .workshop-picker button { font-size: .88rem; }
+body.day1-guided .workshop-picker { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+body.day1-guided .workshop-picker button { font-size: .88rem; min-width: 0; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 body.day1-guided .dg-study-dialogue { padding: 0; overflow: hidden; }
 body.day1-guided .dg-study-dialogue .workshop-card-top { padding: 18px 26px; gap: 12px; }
 body.day1-guided .dg-study-dialogue .workshop-card-top h2 { font-size: 1.05rem; }
