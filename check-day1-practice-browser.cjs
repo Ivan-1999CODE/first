@@ -29,7 +29,7 @@ fs.mkdirSync(out,{recursive:true});
    await p.locator('#main > .footer-actions button').click();
    assert.equal(await p.locator('.dg-study-preview').evaluate(el=>el.open),false);
    assert.equal(await p.locator('.dg-study-preview [data-exchange]').count(),1);
-   if(i===0)assert((await p.locator('.dg-study-changes').innerText()).includes('How do I get to the bus stop?'));
+   if(i===0){const swaps=p.locator('.study-library .dg-study-card .study-inline-changes');assert.equal(await swaps.evaluate(e=>e.open),false);await swaps.locator(':scope > summary').click();assert((await swaps.innerText()).includes('How do I get to the bus stop?'));}
    await p.locator('.dg-study-preview > summary').focus();await p.keyboard.press('Enter');
    assert.equal(await p.locator('.dg-study-preview').evaluate(el=>el.open),true);
    assert(await p.locator('.dg-study-preview .micro-turns').first().isVisible());

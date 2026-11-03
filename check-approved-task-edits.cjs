@@ -193,10 +193,10 @@ function verifyDay11(data) {
  checkStructure(data);
  assert.equal(data.course.id, 'travel-lab-en-day11-micro-v2');
  assert.equal(data.previousFocusKey, 'travel-lab-en-day11-micro-v1');
- assert.deepEqual(data.rounds.map(r => r.id), ['A', 'B', 'C', 'D', 'E']);
- assert.deepEqual(data.course.taskGroups.map(g => g.roundIds), [['A', 'B'], ['C', 'D', 'E']]);
+ assert.deepEqual(data.rounds.map(r => r.id), ['A', 'B', 'C', 'D', 'E', 'G']);
+ assert.deepEqual(data.course.taskGroups.map(g => g.roundIds), [['A', 'B'], ['C', 'D', 'E'], ['G']]);
  const original = require('./assets/micro-days-11-14.cjs')[11](require('./assets/curriculum-rounds.cjs').make(11));
- for (const [index, r] of data.rounds.entries()) {
+ for (const [index, r] of data.rounds.slice(0, 5).entries()) {
   const source = original[index];
   assert.equal(r.key, `micro-en-d11-${source.key}-v1`);
   assert.equal(r.role, source.role);
@@ -208,7 +208,8 @@ function verifyDay11(data) {
  for (const field of ['answer', 'line']) {
   const oldTexts = new Set(original.flatMap(t => [...t.steps, ...t.variation.steps].map(s => s[field])));
   const newTexts = new Set(data.rounds.flatMap(r => [...data.flows[r.flowIds[0]].steps, ...r.variation.steps].map(s => s[field])));
-  assert.deepEqual([...newTexts].filter(s => !oldTexts.has(s)), [], 'Grouping adds no new English');
+  const added = ['Have you been here before?', 'No, it’s my first time.', 'Yes, I’ve been here before.'];
+  assert.deepEqual([...newTexts].filter(s => !oldTexts.has(s)).sort(), added.sort(), 'Only the approved first-visit language is added');
   assert.deepEqual([...oldTexts].filter(s => !newTexts.has(s)).sort(), removed[field].sort(), 'Only F-specific sentences are removed');
  }
  assert(!JSON.stringify([data.rounds, data.flows, data.missions, data.pairs, data.quizzes]).includes('micro-en-d11-missing-item-v1'), 'Deleted F is absent from all current activities');
@@ -282,11 +283,11 @@ function verifyApproved(data) {
  }
  if (day === 6) {
   const r = round('B');
-  assert.deepEqual(speaking('B'), ['Could we have another minute, please?']);
+  assert.deepEqual(speaking('B'), ['Could we have a few more minutes?']);
   assert.deepEqual(r.hearLines.map(p => p.en), ['Are you ready to order?', 'May I take your order?']);
   assert.equal(r.additionalVariations.length, 1, 'The original I variation is restored separately from the core May question');
-  assert.deepEqual(r.additionalVariations[0].steps.map(s => [s.line, s.answer]), [['Are you ready to order?', 'Could I have another minute, please?']]);
-  assert.deepEqual(r.variation.steps.map(s => [s.line, s.answer]), [['May I take your order?', 'Could we have another minute, please?']]);
+  assert.deepEqual(r.additionalVariations[0].steps.map(s => [s.line, s.answer]), [['Are you ready to order?', 'Could I have a few more minutes?']]);
+  assert.deepEqual(r.variation.steps.map(s => [s.line, s.answer]), [['May I take your order?', 'Could we have a few more minutes?']]);
   const menu = speaking('E').flatMap((_, i) => data.phrases.find(p => p.id === round('E').phraseIds[i]).illustratedOptions || []);
   assert.equal(menu.length, 11, 'Restoring the variation preserves all steak/egg choices');
   assert(menu.some(option => option.en === 'Well-done'));

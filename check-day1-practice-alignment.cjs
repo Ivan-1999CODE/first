@@ -23,6 +23,8 @@ const context={...d,console,language:'en',focusRound:0,focusKey:d.course.id+'-ro
  audio:text=>`<button data-say="${escape(text)}">播放</button>`,guidedHint:()=>'',check:()=>'',ratingNames:['未選','完整句','關鍵字','自己說'],studyArtwork:{images:{guide:'guide',asker:'asker'},byRound:d.rounds.map(()=>({label:'旅客'}))},
  document:{addEventListener(){}},localStorage:{getItem:()=>null},load(){},setRound(){},render(){},studyAdvanced:()=>'',phrasePage:()=>'',studyNavigation:()=>'',phraseCard:()=>'',studyUsage:()=>'',studyRoleHeading:()=>'',studyVocabulary:()=>'',transcript:()=>'',mode:'library'};
 vm.createContext(context);
+const library=fs.readFileSync('assets/study-library.js','utf8');
+vm.runInContext(library.slice(0,library.indexOf('function studyRoleHeading')),context,{filename:'study-library-helpers.js'});
 for(const file of ['day1-micro.js','dialogue-preview.js','day1-guided-pages.js','day1-guided-study.js'])vm.runInContext(fs.readFileSync('assets/'+file,'utf8'),context,{filename:file});
 vm.runInContext('load()',context);
 assert.equal(context.state.answers['before-A'],'原完整任務回答');
@@ -40,9 +42,13 @@ for(const [i,r] of d.rounds.entries()){
  assert(/<details class="dg-entry-record">/.test(intro),'Entry note begins collapsed');
  assert(/<details class="panel dg-study-preview">/.test(study),'Dialogue preview begins collapsed');
  assert.equal((study.match(/data-exchange=/g)||[]).length,1,'Preview only needs one representative exchange');
- const visibleChanges=vm.runInContext('dgStudyPracticeChanges(currentRound())',context);
- assert(!visibleChanges.includes('<details'));
- for(const change of r.practiceChanges||[])if(change.en)assert(visibleChanges.includes(escape(change.en)));
+ for(const change of r.studyChanges||[]){
+  const phrase=d.phrases.find(p=>r.phraseIds.includes(p.id)&&p.en===change.baseAnswer);
+  assert(phrase,'Each change has a corresponding original speaking card');
+  context.checkPhrase=phrase;
+  const inline=vm.runInContext('studyPhraseSubstitutions(checkPhrase,currentRound())',context);
+  assert(inline.includes(escape(change.answer))&&inline.includes('data-substitution-base="'+escape(phrase.en)+'"'));
+ }
 }
 assert(vm.runInContext('microLegacyRecords()',context).includes('原完整任務回答'));
 // The integrated challenge can only combine sentences already taught in A/B/C.

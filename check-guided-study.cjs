@@ -42,7 +42,11 @@ const urlFor=day=>pathToFileURL(path.resolve(curriculum.make(day).file||'travel-
     const expectedHear=[...new Set([...r.hearLines.map(x=>x.en),...requiredChanges.map(s=>s.line)])].sort();
     assert.deepEqual([...new Set(await p.locator('.study-library [data-study-phrase] > .en,.dg-study-changes .dg-change-card > .en').allTextContents())].sort(),expectedSay,'Every required speaking variation is taught without opening a full dialogue');
     assert.deepEqual((await p.locator('.study-hear-grid .study-hear-card > .en').allTextContents()).sort(),expectedHear,'Every required listening variation is taught');
-    for(const card of await p.locator('.study-library [data-study-phrase],.dg-study-changes .dg-change-card,.study-hear-grid .study-hear-card').all())assert(await card.isVisible(),'Required cards are visible');
+    for(const disclosure of await p.locator('.study-library .study-inline-changes').all()){
+     assert.equal(await disclosure.evaluate(e=>e.open),false,'Substitution cards start collapsed');
+     await disclosure.locator(':scope > summary').click();
+    }
+    for(const card of await p.locator('.study-library [data-study-phrase],.dg-study-changes .dg-change-card,.study-hear-grid .study-hear-card').all())assert(await card.isVisible(),'Originals and expanded replacement cards are visible');
     const preview=p.locator('.dg-dialogue-preview');
     assert.equal(await preview.evaluate(e=>e.open),false,'Dialogue continuation starts collapsed after task/view switches');
     const steps=data.flows[r.flowIds[0]].steps;
@@ -54,7 +58,7 @@ const urlFor=day=>pathToFileURL(path.resolve(curriculum.make(day).file||'travel-
     await preview.locator(':scope > summary').click();
     if(r.words.length)assert.equal(await p.locator('.study-vocabulary').evaluate(e=>e.open),false,'Vocabulary starts collapsed');
     for(const id of r.phraseIds){const phrase=data.phrases.find(x=>x.id===id);if(!phrase.illustratedOptions)continue;
-     const card=p.locator(`[data-study-phrase="${id}"]`);await card.locator('.food-usage > summary').click();
+     const card=p.locator(`[data-study-phrase="${id}"]`);assert(await card.locator('.food-usage').evaluate(e=>e.open));
      assert.equal(await card.locator('.food-option').count(),phrase.illustratedOptions.length);
      for(const [j,option] of phrase.illustratedOptions.entries()){
       const box=card.locator('.food-option').nth(j);assert.equal((await box.locator('h4').innerText()).trim(),option.en);assert(await box.locator('.food-picture').evaluate(e=>getComputedStyle(e).backgroundImage.startsWith('url("data:image/png;base64,')));

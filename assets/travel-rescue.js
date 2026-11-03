@@ -1,4 +1,7 @@
 // The rescue board reflects only accepted choices in the current conversation.
+// Use the same speaking/listening card palette as the other lessons.
+document.body.classList.add('lesson-focus');
+document.documentElement.setAttribute('data-lesson-focus','');
 function rescueBoard(){
  const r=activeRound(),f=flows[flow];
  const completed=f.steps.flatMap((s,i)=>history[i]!==undefined&&accepted(s,history[i])?[s]:[]);

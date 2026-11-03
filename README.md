@@ -1,8 +1,26 @@
+## 第 11 天新增 C 任務：你是第一次來嗎？
+
+第 11 天保留 A、B，新增 C 的七部分練習。學習 `Have you been here before?`、`No, it’s my first time.`、`Yes, I’ve been here before.` 與 `How about you?`；兩種完整對話分別練主動詢問／第一次來，以及回答以前來過／問回去。包含 4 道單句情境題、兩組教師對話、同題前後比較和肯定／否定回答的課後聽力；沿用原本課程儲存 key，A、B 的內容與紀錄保留。
+
+內容來源為 `assets/day11-first-visit.cjs`，由 `assets/approved-task-edits-day11.cjs` 加入；情境題、字彙與第三部分題目檢查沿用共用資料檔。建置使用 `node --preserve-symlinks --preserve-symlinks-main build-task-rounds.cjs 11`。驗證：`check-day11-first-visit.cjs`、`check-part03-review.cjs` 與 `check-pwa.cjs`；新任務驗證畫面存於 `tmp/day11-first-visit/`。
+
 ## 第 8 章：A～F 綜合練習已補齊
 
 第八章保留 A～F 個別任務，綜合入口分成「完成入住」（A～C）、「處理住宿需求」（D～F）和「全章住宿挑戰」（A～F）。三組分別有 8／6／6 道情境題及 4／4／3 個真人任務，均有七部分教學流程、分層提示、老師接話卡與課前／課後回顧；各組作答與練習紀錄分開保存。新增題目要求判斷已知資訊、換順序接話、依價格與時間決定訂餐，以及從入住切換到房內求助。
 
 開啟 `travel-english-unit8-hotel.html` 後選擇「綜合練習 · A～F」；`#integrated`、`#integrated-stay`、`#integrated-chapter` 可直接進入各組。建置使用 `node --preserve-symlinks --preserve-symlinks-main build-task-rounds.cjs 8`。驗證入口為 `check-day8-integration.cjs`、`check-day8-synthesis.cjs`、`check-day8-complete.cjs` 與 `check-pwa.cjs`。以下較早的「整合入住試行」僅記錄原 A～C 階段，以本節三組安排為準。
+
+## 第二部分：替換內容放在對應原句下方
+
+並排句卡各自依內容決定高度；展開換詞只增加該張卡片的高度，同排其他卡片維持原高。基本句、進階句與飯店整合句卡共用這項規則；檢查包含桌面、平板及手機的實際開合高度。
+
+英文第 1～12 天的「同一句，換一個詞」放在「我會說」對應原句下方，預設收起；點小箭頭或整列標題即可展開原詞、替換詞的中英文、替換後句子及播放，也可用鍵盤開合。沒有替換內容的句卡省略整個入口與箭頭，切任務或回到句子頁時重新收起。原有用法補充中的替換選項也集中到同一句卡，牛排熟度與蛋料理圖片展開一次即可查看。聽力補充維持在對方回話區。
+
+底部「這輪的單字，需要時再查」預設收合，提供本輪原句的中英文與播放、原有單字及意思。換詞教學不再重複出現在查字區。第 8 天的完成入住、住宿需求、全章綜合三種入口共用一般任務句卡；替換句收在原句下方，原有肯定／否定回應仍各自列出。第 12 天也使用相同的暖色口說卡、藍色聽力卡與人物圖示。
+
+原第 12～14 課整合單元統一顯示「第 12 天」，包含首頁、課程選單、標題與頁尾。第 13、14 天的舊檔名保留為相容入口，使用同一內容、圖卡與原有儲存 key。驗證入口為 `check-integrated-study.cjs`、`check-day8-integration.cjs`、`check-day8-complete.cjs`、`check-travel-rescue.cjs` 與 `check-pwa.cjs`。
+
+共用呈現來源：`assets/study-library.js/css`、`assets/day1-guided-study.js`、`assets/lesson-guided-study.js`、`assets/day8-integration.js`。建置使用 `node --preserve-symlinks --preserve-symlinks-main build-unit1-focus.cjs` 及同參數的 `build-task-rounds.cjs 2 3 4 5 6 7 8 9 10 11 12`，會一併更新離線快取。`check-inline-substitutions.cjs` 驗證逐卡對應、無替換時省略標題、查字區原句／單字完整、圖卡、整合入住、深淺色、手機大字及展開選單；畫面在 `tmp/inline-substitutions/`。搭配 `check-guided-study.cjs`、第一天練習檢查與 `check-pwa.cjs`。
 
 ## 第三部分：逐題判斷與操作介面
 
@@ -102,7 +120,7 @@
 
 來源：`assets/day8-integration-data.cjs`、`assets/day8-integration.js/css`。建置：`node --preserve-symlinks --preserve-symlinks-main build-task-rounds.cjs 8`。驗證：`node --preserve-symlinks --preserve-symlinks-main check-day8-integration.cjs`，涵蓋完整流程、重試、回頭、紀錄隔離、原任務回歸、深淺色、大字、窄螢幕與展開選單。截圖與報告在 `tmp/day8-integration/`。本次只在本機製作與驗證，未執行發布。
 
-## 第 12～14 課整合：旅行出狀況，我能開口求助
+## 第 12 天：旅行出狀況，我能開口求助
 
 原第 12、13、14 課合成一個單元、三個完整任務：景點關閉，改去有開的博物館並確認路線；趕不上集合，告知導遊位置、重問並確認會合點；包包忘在公車上，描述物品、找到服務台並請對方寫下位置。每個任務有 5 次接話，保留七部分、課前課後同題、自評及課後練習；共 15 句主要說法、6 題聽力。第二部分先教車號、所在位置與包包顏色的替換及接話；第四部分依旅行困難選用已學說法。
 

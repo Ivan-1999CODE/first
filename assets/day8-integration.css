@@ -3,6 +3,8 @@
 .hi-mode-caption{font-size:.85rem;font-weight:700;color:var(--muted)}
 .hi-options,.hi-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .hi-actions{margin-top:22px}
+.hi-content .hi-entry-actions{justify-content:flex-end}
+.hi-content .hi-entry-actions>button{flex:0 1 auto}
 .hi-mode-bar button,.hi-content button{min-height:44px;white-space:normal;line-height:1.45}
 .hi-mode-bar button[aria-pressed=true],.hi-content .hi-options button[aria-pressed=true],.hi-object-options button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 .hi-content{max-width:1200px;margin:0 auto;min-width:0}
@@ -71,7 +73,7 @@ body.lesson-guided .hi-group-switch button[aria-pressed=true]{background:var(--a
 .hi-role .hi-focus-cue{font-weight:700;margin:10px 0 16px}
 .hi-language-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .hi-content .hi-language{margin:0;padding:24px}
-.hi-en{font-size:1.35rem;font-weight:650;line-height:1.6!important;overflow-wrap:anywhere}
+.hi-en:not(.en){font-size:1.35rem;font-weight:650;line-height:1.6!important;overflow-wrap:anywhere}
 .hi-block-title{margin-top:30px!important}
 .hi-content details{border-radius:12px}.hi-content summary{min-height:44px;cursor:pointer;line-height:1.6;padding:10px 0;font-weight:650}
 .hi-content details[open]>summary{margin-bottom:12px}

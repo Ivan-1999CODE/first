@@ -254,7 +254,7 @@ function dining(base){
   step('recommend','詢問推薦','What do you recommend?','你推薦什麼？','I recommend the chicken sandwich.','我推薦雞肉三明治。','你還沒決定主餐，先請店員推薦。','what / recommend',['推薦雞肉三明治','推薦番茄義大利麵']),
   step('order','點主餐','I’d like a chicken sandwich, please.','我想要一份雞肉三明治，謝謝。','May I take your order?','可以幫您點餐嗎？','你決定點店員推薦的雞肉三明治。','like / chicken sandwich',['雞肉三明治','番茄義大利麵'],false)
  ];
- const minute=[step('minute','請多給一點時間','Could we have another minute, please?','可以再給我們一點時間嗎？','Are you ready to order?','準備好點餐了嗎？','你和旅伴還沒選好，請店員再給一點時間。','we / another minute',['再看一下菜單','現在開始點餐'],false)];
+ const minute=[step('minute','請多給一點時間','Could we have a few more minutes?','可以再給我們幾分鐘嗎？','Are you ready to order?','準備好點餐了嗎？','你和旅伴還沒選好，請店員再給幾分鐘。','we / a few more minutes',['再看一下菜單','現在開始點餐'],false)];
  const dessert=[step('dessert','回應甜點需求','Chocolate cake, please.','巧克力蛋糕，謝謝。','Would you like something for dessert?','想吃點甜點嗎？','主餐已吃完，你想點巧克力蛋糕。','chocolate cake / please',['巧克力蛋糕','不點甜點'],false)];
  const coffee=[step('coffee','說咖啡偏好','Black, please.','黑咖啡，謝謝。','How would you like your coffee?','咖啡想要怎麼調配？','店員已知道你點了咖啡；你想喝不加奶的黑咖啡。','black / please',['黑咖啡，不加奶','加牛奶'],false)];
  // Preserve the original freely selectable food objects, including every
@@ -283,10 +283,10 @@ function dining(base){
    '只把推薦及決定點的主餐換成番茄義大利麵。仍先請推薦，再用同一種句型點餐。','主餐：雞肉三明治 → 番茄義大利麵',
    {0:{line:'I recommend the tomato pasta.',zh:'我推薦番茄義大利麵。',valid:[1]},1:{answer:'I’d like the tomato pasta, please.',answerZh:'我想要番茄義大利麵，謝謝。',task:'你決定點店員推薦的番茄義大利麵。',words:'like / tomato pasta',valid:[1]}}),
   task('more-time-to-choose','還沒選好，請多一點時間','店員','你和旅伴正在看菜單，還沒決定。店員來問準備好了嗎；這輪只練請對方多給一點時間，不必立即決定餐點。',minute,
-   [['another minute','再一點時間'],['we','我們'],['I','我']],
+   [['a few more minutes','再幾分鐘'],['we','我們'],['I','我']],
    '把原來 Not yet 加請求的兩句縮成一個自然請求；保留還沒決定時能應對的功能。',
    '只改成你一個人看菜單，仍還沒決定。把「我們」換成「我」，請店員再給一點時間。','用餐人數：同行 → 一個人',
-   {0:{answer:'Could I have another minute, please?',answerZh:'可以再給我一點時間嗎？',task:'你一個人還沒選好，請店員再給一點時間。',words:'I / another minute'}}),
+   {0:{answer:'Could I have a few more minutes?',answerZh:'可以再給我幾分鐘嗎？',task:'你一個人還沒選好，請店員再給幾分鐘。',words:'I / a few more minutes'}}),
   task('dessert-choice','回答要不要甜點','店員','你已吃完主餐，店員詢問是否要甜點。你想點巧克力蛋糕，只要用一句短答說需求。',dessert,
    [['dessert','甜點'],['chocolate cake','巧克力蛋糕'],['no, thank you','不用了，謝謝']],
    '把原先藏在額外短問答的甜點需求獨立出來，接受和婉拒只改一項選擇。',

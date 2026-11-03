@@ -50,5 +50,6 @@ module.exports = function applyApprovedDay11(day, tasks) {
         break;
     }
   }
+  result.push(require('./day11-first-visit.cjs')());
   return result;
 };

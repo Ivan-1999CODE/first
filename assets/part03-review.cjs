@@ -234,6 +234,15 @@ group('d11-merged-day11-interests-and-visits-v1',[
  L('哪個博物館畫面符合你們剛才的描述？','用人群密度辨認 crowded，不能以空白示意圖代替沒有人的場景。',{pictureChoices:true})
 ]);
 
+group('d11-first-visit-chat-v1',[
+ L('把旅伴的到訪經驗放進他的旅行卡。','須聽懂 Yes 與 been here before；不以自己的第一次到訪推測旅伴。',{choiceKind:'record',choiceVisuals:[{type:'record',title:'旅伴',lines:['以前來過']},{type:'record',title:'旅伴',lines:['第一次來']}],pictureChoices:true}),
+ D('把兩人的到訪經驗放對旅行卡。','結合前一句旅伴以前來過，以及自己的第一次到訪，確認資訊屬於誰。',{choiceKind:'record',choiceVisuals:[{type:'record',title:'這次旅行',lines:['我：第一次來','旅伴：以前來過']},{type:'record',title:'這次旅行',lines:['我：以前來過','旅伴：第一次來']}],pictureChoices:true,sceneFacts:['我第一次來','旅伴以前來過']})
+]);
+group('d11-first-visit-chat-v1-change',[
+ V('依這次情境，記下你自己的到訪經驗。','學生這次以前來過；與第一次到訪分開練，不把兩種回答接在一起。',{choiceKind:'record',choiceVisuals:[{type:'record',title:'我',lines:['以前來過']},{type:'record',title:'我',lines:['第一次來']}],pictureChoices:true}),
+ L('問回去之後，把旅伴的到訪經驗記清楚。','聽懂 No 與 first time，不能把自己的到訪紀錄套到旅伴。',{choiceKind:'record',choiceVisuals:[{type:'record',title:'旅伴',lines:['第一次來']},{type:'record',title:'旅伴',lines:['以前來過']}],pictureChoices:true})
+]);
+
 group('d12-rescue-closed-v1',[
  L('哪個門口狀態符合工作人員的回覆？','開門與休館均可能，先聽 closed today。'),
  L('選出工作人員說今天有開的替代景點。','兩個不同博物館都可選，不再讓休館字樣直接排除錯項。',{objects:opts('改去歷史博物館','改去市立博物館'),choiceKind:'place'}),

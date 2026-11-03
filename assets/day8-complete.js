@@ -1,3 +1,10 @@
+// Integrated study cards reuse the ordinary lesson renderer and its collapsed swaps.
+function hotelStudyPhrase(p,i,r){
+ return dgStudyPhrase(p,i,false,r).replace('class="panel ','class="panel hi-language hi-say ').replace('<p class="en"','<p class="en hi-en"');
+}
+function hotelStudyHear(s,i){
+ return `<article class="panel study-hear-card hi-language hi-hear"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(s.label||'對方可能會說')}</p><p class="en hi-en" lang="en">${esc(s.line)}</p><p class="study-meaning">${esc(s.zh)}</p>${audio(s.line)}</article>`;
+}
 // Seven-part routes for the two additional integration groups.
 // All records are separate from the original A-F and the existing check-in route.
 function createCompleteHotel(data, ctx) {
@@ -38,7 +45,8 @@ function createCompleteHotel(data, ctx) {
  function picker(items,id,attr,label){return `<nav class="hi-options hi-challenge-nav" aria-label="${label}">${items.map((x,i)=>btn((i+1)+' · '+esc(x.title),`${attr}="${x.id}"`,`aria-pressed="${id===x.id}"`)).join('')}</nav>`;}
  function before(){const g=group();return `<section class="hi-hero"><div><p class="eyebrow">第 8 天 · ${g.sourceLabels.join('＋')}</p><h1>${esc(g.title)}</h1><p>${esc(g.intro)}</p></div><div class="hx-hero-mark" aria-hidden="true">${g.id==='stay'?'STAY':'JOURNEY'}<span>TRAVEL LAB</span></div></section><section class="panel hi-before"><p class="dg-role">先試一次 · 學生當旅客，老師當飯店人員</p><p class="task hx-checkpoint">${esc(g.checkpoint)}</p><p>你先開口：「${g.id==='stay'?'你好，這裡是 305 號房。':'你好，我想辦理入住。'}」可以分段完成，不必一次說成很長的句子。</p><details><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}</details><details><summary>老師看：本題條件</summary><p>${esc(g.checkpointGuide)}</p></details><div class="hi-actions">${go('需要時查說法 →',1)}${go('直接試真人任務 →',4)}</div></section><section class="panel"><h2>這一組會一起用到</h2><div class="hi-route-cards">${g.sourceLabels.map(s=>`<article><span class="hi-task-letter">${s}</span><h3>${esc(data.sources[s])}</h3></article>`).join('')}</div><p>可以只挑今天需要的情境，熟悉後再增加任務。各組的課前作答、情境筆記與目標分開保存。</p><div class="hi-actions">${go(g.flows.length+' 個完整流程',2)}${go(g.questions.length+' 個新情境題',3)}${go(g.missions.length+' 個真人任務',4)}</div></section>`;}
  function study(){
-  const g=group(),m=ui(),all=data.bank.filter(s=>s.source===m.source),phrases=[...new Map(all.map(s=>[s.answer,s])).values()];
+  const g=group(),m=ui(),all=data.bank.filter(s=>s.source===m.source);
+  const r=rounds.find(r=>(r.displayLabel||r.id)===m.source),spoken=r.phraseIds.map(dgStudyPhraseById);
   const replies=all.filter(s=>!s.askFirst),selected=replies[Math.min(m.reply,Math.max(0,replies.length-1))];
   const controls=`<div class="hi-options hi-section-tabs">${btn('我想怎麼說','data-hx-study="say"',`aria-pressed="${m.study==='say'}"`)}${btn('飯店問，我來答','data-hx-study="reply"',`aria-pressed="${m.study==='reply'}"`)}</div><div class="hi-options hi-section-tabs" role="group" aria-label="選擇句型來源">${g.sourceLabels.map(s=>btn(s+' · '+esc(data.sources[s]),`data-hx-source="${s}"`,`aria-pressed="${m.source===s}"`)).join('')}</div>`;
   if(m.study==='reply'){
@@ -46,7 +54,10 @@ function createCompleteHotel(data, ctx) {
    const j=Math.min(m.reply,replies.length-1),same=replies.find(s=>s.label===selected.label&&s.answer!==selected.answer);
    return head('先聽懂，再接一句','對方的台詞只需聽懂，不要求背誦。')+controls+`<section class="panel"><div class="hi-row"><h2>${esc(selected.label)}</h2><span>${j+1} / ${replies.length}</span></div><div class="hi-grid"><section class="hi-role hi-hear"><p class="dg-role">① 飯店先說</p>${audio(selected.line)}${transcript(selected)}</section><section class="hi-role hi-say"><p class="dg-role">② 換你回答</p><p class="task">${esc(selected.task)}</p>${hint(selected,'reply-'+m.source+'-'+j)}</section></div>${same?`<details><summary>換個條件再回答</summary><p>${esc(same.task)}</p>${hint(same,'reply-change-'+m.source+'-'+j)}</details>`:`<p>收起提示，再用自己的說法回應一次。</p>`}<div class="hi-actions">${btn('← 上一組',`data-hx-reply="${j-1}"`,j===0?'disabled':'')}${btn('下一組 →',`data-hx-reply="${j+1}"`,j===replies.length-1?'disabled':'')}</div></section>`;
   }
-  return head('需要時，回來找一個說法','共用已學過的用語；依目前需求選擇，不必每次從頭重讀。')+controls+`<div class="hi-language-grid">${phrases.map(s=>`<article class="panel hi-language hi-say"><p class="eyebrow">${esc(s.label)}</p><p class="hi-en" lang="en">${esc(s.answer)}</p><details><summary>看中文意思</summary><p>${esc(s.answerZh)}</p></details>${audio(s.answer)}</article>`).join('')}</div><details class="panel hx-listening-bank"><summary>這些回覆，我也要聽得懂</summary><div class="hi-language-grid">${[...new Map(all.map(s=>[s.line,s])).values()].map(s=>`<article class="panel hi-language hi-hear"><p class="hi-en" lang="en">${esc(s.line)}</p><details><summary>看中文意思</summary><p>${esc(s.zh)}</p></details>${audio(s.line)}</article>`).join('')}</div></details>`;
+  return head('需要時，回來找一個說法','共用已學過的用語；依目前需求選擇，不必每次從頭重讀。')+controls+
+   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'旅客：我會說','')}<div class="grid task-phrase-grid hi-language-grid hi-speaking-library">${spoken.map((p,i)=>hotelStudyPhrase(p,i,r)).join('')}</div></section>`+
+   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'飯店人員：我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid hi-language-grid">${[...new Map(all.map(s=>[s.line,s])).values()].map(hotelStudyHear).join('')}</div></section>`+
+   studyVocabulary(r).replace('class="study-block study-vocabulary" open','class="study-block study-vocabulary"');
  }
  const flowData=()=>group().flows.find(f=>f.id===ui().flowId);
  function current(){const s=flowData().steps[ui().flow.index],choice=s.decisions?.[ui().flow.decision];return choice?{...s,...choice}:s;}

@@ -3,6 +3,13 @@
 (() => {
  'use strict';
  const d = hotelIntegration, q = s => document.querySelector(s);
+ const studySources=rounds.filter(r=>d.sourceIds.includes(r.id));
+ const studyRound={
+  phraseIds:studySources.flatMap(r=>r.phraseIds),
+  hearLines:studySources.flatMap(r=>r.hearLines),
+  studyChanges:studySources.flatMap(r=>r.studyChanges||[]),
+  words:[...new Map(studySources.flatMap(r=>r.words).map(word=>[JSON.stringify(word),word])).values()]
+ };
  const labels = d.sections, originalRender = render, originalNavigate = navigate;
  labels[3] = '看情境，自己選用';
  let sayIndex = 0;
@@ -67,23 +74,23 @@
  }
  function beforePage() {
   return `<section class="hi-hero"><div><p class="eyebrow">第 8 天 · A＋B＋C 整合練習</p><h1>${esc(d.title)}</h1><p>從說出訂房姓名，到拿著房卡準備上樓。把三個任務連成同一段對話。</p><div class="hi-journey"><span>提出入住</span><span>確認訂房</span><span>問清住宿資訊</span></div></div><div class="hi-keycard" aria-hidden="true"><span>TRAVEL LAB HOTEL</span><strong>305</strong><span>WELCOME · 歡迎入住</span><i></i></div></section>
-  <section class="panel hi-before"><p class="dg-role">先試一次完整情境</p><h2>你是旅客，老師是飯店櫃檯。</h2><p class="task">${esc(d.task)}</p><p>你先開口：「你好，我想辦理入住。」接著由老師回應，試著把事情辦完。</p><details class="hi-entry-note"><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}<p class="fine">第六部分會回到完全相同的情境。</p></details><div class="hi-actions">${go('整理今天會用的句子 →',1,'class="primary"')}${button('我想直接試完整對話', 'data-hi-direct')}</div></section>
+  <section class="panel hi-before"><p class="dg-role">先試一次完整情境</p><h2>你是旅客，老師是飯店櫃檯。</h2><p class="task">${esc(d.task)}</p><p>你先開口：「你好，我想辦理入住。」接著由老師回應，試著把事情辦完。</p><details class="hi-entry-note"><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}<p class="fine">第六部分會回到完全相同的情境。</p></details><div class="hi-actions hi-entry-actions">${button('05 完整對話', 'data-hi-direct')}${go('02 整理聽說句子',1,'class="primary"')}</div></section>
   <section class="panel"><h2>把會的英文，拿來完成新的情境</h2><div class="hi-route-cards">${d.sourceLabels.map((label,i) => `<article><span class="hi-task-letter">${label}</span><h3>${['提出入住，報訂房姓名','出示護照，確認晚數','問早餐、退房與電梯'][i]}</h3></article>`).join('')}</div><p>個別任務練熟一件事；這套綜合練習，讓你依對方的回答，自己決定下一句。可以用短句，也可以合併說，不必照固定順序背完。</p><div class="hi-route-cards hi-course-path"><article><h3>連起來辦入住</h3><p>${d.practice.flowRoutes.length} 種對話順序，聽完再接話。</p>${go("開始完整流程",2)}</article><article><h3>判斷還缺什麼</h3><p>${d.practice.challenges.length} 個綜合情境，補問資訊或澄清資料。</p>${go("試綜合情境",3)}</article><article><h3>和老師自由接話</h3><p>${d.practice.conversations.length} 個真人任務，依實際對話完成目標。</p>${go("試真人任務",4)}</article></div></section>
   <details class="panel hi-teacher"><summary>老師看：50～60 分鐘怎麼帶</summary><p>先試 5 分鐘 → 補需要的句子約 8 分鐘 → 連續流程約 10 分鐘 → 看情境選用句子約 10 分鐘 → 真人接話約 13 分鐘 → 回顧與作業約 9 分鐘。依學生表現調整。</p><p>學生已能完成時，可直接進第五部分。整合紀錄和原 A～F 任務分開；不必先勾選原任務熟悉。</p></details>`;
  }
  function phraseCard(s, kind, i) {
   const self = kind === 'say';
-  return `<article class="panel hi-language ${self?'hi-say':'hi-hear'}"><p class="eyebrow">${self?'我會說':'我要聽得懂'} · ${esc(s.label || '另一種問法')}</p><p class="hi-en" lang="en">${esc(self?s.answer:s.line)}</p><details><summary>看中文意思</summary><p>${esc(self?s.answerZh:s.zh)}</p></details>${audio(self?s.answer:s.line)}</article>`;
+  return self?hotelStudyPhrase(phrases.find(p=>p.en===s.answer)||{en:s.answer,zh:s.answerZh,use:s.label},i,studyRound):hotelStudyHear(s,i);
  }
  function studyPage() {
   const modes = `<div class="hi-options" role="group" aria-label="句子與短問答">${button('我想怎麼說','data-hi-study="library"',`aria-pressed="${studyMode==='library'}"`)}${button('櫃檯問，我來答','data-hi-study="reply"',`aria-pressed="${studyMode==='reply'}"`)}</div>`;
   if (studyMode === 'reply') {
    const replies = [d.steps[1],d.steps[2],d.steps[3]], s = replies[replyIndex];
    const remix=replyIndex===0?scenario('name').steps[1]:replyIndex===2?scenario('nights').steps[3]:s;
-   return heading('先聽懂，再接一句','看中文翻譯，用英文回答；一次練一句。') + modes + `<section class="panel"><div class="hi-row"><h2>${esc(s.label)}</h2><span>${replyIndex+1} / ${replies.length}</span></div><div class="hi-grid"><div class="hi-hear hi-role"><p class="dg-role">① 櫃檯先說</p>${audio(s.line)}${transcriptFor(s)}</div><div class="hi-say hi-role"><p class="dg-role">② 換你回答</p><p class="task" data-study-prompt="translation">${esc(s.answerZh)}</p>${hintFor(s,'reply-'+replyIndex)}</div></div><details class="hi-remix"><summary>同一句，換詞再答一次</summary><p data-study-prompt="translation">${esc(remix.answerZh)}</p>${hintFor(remix,'reply-remix-'+replyIndex)}</details><div class="hi-actions">${button('← 上一組',`data-hi-reply="${replyIndex-1}"`,replyIndex===0?'disabled':'')}${replyIndex<replies.length-1?button('下一組 →',`data-hi-reply="${replyIndex+1}"`):go('把整段連起來 →',2,'class="primary"')}</div></section>`;
+   return heading('先聽懂，再接一句','看中文翻譯，用英文回答；一次練一句。') + modes + `<section class="panel"><div class="hi-row"><h2>${esc(s.label)}</h2><span>${replyIndex+1} / ${replies.length}</span></div><div class="hi-grid"><div class="hi-hear hi-role"><p class="dg-role">① 櫃檯先說</p>${audio(s.line)}${transcriptFor(s)}</div><div class="hi-say hi-role"><p class="dg-role">② 換你回答</p><p class="task" data-study-prompt="translation">${esc(s.answerZh)}</p>${hintFor(s,'reply-'+replyIndex)}</div></div>${remix.answer!==s.answer?`<details class="hi-remix"><summary>同一句，換詞再答一次</summary><p data-study-prompt="translation">${esc(remix.answerZh)}</p>${hintFor(remix,'reply-remix-'+replyIndex)}</details>`:''}<div class="hi-actions">${button('← 上一組',`data-hi-reply="${replyIndex-1}"`,replyIndex===0?'disabled':'')}${replyIndex<replies.length-1?button('下一組 →',`data-hi-reply="${replyIndex+1}"`):go('把整段連起來 →',2,'class="primary"')}</div></section>`;
   }
   const changed = d.scenarios.slice(1).map(s => s.steps.find(t => t.key === s.key));
-  return heading('會的快速看，需要的再練',`${d.steps.length} 個主要說法來自 A＋B＋C；用自己的自然說法也可以。`) + modes + `<h2 class="hi-block-title">我會說</h2><div class="hi-language-grid">${d.steps.map((s,i) => phraseCard(s,'say',i)).join('')}</div><h2 class="hi-block-title">同一句，換一個詞</h2><p>姓名與晚數依自己的訂房資料替換，再到短問答練習接話。</p><div class="hi-language-grid">${changed.slice(0,2).map((s,i) => phraseCard(s,'say',i)).join('')}</div><h2 class="hi-block-title">我要聽得懂</h2><div class="hi-language-grid">${d.steps.map((s,i) => phraseCard(s,'hear',i)).join('')}</div><h2 class="hi-block-title">住宿資訊不同時，這樣聽懂</h2><div class="hi-language-grid">${changed.slice(2).map((s,i) => phraseCard(s,'hear',i)).join('')}</div><section class="panel hi-support-lesson"><h2>綜合練習前：聽懂對方的確認</h2><p>先聽過這兩句，再試「晚數說錯了」。對方說錯時，可以沿用已學的 I’m staying for three nights.，或清楚說出 Three nights.</p><div class="hi-language-grid">${d.practice.hearSupport.map(s=>phraseCard(s,"hear",0)).join("")}</div></section><details class="panel hi-teacher"><summary>自主接話前：認識另外 ${d.alternateQuestions.length} 種櫃檯問法</summary><p>和原本的問題意思相近。老師要換問法時，先一起聽過，再到第五部分勾選使用。</p>${d.alternateQuestions.map(s => phraseCard(s,'hear',0)).join('')}</details>`;
+  return heading('會的快速看，需要的再練',`${d.steps.length} 個主要說法來自 A＋B＋C；用自己的自然說法也可以。`) + modes + `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'旅客：我會說','')}<div class="grid task-phrase-grid hi-language-grid hi-speaking-library">${d.steps.map((s,i) => phraseCard(s,'say',i)).join('')}</div></section><section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'櫃檯：我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid hi-language-grid">${d.steps.map((s,i) => phraseCard(s,'hear',i)).join('')}</div></section><h2 class="hi-block-title">住宿資訊不同時，這樣聽懂</h2><div class="hi-language-grid">${changed.slice(2).map((s,i) => phraseCard(s,'hear',i)).join('')}</div><section class="panel hi-support-lesson"><h2>綜合練習前：聽懂對方的確認</h2><p>先聽過這兩句，再試「晚數說錯了」。對方說錯時，可以沿用已學的 I’m staying for three nights.，或清楚說出 Three nights.</p><div class="hi-language-grid">${d.practice.hearSupport.map(s=>phraseCard(s,"hear",0)).join("")}</div></section><details class="panel hi-teacher"><summary>自主接話前：認識另外 ${d.alternateQuestions.length} 種櫃檯問法</summary><p>和原本的問題意思相近。老師要換問法時，先一起聽過，再到第五部分勾選使用。</p>${d.alternateQuestions.map(s => phraseCard(s,'hear',0)).join('')}</details>${studyVocabulary(studyRound).replace('class="study-block study-vocabulary" open','class="study-block study-vocabulary"')}`;
  }
  function flowReady() {
   const f = flowState, s = flowScenario().steps[f.index];
@@ -197,7 +204,7 @@
   groupBar.innerHTML=active?groupDefs.map(g=>button(`<strong>${esc(g.title)}</strong><span>${g.sourceLabels.join('＋')}</span>`,`data-hi-group="${g.id}"`,`aria-pressed="${groupId===g.id}"`)).join(''):'';
   if (!active) { originalRender(); notice.hidden=true; return; }
   const currentGroup=groupDefs.find(g=>g.id===groupId),viewLabels=currentGroup.sections,caption=currentGroup.sourceLabels.join('＋')+' · '+currentGroup.title;
-  const main=q('#main'); main.classList.remove('lesson-phrase-page'); main.dataset.lessonSection=String(section+1);
+  const main=q('#main'); main.classList.toggle('lesson-phrase-page',section===1); main.dataset.lessonSection=String(section+1);
   main.innerHTML=`<div class="hi-content">${groupId==='checkin'?views[section]():extended.view(groupId,section)}${section===0?'':`<div class="footer-actions hi-section-footer">${go('← 上一部分',section-1)}${go(section===6?'回到本組首頁':'下一部分：'+viewLabels[section+1]+' →',section===6?0:section+1,'class="primary"')}</div>`}</div>`;
   q('#nav').innerHTML=`<p class="dg-menu-position">${esc(caption)}</p><div class="dg-section-list">${viewLabels.map((name,i) => button(`<span class="number">${String(i+1).padStart(2,'0')}</span>${esc(name)}`,`data-hi-page="${i}"`,section===i?'aria-current="step"':'')).join('')}</div>`;
   q('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(section+1).padStart(2,'0')} · ${esc(viewLabels[section])}</span><span class="dg-current-round">${esc(caption)}</span></div><div class="dg-task-switch" role="group" aria-label="切換任務"><span class="dg-task-label">任務</span>${rounds.map((r,n)=>button(esc(taskLabel(r)),`data-hi-task="${n}"`,`aria-label="切換到任務 ${esc(taskLabel(r))}：${esc(r.name)}" aria-pressed="false"`)).join('')}</div>`;

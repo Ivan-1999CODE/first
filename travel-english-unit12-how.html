@@ -11,7 +11,7 @@
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Travel Lab｜第 12～14 課整合：旅行出狀況，我能開口求助・分任務練習</title>
+<title>Travel Lab｜第 12 天：旅行出狀況，我能開口求助・分任務練習</title>
 <meta name="description" content="景點關閉、趕不上集合、包包遺失：三個完整任務，練習說問題、問下一步、確認重要資訊。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23086d66'/%3E%3Ctext x='4' y='25' font-size='24' fill='white'%3E↗%3C/text%3E%3C/svg%3E">
 <style id="course-layout-styles">
@@ -232,6 +232,24 @@
 @media(prefers-contrast:more){:root[data-illustrated]{--line:currentColor}[data-illustrated] .role-frame{border-width:2px}[data-illustrated] .role-self{border-left-width:4px}}
 
 .study-block{margin-bottom:34px;min-width:0}
+#main details.study-inline-changes{margin:16px 0 0;padding:8px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;min-width:0;background:transparent;color:inherit;overflow-wrap:anywhere}
+#main .study-inline-changes>summary{display:flex;align-items:center;gap:8px;min-height:44px;margin:0;padding:6px 4px;border-radius:6px;list-style:none;cursor:pointer;font-size:.95rem;font-weight:600;line-height:1.6;color:inherit}
+#main .study-inline-changes>summary::-webkit-details-marker{display:none}
+#main .study-inline-changes>summary::marker{content:''}
+#main .study-inline-changes>summary::before{content:'▸';display:inline-block;flex:0 0 1em;text-align:center}
+#main .study-inline-changes[open]>summary::before{transform:rotate(90deg)}
+#main .study-inline-changes>summary:hover{background:var(--soft)}
+#main .study-inline-changes>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.study-change-content{padding-top:8px;min-width:0}
+.study-inline-changes .dg-change-card,.study-substitution-option{margin:0;padding:14px 0}
+.study-inline-changes .dg-change-card+.dg-change-card,.study-substitution-option+.study-substitution-option,.dg-change-card+.study-substitution-option{border-top:1px solid var(--line)}
+.study-inline-changes .study-swap-words{font-size:1rem;line-height:1.8;color:var(--ink);margin:0 0 10px}
+.study-inline-changes .en{margin:0 0 8px}
+.study-inline-changes .phrase-usage{margin-top:12px}
+.study-original-sentence{padding:16px 0;min-width:0;overflow-wrap:anywhere}
+.study-original-sentence+.study-original-sentence{border-top:1px solid var(--line)}
+.study-original-sentence .en{margin:0 0 8px}
+.study-library .task-phrase-grid,.study-advanced-speaking>.grid,.dg-study-support>.grid,.hi-language-grid{align-items:start}
 .study-variation-vocabulary .grid{align-items:start}
 .study-variation-word{overflow-wrap:anywhere}
 .study-word-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -1279,6 +1297,170 @@ body.lesson-guided .dg-change-card .study-meaning { color: var(--muted); }
  body.lesson-guided .dg-study-scene { margin-inline: 18px; }
 }
 
+/* Shared Days 1–11 presentation, promoted from Day 5: warm = my spoken task, blue = listen / context,
+   neutral = notes. Do not change the meaning of yellow/green self-ratings. */
+:root[data-lesson-focus] { background: #f5f3ee; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --bg: #f5f3ee; --panel: #fffefa; --surface: var(--panel);
+ --ink: #203449; --muted: #526171; --line: #cbd1d4; --soft: #edf0f2;
+ --accent: #204e73; --on-accent: #fff; --dg-tint: #e2edf5;
+ --dg-warm: #fff0c7; --dg-warm-line: #a66a17; --dg-warm-ink: #513a17;
+ --d5-listen: #eaf2fa; --d5-listen-ink: #234c70; --d5-listen-line: #7998b4;
+ --d5-hero: #20384e; --d5-hero-ink: #fff9eb; --d5-hero-muted: #d5e2ec;
+ --d5-focus: #9e5e12; --d5-focus-soft: #fff9eb;
+ --dg-map: #eaf0f3; --dg-road: #c9d6df; --dg-block: #dce6e5;
+ font-size: 1rem; line-height: 1.65;
+}
+:root[data-theme=dark][data-lesson-focus] { background: #121c26; }
+:root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) {
+ --bg: #121c26; --panel: #1d2b38; --ink: #eef3f7; --muted: #bdc9d3;
+ --line: #4f616e; --soft: #293b4b; --accent: #a9d2f2; --on-accent: #122b3f;
+ --dg-tint: #30485b; --dg-warm: #40351f; --dg-warm-line: #e7b85c; --dg-warm-ink: #ffe6af;
+ --d5-listen: #22394b; --d5-listen-ink: #cee6fa; --d5-listen-line: #86abc6;
+ --d5-hero: #243d53; --d5-hero-ink: #fff4d8; --d5-hero-muted: #d1e0ec;
+ --d5-focus: #f2c56d; --d5-focus-soft: #2d291f;
+ --dg-map: #263d4c; --dg-road: #607482; --dg-block: #354e56;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.panel,.dg-panel) { border-radius: 16px; box-shadow: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.fine,.dg-note) { font-size: .88rem; line-height: 1.65; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(button,summary,a,input) { touch-action: manipulation; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(button,summary,.checkline) { min-height: 44px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) summary { display: list-item; padding-block: 10px; cursor: pointer; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) button { transition: background-color 120ms, border-color 120ms; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :focus-visible { outline: 3px solid var(--d5-focus); outline-offset: 4px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(textarea,input) { scroll-margin-block: calc(var(--travel-header-height,64px) + 20px) 24px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) textarea { font-size: 1rem; border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) textarea:focus { border-color: var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .top { border-bottom: 2px solid var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .brand > span { background: #f3c566; color: #203449; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-menu-open { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-context { padding-block: 15px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-current-section { color: var(--ink); font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-current-round { font-size: .88rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-switch button[aria-pressed=true] { box-shadow: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-switch { padding: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .dg-entry-next { display: flex; justify-content: flex-end; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .dg-entry-next > button { flex: 0 1 auto; margin-inline-start: auto; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-introduction { color: var(--d5-hero-muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-lesson-cover {
+ background: var(--d5-hero); color: var(--d5-hero-ink); border: 0;
+ padding: 22px 30px; grid-template-columns: minmax(0,1fr) minmax(160px,240px); gap: 24px;
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-copy .eyebrow { color: var(--d5-hero-muted); font-size: .85rem; letter-spacing: .1em; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-copy h1 { color: inherit; font-size: 2.5rem; font-weight: 800; letter-spacing: -.03em; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-cover-subtitle { color: var(--d5-hero-muted); margin: 8px 0 0; font-size: 1.05rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art { background: #eaf0ef; border-radius: 14px; padding: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art .lesson-cast { height: 134px; align-items: center; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art .lesson-cast :is(figure,.lesson-illustration) { height: 134px; max-height: 100%; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading { display: flex; align-items: flex-start; gap: 18px; margin: 4px 0 25px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-number { color: var(--accent); font-size: 2.7rem; font-weight: 800; line-height: 1.15; letter-spacing: -.06em; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading h1 { margin: 0 0 6px; font-size: 1.9rem; font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading p { color: var(--muted); font-size: .94rem; margin: 0; }
+/* The primary task reads as one warm surface, including its headline. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task-panel,.dg-speaker:not(.dg-listener),.dg-study-current.workshop-answer) {
+ background: var(--dg-warm); color: var(--dg-warm-ink); border: 1px solid var(--dg-warm-line); border-top: 5px solid var(--dg-warm-line);
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task-panel,.dg-speaker:not(.dg-listener)) :is(.dg-note,.fine,.dg-role) { color: var(--dg-warm-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task,.dg-task-panel > .task) { font-size: 1.6rem; font-weight: 750; line-height: 1.6; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-panel > h2 { font-size: 1.08rem; margin-bottom: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-role { font-weight: 800; margin-bottom: 10px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-focus-cue { align-self: flex-start; margin: 0; padding: 5px 12px; border: 1px solid var(--dg-warm-line); border-radius: 7px; color: var(--dg-warm-ink); background: var(--d5-focus-soft); font-size: .9rem; font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint { margin-block: 16px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-tabs { background: var(--d5-focus-soft); border: 1px solid var(--dg-warm-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-tabs button { color: var(--dg-warm-ink); white-space: normal; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-tabs button[aria-pressed=true] { background: var(--dg-warm-ink); color: var(--dg-warm); box-shadow: none; }
+/* Hidden answers do not reserve a full answer's height on a small screen.
+   The controls stay above the content, so expanding grows down from them. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-stage { min-height: 0; padding: 18px; background: var(--d5-focus-soft); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-pane[aria-hidden=true] { display: none; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-empty { font-size: .94rem; margin: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-listener,.dg-listen-panel,.study-hear-card,.dg-study-current.workshop-question) {
+ background: var(--d5-listen); color: var(--d5-listen-ink); border-color: var(--d5-listen-line); border-top: 5px solid var(--d5-listen-line);
+}
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-listener :is(.dg-role,.fine,.flow-translation),
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-hear-card :is(.study-meaning,.eyebrow,.fine) { color: var(--d5-listen-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-listener .dg-hint-stage { background: var(--panel); color: var(--ink); border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-answer-panel,.dg-goals) { border-top: 5px solid var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-support-label { font-size: .82rem; font-weight: 800; color: var(--accent); letter-spacing: .04em; margin: 0 0 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-condition-label { display: block; font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-condition-focus { display: block; font-size: 1.9rem; font-weight: 850; line-height: 1.4; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-condition-note { margin: -6px 0 20px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-grid.task-scene .scene-board { border-top: 5px solid var(--d5-listen-line); background: var(--panel); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .dg-scene-context { background: var(--d5-listen); color: var(--d5-listen-ink); border-radius: 10px; padding: 16px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board[data-ready=true] { border-color: var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .objects { gap: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .object:disabled { opacity: .65; }
+/* Long study pages keep the same spoken / heard landmarks while scrolling. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading:is(.study-self,.study-other) { border-radius: 12px; padding: 14px 18px; border-left: 5px solid; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading.study-self { background: var(--dg-warm); color: var(--dg-warm-ink); border-color: var(--dg-warm-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading.study-other { background: var(--d5-listen); color: var(--d5-listen-ink); border-color: var(--d5-listen-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading h2 { font-size: 1.3rem; font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading p { color: inherit; font-size: .9rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-library .task-phrase-grid > .panel { background: var(--dg-warm); color: var(--dg-warm-ink); border-color: var(--dg-warm-line); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-study-card :is(.eyebrow,.study-meaning) { color: var(--dg-warm-ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .study-block { margin-bottom: 36px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-study-card .en { font-weight: 800; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-study-card .en { min-height: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-situation,.dg-before-record .readonly) { background: var(--d5-focus-soft); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-before-record,.dg-feedback-note,.dg-home-next) { color: var(--muted); }
+/* Supplemental disclosures have less weight than the task cards. */
+body.lesson-focus:is(.day1-guided,.lesson-guided) details.panel { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 8px 4px; margin-block: 14px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) details.panel > summary { font-weight: 600; color: var(--muted); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) details.panel[open] { background: var(--panel); padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-teacher,.dg-student-help) { background: var(--soft); padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-teacher,.dg-student-help) > summary { color: var(--ink); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .teacher-card { background: var(--panel); border-left: 4px solid var(--d5-listen-line); padding: 16px; border-radius: 8px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .teacher-card .en { color: var(--ink); font-size: 1.35rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) .session-stop button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); font-size: .85rem; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .footer-actions { margin-block: 26px; padding-top: 0; border: 0; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #main > .footer-actions > button { min-height: 48px; }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-course-dialog { border-top: 5px solid var(--accent); }
+body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-course-dialog::backdrop { background: #101c2bb3; }
+/* Portrait tablets and large type need one readable column before phones do. */
+@media (min-width:740px) and (max-width:900px) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-intro-grid,.dg-mission-grid,.dg-pair-grid,.dg-checkpoint-task,.dg-home-grid) { grid-template-columns: minmax(0,1fr); }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-flow-grid { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); }
+}
+@media (min-width:740px) and (max-width:1100px) {
+ :root[data-size=large] body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-grid,.scene-grid.task-scene,.dg-intro-grid,.task-phrase-grid,.study-hear-grid) { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width:739px) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .top-inner { padding-inline: 12px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .tools button { font-size: .8rem; padding-inline: 7px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-context { gap: 10px; padding-block: 14px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-context-copy { flex: 1 1 140px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-current-round { font-size: .85rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-switch { margin-left: auto; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-label { display: none; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-lesson-cover { padding: 22px; grid-template-columns: minmax(0,1fr); gap: 0; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-copy h1 { font-size: 2rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-cover-art { display: none; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-cover-subtitle { font-size: .95rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading { gap: 12px; margin-bottom: 20px; padding-bottom: 16px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-number { font-size: 2rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading h1 { font-size: 1.55rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-section-heading p { font-size: .9rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) :is(.dg-task,.dg-task-panel > .task) { font-size: 1.4rem; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-hint-stage { padding: 14px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .scene-board .objects { grid-template-columns: minmax(0,1fr); }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-task-panel > .dg-note { border-top: 1px solid var(--dg-warm-line); padding-top: 12px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .study-navigation { flex-direction: column; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .study-heading { padding: 12px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-role-row { flex-wrap: wrap; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-goals .section-title { flex-wrap: wrap; gap: 8px; }
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-quiz-options button { white-space: normal; overflow-wrap: anywhere; }
+}
+@media (prefers-reduced-motion:reduce) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) button { transition: none; }
+}
+@media (prefers-contrast:more) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) { --line: #596b79; }
+ :root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) { --line: #aabac7; }
+}
+@media (max-width:380px) {
+ body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-section-footer > button { padding-inline: 6px; }
+}
+
 /* English-only chat reference, with independent learner hints below it. */
 body:is(.day1-guided,.lesson-guided) {
  --d5-goal-done: #e3f5e8;
@@ -1497,11 +1679,11 @@ html body #main .scene-board:has(.vf-interaction)>h2{font-size:.9rem;color:var(-
 </style></head><body>
 <a class="skip" href="#main">跳到課程內容</a>
 <header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
-<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 12～14 課整合 · 突發狀況與求助</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文旅行實用會話</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文旅行實用會話</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html" aria-current="page"><strong>第 12～14 課整合</strong><small>突發狀況與求助</small></a></div></div></details></nav>
+<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 12 天 · 突發狀況與求助</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文旅行實用會話</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文旅行實用會話</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html" aria-current="page"><strong>第 12 天</strong><small>突發狀況與求助</small></a></div></div></details></nav>
 <div id="storageNotice" class="notice" role="status" hidden></div>
 <div class="layout"><details id="courseMenu" class="course-menu" open><summary aria-label="課程選單"><svg class="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16m4-11h4m-4 5h4"/></svg><span class="menu-label">課程選單</span><svg class="menu-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 7.5 5 5 5-5"/></svg></summary><nav class="course-nav" aria-label="第 12 天的七部分課程"><span class="day">DAY 12</span><div id="nav"></div></nav></details><main id="main" tabindex="-1"></main></div>
-<footer class="bottom"><a href="index.html">全部課程</a> · 第 12～14 課整合：旅行出狀況，我能開口求助・分任務練習</footer><div id="toast" role="status" hidden></div>
-<script id="day12-app">const course={"id":"travel-lab-en-rescue-12-14-v1","labels":["這一輪：先試著說","這一輪：句子與短對話","這一輪：跟著做","看情境，自己選用","這一輪：和老師練","這一輪：看看進步","這一輪：課後再練"],"task":"你到了博物館才知道今天休館。向工作人員問附近其他博物館，再問交通、車程並確認。","words":"museum / open / today / another museum / nearby / how / get there / how long / take / bus five / ten minutes / right","answer":"Is the museum open today? Is there another museum nearby? How do I get there? How long does it take? Bus five, about ten minutes. Is that right?","check":"有提出去博物館的建議、詢問交通方式，並問路程要花多久嗎？","skills":[{"id":"micro-en-d12-rescue-closed-v1-skill-0","text":"我能完成「先確認有沒有開」這段對話。"},{"id":"micro-en-d12-rescue-closed-v1-skill-1","text":"我能完成「請對方找替代去處」這段對話。"},{"id":"micro-en-d12-rescue-closed-v1-skill-2","text":"我能完成「問怎麼去」這段對話。"},{"id":"micro-en-d12-rescue-closed-v1-skill-3","text":"我能完成「問需要多久」這段對話。"},{"id":"micro-en-d12-rescue-closed-v1-skill-4","text":"我能完成「把資訊說回去確認」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-0","text":"我能完成「主動告知會遲到」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-1","text":"我能完成「說清楚現在的位置」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-2","text":"我能完成「問新的會合地點」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-3","text":"我能完成「沒聽清楚就請重說」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-4","text":"我能完成「確認下一步」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-0","text":"我能完成「說明遺失物品」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-1","text":"我能完成「回答是哪一班車」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-2","text":"我能完成「描述物品特徵」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-3","text":"我能完成「問服務台在哪裡」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-4","text":"我能完成「請寫下重要資訊」這段對話。"}],"day":12,"legacyKeys":[],"title":"旅行出狀況，我能開口求助","description":"景點關閉、趕不上集合、包包遺失：三個完整任務，練習說問題、問下一步、確認重要資訊。","replyRole":"工作人員","board":"我的處理進度","art":"\u003csvg viewBox=\"0 0 400 220\" role=\"img\" aria-label=\"改行程、聯絡導遊、找回求助方向\">\u003crect x=\"12\" y=\"20\" width=\"376\" height=\"180\" rx=\"28\" fill=\"currentColor\" opacity=\".07\"/>\u003cpath d=\"M75 145L170 80L265 145L330 65\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"4\" stroke-dasharray=\"7 7\"/>\u003cg fill=\"currentColor\">\u003ccircle cx=\"75\" cy=\"145\" r=\"12\"/>\u003ccircle cx=\"170\" cy=\"80\" r=\"12\"/>\u003ccircle cx=\"265\" cy=\"145\" r=\"12\"/>\u003cpath d=\"M316 65h14v14h7V58h-21z\"/>\u003c/g>\u003ctext x=\"48\" y=\"112\" fill=\"currentColor\" font-size=\"20\">說問題\u003c/text>\u003ctext x=\"140\" y=\"45\" fill=\"currentColor\" font-size=\"20\">問辦法\u003c/text>\u003ctext x=\"236\" y=\"188\" fill=\"currentColor\" font-size=\"20\">再確認\u003c/text>\u003c/svg>","review":"只看本輪目標：能否用已學的說法完成這段溝通？","tip":"先選一種自己用得上的說法，其他說法可以之後再練。","revisedConversations":true,"dayLabel":"第 12～14 課整合","mergedTasks":true,"revision":"travel-rescue-v1"};
+<footer class="bottom"><a href="index.html">全部課程</a> · 第 12 天：旅行出狀況，我能開口求助・分任務練習</footer><div id="toast" role="status" hidden></div>
+<script id="day12-app">const course={"id":"travel-lab-en-rescue-12-14-v1","labels":["這一輪：先試著說","這一輪：句子與短對話","這一輪：跟著做","看情境，自己選用","這一輪：和老師練","這一輪：看看進步","這一輪：課後再練"],"task":"你到了博物館才知道今天休館。向工作人員問附近其他博物館，再問交通、車程並確認。","words":"museum / open / today / another museum / nearby / how / get there / how long / take / bus five / ten minutes / right","answer":"Is the museum open today? Is there another museum nearby? How do I get there? How long does it take? Bus five, about ten minutes. Is that right?","check":"有提出去博物館的建議、詢問交通方式，並問路程要花多久嗎？","skills":[{"id":"micro-en-d12-rescue-closed-v1-skill-0","text":"我能完成「先確認有沒有開」這段對話。"},{"id":"micro-en-d12-rescue-closed-v1-skill-1","text":"我能完成「請對方找替代去處」這段對話。"},{"id":"micro-en-d12-rescue-closed-v1-skill-2","text":"我能完成「問怎麼去」這段對話。"},{"id":"micro-en-d12-rescue-closed-v1-skill-3","text":"我能完成「問需要多久」這段對話。"},{"id":"micro-en-d12-rescue-closed-v1-skill-4","text":"我能完成「把資訊說回去確認」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-0","text":"我能完成「主動告知會遲到」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-1","text":"我能完成「說清楚現在的位置」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-2","text":"我能完成「問新的會合地點」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-3","text":"我能完成「沒聽清楚就請重說」這段對話。"},{"id":"micro-en-d12-rescue-late-v1-skill-4","text":"我能完成「確認下一步」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-0","text":"我能完成「說明遺失物品」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-1","text":"我能完成「回答是哪一班車」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-2","text":"我能完成「描述物品特徵」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-3","text":"我能完成「問服務台在哪裡」這段對話。"},{"id":"micro-en-d12-rescue-lost-v1-skill-4","text":"我能完成「請寫下重要資訊」這段對話。"}],"day":12,"legacyKeys":[],"title":"旅行出狀況，我能開口求助","description":"景點關閉、趕不上集合、包包遺失：三個完整任務，練習說問題、問下一步、確認重要資訊。","replyRole":"工作人員","board":"我的處理進度","art":"\u003csvg viewBox=\"0 0 400 220\" role=\"img\" aria-label=\"改行程、聯絡導遊、找回求助方向\">\u003crect x=\"12\" y=\"20\" width=\"376\" height=\"180\" rx=\"28\" fill=\"currentColor\" opacity=\".07\"/>\u003cpath d=\"M75 145L170 80L265 145L330 65\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"4\" stroke-dasharray=\"7 7\"/>\u003cg fill=\"currentColor\">\u003ccircle cx=\"75\" cy=\"145\" r=\"12\"/>\u003ccircle cx=\"170\" cy=\"80\" r=\"12\"/>\u003ccircle cx=\"265\" cy=\"145\" r=\"12\"/>\u003cpath d=\"M316 65h14v14h7V58h-21z\"/>\u003c/g>\u003ctext x=\"48\" y=\"112\" fill=\"currentColor\" font-size=\"20\">說問題\u003c/text>\u003ctext x=\"140\" y=\"45\" fill=\"currentColor\" font-size=\"20\">問辦法\u003c/text>\u003ctext x=\"236\" y=\"188\" fill=\"currentColor\" font-size=\"20\">再確認\u003c/text>\u003c/svg>","review":"只看本輪目標：能否用已學的說法完成這段溝通？","tip":"先選一種自己用得上的說法，其他說法可以之後再練。","revisedConversations":true,"dayLabel":"第 12 天","mergedTasks":true,"revision":"travel-rescue-v1"};
 const language="en";
 const phrases=[{"id":"micro-en-d12-rescue-closed-v1-phrase-0","use":"先確認有沒有開","en":"Is the museum open today?","zh":"博物館今天有開嗎？"},{"id":"micro-en-d12-rescue-closed-v1-phrase-1","use":"請對方找替代去處","en":"Is there another museum nearby?","zh":"附近有其他博物館嗎？"},{"id":"micro-en-d12-rescue-closed-v1-phrase-2","use":"問怎麼去","en":"How do I get there?","zh":"我要怎麼去那裡？"},{"id":"micro-en-d12-rescue-closed-v1-phrase-3","use":"問需要多久","en":"How long does it take?","zh":"大約需要多久？"},{"id":"micro-en-d12-rescue-closed-v1-phrase-4","use":"把資訊說回去確認","en":"Bus five, about ten minutes. Is that right?","zh":"5 號公車，大約 10 分鐘，對嗎？"},{"id":"micro-en-d12-rescue-late-v1-phrase-0","use":"主動告知會遲到","en":"I’m going to be late.","zh":"我會遲到。"},{"id":"micro-en-d12-rescue-late-v1-phrase-1","use":"說清楚現在的位置","en":"I’m at the station.","zh":"我在車站。"},{"id":"micro-en-d12-rescue-late-v1-phrase-2","use":"問新的會合地點","en":"Where can I meet you?","zh":"我可以在哪裡跟你們會合？"},{"id":"micro-en-d12-rescue-late-v1-phrase-3","use":"沒聽清楚就請重說","en":"Sorry, could you say that again?","zh":"不好意思，可以再說一次嗎？"},{"id":"micro-en-d12-rescue-late-v1-phrase-4","use":"確認下一步","en":"The museum entrance, right?","zh":"博物館入口，對嗎？"},{"id":"micro-en-d12-rescue-lost-v1-phrase-0","use":"說明遺失物品","en":"I left my bag on the bus.","zh":"我把包包忘在公車上。"},{"id":"micro-en-d12-rescue-lost-v1-phrase-1","use":"回答是哪一班車","en":"Bus number five.","zh":"5 號公車。"},{"id":"micro-en-d12-rescue-lost-v1-phrase-2","use":"描述物品特徵","en":"It’s a small black bag.","zh":"是一個黑色小包包。"},{"id":"micro-en-d12-rescue-lost-v1-phrase-3","use":"問服務台在哪裡","en":"Where is the information desk?","zh":"服務台在哪裡？"},{"id":"micro-en-d12-rescue-lost-v1-phrase-4","use":"請寫下重要資訊","en":"Could you write that down, please?","zh":"可以請你寫下來嗎？"}];
 const replies=[{"label":"先確認有沒有開","answer":"Is the museum open today?","answerZh":"博物館今天有開嗎？","line":"Sorry, it’s closed today.","zh":"抱歉，今天休館。","task":"到了博物館門口，先問工作人員今天有沒有開。","words":"museum / open / today","askFirst":true,"opening":"博物館今天有開嗎？","objects":[["▣","今天休館"],["▣","今天有開"]],"valid":[0],"effect":"✓ 原定博物館休館，需要換個去處。","result":"原定博物館休館，需要換個去處。","id":"micro-en-d12-rescue-closed-v1-reply-0","name":"先確認有沒有開","listen":"認出這段已學過的話，再練自己的句子。","options":["今天休館","今天有開"],"correct":0,"why":"抱歉，今天休館。","change":"同一段再說一次，試著少看一層提示。","changeWords":"museum / open / today","changeAnswer":"Is the museum open today?"},{"label":"請對方找替代去處","answer":"Is there another museum nearby?","answerZh":"附近有其他博物館嗎？","line":"Yes. The City Museum is open.","zh":"有，市立博物館有開。","task":"聽到休館，問附近有沒有其他博物館。","words":"another museum / nearby","askFirst":true,"opening":"附近有其他博物館嗎？","objects":[["▣","留在休館的博物館"],["▣","改去市立博物館"]],"valid":[1],"effect":"✓ 新目的地：市立博物館。","result":"新目的地：市立博物館。","id":"micro-en-d12-rescue-closed-v1-reply-1","name":"請對方找替代去處","listen":"認出這段已學過的話，再練自己的句子。","options":["留在休館的博物館","改去市立博物館"],"correct":1,"why":"有，市立博物館有開。","change":"同一段再說一次，試著少看一層提示。","changeWords":"another museum / nearby","changeAnswer":"Is there another museum nearby?"},{"label":"問怎麼去","answer":"How do I get there?","answerZh":"我要怎麼去那裡？","line":"Take bus number five.","zh":"搭 5 號公車。","task":"你決定去市立博物館，接著問怎麼去。","words":"how / get there","askFirst":true,"opening":"我要怎麼去那裡？","objects":[["▣","搭 5 號公車"],["▣","搭 9 號公車"]],"valid":[0],"effect":"✓ 交通：5 號公車。","result":"交通：5 號公車。","id":"micro-en-d12-rescue-closed-v1-reply-2","name":"問怎麼去","listen":"認出這段已學過的話，再練自己的句子。","options":["搭 5 號公車","搭 9 號公車"],"correct":0,"why":"搭 5 號公車。","change":"同一段再說一次，試著少看一層提示。","changeWords":"how / get there","changeAnswer":"How do I get there?"},{"label":"問需要多久","answer":"How long does it take?","answerZh":"大約需要多久？","line":"About ten minutes.","zh":"大約 10 分鐘。","task":"已知道要搭哪班車，再問車程多久。","words":"how long / take","askFirst":true,"opening":"大約需要多久？","objects":[["▣","每 10 分鐘一班"],["▣","車程約 10 分鐘"]],"valid":[1],"effect":"✓ 車程：約 10 分鐘；這不是班距。","result":"車程：約 10 分鐘；這不是班距。","id":"micro-en-d12-rescue-closed-v1-reply-3","name":"問需要多久","listen":"認出這段已學過的話，再練自己的句子。","options":["每 10 分鐘一班","車程約 10 分鐘"],"correct":1,"why":"大約 10 分鐘。","change":"同一段再說一次，試著少看一層提示。","changeWords":"how long / take","changeAnswer":"How long does it take?"},{"label":"把資訊說回去確認","answer":"Bus five, about ten minutes. Is that right?","answerZh":"5 號公車，大約 10 分鐘，對嗎？","line":"Yes, that’s right.","zh":"對，沒錯。","task":"把剛才的車號和車程說回去，確認沒有聽錯。","words":"bus five / ten minutes / right","askFirst":true,"opening":"5 號公車，大約 10 分鐘，對嗎？","objects":[["▣","確認：5 號車，約 10 分鐘"],["▣","確認：10 號車，約 5 分鐘"]],"valid":[0],"effect":"✓ 路線已確認，可以前往新的目的地。","result":"路線已確認，可以前往新的目的地。","id":"micro-en-d12-rescue-closed-v1-reply-4","name":"把資訊說回去確認","listen":"認出這段已學過的話，再練自己的句子。","options":["確認：5 號車，約 10 分鐘","確認：10 號車，約 5 分鐘"],"correct":0,"why":"對，沒錯。","change":"同一段再說一次，試著少看一層提示。","changeWords":"bus five / ten minutes / right","changeAnswer":"Bus five, about ten minutes. Is that right?"},{"label":"主動告知會遲到","answer":"I’m going to be late.","answerZh":"我會遲到。","line":"The bus leaves at ten.","zh":"公車 10 點出發。","task":"導遊在電話中說 10 點出發，你趕不上，先告訴他你會遲到。","words":"going to / be late","askFirst":false,"opening":"公車 10 點出發。","objects":[["▣","已告知導遊會遲到"],["▣","沒有通知，讓大家等"]],"valid":[0],"effect":"✓ 導遊知道你會遲到。","result":"導遊知道你會遲到。","id":"micro-en-d12-rescue-late-v1-reply-0","name":"主動告知會遲到","listen":"認出這段已學過的話，再練自己的句子。","options":["已告知導遊會遲到","沒有通知，讓大家等"],"correct":0,"why":"公車 10 點出發。","change":"同一段再說一次，試著少看一層提示。","changeWords":"going to / be late","changeAnswer":"I’m going to be late."},{"label":"說清楚現在的位置","answer":"I’m at the station.","answerZh":"我在車站。","line":"Where are you now?","zh":"你現在在哪裡？","task":"導遊問你在哪裡，你正在車站。","words":"at / the station","askFirst":false,"opening":"你現在在哪裡？","objects":[["▣","你在飯店"],["▣","你在車站"]],"valid":[1],"effect":"✓ 目前位置：車站。","result":"目前位置：車站。","id":"micro-en-d12-rescue-late-v1-reply-1","name":"說清楚現在的位置","listen":"認出這段已學過的話，再練自己的句子。","options":["你在飯店","你在車站"],"correct":1,"why":"你現在在哪裡？","change":"同一段再說一次，試著少看一層提示。","changeWords":"at / the station","changeAnswer":"I’m at the station."},{"label":"問新的會合地點","answer":"Where can I meet you?","answerZh":"我可以在哪裡跟你們會合？","line":"At the museum entrance.","zh":"在博物館入口。","task":"原本的車已經趕不上，問在哪裡跟大家會合。","words":"where / meet you","askFirst":true,"opening":"我可以在哪裡跟你們會合？","objects":[["▣","改到博物館入口會合"],["▣","回飯店大廳等"]],"valid":[0],"effect":"✓ 新會合點：博物館入口。","result":"新會合點：博物館入口。","id":"micro-en-d12-rescue-late-v1-reply-2","name":"問新的會合地點","listen":"認出這段已學過的話，再練自己的句子。","options":["改到博物館入口會合","回飯店大廳等"],"correct":0,"why":"在博物館入口。","change":"同一段再說一次，試著少看一層提示。","changeWords":"where / meet you","changeAnswer":"Where can I meet you?"},{"label":"沒聽清楚就請重說","answer":"Sorry, could you say that again?","answerZh":"不好意思，可以再說一次嗎？","line":"At the museum entrance.","zh":"在博物館入口。","task":"電話雜音太大，你沒聽清楚會合地點，請導遊再說一次。","words":"say that / again","askFirst":true,"opening":"不好意思，可以再說一次嗎？","objects":[["▣","聽不清楚就先掛電話"],["▣","再次聽到：博物館入口"]],"valid":[1],"effect":"✓ 已重聽會合地點。","result":"已重聽會合地點。","id":"micro-en-d12-rescue-late-v1-reply-3","name":"沒聽清楚就請重說","listen":"認出這段已學過的話，再練自己的句子。","options":["聽不清楚就先掛電話","再次聽到：博物館入口"],"correct":1,"why":"在博物館入口。","change":"同一段再說一次，試著少看一層提示。","changeWords":"say that / again","changeAnswer":"Sorry, could you say that again?"},{"label":"確認下一步","answer":"The museum entrance, right?","answerZh":"博物館入口，對嗎？","line":"Yes. Please come straight here.","zh":"對，請直接過來這裡。","task":"把重聽到的地點說回去確認，再結束通話。","words":"museum entrance / right","askFirst":true,"opening":"博物館入口，對嗎？","objects":[["▣","直接到博物館入口"],["▣","回原來的集合點"]],"valid":[0],"effect":"✓ 下一步已談好：直接到博物館入口。","result":"下一步已談好：直接到博物館入口。","id":"micro-en-d12-rescue-late-v1-reply-4","name":"確認下一步","listen":"認出這段已學過的話，再練自己的句子。","options":["直接到博物館入口","回原來的集合點"],"correct":0,"why":"對，請直接過來這裡。","change":"同一段再說一次，試著少看一層提示。","changeWords":"museum entrance / right","changeAnswer":"The museum entrance, right?"},{"label":"說明遺失物品","answer":"I left my bag on the bus.","answerZh":"我把包包忘在公車上。","line":"Which bus were you on?","zh":"你剛才搭哪一班公車？","task":"下車後發現包包忘在車上，先向站務人員說明。","words":"left / my bag / on the bus","askFirst":true,"opening":"我把包包忘在公車上。","objects":[["▣","包包忘在公車上"],["▣","包包留在飯店"]],"valid":[0],"effect":"✓ 已說明：包包忘在公車上。","result":"已說明：包包忘在公車上。","id":"micro-en-d12-rescue-lost-v1-reply-0","name":"說明遺失物品","listen":"認出這段已學過的話，再練自己的句子。","options":["包包忘在公車上","包包留在飯店"],"correct":0,"why":"你剛才搭哪一班公車？","change":"同一段再說一次，試著少看一層提示。","changeWords":"left / my bag / on the bus","changeAnswer":"I left my bag on the bus."},{"label":"回答是哪一班車","answer":"Bus number five.","answerZh":"5 號公車。","line":"What does it look like?","zh":"它是什麼樣子的？","task":"對方剛問你搭哪班車，回答 5 號公車；再聽下一個問題。","words":"bus / number five","askFirst":true,"opening":"5 號公車。","objects":[["▣","9 號公車"],["▣","5 號公車"]],"valid":[1],"effect":"✓ 查找線索：5 號公車。","result":"查找線索：5 號公車。","id":"micro-en-d12-rescue-lost-v1-reply-1","name":"回答是哪一班車","listen":"認出這段已學過的話，再練自己的句子。","options":["9 號公車","5 號公車"],"correct":1,"why":"它是什麼樣子的？","change":"同一段再說一次，試著少看一層提示。","changeWords":"bus / number five","changeAnswer":"Bus number five."},{"label":"描述物品特徵","answer":"It’s a small black bag.","answerZh":"是一個黑色小包包。","line":"Please check at the information desk.","zh":"請到服務台詢問。","task":"對方剛問包包的樣子，說明是黑色的小包包。","words":"small / black / bag","askFirst":true,"opening":"是一個黑色小包包。","objects":[["▣","黑色小包包"],["▣","藍色大行李箱"]],"valid":[0],"effect":"✓ 已留下特徵：黑色小包包；接著到服務台詢問。","result":"已留下特徵：黑色小包包；接著到服務台詢問。","id":"micro-en-d12-rescue-lost-v1-reply-2","name":"描述物品特徵","listen":"認出這段已學過的話，再練自己的句子。","options":["黑色小包包","藍色大行李箱"],"correct":0,"why":"請到服務台詢問。","change":"同一段再說一次，試著少看一層提示。","changeWords":"small / black / bag","changeAnswer":"It’s a small black bag."},{"label":"問服務台在哪裡","answer":"Where is the information desk?","answerZh":"服務台在哪裡？","line":"Next to the main entrance.","zh":"在大門旁邊。","task":"你不知道服務台的位置，請對方指引。","words":"information desk / where","askFirst":true,"opening":"服務台在哪裡？","objects":[["▣","到餐廳旁的售票口"],["▣","到大門旁的服務台"]],"valid":[1],"effect":"✓ 服務台：大門旁。","result":"服務台：大門旁。","id":"micro-en-d12-rescue-lost-v1-reply-3","name":"問服務台在哪裡","listen":"認出這段已學過的話，再練自己的句子。","options":["到餐廳旁的售票口","到大門旁的服務台"],"correct":1,"why":"在大門旁邊。","change":"同一段再說一次，試著少看一層提示。","changeWords":"information desk / where","changeAnswer":"Where is the information desk?"},{"label":"請寫下重要資訊","answer":"Could you write that down, please?","answerZh":"可以請你寫下來嗎？","line":"Of course. Here you are.","zh":"當然，給你。","task":"怕忘記服務台位置，請對方寫下來，方便你拿著找。","words":"write / that down","askFirst":true,"opening":"可以請你寫下來嗎？","objects":[["▣","收好寫著服務台位置的紙條"],["▣","直接當作包包已經找回"]],"valid":[0],"effect":"✓ 已拿到位置紙條；下一步到服務台詢問，包包尚未尋回。","result":"已拿到位置紙條；下一步到服務台詢問，包包尚未尋回。","id":"micro-en-d12-rescue-lost-v1-reply-4","name":"請寫下重要資訊","listen":"認出這段已學過的話，再練自己的句子。","options":["收好寫著服務台位置的紙條","直接當作包包已經找回"],"correct":0,"why":"當然，給你。","change":"同一段再說一次，試著少看一層提示。","changeWords":"write / that down","changeAnswer":"Could you write that down, please?"},{"label":"問怎麼去","answer":"How do I get there?","answerZh":"我要怎麼去那裡？","line":"Take bus number eight.","zh":"搭 8 號公車。","task":"你決定去市立博物館，接著問怎麼去。","words":"how / get there","askFirst":true,"opening":"我要怎麼去那裡？","objects":[["▣","搭 8 號公車"],["▣","搭 5 號公車"]],"valid":[0],"effect":"✓ 交通：8 號公車。","result":"交通：8 號公車。","id":"micro-en-d12-rescue-closed-v1-study-reply-a1d1dce387a6","sceneContext":"同樣改去市立博物館，只有公車換成 8 號，車程仍是 10 分鐘。請把新的車號與車程確認一次。","name":"問怎麼去 · 我要怎麼去那裡？","listen":"依這次的需求接話；熟悉後再收起提示。","options":["搭 8 號公車","搭 5 號公車"],"correct":0,"why":"搭 8 號公車。","change":"同一組問答再練一次，試著少看提示。","changeWords":"how / get there","changeAnswer":"How do I get there?"},{"label":"把資訊說回去確認","answer":"Bus eight, about ten minutes. Is that right?","answerZh":"8 號公車，大約 10 分鐘，對嗎？","line":"Yes, that’s right.","zh":"對，沒錯。","task":"這次搭 8 號車，車程仍是 10 分鐘，重新確認。","words":"bus eight / ten minutes / right","askFirst":true,"opening":"8 號公車，大約 10 分鐘，對嗎？","objects":[["▣","確認：8 號車，約 10 分鐘"],["▣","沿用舊資訊：5 號車"]],"valid":[0],"effect":"✓ 已確認新的車號。","result":"已確認新的車號。","id":"micro-en-d12-rescue-closed-v1-study-reply-a5c24cba12cb","sceneContext":"同樣改去市立博物館，只有公車換成 8 號，車程仍是 10 分鐘。請把新的車號與車程確認一次。","name":"把資訊說回去確認 · 8 號公車，大約 10 分鐘，對嗎？","listen":"依這次的需求接話；熟悉後再收起提示。","options":["確認：8 號車，約 10 分鐘","沿用舊資訊：5 號車"],"correct":0,"why":"對，沒錯。","change":"同一組問答再練一次，試著少看提示。","changeWords":"bus eight / ten minutes / right","changeAnswer":"Bus eight, about ten minutes. Is that right?"},{"label":"說清楚現在的位置","answer":"I’m at the café.","answerZh":"我在咖啡廳。","line":"Where are you now?","zh":"你現在在哪裡？","task":"這次你在咖啡廳，告訴導遊你的位置。","words":"at / the café","askFirst":false,"opening":"你現在在哪裡？","objects":[["▣","你在車站"],["▣","你在咖啡廳"]],"valid":[1],"effect":"✓ 目前位置：咖啡廳。","result":"目前位置：咖啡廳。","id":"micro-en-d12-rescue-late-v1-study-reply-24b6cf35a53a","sceneContext":"只有你目前的位置改成咖啡廳，仍趕不上 10 點出發，仍到博物館入口會合。告知位置，再談好下一步。","name":"說清楚現在的位置 · 我在咖啡廳。","listen":"依這次的需求接話；熟悉後再收起提示。","options":["你在車站","你在咖啡廳"],"correct":1,"why":"你現在在哪裡？","change":"同一組問答再練一次，試著少看提示。","changeWords":"at / the café","changeAnswer":"I’m at the café."},{"label":"描述物品特徵","answer":"It’s a small blue bag.","answerZh":"是一個藍色小包包。","line":"Please check at the information desk.","zh":"請到服務台詢問。","task":"這次遺失的是藍色小包包，說出正確顏色。","words":"small / blue / bag","askFirst":true,"opening":"是一個藍色小包包。","objects":[["▣","藍色小包包"],["▣","黑色小包包"]],"valid":[0],"effect":"✓ 已留下特徵：藍色小包包。","result":"已留下特徵：藍色小包包。","id":"micro-en-d12-rescue-lost-v1-study-reply-671f3be94efd","sceneContext":"只有包包顏色改成藍色；仍是小包包、忘在 5 號公車上。說清楚物品特徵，問服務台位置並請對方寫下來。","name":"描述物品特徵 · 是一個藍色小包包。","listen":"依這次的需求接話；熟悉後再收起提示。","options":["藍色小包包","黑色小包包"],"correct":0,"why":"請到服務台詢問。","change":"同一組問答再練一次，試著少看提示。","changeWords":"small / blue / bag","changeAnswer":"It’s a small blue bag."}];
@@ -1816,24 +1998,55 @@ function studyVariationVocabulary(r){
  return `<section class="study-block study-variation-vocabulary" aria-label="句型替換字彙"><h2>換字前，先看這些詞</h2><p>這些詞搭配上方的句型，在本部分的短對話練習接話。</p><div class="grid">${entries.map(entry=>`<article class="panel study-variation-word" data-variation-mission="${esc(entry.missionId)}"><h3>${esc(entry.label)}</h3><div class="study-word-pair">${[entry.from,entry.to].map(([en,zh],i)=>`<div><p class="fine">${i?'這次換成':'原來是'}</p><p class="en" lang="en">${esc(en)}</p><p class="study-meaning">${esc(zh)}</p>${audio(en)}</div>`).join('')}</div>${entry.note?`<p class="study-word-note">${esc(entry.note)}</p>`:''}</article>`).join('')}</div></section>`;
 }
 function studyVocabulary(r){
- if(!r.words.length&&!r.variationVocabulary?.length)return '';
+ const originals=course.day>0?studyOriginalSentences(r):'';
+ if(!r.words.length&&!r.variationVocabulary?.length&&!originals)return '';
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork,japanese=course.day===0;
- return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>先看意思、聽發音，再放進這輪的句子裡試著說。</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary><div class="panel"><div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div>${studyVariationVocabulary(r)}</details>`;
+ return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>${japanese?'先看意思、聽發音，再放進這輪的句子裡試著說。':'查本輪原句與單字的意思，也可以聽發音。'}</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary>${originals}<div class="panel">${japanese?'':'<h3>本輪單字</h3>'}<div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div>${japanese?studyVariationVocabulary(r):''}</details>`;
+}
+// Keep the lookup drawer tied to the authored phrases and words. Substitution
+// lessons belong to their speaking card, and never change the curriculum data.
+function studyOriginalSentences(r){
+ const spoken=(r.phraseIds||[]).map(id=>typeof id==='number'?phrases[id]:phrases.find(p=>p.id===id)).filter(Boolean);
+ const groups=[['我會說的原句',spoken],['對方會說的原句',r.hearLines||[]]];
+ return groups.filter(([,items])=>items.length).map(([title,items])=>`<section class="panel study-originals"><h3>${title}</h3>${[...new Map(items.map(p=>[p.en,p])).values()].map(p=>`<div class="study-original-sentence"><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}</div>`).join('')}</section>`).join('');
+}
+function studyPhraseSubstitutions(p,r){
+ const changes=(r?.studyChanges||[]).filter(c=>c.baseAnswer===p.en);
+ const groups=p.substitutions||[];
+ const illustrated=p.illustratedOptions?.length&&typeof foodArtwork==='string';
+ const known=new Set([p.en,...changes.map(c=>c.answer)].map(s=>s.toLowerCase()));
+ const options=[];
+ if(!illustrated)for(const group of groups){
+  const original=group.options.find(([en])=>en.toLowerCase()===group.target.toLowerCase());
+  for(const [word,zh]of group.options){
+   const answer=p.en.replace(group.target,word);
+   if(known.has(answer.toLowerCase()))continue;
+   known.add(answer.toLowerCase());
+   options.push({from:[group.target,original?.[1]||''],to:[word,zh],answer});
+  }
+ }
+ if(!changes.length&&!options.length&&!illustrated)return '';
+ const pair=([en,zh])=>`<span lang="en">${esc(en)}</span>${zh?`（${esc(zh)}）`:''}`;
+ const card=(c,i,primary)=>`<div class="${primary?'dg-change-card':'study-substitution-option'}" ${primary?`data-study-change="${esc(c.id||i)}"`:'data-substitution-option'}><p class="study-swap-words">${pair(c.from)} <span aria-label="換成">→</span> ${pair(c.to)}</p><p class="en" lang="en">${esc(c.answer)}</p>${c.answerZh?`<p class="study-meaning">${esc(c.answerZh)}</p>`:''}${audio(c.answer)}</div>`;
+ return `<details class="study-inline-changes dg-study-changes${illustrated?' food-usage':''}" data-substitution-base="${esc(p.en)}"><summary>同一句，換一個詞</summary><div class="study-change-content">${changes.map((c,i)=>card(c,i,true)).join('')}${options.map((c,i)=>card(c,i,false)).join('')}${illustrated?studyFoodOptions(p):''}</div></details>`;
 }
 function studyRoleHeading(me,title,subtitle){
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork;
  const index=course.day===1?focusRound:taskRound,role=art.byRound[index],key=role[me?'self':'other'];
  return `<div class="study-heading ${me?'study-self':'study-other'}"><img class="study-portrait" src="${art.images[key]}" data-illustration="${esc(key)}" width="120" height="120" alt=""><div><h2>${esc(title)}</h2><p>${esc(subtitle)}</p></div></div>`;
 }
+function studyFoodOptions(p){
+ return `<p>先挑自己喜歡的一種，不用全部背。把 <span lang="en">${esc(p.substitutions[0].target)}</span> 換成下方的字，再加上 <span lang="en">please</span> 就能回答。</p><div class="food-options">${p.illustratedOptions.map(o=>`<div class="food-option"><div class="food-picture" aria-hidden="true" style="background-image:url('${foodArtwork}');background-position:${o.cell%3*50}% ${Math.floor(o.cell/3)*100/3}%"></div><h4 lang="en">${esc(o.en)}</h4><p class="food-meaning">${esc(o.zh)}</p><p class="fine">${esc(o.description)}</p><p lang="en">${esc(o.en)}, please.</p>${audio(o.en+', please.')}</div>`).join('')}</div>`;
+}
 function studyUsage(p){
  if(!p.substitutions?.length)return '';
- if(p.illustratedOptions?.length&&typeof foodArtwork==='string')return `<details class="phrase-usage food-usage"><summary>用法補充</summary><p>先挑自己喜歡的一種，不用全部背。把 <span lang="en">${esc(p.substitutions[0].target)}</span> 換成下方的字，再加上 <span lang="en">please</span> 就能回答。</p><div class="food-options">${p.illustratedOptions.map(o=>`<div class="food-option"><div class="food-picture" aria-hidden="true" style="background-image:url('${foodArtwork}');background-position:${o.cell%3*50}% ${Math.floor(o.cell/3)*100/3}%"></div><h4 lang="en">${esc(o.en)}</h4><p class="food-meaning">${esc(o.zh)}</p><p class="fine">${esc(o.description)}</p><p lang="en">${esc(o.en)}, please.</p>${audio(o.en+', please.')}</div>`).join('')}</div></details>`;
+ if(p.illustratedOptions?.length&&typeof foodArtwork==='string')return `<details class="phrase-usage food-usage"><summary>用法補充</summary>${studyFoodOptions(p)}</details>`;
  return `<details class="phrase-usage"><summary>用法補充</summary>${p.substitutions.map(g=>`<div><p class="fine">可替換：<span lang="en">${esc(g.target)}</span></p><p>${g.options.map(([en,zh])=>`<span lang="en">${esc(en)}</span>（${esc(zh)}）`).join(' / ')}</p></div>`).join('')}</details>`;
 }
 function studyAdvanced(r){
  if(!r.advanced?.length&&!r.advancedHear?.length)return '';
  return `<details class="panel study-advanced"><summary>${course.day===1?'進階：需要時再學':'進階：我會說／我要聽得懂'}</summary><p>${course.day===1?'第 2、3、4 部分用基本句就能完成。不必打開這區；想學另一種說法或更詳細的路線時，再挑一句。':'基本句就能完成這輪任務。有餘力時，再挑一句練習。'}</p>
- <section class="study-block study-advanced-speaking" aria-label="進階：我會說">${studyRoleHeading(true,'我會說',course.day===1?'用來問路、確認方向或求助，挑一句試著說出口。':'需要時，再挑一句延伸說法或問題練習。')}<div class="grid">${(r.advanced||[]).map(p=>`<article class="panel study-advanced-card"><h3>${esc(p.use)}</h3><p class="fine">已學過的說法：<span lang="en">${esc(p.base)}</span></p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}</article>`).join('')}</div></section>
+ <section class="study-block study-advanced-speaking" aria-label="進階：我會說">${studyRoleHeading(true,'我會說',course.day===1?'用來問路、確認方向或求助，挑一句試著說出口。':'需要時，再挑一句延伸說法或問題練習。')}<div class="grid">${(r.advanced||[]).map(p=>`<article class="panel study-advanced-card"><h3>${esc(p.use)}</h3><p class="fine">已學過的說法：<span lang="en">${esc(p.base)}</span></p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${course.day>0?studyPhraseSubstitutions(p):studyUsage(p)}</article>`).join('')}</div></section>
  <section class="study-block study-advanced-listening" aria-label="進階：我要聽得懂">${studyRoleHeading(false,'我要聽得懂',`${r.role||course.replyRole}可能這樣回覆；聽懂重點就好，不必背整句。`)}${r.advancedHear?.length?`<div class="grid">${r.advancedHear.map(p=>`<article class="panel study-advanced-hear-card"><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}</article>`).join('')}</div>`:'<p>這輪沿用上方「我要聽得懂」的句子即可。</p>'}</section></details>`;
 }
 // Two entry points sit immediately above the section's DAY label and title.
@@ -2434,8 +2647,8 @@ studyNavigation=function(){
 };
 
 function dgStudyPhraseById(id){return typeof id==='number'?phrases[id]:phrases.find(p=>p.id===id);}
-function dgStudyPhrase(p,i,review=false){
- return `<article class="panel task-phrase focus-phrase dg-study-card"${p.id?` data-study-phrase="${esc(p.id)}"`:''}><p class="eyebrow">${review?'帶著用':String(i+1).padStart(2,'0')} / ${esc(p.use||'本任務說法')}</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.practice?`<details class="phrase-usage"><summary>現在就用一次</summary><p>${esc(p.practice)}</p>${p.remix?guidedHint(p.words||'先想現在要表達什麼，再替換條件。',p.remix,p.remixZh||'',`phrase-${p.id||i}`):''}</details>`:''}</article>`;
+function dgStudyPhrase(p,i,review=false,r=activeRound()){
+ return `<article class="panel task-phrase focus-phrase dg-study-card"${p.id?` data-study-phrase="${esc(p.id)}"`:''}><p class="eyebrow">${review?'帶著用':String(i+1).padStart(2,'0')} / ${esc(p.use||'本任務說法')}</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyPhraseSubstitutions(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.practice?`<details class="phrase-usage"><summary>現在就用一次</summary><p>${esc(p.practice)}</p>${p.remix?guidedHint(p.words||'先想現在要表達什麼，再替換條件。',p.remix,p.remixZh||'',`phrase-${p.id||i}`):''}</details>`:''}</article>`;
 }
 function dgStudyHearUsage(p,r){
  const usages=(r.hearUsage||[]).filter(item=>item.line===p.en&&item.alternatives?.length);
@@ -2448,11 +2661,6 @@ function dgStudyPreviewContent(r){
  const steps=f.steps.slice(0,f.steps[1]&&(f.steps[1].sceneTitle||f.steps[1].sceneContext)?1:2).map(({sceneTitle,sceneContext,...step})=>step);
  const main=dialoguePreview({steps,role,task:steps[0].task,title:'先看這一小段怎麼接',className:'micro-example',prelude:f.prelude||r.prelude,kind:'primary'});
  return `<details class="panel dg-dialogue-preview"><summary>對話怎麼接？需要時看一小段</summary>${main}<p class="fine">其他句子到「同一段對話，再練一次」逐句練；③ 再把完整順序接起來。</p></details>`+(course.studySupplement?microStudySupplement(course.studySupplement):'');
-}
-function dgStudyChangedPhrases(r){
- const changes=r.studyChanges||[];
- if(!changes.length)return '';
- return `<section class="study-block dg-study-changes" aria-label="可以替換的說法"><h2>同一句，換一個詞</h2><p class="fine">看懂換詞後的意思，再到後面的短對話練習接話。</p><div class="grid">${changes.map((s,i)=>`<article class="panel dg-change-card" data-study-change="${i}"><p class="eyebrow">${esc(s.from[0])} → ${esc(s.to[0])}</p><p class="en" lang="en">${esc(s.answer)}</p><p class="study-meaning">${esc(s.answerZh)}</p>${audio(s.answer)}</article>`).join('')}</div></section>`;
 }
 function dgStudyHearLines(r){
  const lines=[...r.hearLines],known=new Set(lines.map(p=>p.en));
@@ -2474,7 +2682,6 @@ phrasePage=function(){
  return navigation+
   `<details class="dg-study-context"><summary>任務 ${esc(taskLabel(r))} 的情境與練習範圍</summary><p>${esc(r.bridge)}</p>${r.coreNote?`<p class="core-note">${esc(r.coreNote)}</p>`:''}</details>`+
   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'我會說','')}<div class="grid task-phrase-grid">${r.phraseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i)).join('')}</div></section>`+
-  dgStudyChangedPhrases(r)+
   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${dgStudyHearLines(r).map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(p.role||role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${dgStudyHearUsage(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.sources?.length?`<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p>`:''}</article>`).join('')}</div></section>`+
   dgStudyPreviewContent(r)+
   `<div class="dg-study-step-actions">${btn('用這些句子，練同一段對話 →','data-study-view="reply"','class="primary"')}</div>`+
@@ -2764,6 +2971,9 @@ document.addEventListener('click', event => {
 });
 
 // The rescue board reflects only accepted choices in the current conversation.
+// Use the same speaking/listening card palette as the other lessons.
+document.body.classList.add('lesson-focus');
+document.documentElement.setAttribute('data-lesson-focus','');
 function rescueBoard(){
  const r=activeRound(),f=flows[flow];
  const completed=f.steps.flatMap((s,i)=>history[i]!==undefined&&accepted(s,history[i])?[s]:[]);

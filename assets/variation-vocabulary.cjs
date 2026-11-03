@@ -68,7 +68,8 @@ const lessons={
  },
  11:{
   A:[P('介紹自己的來處','Taiwan','臺灣','Taipei','臺北'),P('介紹同行者','my family','我的家人','a friend','一位朋友')],
-  B:[P('分享自己的興趣','taking photos','拍照','reading','閱讀'),P('聽懂旅伴的興趣','hiking','健行','reading','閱讀','仍可用 That sounds fun.（聽起來很有趣。）回應。'),P('分享遊玩感想的地點','museum','博物館','park','公園','地點換了，仍用原句回答感想，不必另說地點名稱。')]
+  B:[P('分享自己的興趣','taking photos','拍照','reading','閱讀'),P('聽懂旅伴的興趣','hiking','健行','reading','閱讀','仍可用 That sounds fun.（聽起來很有趣。）回應。'),P('分享遊玩感想的地點','museum','博物館','park','公園','地點換了，仍用原句回答感想，不必另說地點名稱。')],
+  C:[P('到訪經驗','No, it’s my first time.','沒有，這是我第一次來。','Yes, I’ve been here before.','有，我以前來過。','這是兩種完整回答，依自己的到訪經驗選一句。')]
  }
 };
 

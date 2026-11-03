@@ -58,7 +58,7 @@ function day6(tasks) {
       case 'more-time-to-choose':
         if (!task.words.some(([word]) => word === 'take your order')) task.words.push(['take your order', '幫你點餐']);
         task.coreNote = '先聽懂店員兩種點餐問法，同行時都用「請再給我們一點時間」回答。原本改成一個人用餐的變化也先看示範，再把我們換成我；各情境分次練。';
-        task.changeNote = '保留 Are you ready to order? 與新增的 May I take your order?，同行時都回答 Could we have another minute, please?；另恢復原本用 I 請求時間的完整變化及字彙，作為額外示範與情境題。';
+        task.changeNote = '保留 Are you ready to order? 與新增的 May I take your order?，同行時都回答 Could we have a few more minutes?；一人用餐時改用 I 請求時間，作為額外示範與情境題。';
         chapter(task, 'day6-ordering-time', '還沒選好，請多一點時間', 2, '聽懂店員兩種點餐問法；同行或一人用餐的回答分次練，每次只練一組問答。');
         break;
       case 'dessert-choice':

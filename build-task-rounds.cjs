@@ -13,7 +13,7 @@ function buildDay(day){
  if(japanese){runtime=runtime.replaceAll('英文','日文').replaceAll('lang="en"','lang="ja"');runtime=runtime.replace('${esc(en)}</p><p>${esc(zh)}','${esc(en)}</p>${reading(en)}<p>${esc(zh)}').replace('${audio(answer)}<p class="fine">','${reading(answer)}${audio(answer)}<p class="fine">');
   require('./assets/day0-learning-build.cjs')(d);
  }
- if(!japanese)d.lessonArtwork=require('./assets/course-illustrations.cjs').forLesson(day,d.rounds,d.course.replyRole);
+ if(!japanese)d.lessonArtwork=require('./assets/course-illustrations.cjs').forLesson(d.course.day,d.rounds,d.course.replyRole);
  else d.studyArtwork=require('./assets/course-illustrations.cjs').forLesson(day,d.rounds,d.course.replyRole);
  const data=Object.entries(d).map(([k,v])=>`const ${k}=${JSON.stringify(v).replace(/</g,'\\u003c')};`).join('\n');
  const code=[data,runtime,read('assets/flow-guidance.js'),japanese?read('assets/day0-extra.js'):'',read('assets/task-rounds.js'),read('assets/task-rounds-expanded.js'),japanese?read('assets/day0-library.js'):read('assets/illustrated-lessons.js'),read('assets/study-library.js'),read('assets/dialogue-preview.js'),read('assets/micro-lessons.js'),japanese?read('assets/day0-practical.js'):'',japanese?require('./assets/day0-guided-build.cjs').runtime('ja'):'',japanese?read('assets/day0-numbers.js'):'',japanese?read('assets/day0-primer.js'):'',d.course.mergedTasks?read('assets/merged-lessons.js'):'',...japanese?[]:['assets/lesson-guided-pages.js','assets/lesson-guided-study.js','assets/lesson-guided-scene.js','assets/lesson-guided.js'].map(read),read('assets/say-practice.js'),'load();render();appearance();',japanese?read('assets/day0-audio.js'):'',japanese?read('assets/day0-glossary.js'):''].join('\n');
@@ -25,7 +25,7 @@ function buildDay(day){
   .replace('<!-- TASK_APP -->',()=>`<script id="day${day}-app">${code}</script>`)
   .replace(/<script id="lesson-controls">[\s\S]*?<\/script>\s*/g,'')
   .replace(/ aria-current="page"/g,'').replace(`href="${file}"`,`href="${file}" aria-current="page"`)
-  .replaceAll('第 14 天的七部分課程',`第 ${day} 天的七部分課程`).replaceAll('>DAY 14<',`>DAY ${day}<`)
+  .replaceAll('第 14 天的七部分課程',`第 ${d.course.day} 天的七部分課程`).replaceAll('>DAY 14<',`>DAY ${d.course.day}<`)
   .replace('第 14 天：旅途中問清楚：Where、When、Who',title);
  if(!japanese)html=html.replace('<html ','<html data-illustrated="true" ').replace('</body>',()=>`<script id="lesson-controls">\n${read('assets/lesson-controls.js')}</script>\n</body>`);
  if(d.rescueVersion){
@@ -37,7 +37,7 @@ function buildDay(day){
  fs.writeFileSync(file,html);
  require('./sync-appearance.cjs')(file);
  if(!japanese){
-  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css')+(day<=11?'\n'+['assets/lesson5-hierarchy.css',...(day===5?['assets/lesson5-map.css']:[]),'assets/lesson5-flow.css'].map(read).join('\n'):'')+'\n'+read('assets/lesson5-teacher.css');
+  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css')+'\n'+read('assets/lesson5-hierarchy.css')+(day<=11?'\n'+[...(day===5?['assets/lesson5-map.css']:[]),'assets/lesson5-flow.css'].map(read).join('\n'):'')+'\n'+read('assets/lesson5-teacher.css');
   fs.writeFileSync(file,read(file).replace('</head>',()=>`<style id="lesson-guided-styles">\n${guidedCss}\n</style>\n</head>`));
   if(day<=11)fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>[...(day===5?['assets/lesson5-map.js','assets/lesson5-flow.js']:['assets/lesson-focus-flow.js']),'assets/lesson5-teacher.js','assets/lesson5-hierarchy.js'].map(read).join('\n')+'\nload();render();appearance();'));
   else fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>read('assets/lesson5-teacher.js')+'\nload();render();appearance();'));

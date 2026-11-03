@@ -10,8 +10,8 @@ studyNavigation=function(){
 };
 
 function dgStudyPhraseById(id){return typeof id==='number'?phrases[id]:phrases.find(p=>p.id===id);}
-function dgStudyPhrase(p,i,review=false){
- return `<article class="panel task-phrase focus-phrase dg-study-card"${p.id?` data-study-phrase="${esc(p.id)}"`:''}><p class="eyebrow">${review?'帶著用':String(i+1).padStart(2,'0')} / ${esc(p.use||'本任務說法')}</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.practice?`<details class="phrase-usage"><summary>現在就用一次</summary><p>${esc(p.practice)}</p>${p.remix?guidedHint(p.words||'先想現在要表達什麼，再替換條件。',p.remix,p.remixZh||'',`phrase-${p.id||i}`):''}</details>`:''}</article>`;
+function dgStudyPhrase(p,i,review=false,r=activeRound()){
+ return `<article class="panel task-phrase focus-phrase dg-study-card"${p.id?` data-study-phrase="${esc(p.id)}"`:''}><p class="eyebrow">${review?'帶著用':String(i+1).padStart(2,'0')} / ${esc(p.use||'本任務說法')}</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyPhraseSubstitutions(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.practice?`<details class="phrase-usage"><summary>現在就用一次</summary><p>${esc(p.practice)}</p>${p.remix?guidedHint(p.words||'先想現在要表達什麼，再替換條件。',p.remix,p.remixZh||'',`phrase-${p.id||i}`):''}</details>`:''}</article>`;
 }
 function dgStudyHearUsage(p,r){
  const usages=(r.hearUsage||[]).filter(item=>item.line===p.en&&item.alternatives?.length);
@@ -24,11 +24,6 @@ function dgStudyPreviewContent(r){
  const steps=f.steps.slice(0,f.steps[1]&&(f.steps[1].sceneTitle||f.steps[1].sceneContext)?1:2).map(({sceneTitle,sceneContext,...step})=>step);
  const main=dialoguePreview({steps,role,task:steps[0].task,title:'先看這一小段怎麼接',className:'micro-example',prelude:f.prelude||r.prelude,kind:'primary'});
  return `<details class="panel dg-dialogue-preview"><summary>對話怎麼接？需要時看一小段</summary>${main}<p class="fine">其他句子到「同一段對話，再練一次」逐句練；③ 再把完整順序接起來。</p></details>`+(course.studySupplement?microStudySupplement(course.studySupplement):'');
-}
-function dgStudyChangedPhrases(r){
- const changes=r.studyChanges||[];
- if(!changes.length)return '';
- return `<section class="study-block dg-study-changes" aria-label="可以替換的說法"><h2>同一句，換一個詞</h2><p class="fine">看懂換詞後的意思，再到後面的短對話練習接話。</p><div class="grid">${changes.map((s,i)=>`<article class="panel dg-change-card" data-study-change="${i}"><p class="eyebrow">${esc(s.from[0])} → ${esc(s.to[0])}</p><p class="en" lang="en">${esc(s.answer)}</p><p class="study-meaning">${esc(s.answerZh)}</p>${audio(s.answer)}</article>`).join('')}</div></section>`;
 }
 function dgStudyHearLines(r){
  const lines=[...r.hearLines],known=new Set(lines.map(p=>p.en));
@@ -50,7 +45,6 @@ phrasePage=function(){
  return navigation+
   `<details class="dg-study-context"><summary>任務 ${esc(taskLabel(r))} 的情境與練習範圍</summary><p>${esc(r.bridge)}</p>${r.coreNote?`<p class="core-note">${esc(r.coreNote)}</p>`:''}</details>`+
   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'我會說','')}<div class="grid task-phrase-grid">${r.phraseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i)).join('')}</div></section>`+
-  dgStudyChangedPhrases(r)+
   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${dgStudyHearLines(r).map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(p.role||role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${dgStudyHearUsage(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.sources?.length?`<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p>`:''}</article>`).join('')}</div></section>`+
   dgStudyPreviewContent(r)+
   `<div class="dg-study-step-actions">${btn('用這些句子，練同一段對話 →','data-study-view="reply"','class="primary"')}</div>`+

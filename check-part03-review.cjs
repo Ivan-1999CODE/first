@@ -11,16 +11,16 @@ for(const [i,d] of courses.entries())for(const f of d.flows)for(const s of f.ste
  if(s.choiceVisuals)assert.equal(s.choiceVisuals.length,s.objects.length,'one authored drawing per choice');
  rows.push({day:i+1,flow:f.name||f.title||f.id,id:s.id,mode:s.choiceReview.mode,change:s.choiceReview.action,reason:s.choiceReview.reason,prompt:s.choicePrompt,task:s.task,line:s.line,answer:s.answer,before:s.choiceReview.before,options:s.objects.map(o=>o[1]),valid:s.valid});
 }
-assert.equal(rows.length,188);assert.equal(ids.size,156);assert.deepEqual([...ids].sort(),Object.keys(reviews).sort());
+assert.equal(rows.length,192);assert.equal(ids.size,160);assert.deepEqual([...ids].sort(),Object.keys(reviews).sort());
 const hotel=require('./assets/day8-integration-data.cjs')(courses[7]);
 const integrated=hotel.scenarios.flatMap(c=>c.steps.map(s=>({scenario:c.id,id:s.id,key:s.key,mode:s.choiceReview.mode,prompt:s.choicePrompt,reason:s.choiceReview.reason,options:s.objects.map(o=>o[1]),valid:s.valid})));
 assert.equal(integrated.length,35);
 for(const c of hotel.scenarios){const s=c.steps.find(s=>s.key==='nights');assert.equal(s.choiceVisuals[s.valid[0]].count,c.nights,'varied nights use matching image, not stale base image');}
 const prelude=courses[0].flows.filter(f=>f.prelude).map(f=>({flow:f.id,mode:'apply',reason:'學生先選目的地圖，再問路；兩個地點均有圖片，這是口說目標，不當成未知路線的聽力答案。',...f.prelude}));
 assert.equal(prelude.length,1);
-fs.writeFileSync(path.join(out,'逐題檢查.json'),JSON.stringify({operations:224,uniqueStandardQuestions:156,standard:rows,prelude,integrated},null,2));
+fs.writeFileSync(path.join(out,'逐題檢查.json'),JSON.stringify({operations:rows.length+prelude.length+integrated.length,uniqueStandardQuestions:ids.size,standard:rows,prelude,integrated},null,2));
 const modes={listen:'聽懂後選擇',apply:'看圖操作',decide:'綜合判斷',preference:'偏好操作'};
-fs.writeFileSync(path.join(out,'逐題檢查.txt'),'第三部分逐題檢查\n\n188 個一般流程步驟（156 個不同題目 ID）＋1 個問路暖身＋35 個飯店整合步驟。\n多種接話順序重用同一組題目，不重複計入。\n\n'+rows.map((r,i)=>`${i+1}. 第 ${r.day} 天｜${r.id}\n類型：${modes[r.mode]}｜${r.change==='rewrite'?'修改題目或選項':'保留並釐清操作目標'}\n判斷依據：${r.reason}\n問題：${r.prompt}\n原選項：${r.before.objects.join('／')}\n現選項：${r.options.join('／')}\n`).join('\n')+'\n問路暖身：'+prelude[0].reason+'\n\n飯店整合：\n'+integrated.map(r=>`${r.scenario}／${r.key}：${r.prompt}（${r.reason}）`).join('\n'));
+fs.writeFileSync(path.join(out,'逐題檢查.txt'),`第三部分逐題檢查\n\n${rows.length} 個一般流程步驟（${ids.size} 個不同題目 ID）＋${prelude.length} 個問路暖身＋${integrated.length} 個飯店整合步驟。\n多種接話順序重用同一組題目，不重複計入。\n\n`+rows.map((r,i)=>`${i+1}. 第 ${r.day} 天｜${r.id}\n類型：${modes[r.mode]}｜${r.change==='rewrite'?'修改題目或選項':'保留並釐清操作目標'}\n判斷依據：${r.reason}\n問題：${r.prompt}\n原選項：${r.before.objects.join('／')}\n現選項：${r.options.join('／')}\n`).join('\n')+'\n問路暖身：'+prelude[0].reason+'\n\n飯店整合：\n'+integrated.map(r=>`${r.scenario}／${r.key}：${r.prompt}（${r.reason}）`).join('\n'));
 (async()=>{
  const browser=await chromium.launch({channel:'msedge',headless:true}),errors=[];
  try{
@@ -54,6 +54,6 @@ fs.writeFileSync(path.join(out,'逐題檢查.txt'),'第三部分逐題檢查\n\n
    await p.setViewportSize({width:390,height:844});await p.locator('#dg-menu-open').click();await p.locator('#nav [data-page="2"]').hover();await p.locator('#nav [data-page="2"]').focus();await p.screenshot({path:path.join(out,`menu-${theme}.png`)});await p.locator('#dg-menu-close').click();
   }
   await p.close();assert.deepEqual(errors,[]);
-  console.log('PASS: 156 authored question reviews / 188 flow steps + 1 prelude + 35 hotel steps; all custom drawings distinct; gate retry/keyboard/themes/mobile/menus.');
+  console.log(`PASS: ${ids.size} authored question reviews / ${rows.length} flow steps + ${prelude.length} prelude + ${integrated.length} hotel steps; all custom drawings distinct; gate retry/keyboard/themes/mobile/menus.`);
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});

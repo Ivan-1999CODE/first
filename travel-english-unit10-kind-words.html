@@ -232,6 +232,24 @@
 @media(prefers-contrast:more){:root[data-illustrated]{--line:currentColor}[data-illustrated] .role-frame{border-width:2px}[data-illustrated] .role-self{border-left-width:4px}}
 
 .study-block{margin-bottom:34px;min-width:0}
+#main details.study-inline-changes{margin:16px 0 0;padding:8px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;min-width:0;background:transparent;color:inherit;overflow-wrap:anywhere}
+#main .study-inline-changes>summary{display:flex;align-items:center;gap:8px;min-height:44px;margin:0;padding:6px 4px;border-radius:6px;list-style:none;cursor:pointer;font-size:.95rem;font-weight:600;line-height:1.6;color:inherit}
+#main .study-inline-changes>summary::-webkit-details-marker{display:none}
+#main .study-inline-changes>summary::marker{content:''}
+#main .study-inline-changes>summary::before{content:'▸';display:inline-block;flex:0 0 1em;text-align:center}
+#main .study-inline-changes[open]>summary::before{transform:rotate(90deg)}
+#main .study-inline-changes>summary:hover{background:var(--soft)}
+#main .study-inline-changes>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.study-change-content{padding-top:8px;min-width:0}
+.study-inline-changes .dg-change-card,.study-substitution-option{margin:0;padding:14px 0}
+.study-inline-changes .dg-change-card+.dg-change-card,.study-substitution-option+.study-substitution-option,.dg-change-card+.study-substitution-option{border-top:1px solid var(--line)}
+.study-inline-changes .study-swap-words{font-size:1rem;line-height:1.8;color:var(--ink);margin:0 0 10px}
+.study-inline-changes .en{margin:0 0 8px}
+.study-inline-changes .phrase-usage{margin-top:12px}
+.study-original-sentence{padding:16px 0;min-width:0;overflow-wrap:anywhere}
+.study-original-sentence+.study-original-sentence{border-top:1px solid var(--line)}
+.study-original-sentence .en{margin:0 0 8px}
+.study-library .task-phrase-grid,.study-advanced-speaking>.grid,.dg-study-support>.grid,.hi-language-grid{align-items:start}
 .study-variation-vocabulary .grid{align-items:start}
 .study-variation-word{overflow-wrap:anywhere}
 .study-word-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -1688,7 +1706,7 @@ html body #main .scene-board:has(.vf-interaction)>h2{font-size:.9rem;color:var(-
 </style></head><body>
 <a class="skip" href="#main">跳到課程內容</a>
 <header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
-<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 10 天 · 禮貌請求與婉拒邀請</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文旅行實用會話</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文旅行實用會話</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html" aria-current="page"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html"><strong>第 12～14 課整合</strong><small>突發狀況與求助</small></a></div></div></details></nav>
+<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 10 天 · 禮貌請求與婉拒邀請</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文旅行實用會話</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文旅行實用會話</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html" aria-current="page"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html"><strong>第 12 天</strong><small>突發狀況與求助</small></a></div></div></details></nav>
 <div id="storageNotice" class="notice" role="status" hidden></div>
 <div class="layout"><details id="courseMenu" class="course-menu" open><summary aria-label="課程選單"><svg class="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16m4-11h4m-4 5h4"/></svg><span class="menu-label">課程選單</span><svg class="menu-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 7.5 5 5 5-5"/></svg></summary><nav class="course-nav" aria-label="第 10 天的七部分課程"><span class="day">DAY 10</span><div id="nav"></div></nav></details><main id="main" tabindex="-1"></main></div>
 <footer class="bottom"><a href="index.html">全部課程</a> · 第 10 天：禮貌請求與婉拒邀請・分任務練習</footer><div id="toast" role="status" hidden></div>
@@ -2008,24 +2026,55 @@ function studyVariationVocabulary(r){
  return `<section class="study-block study-variation-vocabulary" aria-label="句型替換字彙"><h2>換字前，先看這些詞</h2><p>這些詞搭配上方的句型，在本部分的短對話練習接話。</p><div class="grid">${entries.map(entry=>`<article class="panel study-variation-word" data-variation-mission="${esc(entry.missionId)}"><h3>${esc(entry.label)}</h3><div class="study-word-pair">${[entry.from,entry.to].map(([en,zh],i)=>`<div><p class="fine">${i?'這次換成':'原來是'}</p><p class="en" lang="en">${esc(en)}</p><p class="study-meaning">${esc(zh)}</p>${audio(en)}</div>`).join('')}</div>${entry.note?`<p class="study-word-note">${esc(entry.note)}</p>`:''}</article>`).join('')}</div></section>`;
 }
 function studyVocabulary(r){
- if(!r.words.length&&!r.variationVocabulary?.length)return '';
+ const originals=course.day>0?studyOriginalSentences(r):'';
+ if(!r.words.length&&!r.variationVocabulary?.length&&!originals)return '';
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork,japanese=course.day===0;
- return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>先看意思、聽發音，再放進這輪的句子裡試著說。</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary><div class="panel"><div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div>${studyVariationVocabulary(r)}</details>`;
+ return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>${japanese?'先看意思、聽發音，再放進這輪的句子裡試著說。':'查本輪原句與單字的意思，也可以聽發音。'}</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary>${originals}<div class="panel">${japanese?'':'<h3>本輪單字</h3>'}<div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div>${japanese?studyVariationVocabulary(r):''}</details>`;
+}
+// Keep the lookup drawer tied to the authored phrases and words. Substitution
+// lessons belong to their speaking card, and never change the curriculum data.
+function studyOriginalSentences(r){
+ const spoken=(r.phraseIds||[]).map(id=>typeof id==='number'?phrases[id]:phrases.find(p=>p.id===id)).filter(Boolean);
+ const groups=[['我會說的原句',spoken],['對方會說的原句',r.hearLines||[]]];
+ return groups.filter(([,items])=>items.length).map(([title,items])=>`<section class="panel study-originals"><h3>${title}</h3>${[...new Map(items.map(p=>[p.en,p])).values()].map(p=>`<div class="study-original-sentence"><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}</div>`).join('')}</section>`).join('');
+}
+function studyPhraseSubstitutions(p,r){
+ const changes=(r?.studyChanges||[]).filter(c=>c.baseAnswer===p.en);
+ const groups=p.substitutions||[];
+ const illustrated=p.illustratedOptions?.length&&typeof foodArtwork==='string';
+ const known=new Set([p.en,...changes.map(c=>c.answer)].map(s=>s.toLowerCase()));
+ const options=[];
+ if(!illustrated)for(const group of groups){
+  const original=group.options.find(([en])=>en.toLowerCase()===group.target.toLowerCase());
+  for(const [word,zh]of group.options){
+   const answer=p.en.replace(group.target,word);
+   if(known.has(answer.toLowerCase()))continue;
+   known.add(answer.toLowerCase());
+   options.push({from:[group.target,original?.[1]||''],to:[word,zh],answer});
+  }
+ }
+ if(!changes.length&&!options.length&&!illustrated)return '';
+ const pair=([en,zh])=>`<span lang="en">${esc(en)}</span>${zh?`（${esc(zh)}）`:''}`;
+ const card=(c,i,primary)=>`<div class="${primary?'dg-change-card':'study-substitution-option'}" ${primary?`data-study-change="${esc(c.id||i)}"`:'data-substitution-option'}><p class="study-swap-words">${pair(c.from)} <span aria-label="換成">→</span> ${pair(c.to)}</p><p class="en" lang="en">${esc(c.answer)}</p>${c.answerZh?`<p class="study-meaning">${esc(c.answerZh)}</p>`:''}${audio(c.answer)}</div>`;
+ return `<details class="study-inline-changes dg-study-changes${illustrated?' food-usage':''}" data-substitution-base="${esc(p.en)}"><summary>同一句，換一個詞</summary><div class="study-change-content">${changes.map((c,i)=>card(c,i,true)).join('')}${options.map((c,i)=>card(c,i,false)).join('')}${illustrated?studyFoodOptions(p):''}</div></details>`;
 }
 function studyRoleHeading(me,title,subtitle){
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork;
  const index=course.day===1?focusRound:taskRound,role=art.byRound[index],key=role[me?'self':'other'];
  return `<div class="study-heading ${me?'study-self':'study-other'}"><img class="study-portrait" src="${art.images[key]}" data-illustration="${esc(key)}" width="120" height="120" alt=""><div><h2>${esc(title)}</h2><p>${esc(subtitle)}</p></div></div>`;
 }
+function studyFoodOptions(p){
+ return `<p>先挑自己喜歡的一種，不用全部背。把 <span lang="en">${esc(p.substitutions[0].target)}</span> 換成下方的字，再加上 <span lang="en">please</span> 就能回答。</p><div class="food-options">${p.illustratedOptions.map(o=>`<div class="food-option"><div class="food-picture" aria-hidden="true" style="background-image:url('${foodArtwork}');background-position:${o.cell%3*50}% ${Math.floor(o.cell/3)*100/3}%"></div><h4 lang="en">${esc(o.en)}</h4><p class="food-meaning">${esc(o.zh)}</p><p class="fine">${esc(o.description)}</p><p lang="en">${esc(o.en)}, please.</p>${audio(o.en+', please.')}</div>`).join('')}</div>`;
+}
 function studyUsage(p){
  if(!p.substitutions?.length)return '';
- if(p.illustratedOptions?.length&&typeof foodArtwork==='string')return `<details class="phrase-usage food-usage"><summary>用法補充</summary><p>先挑自己喜歡的一種，不用全部背。把 <span lang="en">${esc(p.substitutions[0].target)}</span> 換成下方的字，再加上 <span lang="en">please</span> 就能回答。</p><div class="food-options">${p.illustratedOptions.map(o=>`<div class="food-option"><div class="food-picture" aria-hidden="true" style="background-image:url('${foodArtwork}');background-position:${o.cell%3*50}% ${Math.floor(o.cell/3)*100/3}%"></div><h4 lang="en">${esc(o.en)}</h4><p class="food-meaning">${esc(o.zh)}</p><p class="fine">${esc(o.description)}</p><p lang="en">${esc(o.en)}, please.</p>${audio(o.en+', please.')}</div>`).join('')}</div></details>`;
+ if(p.illustratedOptions?.length&&typeof foodArtwork==='string')return `<details class="phrase-usage food-usage"><summary>用法補充</summary>${studyFoodOptions(p)}</details>`;
  return `<details class="phrase-usage"><summary>用法補充</summary>${p.substitutions.map(g=>`<div><p class="fine">可替換：<span lang="en">${esc(g.target)}</span></p><p>${g.options.map(([en,zh])=>`<span lang="en">${esc(en)}</span>（${esc(zh)}）`).join(' / ')}</p></div>`).join('')}</details>`;
 }
 function studyAdvanced(r){
  if(!r.advanced?.length&&!r.advancedHear?.length)return '';
  return `<details class="panel study-advanced"><summary>${course.day===1?'進階：需要時再學':'進階：我會說／我要聽得懂'}</summary><p>${course.day===1?'第 2、3、4 部分用基本句就能完成。不必打開這區；想學另一種說法或更詳細的路線時，再挑一句。':'基本句就能完成這輪任務。有餘力時，再挑一句練習。'}</p>
- <section class="study-block study-advanced-speaking" aria-label="進階：我會說">${studyRoleHeading(true,'我會說',course.day===1?'用來問路、確認方向或求助，挑一句試著說出口。':'需要時，再挑一句延伸說法或問題練習。')}<div class="grid">${(r.advanced||[]).map(p=>`<article class="panel study-advanced-card"><h3>${esc(p.use)}</h3><p class="fine">已學過的說法：<span lang="en">${esc(p.base)}</span></p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}</article>`).join('')}</div></section>
+ <section class="study-block study-advanced-speaking" aria-label="進階：我會說">${studyRoleHeading(true,'我會說',course.day===1?'用來問路、確認方向或求助，挑一句試著說出口。':'需要時，再挑一句延伸說法或問題練習。')}<div class="grid">${(r.advanced||[]).map(p=>`<article class="panel study-advanced-card"><h3>${esc(p.use)}</h3><p class="fine">已學過的說法：<span lang="en">${esc(p.base)}</span></p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${course.day>0?studyPhraseSubstitutions(p):studyUsage(p)}</article>`).join('')}</div></section>
  <section class="study-block study-advanced-listening" aria-label="進階：我要聽得懂">${studyRoleHeading(false,'我要聽得懂',`${r.role||course.replyRole}可能這樣回覆；聽懂重點就好，不必背整句。`)}${r.advancedHear?.length?`<div class="grid">${r.advancedHear.map(p=>`<article class="panel study-advanced-hear-card"><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}</article>`).join('')}</div>`:'<p>這輪沿用上方「我要聽得懂」的句子即可。</p>'}</section></details>`;
 }
 // Two entry points sit immediately above the section's DAY label and title.
@@ -2626,8 +2675,8 @@ studyNavigation=function(){
 };
 
 function dgStudyPhraseById(id){return typeof id==='number'?phrases[id]:phrases.find(p=>p.id===id);}
-function dgStudyPhrase(p,i,review=false){
- return `<article class="panel task-phrase focus-phrase dg-study-card"${p.id?` data-study-phrase="${esc(p.id)}"`:''}><p class="eyebrow">${review?'帶著用':String(i+1).padStart(2,'0')} / ${esc(p.use||'本任務說法')}</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.practice?`<details class="phrase-usage"><summary>現在就用一次</summary><p>${esc(p.practice)}</p>${p.remix?guidedHint(p.words||'先想現在要表達什麼，再替換條件。',p.remix,p.remixZh||'',`phrase-${p.id||i}`):''}</details>`:''}</article>`;
+function dgStudyPhrase(p,i,review=false,r=activeRound()){
+ return `<article class="panel task-phrase focus-phrase dg-study-card"${p.id?` data-study-phrase="${esc(p.id)}"`:''}><p class="eyebrow">${review?'帶著用':String(i+1).padStart(2,'0')} / ${esc(p.use||'本任務說法')}</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyPhraseSubstitutions(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.practice?`<details class="phrase-usage"><summary>現在就用一次</summary><p>${esc(p.practice)}</p>${p.remix?guidedHint(p.words||'先想現在要表達什麼，再替換條件。',p.remix,p.remixZh||'',`phrase-${p.id||i}`):''}</details>`:''}</article>`;
 }
 function dgStudyHearUsage(p,r){
  const usages=(r.hearUsage||[]).filter(item=>item.line===p.en&&item.alternatives?.length);
@@ -2640,11 +2689,6 @@ function dgStudyPreviewContent(r){
  const steps=f.steps.slice(0,f.steps[1]&&(f.steps[1].sceneTitle||f.steps[1].sceneContext)?1:2).map(({sceneTitle,sceneContext,...step})=>step);
  const main=dialoguePreview({steps,role,task:steps[0].task,title:'先看這一小段怎麼接',className:'micro-example',prelude:f.prelude||r.prelude,kind:'primary'});
  return `<details class="panel dg-dialogue-preview"><summary>對話怎麼接？需要時看一小段</summary>${main}<p class="fine">其他句子到「同一段對話，再練一次」逐句練；③ 再把完整順序接起來。</p></details>`+(course.studySupplement?microStudySupplement(course.studySupplement):'');
-}
-function dgStudyChangedPhrases(r){
- const changes=r.studyChanges||[];
- if(!changes.length)return '';
- return `<section class="study-block dg-study-changes" aria-label="可以替換的說法"><h2>同一句，換一個詞</h2><p class="fine">看懂換詞後的意思，再到後面的短對話練習接話。</p><div class="grid">${changes.map((s,i)=>`<article class="panel dg-change-card" data-study-change="${i}"><p class="eyebrow">${esc(s.from[0])} → ${esc(s.to[0])}</p><p class="en" lang="en">${esc(s.answer)}</p><p class="study-meaning">${esc(s.answerZh)}</p>${audio(s.answer)}</article>`).join('')}</div></section>`;
 }
 function dgStudyHearLines(r){
  const lines=[...r.hearLines],known=new Set(lines.map(p=>p.en));
@@ -2666,7 +2710,6 @@ phrasePage=function(){
  return navigation+
   `<details class="dg-study-context"><summary>任務 ${esc(taskLabel(r))} 的情境與練習範圍</summary><p>${esc(r.bridge)}</p>${r.coreNote?`<p class="core-note">${esc(r.coreNote)}</p>`:''}</details>`+
   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'我會說','')}<div class="grid task-phrase-grid">${r.phraseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i)).join('')}</div></section>`+
-  dgStudyChangedPhrases(r)+
   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${dgStudyHearLines(r).map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(p.role||role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${dgStudyHearUsage(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.sources?.length?`<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p>`:''}</article>`).join('')}</div></section>`+
   dgStudyPreviewContent(r)+
   `<div class="dg-study-step-actions">${btn('用這些句子，練同一段對話 →','data-study-view="reply"','class="primary"')}</div>`+

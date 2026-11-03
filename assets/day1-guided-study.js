@@ -15,11 +15,11 @@ studyNavigation=function(){
 };
 
 function dgStudyPhrase(p,i,review=false){
- // Reuse the original card, audio, translation and substitution disclosure.
+ // Attach each change to its original sentence, preserving its audio/meaning.
  return phraseCard(p,i,review)
-  .replace('panel focus-phrase','panel focus-phrase dg-study-card')
+  .replace('class="panel focus-phrase"',`class="panel focus-phrase dg-study-card" data-study-phrase="${esc(p.id)}"`)
   .replace(`<details><summary>看中文意思</summary><p>${esc(p.zh)}</p></details>`,`<p class="study-meaning">${esc(p.zh)}</p>`)
-  .replace('</article>',`${studyUsage(p)}</article>`);
+  .replace('</article>',`${studyPhraseSubstitutions(p,currentRound())}</article>`);
 }
 
 function dgStudyPhraseById(id){
@@ -30,11 +30,6 @@ function dgStudyHearUsage(p,r){
  const usages=(r.hearUsage||[]).filter(item=>item.line===p.en&&item.alternatives?.length).map(item=>({...item,alternatives:item.alternatives.filter(a=>a.en!==r.integrationListening?.en)})).filter(item=>item.alternatives.length);
  if(!usages.length)return '';
  return `<details class="phrase-usage dg-hear-usage"><summary>用法補充</summary>${usages.flatMap(usage=>usage.alternatives.map(item=>`<div><p><span lang="en">${esc(usage.target)}</span>（${esc(usage.targetZh)}）可以換成 <span lang="en">${esc(item.word)}</span>（${esc(item.wordZh)}）。</p><p class="en" lang="en">${esc(item.en)}</p><p class="study-meaning">${esc(item.zh)}</p>${audio(item.en)}</div>`)).join('')}</details>`;
-}
-
-function dgStudyPracticeChanges(r){
- const items=r.practiceChanges||[];
- return items.length?`<section class="panel dg-study-changes" aria-label="後面會用的替換"><h2>同一句，換一個詞</h2>${items.map(item=>`<p>${esc(item.task)}</p>${item.en?`<p><span lang="en">${esc(item.word)}</span>（${esc(item.wordZh)}）</p><p class="en" lang="en">${esc(item.en)}</p><p>${esc(item.zh)}</p>${audio(item.en)}`:''}`).join('')}</section>`:'';
 }
 
 function dgStudyPreviewContent(r,f,role){
@@ -50,10 +45,8 @@ phrasePage=function(){
  const reuse=reuseIds.length?`<details class="panel dg-study-support"><summary>前面學過、這輪會用到的說法</summary><div class="grid">${reuseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i,true)).join('')}</div></details>`:'';
  const extra=r.extraPhraseIds?.length?`<details class="panel dg-study-support"><summary>也可以這樣說（原有句子都保留）</summary><div class="grid">${r.extraPhraseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i)).join('')}</div></details>`:'';
  return navigation+
-  (r.prelude?`<section class="panel dg-study-prelude"><h2>先聽懂並指出目的地</h2><p>${esc(r.prelude.task)}</p><p class="en" lang="en">${esc(r.prelude.line)}</p><p>${esc(r.prelude.zh)}</p>${audio(r.prelude.line)}</section>`:'')+
   `<details class="dg-study-context"><summary>這輪的情境與練習範圍</summary><p>${esc(r.bridge)}</p></details>`+
   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,roles.label+'：我會說','')}<div class="grid task-phrase-grid">${list.map((p,i)=>dgStudyPhrase(p,i)).join('')}</div></section>`+
-  dgStudyPracticeChanges(r)+
   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,role+'：我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${r.hearLines.map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${dgStudyHearUsage(p,r)}<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p></article>`).join('')}</div></section>`+
   dgStudyPreviewContent(r,f,role)+
   `<div class="dg-study-step-actions">${btn('用本輪句子，練同一段對話 →','data-study-view="reply"','class="primary"')}</div>`+

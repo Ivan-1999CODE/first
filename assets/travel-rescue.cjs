@@ -38,7 +38,7 @@ function make(previous,compile,labelTasks){
  // Vary the correct position; learners need to use the information they heard.
  specs.forEach(spec=>{for(const steps of [spec.steps,spec.variation.steps])steps.forEach((s,i)=>{if(i%2){s.objects.reverse();s.valid=[1];}});});
  const d=compile(previous[0],specs);
- d.rescueVersion=1;d.course.id='travel-lab-en-rescue-12-14-v1';d.course.dayLabel='第 12～14 課整合';
+ d.rescueVersion=1;d.course.id='travel-lab-en-rescue-12-14-v1';d.course.dayLabel='第 12 天';
  d.course.title='旅行出狀況，我能開口求助';d.course.mergedTasks=true;d.course.revision='travel-rescue-v1';
  d.course.description='景點關閉、趕不上集合、包包遺失：三個完整任務，練習說問題、問下一步、確認重要資訊。';
  d.course.board='我的處理進度';d.course.replyRole='工作人員';

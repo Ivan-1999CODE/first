@@ -232,6 +232,24 @@
 @media(prefers-contrast:more){:root[data-illustrated]{--line:currentColor}[data-illustrated] .role-frame{border-width:2px}[data-illustrated] .role-self{border-left-width:4px}}
 
 .study-block{margin-bottom:34px;min-width:0}
+#main details.study-inline-changes{margin:16px 0 0;padding:8px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;min-width:0;background:transparent;color:inherit;overflow-wrap:anywhere}
+#main .study-inline-changes>summary{display:flex;align-items:center;gap:8px;min-height:44px;margin:0;padding:6px 4px;border-radius:6px;list-style:none;cursor:pointer;font-size:.95rem;font-weight:600;line-height:1.6;color:inherit}
+#main .study-inline-changes>summary::-webkit-details-marker{display:none}
+#main .study-inline-changes>summary::marker{content:''}
+#main .study-inline-changes>summary::before{content:'▸';display:inline-block;flex:0 0 1em;text-align:center}
+#main .study-inline-changes[open]>summary::before{transform:rotate(90deg)}
+#main .study-inline-changes>summary:hover{background:var(--soft)}
+#main .study-inline-changes>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.study-change-content{padding-top:8px;min-width:0}
+.study-inline-changes .dg-change-card,.study-substitution-option{margin:0;padding:14px 0}
+.study-inline-changes .dg-change-card+.dg-change-card,.study-substitution-option+.study-substitution-option,.dg-change-card+.study-substitution-option{border-top:1px solid var(--line)}
+.study-inline-changes .study-swap-words{font-size:1rem;line-height:1.8;color:var(--ink);margin:0 0 10px}
+.study-inline-changes .en{margin:0 0 8px}
+.study-inline-changes .phrase-usage{margin-top:12px}
+.study-original-sentence{padding:16px 0;min-width:0;overflow-wrap:anywhere}
+.study-original-sentence+.study-original-sentence{border-top:1px solid var(--line)}
+.study-original-sentence .en{margin:0 0 8px}
+.study-library .task-phrase-grid,.study-advanced-speaking>.grid,.dg-study-support>.grid,.hi-language-grid{align-items:start}
 .study-variation-vocabulary .grid{align-items:start}
 .study-variation-word{overflow-wrap:anywhere}
 .study-word-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -1544,6 +1562,8 @@ body:is(.day1-guided,.lesson-guided) :is(.d5-teacher-guide,.d5-student-hint) > s
 .hi-mode-caption{font-size:.85rem;font-weight:700;color:var(--muted)}
 .hi-options,.hi-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .hi-actions{margin-top:22px}
+.hi-content .hi-entry-actions{justify-content:flex-end}
+.hi-content .hi-entry-actions>button{flex:0 1 auto}
 .hi-mode-bar button,.hi-content button{min-height:44px;white-space:normal;line-height:1.45}
 .hi-mode-bar button[aria-pressed=true],.hi-content .hi-options button[aria-pressed=true],.hi-object-options button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 .hi-content{max-width:1200px;margin:0 auto;min-width:0}
@@ -1612,7 +1632,7 @@ body.lesson-guided .hi-group-switch button[aria-pressed=true]{background:var(--a
 .hi-role .hi-focus-cue{font-weight:700;margin:10px 0 16px}
 .hi-language-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .hi-content .hi-language{margin:0;padding:24px}
-.hi-en{font-size:1.35rem;font-weight:650;line-height:1.6!important;overflow-wrap:anywhere}
+.hi-en:not(.en){font-size:1.35rem;font-weight:650;line-height:1.6!important;overflow-wrap:anywhere}
 .hi-block-title{margin-top:30px!important}
 .hi-content details{border-radius:12px}.hi-content summary{min-height:44px;cursor:pointer;line-height:1.6;padding:10px 0;font-weight:650}
 .hi-content details[open]>summary{margin-bottom:12px}
@@ -1826,7 +1846,7 @@ html body #main .scene-board:has(.vf-interaction)>h2{font-size:.9rem;color:var(-
 </style></head><body>
 <a class="skip" href="#main">跳到課程內容</a>
 <header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
-<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 8 天 · 入住與客房服務</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文旅行實用會話</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文旅行實用會話</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html" aria-current="page"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html"><strong>第 12～14 課整合</strong><small>突發狀況與求助</small></a></div></div></details></nav>
+<nav class="day-switcher" aria-label="切換單元"><details class="unit-menu" open><summary><span><span class="unit-menu-label">切換單元</span><span class="unit-menu-current">第 8 天 · 入住與客房服務</span></span></summary><div class="day-switcher-inner"><span class="day-switcher-label">切換單元</span><div class="day-switcher-links"><a tabindex="0" href="travel-japanese-day0-directions.html"><strong>第 0 天・日文</strong><small>日文旅行實用會話</small></a><a tabindex="0" href="travel-korean-day0-directions.html"><strong>第 0 天・韓文</strong><small>韓文旅行實用會話</small></a><a tabindex="0" href="travel-english.html"><strong>第 1 天</strong><small>問路與求助</small></a><a tabindex="0" href="travel-english-unit2-shopping.html"><strong>第 2 天</strong><small>購物任務</small></a><a tabindex="0" href="travel-english-unit3-airport.html"><strong>第 3 天</strong><small>機場報到與入境</small></a><a tabindex="0" href="travel-english-unit4-transit.html"><strong>第 4 天</strong><small>買票與搭車</small></a><a tabindex="0" href="travel-english-unit5-getting-around.html"><strong>第 5 天</strong><small>問路、計程車與 Uber</small></a><a tabindex="0" href="travel-english-unit6-ordering.html"><strong>第 6 天</strong><small>點餐與詢價</small></a><a tabindex="0" href="travel-english-unit7-fitting.html"><strong>第 7 天</strong><small>尺寸與試穿</small></a><a tabindex="0" href="travel-english-unit8-hotel.html" aria-current="page"><strong>第 8 天</strong><small>入住與客房服務</small></a><a tabindex="0" href="travel-english-unit9-reservations.html"><strong>第 9 天</strong><small>訂位與景點買票</small></a><a tabindex="0" href="travel-english-unit10-kind-words.html"><strong>第 10 天</strong><small>禮貌請求與婉拒邀請</small></a><a tabindex="0" href="travel-english-unit11-what.html"><strong>第 11 天</strong><small>和旅伴簡單聊天</small></a><a tabindex="0" href="travel-english-unit12-how.html"><strong>第 12 天</strong><small>突發狀況與求助</small></a></div></div></details></nav>
 <div id="storageNotice" class="notice" role="status" hidden></div>
 <div class="layout"><details id="courseMenu" class="course-menu" open><summary aria-label="課程選單"><svg class="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16m4-11h4m-4 5h4"/></svg><span class="menu-label">課程選單</span><svg class="menu-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 7.5 5 5 5-5"/></svg></summary><nav class="course-nav" aria-label="第 8 天的七部分課程"><span class="day">DAY 8</span><div id="nav"></div></nav></details><main id="main" tabindex="-1"></main></div>
 <footer class="bottom"><a href="index.html">全部課程</a> · 第 8 天：飯店入住與客房服務・分任務練習</footer><div id="toast" role="status" hidden></div>
@@ -2147,24 +2167,55 @@ function studyVariationVocabulary(r){
  return `<section class="study-block study-variation-vocabulary" aria-label="句型替換字彙"><h2>換字前，先看這些詞</h2><p>這些詞搭配上方的句型，在本部分的短對話練習接話。</p><div class="grid">${entries.map(entry=>`<article class="panel study-variation-word" data-variation-mission="${esc(entry.missionId)}"><h3>${esc(entry.label)}</h3><div class="study-word-pair">${[entry.from,entry.to].map(([en,zh],i)=>`<div><p class="fine">${i?'這次換成':'原來是'}</p><p class="en" lang="en">${esc(en)}</p><p class="study-meaning">${esc(zh)}</p>${audio(en)}</div>`).join('')}</div>${entry.note?`<p class="study-word-note">${esc(entry.note)}</p>`:''}</article>`).join('')}</div></section>`;
 }
 function studyVocabulary(r){
- if(!r.words.length&&!r.variationVocabulary?.length)return '';
+ const originals=course.day>0?studyOriginalSentences(r):'';
+ if(!r.words.length&&!r.variationVocabulary?.length&&!originals)return '';
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork,japanese=course.day===0;
- return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>先看意思、聽發音，再放進這輪的句子裡試著說。</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary><div class="panel"><div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div>${studyVariationVocabulary(r)}</details>`;
+ return `<details class="study-block study-vocabulary" open><summary class="study-heading study-words"><img class="vocabulary-portrait" src="${art.images['vocabulary-reader']}" width="110" height="110" alt=""><div><h2>這輪的單字，需要時再查</h2><p>${japanese?'先看意思、聽發音，再放進這輪的句子裡試著說。':'查本輪原句與單字的意思，也可以聽發音。'}</p><span class="vocabulary-toggle" aria-hidden="true"></span></div></summary>${originals}<div class="panel">${japanese?'':'<h3>本輪單字</h3>'}<div class="task-words focus-words">${r.words.map(([word,meaning])=>`<div><b lang="${japanese?'ja':'en'}">${esc(word)}</b><span>${esc(meaning)}</span>${japanese&&kana[word]&&kana[word]!==word?`<p class="fine" lang="ja">${esc(kana[word])}</p>`:''}${japanese&&readings[word]?`<p class="fine" lang="ja-Latn">${esc(readings[word])}</p>`:''}${audio(word.replaceAll(' / ','. '))}</div>`).join('')}</div>${japanese&&r.wordNote?`<p class="fine vocabulary-note">${esc(r.wordNote)}</p>`:''}</div>${japanese?studyVariationVocabulary(r):''}</details>`;
+}
+// Keep the lookup drawer tied to the authored phrases and words. Substitution
+// lessons belong to their speaking card, and never change the curriculum data.
+function studyOriginalSentences(r){
+ const spoken=(r.phraseIds||[]).map(id=>typeof id==='number'?phrases[id]:phrases.find(p=>p.id===id)).filter(Boolean);
+ const groups=[['我會說的原句',spoken],['對方會說的原句',r.hearLines||[]]];
+ return groups.filter(([,items])=>items.length).map(([title,items])=>`<section class="panel study-originals"><h3>${title}</h3>${[...new Map(items.map(p=>[p.en,p])).values()].map(p=>`<div class="study-original-sentence"><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}</div>`).join('')}</section>`).join('');
+}
+function studyPhraseSubstitutions(p,r){
+ const changes=(r?.studyChanges||[]).filter(c=>c.baseAnswer===p.en);
+ const groups=p.substitutions||[];
+ const illustrated=p.illustratedOptions?.length&&typeof foodArtwork==='string';
+ const known=new Set([p.en,...changes.map(c=>c.answer)].map(s=>s.toLowerCase()));
+ const options=[];
+ if(!illustrated)for(const group of groups){
+  const original=group.options.find(([en])=>en.toLowerCase()===group.target.toLowerCase());
+  for(const [word,zh]of group.options){
+   const answer=p.en.replace(group.target,word);
+   if(known.has(answer.toLowerCase()))continue;
+   known.add(answer.toLowerCase());
+   options.push({from:[group.target,original?.[1]||''],to:[word,zh],answer});
+  }
+ }
+ if(!changes.length&&!options.length&&!illustrated)return '';
+ const pair=([en,zh])=>`<span lang="en">${esc(en)}</span>${zh?`（${esc(zh)}）`:''}`;
+ const card=(c,i,primary)=>`<div class="${primary?'dg-change-card':'study-substitution-option'}" ${primary?`data-study-change="${esc(c.id||i)}"`:'data-substitution-option'}><p class="study-swap-words">${pair(c.from)} <span aria-label="換成">→</span> ${pair(c.to)}</p><p class="en" lang="en">${esc(c.answer)}</p>${c.answerZh?`<p class="study-meaning">${esc(c.answerZh)}</p>`:''}${audio(c.answer)}</div>`;
+ return `<details class="study-inline-changes dg-study-changes${illustrated?' food-usage':''}" data-substitution-base="${esc(p.en)}"><summary>同一句，換一個詞</summary><div class="study-change-content">${changes.map((c,i)=>card(c,i,true)).join('')}${options.map((c,i)=>card(c,i,false)).join('')}${illustrated?studyFoodOptions(p):''}</div></details>`;
 }
 function studyRoleHeading(me,title,subtitle){
  const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork;
  const index=course.day===1?focusRound:taskRound,role=art.byRound[index],key=role[me?'self':'other'];
  return `<div class="study-heading ${me?'study-self':'study-other'}"><img class="study-portrait" src="${art.images[key]}" data-illustration="${esc(key)}" width="120" height="120" alt=""><div><h2>${esc(title)}</h2><p>${esc(subtitle)}</p></div></div>`;
 }
+function studyFoodOptions(p){
+ return `<p>先挑自己喜歡的一種，不用全部背。把 <span lang="en">${esc(p.substitutions[0].target)}</span> 換成下方的字，再加上 <span lang="en">please</span> 就能回答。</p><div class="food-options">${p.illustratedOptions.map(o=>`<div class="food-option"><div class="food-picture" aria-hidden="true" style="background-image:url('${foodArtwork}');background-position:${o.cell%3*50}% ${Math.floor(o.cell/3)*100/3}%"></div><h4 lang="en">${esc(o.en)}</h4><p class="food-meaning">${esc(o.zh)}</p><p class="fine">${esc(o.description)}</p><p lang="en">${esc(o.en)}, please.</p>${audio(o.en+', please.')}</div>`).join('')}</div>`;
+}
 function studyUsage(p){
  if(!p.substitutions?.length)return '';
- if(p.illustratedOptions?.length&&typeof foodArtwork==='string')return `<details class="phrase-usage food-usage"><summary>用法補充</summary><p>先挑自己喜歡的一種，不用全部背。把 <span lang="en">${esc(p.substitutions[0].target)}</span> 換成下方的字，再加上 <span lang="en">please</span> 就能回答。</p><div class="food-options">${p.illustratedOptions.map(o=>`<div class="food-option"><div class="food-picture" aria-hidden="true" style="background-image:url('${foodArtwork}');background-position:${o.cell%3*50}% ${Math.floor(o.cell/3)*100/3}%"></div><h4 lang="en">${esc(o.en)}</h4><p class="food-meaning">${esc(o.zh)}</p><p class="fine">${esc(o.description)}</p><p lang="en">${esc(o.en)}, please.</p>${audio(o.en+', please.')}</div>`).join('')}</div></details>`;
+ if(p.illustratedOptions?.length&&typeof foodArtwork==='string')return `<details class="phrase-usage food-usage"><summary>用法補充</summary>${studyFoodOptions(p)}</details>`;
  return `<details class="phrase-usage"><summary>用法補充</summary>${p.substitutions.map(g=>`<div><p class="fine">可替換：<span lang="en">${esc(g.target)}</span></p><p>${g.options.map(([en,zh])=>`<span lang="en">${esc(en)}</span>（${esc(zh)}）`).join(' / ')}</p></div>`).join('')}</details>`;
 }
 function studyAdvanced(r){
  if(!r.advanced?.length&&!r.advancedHear?.length)return '';
  return `<details class="panel study-advanced"><summary>${course.day===1?'進階：需要時再學':'進階：我會說／我要聽得懂'}</summary><p>${course.day===1?'第 2、3、4 部分用基本句就能完成。不必打開這區；想學另一種說法或更詳細的路線時，再挑一句。':'基本句就能完成這輪任務。有餘力時，再挑一句練習。'}</p>
- <section class="study-block study-advanced-speaking" aria-label="進階：我會說">${studyRoleHeading(true,'我會說',course.day===1?'用來問路、確認方向或求助，挑一句試著說出口。':'需要時，再挑一句延伸說法或問題練習。')}<div class="grid">${(r.advanced||[]).map(p=>`<article class="panel study-advanced-card"><h3>${esc(p.use)}</h3><p class="fine">已學過的說法：<span lang="en">${esc(p.base)}</span></p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}</article>`).join('')}</div></section>
+ <section class="study-block study-advanced-speaking" aria-label="進階：我會說">${studyRoleHeading(true,'我會說',course.day===1?'用來問路、確認方向或求助，挑一句試著說出口。':'需要時，再挑一句延伸說法或問題練習。')}<div class="grid">${(r.advanced||[]).map(p=>`<article class="panel study-advanced-card"><h3>${esc(p.use)}</h3><p class="fine">已學過的說法：<span lang="en">${esc(p.base)}</span></p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${course.day>0?studyPhraseSubstitutions(p):studyUsage(p)}</article>`).join('')}</div></section>
  <section class="study-block study-advanced-listening" aria-label="進階：我要聽得懂">${studyRoleHeading(false,'我要聽得懂',`${r.role||course.replyRole}可能這樣回覆；聽懂重點就好，不必背整句。`)}${r.advancedHear?.length?`<div class="grid">${r.advancedHear.map(p=>`<article class="panel study-advanced-hear-card"><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}</article>`).join('')}</div>`:'<p>這輪沿用上方「我要聽得懂」的句子即可。</p>'}</section></details>`;
 }
 // Two entry points sit immediately above the section's DAY label and title.
@@ -2765,8 +2816,8 @@ studyNavigation=function(){
 };
 
 function dgStudyPhraseById(id){return typeof id==='number'?phrases[id]:phrases.find(p=>p.id===id);}
-function dgStudyPhrase(p,i,review=false){
- return `<article class="panel task-phrase focus-phrase dg-study-card"${p.id?` data-study-phrase="${esc(p.id)}"`:''}><p class="eyebrow">${review?'帶著用':String(i+1).padStart(2,'0')} / ${esc(p.use||'本任務說法')}</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.practice?`<details class="phrase-usage"><summary>現在就用一次</summary><p>${esc(p.practice)}</p>${p.remix?guidedHint(p.words||'先想現在要表達什麼，再替換條件。',p.remix,p.remixZh||'',`phrase-${p.id||i}`):''}</details>`:''}</article>`;
+function dgStudyPhrase(p,i,review=false,r=activeRound()){
+ return `<article class="panel task-phrase focus-phrase dg-study-card"${p.id?` data-study-phrase="${esc(p.id)}"`:''}><p class="eyebrow">${review?'帶著用':String(i+1).padStart(2,'0')} / ${esc(p.use||'本任務說法')}</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyPhraseSubstitutions(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.practice?`<details class="phrase-usage"><summary>現在就用一次</summary><p>${esc(p.practice)}</p>${p.remix?guidedHint(p.words||'先想現在要表達什麼，再替換條件。',p.remix,p.remixZh||'',`phrase-${p.id||i}`):''}</details>`:''}</article>`;
 }
 function dgStudyHearUsage(p,r){
  const usages=(r.hearUsage||[]).filter(item=>item.line===p.en&&item.alternatives?.length);
@@ -2779,11 +2830,6 @@ function dgStudyPreviewContent(r){
  const steps=f.steps.slice(0,f.steps[1]&&(f.steps[1].sceneTitle||f.steps[1].sceneContext)?1:2).map(({sceneTitle,sceneContext,...step})=>step);
  const main=dialoguePreview({steps,role,task:steps[0].task,title:'先看這一小段怎麼接',className:'micro-example',prelude:f.prelude||r.prelude,kind:'primary'});
  return `<details class="panel dg-dialogue-preview"><summary>對話怎麼接？需要時看一小段</summary>${main}<p class="fine">其他句子到「同一段對話，再練一次」逐句練；③ 再把完整順序接起來。</p></details>`+(course.studySupplement?microStudySupplement(course.studySupplement):'');
-}
-function dgStudyChangedPhrases(r){
- const changes=r.studyChanges||[];
- if(!changes.length)return '';
- return `<section class="study-block dg-study-changes" aria-label="可以替換的說法"><h2>同一句，換一個詞</h2><p class="fine">看懂換詞後的意思，再到後面的短對話練習接話。</p><div class="grid">${changes.map((s,i)=>`<article class="panel dg-change-card" data-study-change="${i}"><p class="eyebrow">${esc(s.from[0])} → ${esc(s.to[0])}</p><p class="en" lang="en">${esc(s.answer)}</p><p class="study-meaning">${esc(s.answerZh)}</p>${audio(s.answer)}</article>`).join('')}</div></section>`;
 }
 function dgStudyHearLines(r){
  const lines=[...r.hearLines],known=new Set(lines.map(p=>p.en));
@@ -2805,7 +2851,6 @@ phrasePage=function(){
  return navigation+
   `<details class="dg-study-context"><summary>任務 ${esc(taskLabel(r))} 的情境與練習範圍</summary><p>${esc(r.bridge)}</p>${r.coreNote?`<p class="core-note">${esc(r.coreNote)}</p>`:''}</details>`+
   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'我會說','')}<div class="grid task-phrase-grid">${r.phraseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i)).join('')}</div></section>`+
-  dgStudyChangedPhrases(r)+
   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid">${dgStudyHearLines(r).map((p,i)=>`<article class="panel study-hear-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(p.role||role)}可能會說</p><p class="en" lang="en">${esc(p.en)}</p><p class="study-meaning">${esc(p.zh)}</p>${audio(p.en)}${studyUsage(p)}${dgStudyHearUsage(p,r)}${p.note?`<details class="phrase-usage"><summary>用法補充</summary><p>${esc(p.note)}</p></details>`:''}${p.sources?.length?`<p class="fine">會在這裡用到：${p.sources.map(esc).join('、')}</p>`:''}</article>`).join('')}</div></section>`+
   dgStudyPreviewContent(r)+
   `<div class="dg-study-step-actions">${btn('用這些句子，練同一段對話 →','data-study-view="reply"','class="primary"')}</div>`+
@@ -4404,6 +4449,13 @@ load();render();appearance();
 })();
 </script>
 <script id="day8-integration">
+// Integrated study cards reuse the ordinary lesson renderer and its collapsed swaps.
+function hotelStudyPhrase(p,i,r){
+ return dgStudyPhrase(p,i,false,r).replace('class="panel ','class="panel hi-language hi-say ').replace('<p class="en"','<p class="en hi-en"');
+}
+function hotelStudyHear(s,i){
+ return `<article class="panel study-hear-card hi-language hi-hear"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(s.label||'對方可能會說')}</p><p class="en hi-en" lang="en">${esc(s.line)}</p><p class="study-meaning">${esc(s.zh)}</p>${audio(s.line)}</article>`;
+}
 // Seven-part routes for the two additional integration groups.
 // All records are separate from the original A-F and the existing check-in route.
 function createCompleteHotel(data, ctx) {
@@ -4444,7 +4496,8 @@ function createCompleteHotel(data, ctx) {
  function picker(items,id,attr,label){return `<nav class="hi-options hi-challenge-nav" aria-label="${label}">${items.map((x,i)=>btn((i+1)+' · '+esc(x.title),`${attr}="${x.id}"`,`aria-pressed="${id===x.id}"`)).join('')}</nav>`;}
  function before(){const g=group();return `<section class="hi-hero"><div><p class="eyebrow">第 8 天 · ${g.sourceLabels.join('＋')}</p><h1>${esc(g.title)}</h1><p>${esc(g.intro)}</p></div><div class="hx-hero-mark" aria-hidden="true">${g.id==='stay'?'STAY':'JOURNEY'}<span>TRAVEL LAB</span></div></section><section class="panel hi-before"><p class="dg-role">先試一次 · 學生當旅客，老師當飯店人員</p><p class="task hx-checkpoint">${esc(g.checkpoint)}</p><p>你先開口：「${g.id==='stay'?'你好，這裡是 305 號房。':'你好，我想辦理入住。'}」可以分段完成，不必一次說成很長的句子。</p><details><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}</details><details><summary>老師看：本題條件</summary><p>${esc(g.checkpointGuide)}</p></details><div class="hi-actions">${go('需要時查說法 →',1)}${go('直接試真人任務 →',4)}</div></section><section class="panel"><h2>這一組會一起用到</h2><div class="hi-route-cards">${g.sourceLabels.map(s=>`<article><span class="hi-task-letter">${s}</span><h3>${esc(data.sources[s])}</h3></article>`).join('')}</div><p>可以只挑今天需要的情境，熟悉後再增加任務。各組的課前作答、情境筆記與目標分開保存。</p><div class="hi-actions">${go(g.flows.length+' 個完整流程',2)}${go(g.questions.length+' 個新情境題',3)}${go(g.missions.length+' 個真人任務',4)}</div></section>`;}
  function study(){
-  const g=group(),m=ui(),all=data.bank.filter(s=>s.source===m.source),phrases=[...new Map(all.map(s=>[s.answer,s])).values()];
+  const g=group(),m=ui(),all=data.bank.filter(s=>s.source===m.source);
+  const r=rounds.find(r=>(r.displayLabel||r.id)===m.source),spoken=r.phraseIds.map(dgStudyPhraseById);
   const replies=all.filter(s=>!s.askFirst),selected=replies[Math.min(m.reply,Math.max(0,replies.length-1))];
   const controls=`<div class="hi-options hi-section-tabs">${btn('我想怎麼說','data-hx-study="say"',`aria-pressed="${m.study==='say'}"`)}${btn('飯店問，我來答','data-hx-study="reply"',`aria-pressed="${m.study==='reply'}"`)}</div><div class="hi-options hi-section-tabs" role="group" aria-label="選擇句型來源">${g.sourceLabels.map(s=>btn(s+' · '+esc(data.sources[s]),`data-hx-source="${s}"`,`aria-pressed="${m.source===s}"`)).join('')}</div>`;
   if(m.study==='reply'){
@@ -4452,7 +4505,10 @@ function createCompleteHotel(data, ctx) {
    const j=Math.min(m.reply,replies.length-1),same=replies.find(s=>s.label===selected.label&&s.answer!==selected.answer);
    return head('先聽懂，再接一句','對方的台詞只需聽懂，不要求背誦。')+controls+`<section class="panel"><div class="hi-row"><h2>${esc(selected.label)}</h2><span>${j+1} / ${replies.length}</span></div><div class="hi-grid"><section class="hi-role hi-hear"><p class="dg-role">① 飯店先說</p>${audio(selected.line)}${transcript(selected)}</section><section class="hi-role hi-say"><p class="dg-role">② 換你回答</p><p class="task">${esc(selected.task)}</p>${hint(selected,'reply-'+m.source+'-'+j)}</section></div>${same?`<details><summary>換個條件再回答</summary><p>${esc(same.task)}</p>${hint(same,'reply-change-'+m.source+'-'+j)}</details>`:`<p>收起提示，再用自己的說法回應一次。</p>`}<div class="hi-actions">${btn('← 上一組',`data-hx-reply="${j-1}"`,j===0?'disabled':'')}${btn('下一組 →',`data-hx-reply="${j+1}"`,j===replies.length-1?'disabled':'')}</div></section>`;
   }
-  return head('需要時，回來找一個說法','共用已學過的用語；依目前需求選擇，不必每次從頭重讀。')+controls+`<div class="hi-language-grid">${phrases.map(s=>`<article class="panel hi-language hi-say"><p class="eyebrow">${esc(s.label)}</p><p class="hi-en" lang="en">${esc(s.answer)}</p><details><summary>看中文意思</summary><p>${esc(s.answerZh)}</p></details>${audio(s.answer)}</article>`).join('')}</div><details class="panel hx-listening-bank"><summary>這些回覆，我也要聽得懂</summary><div class="hi-language-grid">${[...new Map(all.map(s=>[s.line,s])).values()].map(s=>`<article class="panel hi-language hi-hear"><p class="hi-en" lang="en">${esc(s.line)}</p><details><summary>看中文意思</summary><p>${esc(s.zh)}</p></details>${audio(s.line)}</article>`).join('')}</div></details>`;
+  return head('需要時，回來找一個說法','共用已學過的用語；依目前需求選擇，不必每次從頭重讀。')+controls+
+   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'旅客：我會說','')}<div class="grid task-phrase-grid hi-language-grid hi-speaking-library">${spoken.map((p,i)=>hotelStudyPhrase(p,i,r)).join('')}</div></section>`+
+   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'飯店人員：我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid hi-language-grid">${[...new Map(all.map(s=>[s.line,s])).values()].map(hotelStudyHear).join('')}</div></section>`+
+   studyVocabulary(r).replace('class="study-block study-vocabulary" open','class="study-block study-vocabulary"');
  }
  const flowData=()=>group().flows.find(f=>f.id===ui().flowId);
  function current(){const s=flowData().steps[ui().flow.index],choice=s.decisions?.[ui().flow.decision];return choice?{...s,...choice}:s;}
@@ -4511,6 +4567,13 @@ function createCompleteHotel(data, ctx) {
 (() => {
  'use strict';
  const d = hotelIntegration, q = s => document.querySelector(s);
+ const studySources=rounds.filter(r=>d.sourceIds.includes(r.id));
+ const studyRound={
+  phraseIds:studySources.flatMap(r=>r.phraseIds),
+  hearLines:studySources.flatMap(r=>r.hearLines),
+  studyChanges:studySources.flatMap(r=>r.studyChanges||[]),
+  words:[...new Map(studySources.flatMap(r=>r.words).map(word=>[JSON.stringify(word),word])).values()]
+ };
  const labels = d.sections, originalRender = render, originalNavigate = navigate;
  labels[3] = '看情境，自己選用';
  let sayIndex = 0;
@@ -4575,23 +4638,23 @@ function createCompleteHotel(data, ctx) {
  }
  function beforePage() {
   return `<section class="hi-hero"><div><p class="eyebrow">第 8 天 · A＋B＋C 整合練習</p><h1>${esc(d.title)}</h1><p>從說出訂房姓名，到拿著房卡準備上樓。把三個任務連成同一段對話。</p><div class="hi-journey"><span>提出入住</span><span>確認訂房</span><span>問清住宿資訊</span></div></div><div class="hi-keycard" aria-hidden="true"><span>TRAVEL LAB HOTEL</span><strong>305</strong><span>WELCOME · 歡迎入住</span><i></i></div></section>
-  <section class="panel hi-before"><p class="dg-role">先試一次完整情境</p><h2>你是旅客，老師是飯店櫃檯。</h2><p class="task">${esc(d.task)}</p><p>你先開口：「你好，我想辦理入住。」接著由老師回應，試著把事情辦完。</p><details class="hi-entry-note"><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}<p class="fine">第六部分會回到完全相同的情境。</p></details><div class="hi-actions">${go('整理今天會用的句子 →',1,'class="primary"')}${button('我想直接試完整對話', 'data-hi-direct')}</div></section>
+  <section class="panel hi-before"><p class="dg-role">先試一次完整情境</p><h2>你是旅客，老師是飯店櫃檯。</h2><p class="task">${esc(d.task)}</p><p>你先開口：「你好，我想辦理入住。」接著由老師回應，試著把事情辦完。</p><details class="hi-entry-note"><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}<p class="fine">第六部分會回到完全相同的情境。</p></details><div class="hi-actions hi-entry-actions">${button('05 完整對話', 'data-hi-direct')}${go('02 整理聽說句子',1,'class="primary"')}</div></section>
   <section class="panel"><h2>把會的英文，拿來完成新的情境</h2><div class="hi-route-cards">${d.sourceLabels.map((label,i) => `<article><span class="hi-task-letter">${label}</span><h3>${['提出入住，報訂房姓名','出示護照，確認晚數','問早餐、退房與電梯'][i]}</h3></article>`).join('')}</div><p>個別任務練熟一件事；這套綜合練習，讓你依對方的回答，自己決定下一句。可以用短句，也可以合併說，不必照固定順序背完。</p><div class="hi-route-cards hi-course-path"><article><h3>連起來辦入住</h3><p>${d.practice.flowRoutes.length} 種對話順序，聽完再接話。</p>${go("開始完整流程",2)}</article><article><h3>判斷還缺什麼</h3><p>${d.practice.challenges.length} 個綜合情境，補問資訊或澄清資料。</p>${go("試綜合情境",3)}</article><article><h3>和老師自由接話</h3><p>${d.practice.conversations.length} 個真人任務，依實際對話完成目標。</p>${go("試真人任務",4)}</article></div></section>
   <details class="panel hi-teacher"><summary>老師看：50～60 分鐘怎麼帶</summary><p>先試 5 分鐘 → 補需要的句子約 8 分鐘 → 連續流程約 10 分鐘 → 看情境選用句子約 10 分鐘 → 真人接話約 13 分鐘 → 回顧與作業約 9 分鐘。依學生表現調整。</p><p>學生已能完成時，可直接進第五部分。整合紀錄和原 A～F 任務分開；不必先勾選原任務熟悉。</p></details>`;
  }
  function phraseCard(s, kind, i) {
   const self = kind === 'say';
-  return `<article class="panel hi-language ${self?'hi-say':'hi-hear'}"><p class="eyebrow">${self?'我會說':'我要聽得懂'} · ${esc(s.label || '另一種問法')}</p><p class="hi-en" lang="en">${esc(self?s.answer:s.line)}</p><details><summary>看中文意思</summary><p>${esc(self?s.answerZh:s.zh)}</p></details>${audio(self?s.answer:s.line)}</article>`;
+  return self?hotelStudyPhrase(phrases.find(p=>p.en===s.answer)||{en:s.answer,zh:s.answerZh,use:s.label},i,studyRound):hotelStudyHear(s,i);
  }
  function studyPage() {
   const modes = `<div class="hi-options" role="group" aria-label="句子與短問答">${button('我想怎麼說','data-hi-study="library"',`aria-pressed="${studyMode==='library'}"`)}${button('櫃檯問，我來答','data-hi-study="reply"',`aria-pressed="${studyMode==='reply'}"`)}</div>`;
   if (studyMode === 'reply') {
    const replies = [d.steps[1],d.steps[2],d.steps[3]], s = replies[replyIndex];
    const remix=replyIndex===0?scenario('name').steps[1]:replyIndex===2?scenario('nights').steps[3]:s;
-   return heading('先聽懂，再接一句','看中文翻譯，用英文回答；一次練一句。') + modes + `<section class="panel"><div class="hi-row"><h2>${esc(s.label)}</h2><span>${replyIndex+1} / ${replies.length}</span></div><div class="hi-grid"><div class="hi-hear hi-role"><p class="dg-role">① 櫃檯先說</p>${audio(s.line)}${transcriptFor(s)}</div><div class="hi-say hi-role"><p class="dg-role">② 換你回答</p><p class="task" data-study-prompt="translation">${esc(s.answerZh)}</p>${hintFor(s,'reply-'+replyIndex)}</div></div><details class="hi-remix"><summary>同一句，換詞再答一次</summary><p data-study-prompt="translation">${esc(remix.answerZh)}</p>${hintFor(remix,'reply-remix-'+replyIndex)}</details><div class="hi-actions">${button('← 上一組',`data-hi-reply="${replyIndex-1}"`,replyIndex===0?'disabled':'')}${replyIndex<replies.length-1?button('下一組 →',`data-hi-reply="${replyIndex+1}"`):go('把整段連起來 →',2,'class="primary"')}</div></section>`;
+   return heading('先聽懂，再接一句','看中文翻譯，用英文回答；一次練一句。') + modes + `<section class="panel"><div class="hi-row"><h2>${esc(s.label)}</h2><span>${replyIndex+1} / ${replies.length}</span></div><div class="hi-grid"><div class="hi-hear hi-role"><p class="dg-role">① 櫃檯先說</p>${audio(s.line)}${transcriptFor(s)}</div><div class="hi-say hi-role"><p class="dg-role">② 換你回答</p><p class="task" data-study-prompt="translation">${esc(s.answerZh)}</p>${hintFor(s,'reply-'+replyIndex)}</div></div>${remix.answer!==s.answer?`<details class="hi-remix"><summary>同一句，換詞再答一次</summary><p data-study-prompt="translation">${esc(remix.answerZh)}</p>${hintFor(remix,'reply-remix-'+replyIndex)}</details>`:''}<div class="hi-actions">${button('← 上一組',`data-hi-reply="${replyIndex-1}"`,replyIndex===0?'disabled':'')}${replyIndex<replies.length-1?button('下一組 →',`data-hi-reply="${replyIndex+1}"`):go('把整段連起來 →',2,'class="primary"')}</div></section>`;
   }
   const changed = d.scenarios.slice(1).map(s => s.steps.find(t => t.key === s.key));
-  return heading('會的快速看，需要的再練',`${d.steps.length} 個主要說法來自 A＋B＋C；用自己的自然說法也可以。`) + modes + `<h2 class="hi-block-title">我會說</h2><div class="hi-language-grid">${d.steps.map((s,i) => phraseCard(s,'say',i)).join('')}</div><h2 class="hi-block-title">同一句，換一個詞</h2><p>姓名與晚數依自己的訂房資料替換，再到短問答練習接話。</p><div class="hi-language-grid">${changed.slice(0,2).map((s,i) => phraseCard(s,'say',i)).join('')}</div><h2 class="hi-block-title">我要聽得懂</h2><div class="hi-language-grid">${d.steps.map((s,i) => phraseCard(s,'hear',i)).join('')}</div><h2 class="hi-block-title">住宿資訊不同時，這樣聽懂</h2><div class="hi-language-grid">${changed.slice(2).map((s,i) => phraseCard(s,'hear',i)).join('')}</div><section class="panel hi-support-lesson"><h2>綜合練習前：聽懂對方的確認</h2><p>先聽過這兩句，再試「晚數說錯了」。對方說錯時，可以沿用已學的 I’m staying for three nights.，或清楚說出 Three nights.</p><div class="hi-language-grid">${d.practice.hearSupport.map(s=>phraseCard(s,"hear",0)).join("")}</div></section><details class="panel hi-teacher"><summary>自主接話前：認識另外 ${d.alternateQuestions.length} 種櫃檯問法</summary><p>和原本的問題意思相近。老師要換問法時，先一起聽過，再到第五部分勾選使用。</p>${d.alternateQuestions.map(s => phraseCard(s,'hear',0)).join('')}</details>`;
+  return heading('會的快速看，需要的再練',`${d.steps.length} 個主要說法來自 A＋B＋C；用自己的自然說法也可以。`) + modes + `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'旅客：我會說','')}<div class="grid task-phrase-grid hi-language-grid hi-speaking-library">${d.steps.map((s,i) => phraseCard(s,'say',i)).join('')}</div></section><section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'櫃檯：我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid hi-language-grid">${d.steps.map((s,i) => phraseCard(s,'hear',i)).join('')}</div></section><h2 class="hi-block-title">住宿資訊不同時，這樣聽懂</h2><div class="hi-language-grid">${changed.slice(2).map((s,i) => phraseCard(s,'hear',i)).join('')}</div><section class="panel hi-support-lesson"><h2>綜合練習前：聽懂對方的確認</h2><p>先聽過這兩句，再試「晚數說錯了」。對方說錯時，可以沿用已學的 I’m staying for three nights.，或清楚說出 Three nights.</p><div class="hi-language-grid">${d.practice.hearSupport.map(s=>phraseCard(s,"hear",0)).join("")}</div></section><details class="panel hi-teacher"><summary>自主接話前：認識另外 ${d.alternateQuestions.length} 種櫃檯問法</summary><p>和原本的問題意思相近。老師要換問法時，先一起聽過，再到第五部分勾選使用。</p>${d.alternateQuestions.map(s => phraseCard(s,'hear',0)).join('')}</details>${studyVocabulary(studyRound).replace('class="study-block study-vocabulary" open','class="study-block study-vocabulary"')}`;
  }
  function flowReady() {
   const f = flowState, s = flowScenario().steps[f.index];
@@ -4705,7 +4768,7 @@ function createCompleteHotel(data, ctx) {
   groupBar.innerHTML=active?groupDefs.map(g=>button(`<strong>${esc(g.title)}</strong><span>${g.sourceLabels.join('＋')}</span>`,`data-hi-group="${g.id}"`,`aria-pressed="${groupId===g.id}"`)).join(''):'';
   if (!active) { originalRender(); notice.hidden=true; return; }
   const currentGroup=groupDefs.find(g=>g.id===groupId),viewLabels=currentGroup.sections,caption=currentGroup.sourceLabels.join('＋')+' · '+currentGroup.title;
-  const main=q('#main'); main.classList.remove('lesson-phrase-page'); main.dataset.lessonSection=String(section+1);
+  const main=q('#main'); main.classList.toggle('lesson-phrase-page',section===1); main.dataset.lessonSection=String(section+1);
   main.innerHTML=`<div class="hi-content">${groupId==='checkin'?views[section]():extended.view(groupId,section)}${section===0?'':`<div class="footer-actions hi-section-footer">${go('← 上一部分',section-1)}${go(section===6?'回到本組首頁':'下一部分：'+viewLabels[section+1]+' →',section===6?0:section+1,'class="primary"')}</div>`}</div>`;
   q('#nav').innerHTML=`<p class="dg-menu-position">${esc(caption)}</p><div class="dg-section-list">${viewLabels.map((name,i) => button(`<span class="number">${String(i+1).padStart(2,'0')}</span>${esc(name)}`,`data-hi-page="${i}"`,section===i?'aria-current="step"':'')).join('')}</div>`;
   q('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(section+1).padStart(2,'0')} · ${esc(viewLabels[section])}</span><span class="dg-current-round">${esc(caption)}</span></div><div class="dg-task-switch" role="group" aria-label="切換任務"><span class="dg-task-label">任務</span>${rounds.map((r,n)=>button(esc(taskLabel(r)),`data-hi-task="${n}"`,`aria-label="切換到任務 ${esc(taskLabel(r))}：${esc(r.name)}" aria-pressed="false"`)).join('')}</div>`;

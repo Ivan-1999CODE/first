@@ -11,14 +11,15 @@ for(const day of [12,13,14]){
  assert.notEqual(d.course.id,curriculum.make(day,{rescue:false}).course.id);
  const html=fs.readFileSync(d.file,'utf8');assert(html.includes('const rescueVersion=1;'));
  const nav=html.match(/<nav class="day-switcher"[\s\S]*?<\/nav>/)[0];
- assert.equal((nav.match(/第 12～14 課整合<\/strong>/g)||[]).length,1);
+ assert.equal((nav.match(/第 12 天<\/strong>/g)||[]).length,1);
  assert(!/href="travel-english-unit(?:13|14)-/.test(nav));
 }
 for(const r of data.rounds){
  const steps=data.flows[r.flowIds[0]].steps;
  assert.equal(steps.length,5);
  assert.deepEqual(steps.map(s=>s.answer),r.phraseIds.map(id=>data.phrases.find(p=>p.id===id).en));
- assert.equal(r.entryCheckpoint.task,steps[0].task);
+ // Part 3 can add context to the prompt; the first utterance remains the same.
+ assert.equal(r.entryCheckpoint.answer,steps[0].answer);
  assert.equal(data.pairs[r.pairIds[0]].goals.length,5);
  assert(steps.every(s=>s.result&&s.answerZh&&s.objects[s.valid[0]]));
  assert(steps.some(s=>s.valid[0]===1));
@@ -59,16 +60,16 @@ const url=name=>pathToFileURL(path.resolve(name)).href;
      ensure([...document.querySelectorAll('[data-choice]')].every(b=>b.disabled),'locked before speaking');
      click('#'+first);click('#'+second);
      const bad=s.objects.findIndex((_,i)=>!accepted(s,i));click(`[data-choice="${bad}"]`);
-     ensure(!canNext()&&document.querySelector('.dg-choice-wrong'),'wrong answer retry');result.retries++;
+     ensure(!canNext()&&document.querySelector('#flowFeedback[data-result="wrong"]'),'wrong answer retry');result.retries++;
      click(`[data-choice="${s.valid[0]}"]`);ensure(canNext(),'right answer advances');
-     ensure(document.querySelector('.rescue-board').textContent.includes(s.result),'result card reflects current choice');
+     ensure(document.querySelector('.vf-result').textContent.includes(s.objects[s.valid[0]][1]),'result card reflects current choice');
      if(turn===0){click('#'+first);ensure(!heard&&!spoken&&history.length===0,'cancel clears dependent state');click('#'+first);click('#'+second);click(`[data-choice="${s.valid[0]}"]`);}
      result.turns++;click('[data-act="next"]');
      if(turn===1&&!didBack){click('[data-act="back"]');ensure(turn===0&&history.length===0,'back clears subsequent data');didBack=true;}
     }
     ensure(document.querySelector('.rescue-result').textContent.includes(r.rescue.outcome),'final next step shown');
     ensure(state.complete.includes(flows[flow].id),'completed flow saved');result.flows++;
-    navigate(3);fill('mission-'+missions[mission].id,'variation '+r.id);
+    navigate(3);fill(r.sayPrompts[0].id,'variation '+r.id);
     navigate(4);ensure(!document.querySelector('.dg-teacher').open,'teacher guide starts closed');
     click(`[data-pair-check="${pairs[pair].id}:0"]`);click(`[data-pair-check="${pairs[pair].id}:0"]`);click(`[data-pair-check="${pairs[pair].id}:0"]`);
     navigate(5);ensure(document.querySelector('.dg-checkpoint-task .task').textContent===r.entryCheckpoint.task,'same before/after question');
