@@ -49,6 +49,7 @@ ${read('assets/day8-integration.js')}\nrender();\n</script>\n</body>`);
   // Install after topic-specific presentation overrides; keep the shared lesson
   // state and the separate hotel integration's state owners unchanged.
   fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>read('assets/interactive-flow.js')+'\n'+read('assets/interactive-task-scenes.js')+'\n'+read('assets/interactive-choice-art.js')+'\nload();render();appearance();').replace('</head>',()=>'<style id="interactive-flow-styles">'+read('assets/interactive-flow.css')+'\n'+read('assets/interactive-task-scenes.css')+'\n'+read('assets/interactive-redesign.css')+'</style></head>'));
+  require('./install-chapter-integration.cjs')(file,d);
   require('./build-pwa.cjs')();
  }
  console.log(`Built ${file}: ${d.rounds.length} rounds / ${d.phrases.length} phrases / ${d.replies.length} listening exchanges.`);

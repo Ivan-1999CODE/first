@@ -23,6 +23,7 @@ module.exports=function build(){
  // Keep the Day 1 presentation after shared appearance rules without changing other lessons.
  const styled=fs.readFileSync('travel-english.html','utf8').replace('</head>',()=>'<style id="day1-guided-styles">\n'+['assets/day1-guided.css','assets/day1-capstone.css','assets/lesson5-hierarchy.css','assets/lesson5-flow.css','assets/lesson5-teacher.css'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+'\n</style>\n</head>').replace('load();render();appearance();',()=>['assets/lesson-focus-flow.js','assets/lesson5-teacher.js','assets/lesson5-hierarchy.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+'\nload();render();appearance();');
  fs.writeFileSync('travel-english.html',styled.replace('load();render();appearance();',()=>fs.readFileSync('assets/interactive-flow.js','utf8')+'\n'+fs.readFileSync('assets/interactive-choice-art.js','utf8')+'\nload();render();appearance();').replace('</head>',()=>'<style id="interactive-flow-styles">'+fs.readFileSync('assets/interactive-flow.css','utf8')+'\n'+fs.readFileSync('assets/interactive-redesign.css','utf8')+'</style></head>'));
+ require('./install-chapter-integration.cjs')('travel-english.html',d);
  require('./build-pwa.cjs')();
  console.log('Built Day 1 focus: '+d.phrases.length+' phrases / '+d.rounds.length+' rounds.');
 };
