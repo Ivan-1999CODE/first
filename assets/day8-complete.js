@@ -5,6 +5,19 @@ function hotelStudyPhrase(p,i,r){
 function hotelStudyHear(s,i){
  return `<article class="panel study-hear-card hi-language hi-hear"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(s.label||'對方可能會說')}</p><p class="en hi-en" lang="en">${esc(s.line)}</p><p class="study-meaning">${esc(s.zh)}</p>${audio(s.line)}</article>`;
 }
+// Keep the three integration routes on the same presentation components.
+function hotelIntegrationHeading(section,title,sub){
+ return `<header class="hi-heading"><span class="hi-number">${String(section+1).padStart(2,'0')}</span><div><h1 tabindex="-1">${esc(title)}</h1><p>${esc(sub)}</p></div></header>`;
+}
+function hotelIntegrationHero(labels,title,intro,journey){
+ return `<section class="hi-hero"><div><p class="eyebrow">第 8 天 · ${labels.join('＋')} 整合練習</p><h1>${esc(title)}</h1><p>${esc(intro)}</p><div class="hi-journey">${journey.map(text=>`<span>${esc(text)}</span>`).join('')}</div></div><div class="hi-keycard" aria-hidden="true"><span>TRAVEL LAB HOTEL</span><strong>305</strong><span>WELCOME · 歡迎入住</span><i></i></div></section>`;
+}
+function hotelIntegrationEntry(direct){
+ return `<div class="hi-actions hi-entry-actions"><button type="button" ${direct}>05 完整對話</button><button type="button" data-hi-page="1" class="primary">02 整理聽說句子</button></div>`;
+}
+function hotelIntegrationPaths(paths){
+ return `<div class="hi-route-cards hi-course-path">${paths.map(p=>`<article><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p><button type="button" data-hi-page="${p.page}">${esc(p.action)}</button></article>`).join('')}</div>`;
+}
 // Seven-part routes for the two additional integration groups.
 // All records are separate from the original A-F and the existing check-in route.
 function createCompleteHotel(data, ctx) {
@@ -36,14 +49,23 @@ function createCompleteHotel(data, ctx) {
  function redraw(selector){ctx.draw();if(selector)$(selector)?.focus({preventScroll:true});}
  function reset(){stopAudio();dgResetSupport();}
  function redrawFlow(){reset();redraw();const target=$('.hx-stage')||$('.hx-content .hi-complete');if(target){target.setAttribute('tabindex','-1');target.focus({preventScroll:true});target.scrollIntoView({block:'start',behavior:'instant'});}}
- const head=(title,sub)=>`<header class="hi-heading"><div><h1 tabindex="-1">${esc(title)}</h1><p>${esc(sub)}</p></div></header>`;
+ const head=(title,sub)=>hotelIntegrationHeading(ctx.section(),title,sub);
  const field=(key,label)=>`<label class="hi-field" for="hx-${key}">${esc(label)}</label><textarea id="hx-${key}" data-hx-field="${key}" rows="3" placeholder="先用自己的聲音說；需要時記下自己的版本。">${esc(state().answers[key])}</textarea>`;
  const hint=(s,key)=>guidedHint(s.words,s.answer,s.answerZh,'hx-'+group().id+'-'+key);
  const hints=(steps,key)=>steps.map((s,i)=>`<details class="hx-one-hint"><summary>${esc(s.label)}</summary>${hint(s,key+'-'+i)}</details>`).join('');
  const transcript=s=>`<details class="hi-transcript"><summary>看對方英文與中文</summary><p class="hi-en" lang="en">${esc(s.line)}</p><p>${esc(s.zh)}</p></details>`;
  const facts=items=>`<section class="hi-booking"><p class="hi-document-label">這次的資料與條件</p><ul class="hx-facts">${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>`;
  function picker(items,id,attr,label){return `<nav class="hi-options hi-challenge-nav" aria-label="${label}">${items.map((x,i)=>btn((i+1)+' · '+esc(x.title),`${attr}="${x.id}"`,`aria-pressed="${id===x.id}"`)).join('')}</nav>`;}
- function before(){const g=group();return `<section class="hi-hero"><div><p class="eyebrow">第 8 天 · ${g.sourceLabels.join('＋')}</p><h1>${esc(g.title)}</h1><p>${esc(g.intro)}</p></div><div class="hx-hero-mark" aria-hidden="true">${g.id==='stay'?'STAY':'JOURNEY'}<span>TRAVEL LAB</span></div></section><section class="panel hi-before"><p class="dg-role">先試一次 · 學生當旅客，老師當飯店人員</p><p class="task hx-checkpoint">${esc(g.checkpoint)}</p><p>你先開口：「${g.id==='stay'?'你好，這裡是 305 號房。':'你好，我想辦理入住。'}」可以分段完成，不必一次說成很長的句子。</p><details><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}</details><details><summary>老師看：本題條件</summary><p>${esc(g.checkpointGuide)}</p></details><div class="hi-actions">${go('需要時查說法 →',1)}${go('直接試真人任務 →',4)}</div></section><section class="panel"><h2>這一組會一起用到</h2><div class="hi-route-cards">${g.sourceLabels.map(s=>`<article><span class="hi-task-letter">${s}</span><h3>${esc(data.sources[s])}</h3></article>`).join('')}</div><p>可以只挑今天需要的情境，熟悉後再增加任務。各組的課前作答、情境筆記與目標分開保存。</p><div class="hi-actions">${go(g.flows.length+' 個完整流程',2)}${go(g.questions.length+' 個新情境題',3)}${go(g.missions.length+' 個真人任務',4)}</div></section>`;}
+ function before(){
+  const g=group(),journey=g.id==='stay'?['提出用品需求','問清餐點條件','處理設備問題']:['完成入住','處理住宿需求','整合住宿溝通'];
+  return hotelIntegrationHero(g.sourceLabels,g.title,g.intro,journey)+
+   `<section class="panel hi-before"><p class="dg-role">先試一次完整情境</p><h2>你是旅客，老師是飯店人員。</h2><p class="task hx-checkpoint">${esc(g.checkpoint)}</p><p>你先開口：「${g.id==='stay'?'你好，這裡是 305 號房。':'你好，我想辦理入住。'}」可以分段完成，不必一次說成很長的句子。</p><details class="hi-entry-note"><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}<p class="fine">第六部分會回到完全相同的情境。</p></details><details><summary>老師看：本題條件</summary><p>${esc(g.checkpointGuide)}</p></details>${hotelIntegrationEntry('data-hx-direct')}</section>`+
+   `<section class="panel"><h2>把會的英文，拿來完成新的情境</h2><div class="hi-route-cards">${g.sourceLabels.map(s=>`<article><span class="hi-task-letter">${s}</span><h3>${esc(data.sources[s])}</h3></article>`).join('')}</div><p>可以只挑今天需要的情境，熟悉後再增加任務。各組的課前作答、情境筆記與目標分開保存。</p>${hotelIntegrationPaths([
+    {title:g.id==='stay'?'連起來處理住宿需求':'連起來完成整次住宿',description:g.flows.length+' 個完整流程，聽完再接話。',action:'開始完整流程',page:2},
+    {title:'判斷還缺什麼',description:g.questions.length+' 個綜合情境，依資料與需求自己表達。',action:'試綜合情境',page:3},
+    {title:'和老師自由接話',description:g.missions.length+' 個真人任務，依實際對話完成目標。',action:'試真人任務',page:4}
+   ])}</section>`;
+ }
  function study(){
   const g=group(),m=ui(),all=data.bank.filter(s=>s.source===m.source);
   const r=rounds.find(r=>(r.displayLabel||r.id)===m.source),spoken=r.phraseIds.map(dgStudyPhraseById);
@@ -95,6 +117,7 @@ function createCompleteHotel(data, ctx) {
  });
  document.addEventListener('click',e=>{
   if(!ctx.active())return;const b=e.target.closest('button');if(!b||b.disabled)return;const x=b.dataset,m=ui(),g=group();
+  if(x.hxDirect!==undefined){m.mode='independent';ctx.navigate(4);return;}
   if(x.hxStudy&&['say','reply'].includes(x.hxStudy)){m.study=x.hxStudy;reset();redraw(`[data-hx-study="${m.study}"]`);return;}
   if(x.hxSource&&g.sourceLabels.includes(x.hxSource)){m.source=x.hxSource;m.reply=0;reset();redraw(`[data-hx-source="${m.source}"]`);return;}
   if(x.hxReply!==undefined){const n=Number(x.hxReply),count=data.bank.filter(s=>s.source===m.source&&!s.askFirst).length;if(!Number.isInteger(n)||n<0||n>=count)return;m.reply=n;reset();redraw('.hx-content h1');return;}

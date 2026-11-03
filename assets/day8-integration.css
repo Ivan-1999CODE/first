@@ -14,8 +14,6 @@
 .hi-group-switch button span{font-size:.85rem}
 body.lesson-guided .hi-group-switch button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 .hi-group-switch :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.hx-hero-mark{display:grid;place-items:center;gap:14px;border:1px solid currentColor;border-radius:18px;padding:26px 12px;font-weight:750;letter-spacing:.08em;font-size:1.4rem}
-.hx-hero-mark span{font-size:.7rem;letter-spacing:.12em}
 .hx-facts{padding-left:22px;margin:8px 0;line-height:1.8}.hx-facts li{margin:5px 0}
 .hx-stage{margin-top:28px}.hx-stage .eyebrow{margin-bottom:8px}
 .hx-stage,.hx-content .hi-complete{scroll-margin-top:96px}
@@ -24,7 +22,7 @@ body.lesson-guided .hi-group-switch button[aria-pressed=true]{background:var(--a
 .hx-phase-note{padding:14px;border-left:3px solid var(--accent);background:var(--soft);color:var(--ink);font-weight:650}
 .hx-listening-bank{margin-top:24px}.hx-rubric{margin-top:22px}.hx-decisions{margin:16px 0}
 .hx-content .hi-track{flex-wrap:wrap}.hx-content .hi-track span{min-width:5px}
-@media(max-width:620px){.hi-group-switch{padding:14px 16px;gap:8px}.hi-group-switch button{padding:12px 8px;text-align:center;font-size:.9rem}.hi-group-switch button span{font-size:.72rem;overflow-wrap:anywhere}.hx-hero-mark{display:none}}
+@media(max-width:620px){.hi-group-switch{padding:14px 16px;gap:8px}.hi-group-switch button{padding:12px 8px;text-align:center;font-size:.9rem}.hi-group-switch button span{font-size:.72rem;overflow-wrap:anywhere}}
 :root[data-size=large] .hi-group-switch button{font-size:1.05rem}
 .hi-section-tabs,.hi-challenge-nav{margin:0 0 22px}
 .hi-content .hi-course-path{margin-top:24px}

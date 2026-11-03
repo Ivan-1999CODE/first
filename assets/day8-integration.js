@@ -41,7 +41,7 @@
  let groupId=window.location.hash==='#integrated-stay'?'stay':window.location.hash==='#integrated-chapter'?'chapter':'checkin';
  const groupDefs=[{id:'checkin',title:'完成入住',sourceLabels:['A','B','C'],sections:labels},...d.extended.groups];
  function syncRoute(){try{window.history.replaceState(window.history.state,'',window.location.href.split('#')[0]+(active?(groupId==='checkin'?'#integrated':'#integrated-'+groupId):''));}catch{}}
- const extended=createCompleteHotel(d.extended,{active:()=>active&&groupId!=='checkin',group:()=>groupId,draw:()=>render()});
+ const extended=createCompleteHotel(d.extended,{active:()=>active&&groupId!=='checkin',group:()=>groupId,section:()=>section,navigate:n=>goSection(n),draw:()=>render()});
  let flowId = 'original', changeId = 'nights', pairId = 'original', practice = 'guided', alternate = false;
  let flowState = newFlow(), quizChoices = {};
  let flowRoute='standard', challengeMode='integrated', challengeId=d.practice.challenges[0].id, challengeState=newChallenge();
@@ -67,15 +67,19 @@
  const hints = (steps, key) => steps.map((s,i) => `<div class="hi-cue"><h3>${esc(s.label)}</h3>${hintFor(s,key+'-'+i)}</div>`).join('');
  const transcriptFor = s => `<details class="hi-transcript"><summary>看櫃檯英文與中文</summary><p class="hi-en" lang="en">${esc(s.line)}</p><p>${esc(s.zh)}</p></details>`;
  const facts = s => `<div class="hi-booking"><span class="hi-document-label">你的訂房資料</span><dl><div><dt>訂房姓名</dt><dd lang="en">${esc(s.name)}</dd></div><div><dt>住宿</dt><dd>${s.nights} 晚</dd></div><div><dt>準備的證件</dt><dd>護照</dd></div></dl><p class="fine">姓名與晚數以這張訂房資料為準。</p></div>`;
- function heading(title, sub) { return `<header class="hi-heading"><span class="hi-number">${String(section+1).padStart(2,'0')}</span><div><h1>${esc(title)}</h1><p>${esc(sub)}</p></div></header>`; }
+ function heading(title, sub) { return hotelIntegrationHeading(section,title,sub); }
  function scenarioPicker(id, attr, originals = true) {
   const display=s=>attr==='flow-scenario'?'入住練習 '+String.fromCharCode(65+d.scenarios.indexOf(s)):s.label;
   return `<details class="hi-picker panel"><summary>這一回：${esc(display(scenario(id)))} · 更換條件</summary><div class="hi-options" role="group" aria-label="選擇入住條件">${d.scenarios.filter(s => originals || s.id !== 'original').map(s => button(esc(display(s)),`data-hi-${attr}="${s.id}"`,`aria-pressed="${s.id===id}"`)).join('')}</div><p class="fine">每次只換一個條件。各情境的作答與真人練習勾選分開保存。</p></details>`;
  }
  function beforePage() {
-  return `<section class="hi-hero"><div><p class="eyebrow">第 8 天 · A＋B＋C 整合練習</p><h1>${esc(d.title)}</h1><p>從說出訂房姓名，到拿著房卡準備上樓。把三個任務連成同一段對話。</p><div class="hi-journey"><span>提出入住</span><span>確認訂房</span><span>問清住宿資訊</span></div></div><div class="hi-keycard" aria-hidden="true"><span>TRAVEL LAB HOTEL</span><strong>305</strong><span>WELCOME · 歡迎入住</span><i></i></div></section>
-  <section class="panel hi-before"><p class="dg-role">先試一次完整情境</p><h2>你是旅客，老師是飯店櫃檯。</h2><p class="task">${esc(d.task)}</p><p>你先開口：「你好，我想辦理入住。」接著由老師回應，試著把事情辦完。</p><details class="hi-entry-note"><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}<p class="fine">第六部分會回到完全相同的情境。</p></details><div class="hi-actions hi-entry-actions">${button('05 完整對話', 'data-hi-direct')}${go('02 整理聽說句子',1,'class="primary"')}</div></section>
-  <section class="panel"><h2>把會的英文，拿來完成新的情境</h2><div class="hi-route-cards">${d.sourceLabels.map((label,i) => `<article><span class="hi-task-letter">${label}</span><h3>${['提出入住，報訂房姓名','出示護照，確認晚數','問早餐、退房與電梯'][i]}</h3></article>`).join('')}</div><p>個別任務練熟一件事；這套綜合練習，讓你依對方的回答，自己決定下一句。可以用短句，也可以合併說，不必照固定順序背完。</p><div class="hi-route-cards hi-course-path"><article><h3>連起來辦入住</h3><p>${d.practice.flowRoutes.length} 種對話順序，聽完再接話。</p>${go("開始完整流程",2)}</article><article><h3>判斷還缺什麼</h3><p>${d.practice.challenges.length} 個綜合情境，補問資訊或澄清資料。</p>${go("試綜合情境",3)}</article><article><h3>和老師自由接話</h3><p>${d.practice.conversations.length} 個真人任務，依實際對話完成目標。</p>${go("試真人任務",4)}</article></div></section>
+  return hotelIntegrationHero(d.sourceLabels,d.title,'從說出訂房姓名，到拿著房卡準備上樓。把三個任務連成同一段對話。',['提出入住','確認訂房','問清住宿資訊'])+`
+  <section class="panel hi-before"><p class="dg-role">先試一次完整情境</p><h2>你是旅客，老師是飯店櫃檯。</h2><p class="task">${esc(d.task)}</p><p>你先開口：「你好，我想辦理入住。」接著由老師回應，試著把事情辦完。</p><details class="hi-entry-note"><summary>記下第一次的說法（選填）</summary>${field('before','第一次的嘗試')}<p class="fine">第六部分會回到完全相同的情境。</p></details>${hotelIntegrationEntry('data-hi-direct')}</section>
+  <section class="panel"><h2>把會的英文，拿來完成新的情境</h2><div class="hi-route-cards">${d.sourceLabels.map((label,i) => `<article><span class="hi-task-letter">${label}</span><h3>${['提出入住，報訂房姓名','出示護照，確認晚數','問早餐、退房與電梯'][i]}</h3></article>`).join('')}</div><p>個別任務練熟一件事；這套綜合練習，讓你依對方的回答，自己決定下一句。可以用短句，也可以合併說，不必照固定順序背完。</p>${hotelIntegrationPaths([
+   {title:'連起來辦入住',description:d.practice.flowRoutes.length+' 種對話順序，聽完再接話。',action:'開始完整流程',page:2},
+   {title:'判斷還缺什麼',description:d.practice.challenges.length+' 個綜合情境，補問資訊或澄清資料。',action:'試綜合情境',page:3},
+   {title:'和老師自由接話',description:d.practice.conversations.length+' 個真人任務，依實際對話完成目標。',action:'試真人任務',page:4}
+  ])}</section>
   <details class="panel hi-teacher"><summary>老師看：50～60 分鐘怎麼帶</summary><p>先試 5 分鐘 → 補需要的句子約 8 分鐘 → 連續流程約 10 分鐘 → 看情境選用句子約 10 分鐘 → 真人接話約 13 分鐘 → 回顧與作業約 9 分鐘。依學生表現調整。</p><p>學生已能完成時，可直接進第五部分。整合紀錄和原 A～F 任務分開；不必先勾選原任務熟悉。</p></details>`;
  }
  function phraseCard(s, kind, i) {

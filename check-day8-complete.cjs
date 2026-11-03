@@ -23,7 +23,7 @@ for(const g of d.extended.groups){
 }
 const report={groups:3,newQuestions:12,flowPaths:0,missionModes:0,layouts:0,errors:[],screenshots:[]};
 const url=pathToFileURL(path.resolve('travel-english-unit8-hotel.html')).href;
-async function part(p,n){await p.locator('#dg-menu-open').click();await p.locator(`#nav [data-hi-page="${n}"]`).click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),String(n+1));}
+async function part(p,n){await p.locator('#dg-menu-open').click();await p.locator(`#nav [data-hi-page="${n}"]`).click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),String(n+1));if(n)assert.equal(await p.locator('.hi-heading .hi-number').innerText(),String(n+1).padStart(2,'0'),'shared section number');}
 const selectGroup=(p,id)=>p.locator(`[data-hi-group="${id}"]`).click();
 async function fill(p,key,value){const field=p.locator(`[data-hx-field="${key}"]`);for(const parent of await field.locator('xpath=ancestor::details').all())if(!await parent.evaluate(e=>e.open))await parent.locator(':scope > summary').click();await field.fill(value);}
 const stored=(p,g)=>p.evaluate(key=>JSON.parse(localStorage.getItem(key)),g.storageKey);
@@ -60,6 +60,12 @@ async function stepThrough(p,s,decision,resetGate=false){
   await p.evaluate(values=>{for(const [k,v] of Object.entries(values))localStorage.setItem(k,v)},sentinels);await p.reload();
   for(const g of d.extended.groups){
    await selectGroup(p,g.id);assert.equal(await p.locator('.hx-content').getAttribute('data-hx-group'),g.id);assert.equal(await p.locator('#nav [data-hi-page]').count(),7);
+   assert.deepEqual(await p.locator('.hi-entry-actions button').allTextContents(),['05 完整對話','02 整理聽說句子']);
+   assert.equal(await p.locator('.hi-keycard').count(),1);assert.equal(await p.locator('.hi-journey span').count(),3);
+   assert.deepEqual(await p.locator('.hi-course-path button').allTextContents(),['開始完整流程','試綜合情境','試真人任務']);
+   for(const n of [2,3,4]){await p.locator(`.hi-course-path [data-hi-page="${n}"]`).click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),String(n+1));await selectGroup(p,g.id);}
+   await p.locator('.hi-entry-actions [data-hi-page="1"]').click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),'2');await selectGroup(p,g.id);
+   await p.locator('[data-hx-direct]').click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),'5');assert.equal(await p.locator('[data-hx-mode="independent"]').getAttribute('aria-pressed'),'true');await selectGroup(p,g.id);
    const beforeText=await p.locator('.hx-checkpoint').innerText();await fill(p,'before',g.id+' 原句 <img src=x onerror=alert(1)>');
    await part(p,1);
    for(const source of g.sourceLabels){await p.locator(`[data-hx-source="${source}"]`).click();assert((await p.locator('.hi-language').count())>0);await p.locator('[data-hx-study="reply"]').click();const count=d.extended.bank.filter(s=>s.source===source&&!s.askFirst).length;if(count){for(let i=0;i<count;i++){if(i)await p.locator(`[data-hx-reply="${i}"]`).click();assert.equal(await p.locator('.hi-transcript').getAttribute('open'),null);}}await p.locator('[data-hx-study="say"]').click();}
