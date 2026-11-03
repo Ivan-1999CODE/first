@@ -17,6 +17,7 @@ module.exports=function prepareLearning(d){
  d.readings={...d.readings};d.kana={...d.kana};d.day0AudioTranslations={...d.day0AudioTranslations};
  const glossaryKeys=new Set(d.day0GlossaryData.map(row=>row[0]));
  const taskWords=new Set(d.rounds.flatMap(r=>r.words.map(row=>row[0])));
+ for(const lesson of Object.values(d.koreanNumberLessons||d.japaneseNumberLessons||{}))for(const group of lesson.groups)for(const item of group.items)taskWords.add(item.text);
  for(const [text,entry]of Object.entries(lexicon)){
   if(!entry.zh||!entry.romaji)throw Error('Missing meaning/reading: '+text);
   // Primer syllables can share a recording with numbers (に, 이, 사, 오).

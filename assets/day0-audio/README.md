@@ -2,6 +2,8 @@
 
 音檔只包含編寫好的教材句子、單字及字音前導，不包含學生作答。
 
+情境數字由 `assets/japanese-number-lessons.cjs` 編寫：數量是 `ひとつ` 到 `とお` 共 10 組，價格是 21 組含「円」的完整金額。新增 28 段後共 200 段音檔；保留原音檔，不用單個數字拼湊金額。只準備／檢查日文可用 `prepare-day0-practical-audio.cjs ja` 和 `prepare-day0-practical-audio.cjs ja --check`。
+
 - 聲音：Microsoft Edge TTS `ja-JP-NanamiNeural`，語速 `-10%`。
 - `texts.json`：實用章節、字音前導及全部既有音檔的文字清單。
 - `manifest.json`：文字與 MP3 檔名對照。

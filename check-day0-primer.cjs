@@ -43,6 +43,7 @@ const output='tmp/day0-primer-qa';fs.mkdirSync(output,{recursive:true});
     assert.deepEqual(await p.evaluate(()=>['ハ','ヘ'].map(t=>day0Timings[t][0].romaji)),['ha','he'],'Letter sounds use unambiguous katakana sources');
     for(const [glyph,source]of [['は','ハ'],['へ','ヘ'],['ハ','ハ'],['ヘ','ヘ']])assert.equal(ja.groups.flatMap(g=>g.items).find(i=>i.text===glyph).speakText,source);
    }
+   await p.locator('.dg-entry-note > summary').click();
    await p.locator('#main textarea').first().fill('保留原本的旅行作答');
    const before=await p.evaluate(()=>({state:JSON.stringify(state),storage:{...localStorage}}));
    await p.locator('[data-primer-open]').press('Enter');
@@ -112,7 +113,7 @@ const output='tmp/day0-primer-qa';fs.mkdirSync(output,{recursive:true});
     if(width===390){await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`${output}/${language}-${width}-${theme}-transcript.png`,fullPage:true});}
    }
    // Seven-part navigation and the direct return both exit the optional primer.
-   await p.evaluate(()=>document.querySelector('#courseMenu').open=true);
+   await p.locator('#dg-menu-open').click();
    await p.locator('#nav [data-page="1"]').click();
    assert.equal(await p.locator('.day0-primer').count(),0);
    await p.evaluate(()=>navigate(0));

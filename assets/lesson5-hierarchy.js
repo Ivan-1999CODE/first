@@ -14,7 +14,7 @@ const d5SectionIntros = [
  null,
  ['把句子帶著走', '先練暖黃色的「我會說」，再看藍色的「我要聽得懂」。'],
  [d5LessonDay === 5 ? '一句一句，走完這段路' : '一句一句，完成這個任務', '跟著當前角色開口或聽回覆，再點選符合情境的物件。'],
- ['換個條件，自己說說看', '先看清楚任務，用剛才學過的句子表達。'],
+ ['看中文，自己說', '一次說一句；適合時換一個詞，其餘練原句。'],
  ['抬頭，和老師接話', '先看誰開口，再一起完成這次的溝通目標。'],
  ['看看這次的改變', '同一個情境再說一次，對照第一次的自己。'],
  ['再聽一次，再說一次', '用熟悉的句子練習；完成後，勾下自己的紀錄。']
@@ -37,10 +37,10 @@ render = function () {
   main.querySelector(':scope > .footer-actions')?.classList.add('dg-entry-next');
  } else if (page < 7) {
   let [title, description] = d5SectionIntros[page];
-  if (page === 3 && d5ActiveRound().variationMode === 'repeat') {
-   title = '同一段，試著自己說'; description = '沿用剛才的情境，少看一點提示，再說一次。';
-  } else if (page === 3 && d5ActiveRound().variationMode === 'core') {
-   title = '用學過的句子，再練一段'; description = '看清楚這次的情境，再用自己的英文表達。';
+  if (page === 3) {
+   const scenario=!!main.querySelector('.say-practice[data-say-scenarios="true"]');
+   title = scenario?'看情境，自己選用':'看中文，自己說'; description = scenario?'選一個小情境，想想需要表達什麼，用一句話說出來。':'一次說一句。先看中文開口，卡住再看提示；說完就可以換下一句。';
+   main.querySelector('.say-practice > header')?.remove();
   }
   // The chapter title is the page heading; the current spoken task is a subheading.
   main.querySelectorAll('h1').forEach(el => {
@@ -59,7 +59,7 @@ render = function () {
  main.querySelectorAll('.dg-answer-panel').forEach(panel => {
   panel.insertAdjacentHTML('afterbegin', '<p class="d5-support-label">留下自己的說法</p>');
  });
- if (page === 3 && missions[mission].id === 'micro-en-d5-dropoff-and-stop-v1-change') {
+ if (page === 3 && !main.querySelector('.say-practice') && missions[mission].id === 'micro-en-d5-dropoff-and-stop-v1-change') {
   const condition = missions[mission].task.match(/^(.+?)「(.+?)」。(.+)$/u);
   const task = main.querySelector('.dg-task-panel > .task');
   if (condition && task) {
@@ -89,7 +89,7 @@ if (d5LessonDay === 1) {
  const originalFooter = focusFooter;
  focusFooter = function() {
   if (page === 1) return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分', 'data-page="0"')}${btn('前往 03 跟著做 →', `data-start="${focusRound}"`, 'class="primary"')}</div>`;
-  if (page === 2) return `<div class="footer-actions dg-section-footer">${btn('← 上一部分', 'data-page="1"')}${btn('前往 04 換條件 →', 'data-page="3"', 'class="primary"')}</div>`;
+  if (page === 2) return `<div class="footer-actions dg-section-footer">${btn('← 上一部分', 'data-page="1"')}${btn('前往 04 看情境，自己選用 →', 'data-page="3"', 'class="primary"')}</div>`;
   const wrapper = document.createElement('div'); wrapper.innerHTML = originalFooter();
   if (page === 6) {
    const back = wrapper.querySelector('.footer-actions > button:last-child');

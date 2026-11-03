@@ -1,0 +1,135 @@
+/* Scoped to the Day 8 pilot; share the course palette and appearance controls. */
+.hi-mode-bar{max-width:1440px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+.hi-mode-caption{font-size:.85rem;font-weight:700;color:var(--muted)}
+.hi-options,.hi-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.hi-actions{margin-top:22px}
+.hi-mode-bar button,.hi-content button{min-height:44px;white-space:normal;line-height:1.45}
+.hi-mode-bar button[aria-pressed=true],.hi-content .hi-options button[aria-pressed=true],.hi-object-options button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.hi-content{max-width:1200px;margin:0 auto;min-width:0}
+.hi-group-switch{max-width:1440px;margin:0 auto;padding:18px 28px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border-bottom:1px solid var(--line)}
+.hi-group-switch[hidden]{display:none}
+.hi-group-switch button{display:grid;gap:5px;text-align:left;min-height:70px;white-space:normal;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.hi-group-switch button span{font-size:.85rem}
+body.lesson-guided .hi-group-switch button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.hi-group-switch :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.hx-hero-mark{display:grid;place-items:center;gap:14px;border:1px solid currentColor;border-radius:18px;padding:26px 12px;font-weight:750;letter-spacing:.08em;font-size:1.4rem}
+.hx-hero-mark span{font-size:.7rem;letter-spacing:.12em}
+.hx-facts{padding-left:22px;margin:8px 0;line-height:1.8}.hx-facts li{margin:5px 0}
+.hx-stage{margin-top:28px}.hx-stage .eyebrow{margin-bottom:8px}
+.hx-stage,.hx-content .hi-complete{scroll-margin-top:96px}
+.hx-journal{padding-left:22px;margin:8px 0}.hx-journal li{padding:10px 0;border-bottom:1px solid var(--line)}
+.hx-journal span,.hx-journal strong{display:block;line-height:1.6}.hx-journal span{font-size:.85rem;color:var(--muted)}.hx-journal strong{font-size:1rem;font-weight:650}
+.hx-phase-note{padding:14px;border-left:3px solid var(--accent);background:var(--soft);color:var(--ink);font-weight:650}
+.hx-listening-bank{margin-top:24px}.hx-rubric{margin-top:22px}.hx-decisions{margin:16px 0}
+.hx-content .hi-track{flex-wrap:wrap}.hx-content .hi-track span{min-width:5px}
+@media(max-width:620px){.hi-group-switch{padding:14px 16px;gap:8px}.hi-group-switch button{padding:12px 8px;text-align:center;font-size:.9rem}.hi-group-switch button span{font-size:.72rem;overflow-wrap:anywhere}.hx-hero-mark{display:none}}
+:root[data-size=large] .hi-group-switch button{font-size:1.05rem}
+.hi-section-tabs,.hi-challenge-nav{margin:0 0 22px}
+.hi-content .hi-course-path{margin-top:24px}
+.hi-content .hi-course-path article{display:block}
+.hi-content .hi-course-path h3{margin-top:0}
+.hi-known{background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:16px}
+.hi-known ul{padding-left:22px;margin-bottom:0}
+.hi-known li{line-height:1.7;margin:8px 0}
+.hi-new-fact{font-weight:650}
+.hi-content .hi-challenge-title{font-size:1.25rem;line-height:1.8}
+.hi-intent-feedback{min-height:1.8em}
+.hi-content .hi-goal-confirmed{border-left:4px solid var(--accent)}
+.hi-content .hi-complete{border-top:4px solid var(--accent)}
+.hi-content .hi-support-lesson{margin-top:22px}
+.hi-content .hi-route-picker>summary{padding:0}
+.hi-content .hi-intents{margin-top:12px}
+.hi-content>*,.hi-content .panel{min-width:0}
+.hi-content .panel{margin-bottom:20px}
+.hi-content h1{font-size:clamp(1.7rem,3.5vw,2.7rem);line-height:1.3;letter-spacing:-.02em;margin:0 0 12px}
+.hi-content h2{font-size:1.35rem;line-height:1.45;margin:0 0 16px}
+.hi-content h3{font-size:1.08rem;line-height:1.5}
+.hi-content p{line-height:1.75}
+.hi-content .task{font-size:1.15rem;line-height:1.75}
+.hi-content .fine{font-size:.88rem;line-height:1.7}
+.hi-heading{display:flex;gap:20px;align-items:flex-start;margin:16px 0 26px}
+.hi-heading p{margin:0;color:var(--muted)}
+.hi-number{display:grid;place-items:center;flex:0 0 52px;min-height:52px;border-radius:16px;background:var(--soft);color:var(--accent);font-weight:750;font-size:1.25rem}
+.hi-context-note{font-size:.85rem;color:var(--muted);text-align:right}
+.hi-content .hi-hero{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:32px;align-items:center;padding:36px;background:var(--course-hero,var(--accent));color:var(--course-hero-ink,var(--on-accent));border-radius:24px;margin-bottom:24px}
+.hi-hero .eyebrow{color:inherit;opacity:.85}
+.hi-hero p{max-width:650px}
+.hi-journey{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.hi-journey span{padding:7px 12px;border:1px solid currentColor;border-radius:30px;font-size:.85rem}
+.hi-keycard{background:#f1e2c5;color:#253650;border-radius:16px;padding:24px;display:grid;gap:14px;box-shadow:0 12px 28px #0002;transform:rotate(5deg);overflow:hidden}
+.hi-keycard>span{font-size:11px;letter-spacing:.1em}.hi-keycard strong{font-size:3.6rem;font-weight:650}.hi-keycard i{height:14px;background:#253650;margin:0 -24px}
+.hi-grid,.hi-flow-grid,.hi-pair-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+.hi-flow-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}
+.hi-pair-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}
+.hi-route-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.hi-route-cards article{border:1px solid var(--line);border-radius:16px;padding:20px}.hi-route-cards h3{margin:12px 0 0}
+.hi-task-letter{font-weight:750;color:var(--accent)}
+.hi-content .hi-before,.hi-content .hi-say{background:var(--say-bg,#fff4dc);color:var(--say-ink,#59380e);border:1px solid var(--say-line,#c38b35)}
+.hi-content .hi-hear{background:var(--hear-bg,#eaf2fa);color:var(--hear-ink,#233f5d);border:1px solid var(--hear-line,#9bb4cf)}
+.hi-content :is(.hi-say,.hi-hear) :is(.fine,.eyebrow,.dg-role){color:inherit}
+.hi-role{padding:22px;border-radius:18px;margin:16px 0}
+.hi-role .hi-focus-cue{font-weight:700;margin:10px 0 16px}
+.hi-language-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.hi-content .hi-language{margin:0;padding:24px}
+.hi-en{font-size:1.35rem;font-weight:650;line-height:1.6!important;overflow-wrap:anywhere}
+.hi-block-title{margin-top:30px!important}
+.hi-content details{border-radius:12px}.hi-content summary{min-height:44px;cursor:pointer;line-height:1.6;padding:10px 0;font-weight:650}
+.hi-content details[open]>summary{margin-bottom:12px}
+.hi-content details:not(.panel){padding:0 14px;margin-top:14px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.hi-content .hi-picker>summary{padding:0}.hi-content .hi-picker{padding:18px 24px}
+.hi-content .hi-entry-note{margin-top:20px}
+.hi-content .hi-field{display:block;font-weight:650;margin:8px 0 12px}
+.hi-content textarea{width:100%;box-sizing:border-box;resize:vertical;min-height:128px;font:inherit;line-height:1.7;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px}
+.hi-content .readonly{white-space:pre-wrap;overflow-wrap:anywhere}
+.hi-content .hi-check{display:flex;gap:12px;align-items:flex-start;line-height:1.6;padding:12px 0;cursor:pointer;min-height:44px}
+.hi-check input{width:20px;height:20px;flex:0 0 20px;margin:3px 0 0;accent-color:var(--accent)}
+.hi-check:has(input:disabled){opacity:.6;cursor:default}
+.hi-content .hi-goal{border-bottom:1px solid var(--line)}
+.hi-content .hi-goal-hint{margin:6px 0 16px}
+.hi-row{display:flex;justify-content:space-between;align-items:center;gap:12px}.hi-row>*{min-width:0}.hi-count{font-weight:750;white-space:nowrap;color:var(--accent)}
+.hi-track{display:flex;gap:6px;margin:14px 0 24px}.hi-track span{height:5px;flex:1;background:var(--line);border-radius:6px}.hi-track .on{background:var(--accent)}
+.hi-booking{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:15px;padding:18px}
+.hi-document-label{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.hi-booking dl{margin:16px 0;display:grid;gap:12px}.hi-booking dl>div{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.hi-booking dt{color:var(--muted);font-size:.9rem}.hi-booking dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+.hi-desk{background:var(--soft);color:var(--ink);border:1px solid var(--line);padding:22px;border-radius:18px}
+.hi-desk-facts{display:grid;grid-template-columns:1fr 1fr;gap:16px}.hi-desk-facts>div{display:grid;gap:8px}.hi-desk-facts span{font-size:.8rem;color:var(--muted)}.hi-desk-facts strong{font-weight:650;font-size:1rem}
+.hi-room-key{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px dashed var(--line);border-radius:12px;padding:16px;margin-top:24px;background:var(--panel)}.hi-room-key strong{font-size:1.9rem}.hi-room-key>span:last-child{font-size:.85rem;flex-basis:100%}.hi-room-key.is-ready{border-style:solid;border-color:var(--accent)}
+.hi-object-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hi-object-options button{padding:20px 12px;min-width:0;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:14px}
+.hi-content button:disabled{opacity:.5;cursor:not-allowed}.hi-feedback{min-height:3em;font-weight:650;color:var(--ink)}
+.hi-teacher-cards{display:grid;gap:14px;margin-top:18px}.hi-teacher-cards article{background:var(--hear-bg);color:var(--hear-ink);border:1px solid var(--hear-line);padding:20px;border-radius:14px}.hi-teacher-cards .eyebrow{color:inherit}
+.hi-fact-tags{display:flex;flex-wrap:wrap;gap:8px}.hi-fact-tags span{border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+.hi-cue{padding:12px 0}.hi-cue+.hi-cue{border-top:1px solid var(--line)}
+.hi-quiz+.hi-quiz{border-top:1px solid var(--hear-line);padding-top:20px;margin-top:24px}
+.hi-section-footer{margin-top:32px}.hi-content .hi-rating{border-top:1px solid var(--line);padding:22px 0}
+.hi-content .hi-rating .meter{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:240px;margin:12px 0}
+.hi-content .hi-rating .meter span{height:12px;background:var(--line);border-radius:5px}.hi-content .hi-rating .meter .yellow{background:#d8a325}.hi-content .hi-rating .meter .green{background:#29835a}
+.hi-content .hi-rating[data-level="1"] button[aria-pressed=true],.hi-content .hi-rating[data-level="2"] button[aria-pressed=true]{background:#f6dea0;color:#503700;border-color:#b77f13}
+.hi-content .hi-rating[data-level="3"] button[aria-pressed=true]{background:#d1eadb;color:#174d33;border-color:#29835a}
+:root[data-theme=dark] .hi-content .hi-rating[data-level="1"] button[aria-pressed=true],:root[data-theme=dark] .hi-content .hi-rating[data-level="2"] button[aria-pressed=true]{background:#594215;color:#ffe7ac;border-color:#d8a325}
+:root[data-theme=dark] .hi-content .hi-rating[data-level="3"] button[aria-pressed=true]{background:#224c37;color:#d6f6e3;border-color:#65bd8e}
+:root[data-theme=dark] .hi-content .hi-rating .meter .green{background:#65bd8e}
+:root[data-size=large] .hi-content{font-size:1.12rem}:root[data-size=large] .hi-content .task{font-size:1.3rem}:root[data-size=large] .hi-content .hi-en{font-size:1.5rem}:root[data-size=large] .hi-content button{font-size:1.05rem}
+.hi-content :focus-visible,.hi-mode-bar :focus-visible{outline:3px solid var(--course-focus,var(--accent));outline-offset:4px}
+@media(max-width:900px){.hi-flow-grid,.hi-pair-grid{grid-template-columns:1fr}.hi-context-note{display:none}.hi-content .hi-hero{grid-template-columns:minmax(0,1fr) 160px;padding:28px}.hi-keycard{padding:20px}.hi-keycard strong{font-size:3rem}}
+@media(max-width:620px){.hi-mode-bar{padding:12px 16px;align-items:stretch;flex-direction:column;gap:8px}.hi-mode-bar .hi-options{display:grid;grid-template-columns:1fr 1fr}.hi-mode-bar button{padding:10px;font-size:.88rem}.hi-content .hi-hero{display:block;padding:24px}.hi-keycard{display:none}.hi-route-cards,.hi-grid,.hi-language-grid{grid-template-columns:1fr}.hi-route-cards{gap:10px}.hi-route-cards article{display:flex;align-items:center;gap:16px;padding:16px}.hi-route-cards h3{margin:0}.hi-heading{gap:12px}.hi-number{flex-basis:40px;min-height:40px;border-radius:12px}.hi-content .panel,.hi-role{padding:18px}.hi-content .hi-language{padding:20px}.hi-content .hi-picker{padding:16px}.hi-content .hi-section-footer{display:grid;grid-template-columns:1fr}.hi-content .hi-actions{align-items:stretch}.hi-actions>button{flex:1 1 160px}.hi-desk{padding:16px}.hi-content .hi-options button{flex:1 1 auto}.hi-content .hi-en{font-size:1.2rem}.hi-journey span{font-size:.8rem}.hi-object-options{grid-template-columns:1fr}.hi-context-note{display:none}}
+@media(prefers-reduced-motion:reduce){.hi-content *{scroll-behavior:auto!important;transition:none!important}}
+@media(prefers-contrast:more){.hi-content :is(button,.panel,details,.hi-role,.hi-booking){border-width:2px}}
+/* The existing lesson shell uses ID-scoped colours. Match that specificity so
+   the new speaking/listening panels keep their meaning in both themes. */
+body.lesson-guided.hi-active #main .hi-hero .eyebrow{color:var(--course-hero-ink);opacity:1}
+body.lesson-guided.hi-active #main :is(.hi-before,.hi-say){background:var(--say-bg);color:var(--say-ink);border-color:var(--say-line)}
+body.lesson-guided.hi-active #main .hi-hear{background:var(--hear-bg);color:var(--hear-ink);border-color:var(--hear-line)}
+body.lesson-guided.hi-active #main :is(.hi-before,.hi-say,.hi-hear)>:is(p,h2,h3,.dg-role){color:inherit}
+body.lesson-guided #hi-mode-bar button[aria-pressed=true],body.lesson-guided.hi-active #main .hi-options button[aria-pressed=true],body.lesson-guided.hi-active #main .hi-object-options button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+body.lesson-guided.hi-active #main .hi-rating:is([data-level="1"],[data-level="2"]) button[aria-pressed=true]{background:#f6dea0;color:#503700;border-color:#b77f13}
+body.lesson-guided.hi-active #main .hi-rating[data-level="3"] button[aria-pressed=true]{background:#d1eadb;color:#174d33;border-color:#29835a}
+:root[data-theme=dark] body.lesson-guided.hi-active #main .hi-rating:is([data-level="1"],[data-level="2"]) button[aria-pressed=true]{background:#594215;color:#ffe7ac;border-color:#d8a325}
+:root[data-theme=dark] body.lesson-guided.hi-active #main .hi-rating[data-level="3"] button[aria-pressed=true]{background:#224c37;color:#d6f6e3;border-color:#65bd8e}
+/* Nested hint levels should keep enough line width for spoken English. */
+body.lesson-guided.hi-active #main .hx-content .hi-say>details:has(.hx-one-hint){padding:0;border:0;background:transparent;color:inherit}
+@media(max-width:620px){
+ body.lesson-guided.hi-active #main .hx-content .hi-role{padding:16px 12px}
+ body.lesson-guided.hi-active #main .hx-content .hx-one-hint{padding-inline:8px}
+ body.lesson-guided.hi-active #main .hx-content .dg-hint-stage{padding:12px}
+ body.lesson-guided.hi-active #main .hx-content .dg-hint-tabs button{font-size:.86rem;padding-inline:3px}
+}

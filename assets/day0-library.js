@@ -5,7 +5,15 @@ function japanesePreviewCard(p,i,me){
  return `<article class="panel japanese-preview-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(me?p.use:course.replyRole+'可能會說')}</p><p class="en" lang="ja">${esc(text)}</p><p class="preview-meaning">${esc(p.zh)}</p>${kana[text]?`<p class="preview-kana" lang="ja">${esc(kana[text])}</p>`:''}<p class="preview-reading" lang="ja-Latn">${esc(romaji)}</p>${audio(text)}${me&&p.practice?`<div class="phrase-use"><b>現在就用一次</b><p>${esc(p.practice)}</p>${hint('先想現在要表達什麼，再換地點。',p.remix)}</div>`:''}</article>`;
 }
 function japaneseNumberReference(){
- return `<details class="study-block study-vocabulary japanese-numbers" open><summary class="study-heading study-words"><div><h2>日文數字 1～10</h2><p>先練基本數字；購物時的一個、兩個，要用「ひとつ、ふたつ」。</p><span class="number-toggle" aria-hidden="true"></span></div></summary><div class="panel">${numberSequenceControls()}<div class="task-words">${numberWords.map(([jp,label,rom])=>`<div><b>${esc(label)}</b><span lang="ja">${esc(jp)}</span><p class="fine" lang="ja-Latn">${esc(rom)}</p>${audio(jp)}</div>`).join('')}</div><p class="fine number-note">這裡先練 4「よん」、7「なな」、9「きゅう」；不同搭配也會聽到「し、しち、く」。</p></div></details>`;
+ const lesson=japaneseNumberLesson();if(!lesson)return '';
+ const sequence=lesson.groups.flatMap(g=>g.items.map(i=>i.text)).join(' ');
+ return `<details class="study-block study-vocabulary japanese-numbers japanese-context-numbers" data-number-context="${lesson.id}" open><summary class="study-heading study-words"><div><h2>${esc(lesson.title)}</h2><p>${esc(lesson.description)}</p><span class="number-toggle" aria-hidden="true"></span></div></summary><div class="panel"><p>可以逐個點聽，或依序播放整組；先聽完整說法，再跟著說一次。</p><div class="actions number-sequence">${btn('▶ '+esc(lesson.sequenceLabel),`data-number-sequence="true" data-say="${esc(sequence)}"`)}${btn(esc(lesson.slowLabel),`data-number-sequence="true" data-say="${esc(sequence)}" data-slow="true"`)}</div>${lesson.groups.map(g=>`<section class="japanese-number-group"><h3>${esc(g.title)}</h3><div class="task-words">${g.items.map(i=>`<div><b>${esc(i.zh)}</b><span lang="ja">${esc(i.text)}</span>${i.kana!==i.text?`<p class="preview-kana" lang="ja">${esc(i.kana)}</p>`:''}${i.special?`<p class="fine number-special"><strong>${esc(i.special)}</strong></p>`:''}${reading(i.text)}${audio(i.text)}</div>`).join('')}</div></section>`).join('')}<p class="fine number-note">${esc(lesson.note)}</p></div></details>`;
+}
+function japaneseNumberLesson(){
+ const key=activeRound().key;
+ if(key.includes('practical-quantity-total'))return japaneseNumberLessons.quantity;
+ if(key.includes('practical-price-buy')||key.includes('practical-payment'))return japaneseNumberLessons.price;
+ return null;
 }
 phrasePage=function(){
  const r=activeRound();

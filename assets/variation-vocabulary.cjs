@@ -77,6 +77,7 @@ function addVariationVocabulary(data){
  if(!authored)return data;
  if(data.rounds.length!==Object.keys(authored).length)throw Error('Part 4 vocabulary task count changed: '+data.course.day);
  for(const r of data.rounds){
+  if(data.course.day===6&&r.id==='DRINKS'){r.variationVocabulary=[];continue;}
   const label=r.displayLabel||r.id,entries=authored[label];
   if(!entries||entries.length!==r.missionIds.length)throw Error(`Part 4 vocabulary mapping changed: ${data.course.day}/${label}`);
   r.variationVocabulary=entries.map((entry,i)=>({...entry,missionId:data.missions[r.missionIds[i]].id}));

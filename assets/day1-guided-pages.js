@@ -38,7 +38,7 @@ intro = function() {
  <details class="panel dg-overview">
   <summary>任務概覽與入口 · A、B、C，反覆用到會</summary>
   <h2>一輪一個小循環</h2>
-  <p>② 學本輪句子 → ③ 原句操作 → ④ 只換一個條件 → ⑤ 真人接話 → ⑥ 看進步 → ⑦ 回家再練。</p>
+  <p>② 學本輪句子 → ③ 原句操作 → ④ 看情境，自己選用 → ⑤ 真人接話 → ⑥ 看進步 → ⑦ 回家再練。</p>
   <p>同一段可以重來。老師依當天進度手動選 A、B 或 C；課程中途也能直接做本輪收尾。</p>
   <div class="cards">${rounds.map((x, i) => `<section class="panel dg-panel">
    <p class="eyebrow">任務 ${x.id} · ${x.phraseIds.length} 個核心說法</p>
@@ -104,7 +104,6 @@ pairPage = function() {
    <div class="dg-situation">${esc(p.objects)}</div>
    <p class="task dg-opening">「${esc(p.opening)}」</p>
    <p class="fine">${esc(p.openingNote || "請用自己的英文表達，不必逐字翻譯。")}</p>
-   <div class="dg-note"><h3>接著怎麼做</h3><p>${esc(p.next)}</p></div>
    <p class="fine">${esc(p.role)}</p>
   </section>
   <section class="panel dg-panel dg-goals">

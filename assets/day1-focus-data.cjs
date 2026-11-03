@@ -227,7 +227,7 @@ const revisedTasks=[
   words:[['train station','火車站'],['bus stop','公車站'],['right','右邊'],['go straight','直走'],['first intersection','第一個路口'],['thank you','謝謝你'],['help','幫忙']],
   prelude,advanced:oldA.advanced,advancedHear:oldA.advancedHear,
   steps:[
-   reviseStep('a-ask','問火車站怎麼走',routeLine,routeZh,'你已指出火車站。用這輪學過的句子問怎麼走。','get to / train station','How do I get to the train station?','我要怎麼去火車站？',[['🚉','目的地：火車站'],['✉','目的地：郵局']],[210,315,'已問出目的地：火車站']),
+   reviseStep('a-ask','問火車站怎麼走',routeLine,routeZh,'你已指出火車站。用這輪學過的句子問怎麼走。','get to / train station','How do I get to the train station?','我要怎麼去火車站？',[['→','第一個路口右轉'],['→','第二個路口右轉'],['←','第一個路口左轉'],['←','第二個路口左轉']],[335,90,'已走到第一個路口並右轉']),
    reviseStep('a-right','確認右轉','Yes, right.','對，右轉。','路人說在第一個路口右轉。用短句確認是不是右轉。','turn / right','Turn right?','右轉嗎？',[['→','確認右轉去火車站'],['←','改往左邊']],[335,90,'已確認第一個路口右轉去火車站']),
    thanks('a-thanks','路人已幫你指好去火車站的路，你也確認了右轉。',[335,90,'已問清楚方向，也向路人道謝'])
   ],
@@ -242,7 +242,7 @@ const revisedTasks=[
   task:'路人已知道你要去火車站。請他告訴你怎麼走；聽到「直走到第一個路口，再右轉」後，再問能不能搭公車。路人說「可以，公車站在那邊」，最後謝謝他的幫忙。你會分別怎麼說？',
   words:[['show me','指給我看'],['the way','走法／方向'],['first intersection','第一個路口'],['take a bus','搭公車'],['bus stop','公車站'],['over there','在那邊'],['thank you','謝謝你'],['help','幫忙']],
   advancedHear:oldB.advancedHear,
-  steps:[reviseStep('b-way','請路人告訴你走法',routeLine,routeZh,'路人已知道你要去火車站。用這輪的新說法請他告訴你怎麼走。','show me / the way','Could you show me the way?','可以告訴我怎麼走嗎？',[['→','第一個路口右轉'],['←','第一個路口左轉']],[335,90,'沿用 A：第一個路口右轉去火車站']),
+  steps:[reviseStep('b-way','請路人告訴你走法',routeLine,routeZh,'路人已知道你要去火車站。用這輪的新說法請他告訴你怎麼走。','show me / the way','Could you show me the way?','可以告訴我怎麼走嗎？',[['→','第一個路口右轉'],['→','第二個路口右轉'],['←','第一個路口左轉'],['←','第二個路口左轉']],[335,90,'沿用 A：第一個路口右轉去火車站']),
    reviseStep('b-bus','問能不能搭公車','Yes. The bus stop is over there.','可以，公車站在那邊。','你已聽懂去火車站的路線，但想搭公車。問能不能搭公車。','take / bus','Can I take a bus?','我可以搭公車嗎？',[['🚌','先去公車站牌'],['🚉','直接走到火車站']],[95,215,'可以搭公車 · 先去左側站牌']),
    thanks('b-thanks','路人已告訴你走法和公車資訊，也指出站牌。',[95,215,'已問清楚走法和公車，並向路人道謝'])],
   variation:{name:'只換目的地：郵局',task:'這次目的地換成郵局，路人已知道；路線仍是直走到第一個路口，再右轉。先請他指路，再問能不能搭公車，聽到站牌在那邊後，謝謝他的幫忙。',check:'目的地換了，有繼續完成請指路、問公車與道謝嗎？'},
@@ -306,4 +306,4 @@ d.homeWords=d.rounds[0].home.words;
 d.homeAnswer=d.rounds[0].home.answer;
 d.homeAnswerZh=d.rounds[0].home.answerZh;
 d.quizzes=[d.rounds[0].home.quiz];
-module.exports=require('./variation-vocabulary.cjs').addVariationVocabulary(d);
+module.exports=require('./part03-review.cjs').apply(require('./learning-practice.cjs')(require('./say-practice.cjs').addSayPractice(require('./variation-vocabulary.cjs').addVariationVocabulary(d))));

@@ -124,9 +124,15 @@ function labelTasks(data){
   }
  });
  require('./variation-vocabulary.cjs').addVariationVocabulary(data);
- return require('./entry-checkpoints.cjs').addEntryCheckpoints(data);
+ return require('./say-practice.cjs').addSayPractice(require('./entry-checkpoints.cjs').addEntryCheckpoints(data));
 }
 function make(day,options={}){
+ if(day>=12&&day<=14&&options.rescue!==false){
+  const previous=[12,13,14].map(n=>make(n,{...options,rescue:false}));
+  const combined=require('./travel-rescue.cjs').make(previous,compile,labelTasks);
+  combined.file=previous[day-12].file;
+  return require('./learning-practice.cjs')(combined);
+ }
  const base=day===2?require('./day2-expanded.cjs'):require('./curriculum-rounds.cjs').make(day);
  const group=day<=6?'2-6':day<=10?'7-10':'11-14';
  let tasks=require(`./micro-days-${group}.cjs`)[day](clone(base));
@@ -149,8 +155,9 @@ function make(day,options={}){
  if(day===10){d.previousFocusKey=d.course.id;d.course.id='travel-lab-en-day10-micro-v2';d.course.revision='approved-day10-groups-v2';d.course.title='禮貌請求與婉拒邀請';}
  if(day===11){d.previousFocusKey=d.course.id;d.course.id='travel-lab-en-day11-micro-v2';d.course.revision='approved-day11-groups-v2';}
  if(options.merge===false)return d;
- const mergedSpecs=require('./merge-approved-tasks.cjs')(day,tasks);
- if(!mergedSpecs)return labelTasks(d);
+ let mergedSpecs=require('./merge-approved-tasks.cjs')(day,tasks);
+ if(day===6&&mergedSpecs)mergedSpecs=require('./day6-drinks.cjs')(mergedSpecs);
+ if(!mergedSpecs)return require('./learning-practice.cjs')(labelTasks(d));
  const combined=compile(base,mergedSpecs);
  combined.mergedVersion=1;
  combined.previousFocusKey=d.course.id;
@@ -160,6 +167,11 @@ function make(day,options={}){
  combined.course.id=`travel-lab-en-day${day}-merged-v1`;
  combined.course.mergedTasks=true;
  combined.course.revision='approved-merged-tasks-v1';
+ if(day===6){
+  combined.course.revision='day6-drink-preferences-v1';
+  combined.previousLesson.legacyKeys.push(combined.course.id+'-before-drinks-v1');
+  combined.originalPhrases=combined.originalPhrases.filter(p=>!/cake|dessert|coffee|^Black,|^With milk,/i.test(p.en));
+ }
  if(day===2){
   combined.course.id='travel-lab-en-day2-merged-v2';combined.course.revision='day2-clothing-removed-v2';
   combined.previousLesson.legacyKeys=[...new Set(['travel-lab-en-day2-merged-v1',...combined.previousLesson.legacyKeys])];
@@ -167,6 +179,7 @@ function make(day,options={}){
  delete combined.course.taskGroups;
  combined.course.description=`${combined.rounds.length} 個完整任務；同任務的句子一起學，依序接話並反覆練習，再回顧同一組內容。`;
  combined.course.labels=['這個任務：先試著說','這個任務：句子與對話','這個任務：完整接話','這個任務：練已學變化','這個任務：和老師練','這個任務：看看進步','這個任務：課後再練'];
- return labelTasks(combined);
+ const labeled=labelTasks(combined);
+ return require('./learning-practice.cjs')(day===8?require('./day8-order-choice.cjs')(labeled):labeled);
 }
-module.exports={compile,make};
+module.exports={compile,make:(day,options)=>require('./interactive-challenges.cjs')(make(day,options))};

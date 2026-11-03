@@ -1,50 +1,66 @@
-/* Chat bubbles distinguish speakers; top-to-bottom order follows the data. */
-body.lesson-focus:is(.day1-guided,.lesson-guided) {
- --d5-chat-bg: #e4edf4; --d5-chat-teacher: #fffefa; --d5-chat-teacher-ink: #203449;
- --d5-chat-student: #d8f1c7; --d5-chat-student-ink: #213d27;
- --d5-chat-teacher-line: #9eafbc; --d5-chat-student-line: #81a776;
+/* English-only chat reference, with independent learner hints below it. */
+body:is(.day1-guided,.lesson-guided) {
+ --d5-goal-done: #e3f5e8;
+ --d5-goal-done-ink: #205b36;
+ --d5-goal-done-line: #89b59a;
+ --d5-goal-check: #1f7a42;
 }
-:root[data-theme=dark] body.lesson-focus:is(.day1-guided,.lesson-guided) {
- --d5-chat-bg: #172734; --d5-chat-teacher: #304454; --d5-chat-teacher-ink: #f0f5fa;
- --d5-chat-student: #2b513b; --d5-chat-student-ink: #efffef;
- --d5-chat-teacher-line: #7c94a5; --d5-chat-student-line: #83ab87;
+:root[data-theme=dark] body:is(.day1-guided,.lesson-guided) {
+ --d5-goal-done: #234831;
+ --d5-goal-done-ink: #d8f4df;
+ --d5-goal-done-line: #6fbb86;
+ --d5-goal-check: #8bdaa4;
 }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-teacher.d5-teacher-guide[open] { background: var(--panel); border-color: var(--d5-listen-line); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-guide[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 14px; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-intro { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; font-size: .9rem; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-intro strong { color: var(--ink); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-intro span { color: var(--muted); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-note { margin: 6px 0 16px; color: var(--muted); font-size: .85rem; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-chat { padding: 18px 16px; background: var(--d5-chat-bg); border: 1px solid var(--line); border-radius: 14px; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-exchange { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-exchange + .d5-chat-exchange { margin-top: 28px; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-divider { display: flex; justify-content: center; margin: 0; font-size: .82rem; line-height: 1.5; font-weight: 600; text-align: center; color: var(--muted); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-divider span { max-width: 100%; padding: 5px 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); overflow-wrap: anywhere; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-context { display: grid; gap: 4px; margin: 0; padding: 10px 12px; border-inline-start: 3px solid var(--d5-listen-line); background: var(--panel); color: var(--ink); font-size: .88rem; line-height: 1.6; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message { width: fit-content; max-width: 88%; min-width: 0; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=teacher] { align-self: flex-start; --bubble-bg: var(--d5-chat-teacher); --bubble-ink: var(--d5-chat-teacher-ink); --bubble-line: var(--d5-chat-teacher-line); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=student] { align-self: flex-end; --bubble-bg: var(--d5-chat-student); --bubble-ink: var(--d5-chat-student-ink); --bubble-line: var(--d5-chat-student-line); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-role { margin: 0 2px 6px; color: var(--ink); font-size: .85rem; font-weight: 750; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=student] .d5-chat-role { text-align: right; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-bubble { position: relative; padding: 14px 16px; border: 1px solid var(--bubble-line); border-radius: 16px; background: var(--bubble-bg); color: var(--bubble-ink); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-bubble::before { content: ''; position: absolute; top: 13px; left: -8px; width: 0; height: 0; border-style: solid; border-width: 0 9px 10px 0; border-color: transparent var(--bubble-bg) transparent transparent; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message[data-speaker=student] .d5-chat-bubble::before { left: auto; right: -8px; border-width: 0 0 10px 9px; border-color: transparent transparent transparent var(--bubble-bg); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-en { margin: 0 0 10px; font-size: 1.25rem; line-height: 1.45; font-weight: 700; color: var(--bubble-ink); overflow-wrap: anywhere; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-zh { margin: 0; color: var(--bubble-ink); font-size: .88rem; line-height: 1.6; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio { margin-top: 12px; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio .actions { gap: 7px; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button { min-height: 44px; padding: 7px 10px; font-size: .82rem; background: var(--bubble-bg); color: var(--bubble-ink); border-color: var(--bubble-line); transition: none; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button:hover { background: var(--bubble-ink); color: var(--bubble-bg); border-color: var(--bubble-ink); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button:focus-visible { outline-color: var(--bubble-ink); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras { margin-top: 22px; border-top: 1px solid var(--line); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras > details { margin: 0; padding: 6px 0; border: 0; color: var(--muted); }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras > details > summary { color: var(--muted); font-size: .88rem; font-weight: 600; }
-body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-extras > details[open] { color: var(--ink); }
+body:is(.day1-guided,.lesson-guided) .dg-goals .checkline:has(input[data-pair-check]:checked),
+body:is(.day1-guided,.lesson-guided) .hi-content .hi-goal:has(input[data-hi-goal]:checked) {
+ background: var(--d5-goal-done); color: var(--d5-goal-done-ink);
+ box-shadow: inset 0 0 0 1px var(--d5-goal-done-line);
+}
+body:is(.day1-guided,.lesson-guided) input[type=checkbox]:is([data-pair-check],[data-hi-goal]) { accent-color: var(--d5-goal-check); }
+/* Day 5: the whole task card turns green only when every goal is checked. */
+body.lesson5-hierarchy .dg-goals:has(> .checkline input[data-pair-check]):not(:has(> .checkline input[data-pair-check]:not(:checked))) {
+ background: var(--d5-goal-done); color: var(--d5-goal-done-ink); border-color: var(--d5-goal-done-line);
+}
+body.lesson5-hierarchy .dg-goals:has(> .checkline input[data-pair-check]):not(:has(> .checkline input[data-pair-check]:not(:checked))) > :is(.section-title,.fine) {
+ color: var(--d5-goal-done-ink);
+}
+body:is(.day1-guided,.lesson-guided) .hi-content .hi-goal { padding: 12px 14px; border-radius: 12px; }
+body:is(.day1-guided,.lesson-guided) .dg-teacher.d5-teacher-guide {
+ --d5-chat-student: #dcf6c7;
+ --d5-chat-student-ink: #203426;
+ padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel);
+}
+:root[data-theme=dark] body:is(.day1-guided,.lesson-guided) .d5-teacher-guide {
+ --d5-chat-student: #294d38;
+ --d5-chat-student-ink: #e6f8e8;
+}
+body:is(.day1-guided,.lesson-guided) .d5-teacher-guide[open] > summary { margin-bottom: 8px; }
+body:is(.day1-guided,.lesson-guided) .d5-teacher-script {
+ padding: 16px 12px; border-radius: 10px; background: var(--soft); color: var(--ink);
+}
+body:is(.day1-guided,.lesson-guided) .d5-script-exchange { display: grid; gap: 12px; }
+body:is(.day1-guided,.lesson-guided) .d5-script-exchange + .d5-script-exchange { margin-top: 12px; }
+body:is(.day1-guided,.lesson-guided) .d5-script-line {
+ display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+ width: fit-content; max-width: 88%; min-width: 0; margin: 0; line-height: 1.5; color: var(--ink);
+}
+body:is(.day1-guided,.lesson-guided) .d5-script-line[data-speaker=student] { margin-left: auto; align-items: flex-end; }
+body:is(.day1-guided,.lesson-guided) .d5-script-role { display: block; padding: 0 4px; color: var(--muted); font-size: .75rem; font-weight: 500; }
+body:is(.day1-guided,.lesson-guided) .d5-chat-bubble {
+ display: block; max-width: 100%; padding: 10px 14px; border-radius: 4px 16px 16px;
+ background: var(--panel); color: var(--ink); font-size: 1.1rem; text-align: left; overflow-wrap: anywhere;
+}
+body:is(.day1-guided,.lesson-guided) [data-speaker=student] .d5-chat-bubble {
+ border-radius: 16px 4px 16px 16px; background: var(--d5-chat-student); color: var(--d5-chat-student-ink);
+}
+body:is(.day1-guided,.lesson-guided) .dg-student-help.d5-student-hints { margin-top: 22px; padding: 0; border: 0; border-radius: 0; background: transparent; }
+body:is(.day1-guided,.lesson-guided) .d5-student-hints > h3 { margin: 0 0 8px; font-size: .95rem; color: var(--muted); }
+body:is(.day1-guided,.lesson-guided) .d5-student-hint { margin: 0; padding: 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; }
+body:is(.day1-guided,.lesson-guided) .d5-student-hint > summary { color: var(--ink); font-weight: 500; overflow-wrap: anywhere; }
+body:is(.day1-guided,.lesson-guided) .d5-student-hint > .dg-hint { margin: 0 0 14px; }
+body:is(.day1-guided,.lesson-guided) :is(.d5-teacher-guide,.d5-student-hint) > summary:hover { color: var(--accent); }
+body:is(.day1-guided,.lesson-guided) :is(.d5-teacher-guide,.d5-student-hint) > summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 @media(max-width:739px) {
- body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-teacher.d5-teacher-guide { padding-inline: 8px; }
- body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-teacher-chat { padding: 14px 10px; }
- body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-message { max-width: 90%; }
- body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-bubble { padding: 12px 10px; }
- body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-en { font-size: 1.2rem; }
- body.lesson-focus:is(.day1-guided,.lesson-guided) .d5-chat-audio button { padding-inline: 8px; }
+ body:is(.day1-guided,.lesson-guided) .d5-teacher-script { padding: 12px 8px; }
+ body:is(.day1-guided,.lesson-guided) .d5-chat-bubble { padding: 9px 11px; }
 }

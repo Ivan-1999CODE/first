@@ -1,6 +1,6 @@
 // Shared presentation for Days 2–14. The authored curriculum and saved keys
 // remain in the existing task runtime.
-const dgLabels=['先試著說','句子與短對話','跟著做','只換一個條件','和老師練','看看進步','課後再練'];
+const dgLabels=['先試著說','句子與短對話','跟著做','看中文，自己說','和老師練','看看進步','課後再練'];
 let dgHintIndex=0,dgScope='',dgHints=new Map(),dgTranscript=false;
 function dgResetSupport(){dgHints.clear();dgTranscript=false;}
 function guidedHint(words,answer,answerZh='',id='auto-'+dgHintIndex++){
@@ -19,7 +19,7 @@ function dgCourseMenu(){
 function dgTaskSwitch(){return `<div class="dg-task-switch" role="group" aria-label="切換任務"><span class="dg-task-label">任務</span>${rounds.map((r,n)=>btn(esc(taskLabel(r)),`data-dg-task="${n}"`,`aria-label="任務 ${esc(taskLabel(r))}：${esc(r.name)}" aria-pressed="${taskRound===n}"`)).join('')}</div>`;}
 function dgInstallShell(){
  document.body.classList.add('lesson-guided');document.documentElement.setAttribute('data-lesson-guided','');
- const currentDay=$('.day-switcher-links a[aria-current=page]'),dayName=`第 ${course.day} 天 · ${currentDay?.querySelector('small')?.textContent||course.title}`;
+ const currentDay=$('.day-switcher-links a[aria-current=page]'),dayName=`${course.dayLabel||'第 '+course.day+' 天'} · ${currentDay?.querySelector('small')?.textContent||course.title}`;
  const top=$('.top-inner'),brand=top.querySelector(':scope > div:first-child');brand.classList.add('dg-brand');brand.querySelector('.top-label').textContent=dayName;
  top.querySelector('.tools').insertAdjacentHTML('afterbegin',btn('☰ 課程選單','id="dg-menu-open"','aria-haspopup="dialog" aria-controls="dg-course-dialog"'));
  const dialog=document.createElement('dialog');dialog.id='dg-course-dialog';dialog.setAttribute('aria-labelledby','dg-menu-title');
@@ -47,7 +47,7 @@ taskFooter=function(){
  if(page===0)return `<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
  // Chapter navigation stays separate from conversation steps and early wrap-up.
  if(page===1)return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分','data-page="0"')}${btn('前往 03 跟著做 →',`data-start="${activeRound().flowIds[0]}"`,'class="primary"')}</div>`;
- if(page===2)return `<div class="footer-actions dg-section-footer">${btn('← 上一部分','data-page="1"')}${btn(`前往 04 ${course.day===5?'換條件':esc(dgLabels[3])} →`,'data-page="3"','class="primary"')}</div>`;
+ if(page===2)return `<div class="footer-actions dg-section-footer">${btn('← 上一部分','data-page="1"')}${btn(`前往 04 ${esc(dgLabels[3])} →`,'data-page="3"','class="primary"')}</div>`;
  const wrapper=document.createElement('div');wrapper.innerHTML=dgOriginalFooter();
  const nextButton=wrapper.querySelector('.footer-actions > button:last-child');
  nextButton?.classList.add('primary');
@@ -57,11 +57,15 @@ taskFooter=function(){
 render=function(){
  const scope=[taskRound,page,mode,reply,mission,pair,flow,turn,finished,heard,spoken].join(':');
  if(scope!==dgScope){dgResetSupport();dgScope=scope;}dgHintIndex=0;
- dgLabels[3]=activeRound().variationMode==='repeat'?'再練同一段':activeRound().variationMode==='core'?'練另一段對話':'只換一個條件';
+ dgLabels[3]=activeRound().sayPrompts?.[0]?.mode==='scenario'?'看情境，自己選用':'看中文，自己說';
  const views=[intro,phrasePage,scenePage,missionPage,pairPage,progressPage,homePage];
  $('#main').innerHTML=views[page]()+taskFooter();$('#main').classList.toggle('lesson-phrase-page',page===1);$('#main').dataset.lessonSection=String(page+1);
  if(page===0){const first=$('#main .before-panel'),footer=$('#main > .footer-actions');if(first&&footer)first.after(footer);}
  $('#nav').innerHTML=dgCourseMenu();
+ const taskLabelNow=taskLabel(activeRound()),menu=$('#dg-menu-open');
+ menu.textContent=`${String(page+1).padStart(2,'0')} · ${taskLabelNow} 選單`;
+ menu.setAttribute('aria-label',`開啟課程選單，目前任務 ${taskLabelNow}，第 ${page+1} 部分：${dgLabels[page]}`);
+ menu.title=`任務 ${taskLabelNow} · ${dgLabels[page]} · 開啟課程選單`;
  $('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(page+1).padStart(2,'0')} · ${dgLabels[page]}</span><span class="dg-current-round">${esc(taskLabel(activeRound()))} · ${esc(activeRound().name)}</span></div>${dgTaskSwitch()}`;
  const switcher=$('.dg-task-switch'),active=switcher.querySelector('[aria-pressed=true]');if(active)switcher.scrollLeft=Math.max(0,active.offsetLeft-switcher.offsetLeft-switcher.clientWidth+active.offsetWidth+8);
  showStorage();

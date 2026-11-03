@@ -1,4 +1,4 @@
-// Browser coverage for the visible Japanese/Korean 1–10 playback controls.
+// Browser coverage for contextual Japanese and Korean amount playback.
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {pathToFileURL}=require('node:url');
 const {chromium}=require('C:/Users/1090602/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
@@ -10,7 +10,8 @@ fs.mkdirSync(out,{recursive:true});
  const reports=[];
  try{
   for(const language of ['ja','ko']){
-   const d=require('./assets/micro-day0.cjs').make(language),expected=d.numberWords.map(row=>row[0]);
+   const d=require('./assets/micro-day0.cjs').make(language);
+   const expected=(d.koreanNumberLessons||d.japaneseNumberLessons).price.groups.flatMap(g=>g.items.map(i=>i.text));
    const context=await browser.newContext({viewport:{width:1440,height:1080},reducedMotion:'reduce'});
    const p=await context.newPage(),errors=[];
    p.setDefaultTimeout(10000);p.on('pageerror',e=>errors.push(e.message));
@@ -25,6 +26,7 @@ fs.mkdirSync(out,{recursive:true});
    await p.goto(pathToFileURL(path.resolve(d.file||'travel-japanese-day0-directions.html')).href);
    await context.setOffline(true);
    const nav=async n=>{
+    if(await p.locator('#dg-menu-open').count())await p.locator('#dg-menu-open').click();
     const menu=p.locator('#courseMenu'),summary=menu.locator(':scope > summary');
     if(await summary.isVisible()&&!await menu.evaluate(e=>e.open))await summary.click();
     await p.locator(`#nav [data-page="${n}"]`).click();
@@ -32,22 +34,22 @@ fs.mkdirSync(out,{recursive:true});
    await nav(1);
    const section=p.locator('.japanese-numbers');
    assert.equal(await section.count(),1,'Numbers appear in the current lesson');
-   assert.equal(await section.locator('.task-words > div').count(),10);
+   assert.equal(await section.locator('.task-words > div').count(),expected.length);
    const normal=section.locator('[data-number-sequence]:not([data-slow])');
    const slow=section.locator('[data-number-sequence][data-slow]');
    assert.equal(await normal.count(),1);assert.equal(await slow.count(),1);
    assert.equal(await normal.getAttribute('data-say'),expected.join(' '));
    assert.equal(await slow.getAttribute('data-say'),expected.join(' '));
-   assert.deepEqual(await p.evaluate(()=>numberWords.map(row=>Boolean(day0Audio[row[0]]))),Array(10).fill(true));
+   assert.deepEqual(await p.evaluate(texts=>texts.map(t=>Boolean(day0Audio[t])),expected),Array(expected.length).fill(true));
    // Natural media completion drives each next number; no synthetic ended events or seeking.
    await p.evaluate(()=>qaStarts=[]);await normal.click();
-   await p.waitForFunction(()=>qaStarts.length===10&&qaAudio.ended,null,{timeout:60000});
+   await p.waitForFunction(n=>qaStarts.length===n&&qaAudio.ended,expected.length,{timeout:120000});
    assert.deepEqual(await p.evaluate(()=>qaStarts),expected.map(text=>({text,rate:1})));
-   assert.equal(await section.locator('.follow-translation').innerText(),d.numberWords.map(row=>row[1]).join(' '),'Number subtitles retain numeric meanings rather than primer sound descriptions');
+   assert.equal(await section.locator('.follow-translation').innerText(),expected.map(t=>d.day0AudioTranslations[t]).join(' '),'Number subtitles retain contextual meanings rather than primer sound descriptions');
    assert.match(await section.locator('.follow-heading strong').innerText(),/播放完畢/);
    assert.equal(await p.locator('.follow-token.is-current').count(),0);
    assert.equal(await p.locator('.day0-audio-status').isVisible(),false);
-   console.log(`${language}: all 10 embedded clips finished naturally, in order, while offline`);
+   console.log(`${language}: all ${expected.length} embedded clips finished naturally, in order, while offline`);
    // Keyboard playback and slow rate also advance naturally into the second clip.
    await p.evaluate(()=>qaStarts=[]);await slow.focus();await slow.press('Enter');
    await p.waitForFunction(()=>qaStarts.length>=2&&qaAudio.currentTime>.05);
@@ -101,7 +103,7 @@ fs.mkdirSync(out,{recursive:true});
     // The number glossary is an existing popover: verify it stays on screen in each theme.
     await section.locator('.follow-token').first().click();
     const glossary=p.locator('.jp-glossary');
-    assert(await glossary.isVisible());assert((await glossary.innerText()).includes('數字 1'));
+    assert(await glossary.isVisible());assert((await glossary.innerText()).includes('100'),await glossary.innerText());
     assert(await glossary.evaluate(e=>{const r=e.getBoundingClientRect();return r.left>=0&&r.top>=0&&r.right<=innerWidth+1&&r.bottom<=innerHeight+1;}));
     const popover=`${language}-${width}-${theme}-glossary.png`;
     await p.screenshot({path:path.join(out,popover)});screenshots.push(popover);

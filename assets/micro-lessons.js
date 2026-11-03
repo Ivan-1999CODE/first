@@ -27,7 +27,7 @@ setTaskRound=function(n){if(!Number.isInteger(n)||!rounds[n])return;microSetRoun
 const microGroups=course.taskGroups||[];
 const taskLabel=r=>r.displayLabel||r.id;
 const microOrderedRounds=course.mergedTasks?rounds:microGroups.length?microGroups.flatMap(g=>g.roundIds.map(id=>rounds.find(r=>r.id===id))):rounds;
-const microPart4=r=>r.variationMode==='repeat'?'④ 再練同一段':r.variationMode==='core'?'④ 練另一段對話':'④ 換情況';
+const microPart4=r=>'④ 看情境，自己選用';
 const microRoundButton=(r,attribute)=>btn(`任務 ${taskLabel(r)} · ${esc(r.name)}`,`data-${attribute}="${rounds.indexOf(r)}"`,`aria-pressed="${r===activeRound()}"`);
 let roundChoices=(attribute='task-round')=>microGroups.length?`<div class="chapter-choices" aria-label="選擇章節與小輪">${microGroups.map((g,i)=>`<div class="chapter-choice ${g.roundIds.includes(activeRound().id)?'current-chapter':''}"><strong>第 ${i+1} 章｜${esc(g.name)} · ${g.roundIds.join('＋')}</strong><div class="chapter-rounds">${g.roundIds.map(id=>microRoundButton(rounds.find(r=>r.id===id),attribute)).join('')}</div></div>`).join('')}</div>`:`<div class="tabs" aria-label="選擇小任務">${rounds.map(r=>microRoundButton(r,attribute)).join('')}</div>`;
 function microRoundCard(x){return `<section class="panel"><p class="eyebrow">任務 ${taskLabel(x)} · 每段 ${flows[x.flowIds[0]].steps.length} 個說法</p><h2>${esc(x.name)}</h2><p>${esc(x.goal)}</p><p class="fine">${roundsDone.includes(x.id)?'✓ 師生已確認熟悉，可加入混合複習':'尚未確認熟悉，可反覆練習'}</p>${btn(`先試任務 ${taskLabel(x)} →`,`data-before-round="${rounds.indexOf(x)}"`)}</section>`;}
@@ -40,7 +40,7 @@ intro=function(){
  const r=activeRound();
  return `<section class="hero home-hero"><div class="hero-copy"><p class="eyebrow">DAY ${course.day} / TRAVEL LAB</p><h1>${esc(course.title)}<br>一次練一小段。</h1><p class="lead">每個小任務都有自己的開始與收尾。一堂課只完成一輪也可以，下次接著練。</p></div><div class="hero-art">${course.art}</div></section>
  <section class="panel before-panel"><h2>任務 ${taskLabel(r)}：先試著說</h2>${roundChoices('before-round')}<p class="task">${esc(r.checkpoint.task)}</p>${field('before-'+r.id,'這一輪，第一次的嘗試')}<p class="fine">先口頭試說，再記下原本的說法；⑥ 會回到完全相同的題目。沒有填寫也可以練習。</p>${microAlternative(r,'before')}</section>
- <section class="panel"><p class="eyebrow">一次 1～2 個說法，反覆用到會</p><h2>一輪一個小循環</h2><p>② 學本輪說法 → ③ 原句操作 → ④ 用已學的句子練 → ⑤ 真人接話 → ⑥ 看進步 → ⑦ 回家再練。</p><p>同一段可以重來。師生確認能用本輪說法完成溝通，再進下一輪；課程中途也能直接做本輪收尾。</p></section>
+ <section class="panel"><p class="eyebrow">一次 1～2 個說法，反覆用到會</p><h2>一輪一個小循環</h2><p>② 學本輪說法 → ③ 原句操作 → ④ 看情境，自己選用 → ⑤ 真人接話 → ⑥ 看進步 → ⑦ 回家再練。</p><p>同一段可以重來。師生確認能用本輪說法完成溝通，再進下一輪；課程中途也能直接做本輪收尾。</p></section>
  ${microChapterCards()}
  <details class="panel"><summary>老師看：怎麼分堂與收尾</summary><p>只教 A，就做 A 的 ⑥、⑦；下堂仍可重練 A。A 熟悉後才接 B，後續也一樣。兩輪以上熟悉時，再手動開啟「已學任務混合複習」，挑選要回顧的任務。</p><p>看過句卡、點完流程、勾完目標，都不會自動判定學會。以學生是否知道何時用、能接住回話並表達意思為準；不要求逐字背誦。</p></details>
  <details class="panel inventory"><summary>原有句表：老師需要時再查</summary><p>這裡保留原課的其他說法，供老師挑選延伸。它們不會自動加入本輪練習、回顧或作業；要使用時，先教再練。</p><div class="inventory-scroll"><table><thead><tr><th>用途</th><th>說法</th><th>意思</th></tr></thead><tbody>${originalPhrases.map(p=>`<tr><td>${esc(p.use||'延伸說法')}</td><td lang="${language}">${esc(p.en)}</td><td>${esc(p.zh)}</td></tr>`).join('')}</tbody></table></div>${typeof legacyFile==='string'?`<p><a href="${esc(legacyFile)}">查看改版前的完整教材 →</a></p>`:''}</details>`;
@@ -60,8 +60,8 @@ phrasePage=function(){
  const r=activeRound();
  if(mode==='reply')return head('','只練剛才看過的短對話；熟悉後再收起提示。')+listeningReply();
  const example=dialoguePreview({steps:flows[r.flowIds[0]].steps,role:r.role||course.replyRole,task:flows[r.flowIds[0]].context});
- const change=(r.variationMode||'change')==='change'?dialoguePreview({steps:r.variation.steps,role:r.role||course.replyRole,task:r.variation.task,title:'④ 要換的條件，先在這裡看過',className:'micro-variation',kind:'variation'}):r.variationMode==='core'?dialoguePreview({steps:r.variation.steps,role:r.role||course.replyRole,task:r.variation.task,title:'另一個已學情境：照順序再看一次',className:'micro-core-example',kind:'core'}):'';
- const extra=(r.additionalVariations||[]).map(v=>dialoguePreview({steps:v.steps,role:r.role||course.replyRole,task:v.task,title:'④ 要換的條件，先在這裡看過',className:'micro-variation',kind:'additional-variation'})).join('');
+ const change=(r.variationMode||'change')==='change'?dialoguePreview({steps:r.variation.steps,role:r.role||course.replyRole,task:r.variation.task,title:'另一種情境的說法（選學）',className:'micro-variation',kind:'variation'}):r.variationMode==='core'?dialoguePreview({steps:r.variation.steps,role:r.role||course.replyRole,task:r.variation.task,title:'另一個已學情境：照順序再看一次',className:'micro-core-example',kind:'core'}):'';
+ const extra=(r.additionalVariations||[]).map(v=>dialoguePreview({steps:v.steps,role:r.role||course.replyRole,task:v.task,title:'另一種情境的說法（選學）',className:'micro-variation',kind:'additional-variation'})).join('');
  return head('',r.bridge)+(r.coreNote?`<p class="panel core-note">${esc(r.coreNote)}</p>`:'')+`<section class="study-block study-library">${studyRoleHeading(true,'我會說',`這輪 ${r.phraseIds.length} 個核心說法，後面反覆用。`)}<div class="grid">${r.phraseIds.map((id,i)=>microPhrase(phrases.find(p=>p.id===id),i)).join('')}</div></section>
  <section class="study-block study-listening">${studyRoleHeading(false,'我要聽得懂','③ 與 ⑤ 會沿用這些回話，不用背對方整句。')}<div class="grid">${r.hearLines.map((p,i)=>microPhrase({...p,use:course.replyRole+'會說'},i)).join('')}</div></section>
  ${example}${course.studySupplement?microStudySupplement(course.studySupplement):change+extra}

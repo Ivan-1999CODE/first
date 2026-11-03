@@ -182,7 +182,7 @@ function make(language,base){
  });
  d.course.id=`travel-lab-${language}-day0-practical-v1`;
  d.course.title=pick('日文旅行實用會話','韓文旅行實用會話');
- d.course.description='從問價格開始，依序練數量、付款、餐飲、找位置與指手機問路；6 章、10 個小任務，每次練 1～2 個說法。';
+ d.course.description='買東西、吃東西、找地方：3 個主題、10 個小任務；餐飲從回答幾位開始，每個任務沿用七步練習。';
  d.course.replyRole='店員／工作人員／路人';
  d.course.revision='day0-practical-v1';
  d.course.legacyKeys=[]; // Prior answers stay available as history, not new-task answers.
@@ -197,8 +197,21 @@ function make(language,base){
  ];
  d.optionalTravelPhrases=ko?clone(old.course.studySupplement||require('./korean-travel-phrases.cjs')):null;
  delete d.course.studySupplement;
- // IDs and visible task letters remain globally unique A–J across the six chapters.
- d.rounds.forEach(r=>{r.displayLabel=r.id;});
+ // Keep array indices, IDs and saved fields stable. Only the presentation order
+ // changes: existing E records still belong to ordering, F records to party size.
+ d.course.taskGroups=[
+  {id:'shopping',name:'買東西',description:'問價與購買 → 數量與總價 → 付款 → 袋子',roundIds:['A','B','C','D']},
+  {id:'dining',name:'吃東西',description:'回答幾位 → 拿菜單與點餐 → 內用或外帶',roundIds:['F','E','G']},
+  {id:'places',name:'找地方',description:'找廁所 → 找出口 → 指著手機問路與確認',roundIds:['H','I','J']}
+ ];
+ d.course.taskGroups.flatMap(g=>g.roundIds).forEach((id,i)=>{
+  const r=d.rounds.find(r=>r.id===id),first=d.flows[r.flowIds[0]].steps[0];
+  r.displayLabel=String.fromCharCode(65+i);
+  r.entryCheckpoint={task:first.task,words:first.words,answer:first.answer,answerZh:first.answerZh};
+  for(const [items,ids]of [[d.flows,r.flowIds],[d.missions,r.missionIds],[d.pairs,r.pairIds]]){
+   for(const index of ids)items[index].name=items[index].name.replace(new RegExp('^'+r.id+'([｜·])'),r.displayLabel+'$1');
+  }
+ });
  // Add every generated multi-sentence reference answer to the audio lexicon.
  // All parts must already have authored meanings and readings; no guessed fallback.
  const authoredTexts=new Set([...Object.keys(lexicon),...Object.keys(old.day0AudioTranslations||{})]);
@@ -222,6 +235,18 @@ function make(language,base){
   ...d.practicalSupport.map(p=>p.en)
  ]);
  for(const text of playable)if(!lexicon[text]?.zh||!lexicon[text]?.romaji)throw Error('Missing practical playback entry: '+text);
+ if(ko){
+  d.koreanNumberLessons=clone(require('./korean-number-lessons.cjs'));
+  for(const lesson of Object.values(d.koreanNumberLessons))for(const group of lesson.groups)for(const entry of group.items){
+   // Keep an existing translation/reading if a phrase is already taught.
+   lexicon[entry.text]??={zh:entry.zh,romaji:entry.romaji};
+  }
+ }else{
+  d.japaneseNumberLessons=clone(require('./japanese-number-lessons.cjs'));
+  for(const lesson of Object.values(d.japaneseNumberLessons))for(const group of lesson.groups)for(const entry of group.items){
+   lexicon[entry.text]??={zh:entry.zh,romaji:entry.romaji,kana:entry.kana};
+  }
+ }
  d.practicalLexicon=lexicon;
  d.readings={...old.readings,...Object.fromEntries(Object.entries(lexicon).map(([text,e])=>[text,e.romaji]))};
  d.kana={...old.kana,...Object.fromEntries(Object.entries(lexicon).filter(([,e])=>e.kana).map(([text,e])=>[text,e.kana]))};

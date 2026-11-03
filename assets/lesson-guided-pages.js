@@ -52,7 +52,7 @@ intro = function() {
  <details class="panel dg-overview">
   <summary>任務概覽與入口 · ${rounds.map(x => esc(taskLabel(x))).join('、')}</summary>
   <h2>一個任務，一路練到會用</h2>
-  <p>② 學本任務句子 → ③ 按順序接話 → ④ 用已學句子練 → ⑤ 真人接話 → ⑥ 看進步 → ⑦ 回家再練。</p>
+  <p>② 學本任務句子 → ③ 按順序接話 → ④ 看情境，自己選用 → ⑤ 真人接話 → ⑥ 看進步 → ⑦ 回家再練。</p>
   <p>同一段可以重來，也可以分幾次完成。老師依當天進度手動選擇任務；課程中途也能直接做本任務收尾。</p>
   ${dgLessonOverview()}
  </details>
@@ -121,7 +121,6 @@ pairPage = function() {
    <div class="dg-situation">${esc(p.objects)}</div>
    <p class="task dg-opening">「${esc(p.opening)}」</p>
    <p class="fine">${esc(p.openingNote || '請用自己的英文表達，不必逐字翻譯。')}</p>
-   <div class="dg-note"><h3>接著怎麼做</h3><p>${esc(p.next)}</p></div>
    ${scenes.length ? `<details class="merged-scene-plan"><summary>這個任務的情境順序</summary>${scenes.map(dgLessonSceneHeading).join('')}</details>` : ''}
    <p class="fine">${esc(p.role)}</p>
   </section>

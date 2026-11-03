@@ -16,7 +16,7 @@ function sync(){
  }
  const old=fs.readFileSync('index.html','utf8');
  let updated=old.replace(/\s*<a href="\.\/travel-(?:japanese|korean)-day0-directions\.html">[\s\S]*?<\/a>/g,'');
- const cards=lessons.filter(([name])=>fs.existsSync(name)).map(([name,label])=>`    <a href="./${name}">DAY 00：第 0 天・${label}旅行實用會話 ↗<small>6 個主題、10 個小任務。從問價開始，練購物、點餐與找路；可選${label==='日文'?'五十音':'韓文字母與拼讀'}入門。</small></a>`).join('\n');
+ const cards=lessons.filter(([name])=>fs.existsSync(name)).map(([name,label])=>`    <a href="./${name}">DAY 00：第 0 天・${label}旅行實用會話 ↗<small>3 個主題、10 個小任務。練買東西、吃東西與找地方；餐飲先回答幾位，可選${label==='日文'?'五十音':'韓文字母與拼讀'}入門。</small></a>`).join('\n');
  updated=updated.replace('    <a href="./travel-english.html">',cards+'\n    <a href="./travel-english.html">');
  if(old!==updated)fs.writeFileSync('index.html',updated);
 }

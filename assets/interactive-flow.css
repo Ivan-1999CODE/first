@@ -1,0 +1,54 @@
+.vf-interaction{--vf-surface:var(--panel,#fff);--vf-line:var(--line,#c5d2d9);--vf-soft:var(--soft,#edf4f7);--vf-accent:var(--accent,#256b83);color:var(--ink,#23343a);min-width:0}
+:root[data-theme=dark] .vf-interaction{--vf-surface:#26343b;--vf-line:#697c85;--vf-soft:#344851;--vf-accent:#8ad0eb}
+.vf-interaction h3{margin:.7rem 0}.vf-art{display:block;width:100%;height:130px;max-width:240px;margin:0 auto;overflow:visible;color:var(--ink,#23343a)}
+.vf-fill{fill:var(--vf-surface,var(--panel,#fff))}.vf-road{stroke:var(--vf-line,var(--line,#c5d2d9))}.vf-accent{stroke:var(--vf-accent,var(--accent,#256b83))}.vf-selected-fill{fill:var(--vf-accent,var(--accent,#256b83));stroke:var(--ink,#23343a)}.vf-warning{stroke:#ba5860;stroke-width:5}
+.scene-board .vf-objects{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.vf-objects .vf-object{display:flex!important;flex-direction:column;align-items:center;justify-content:space-between;gap:8px;min-width:0;min-height:170px;padding:12px!important;border:2px solid var(--vf-line)!important;background:var(--vf-surface)!important;color:var(--ink)!important;white-space:normal;overflow-wrap:anywhere;border-radius:16px}
+.vf-object[aria-pressed=true],.vf-hotspot[aria-pressed=true]{border-color:var(--vf-accent)!important;box-shadow:0 0 0 2px var(--vf-accent)}
+.vf-object:active,.vf-hotspot:active{transform:scale(.98)}.vf-object:disabled,.vf-hotspot:disabled{opacity:.65!important}.vf-object:focus-visible,.vf-hotspot:focus-visible{outline:3px solid var(--vf-accent);outline-offset:4px}
+.vf-result{display:flex;gap:14px;align-items:center;justify-content:center;min-height:110px;padding:12px;border-radius:14px;background:var(--vf-soft);border:1px solid var(--vf-line);margin:16px 0}.vf-result-art{width:120px;flex-shrink:0}.vf-result-art .vf-art{height:90px}.vf-result p{font-weight:700;margin:.3rem 0}.vf-empty{color:var(--muted)}
+.vf-feedback{min-height:4rem}.vf-feedback p{margin:0;line-height:1.65}.vf-history{margin-top:16px}.vf-history summary{padding:12px;min-height:44px}.vf-records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.vf-records figure{margin:0;padding:12px;border:1px solid var(--line);border-radius:12px}.vf-records .vf-art{height:85px}.vf-records figcaption{font-size:.85rem;text-align:center}.vf-final{margin-bottom:20px}
+.vf-verdict{display:block;font-size:.85rem;line-height:1.5}.vf-result>div:last-child{min-width:0;overflow-wrap:anywhere}
+.vf-choice-question{font-weight:700;line-height:1.65}.vf-picture-id{font-size:.85rem}.vf-picture-help{margin-top:16px;border-top:1px solid var(--vf-line)}.vf-picture-help summary{padding:12px 0;min-height:44px;cursor:pointer;font-size:.85rem}.vf-picture-help p{font-size:.85rem;line-height:1.6}
+.vf-map{position:relative;width:100%;height:340px;background:var(--vf-soft);border:1px solid var(--vf-line);border-radius:18px;margin:16px 0;overflow:hidden}.vf-map>svg{width:100%;height:100%}.vf-hotspot{position:absolute;transform:translate(-50%,-50%);width:36%;min-height:52px;padding:8px!important;font-size:.85rem!important;background:var(--vf-surface)!important;color:var(--ink)!important;border:2px solid var(--vf-line)!important;border-radius:12px;white-space:normal!important}.vf-hotspot:active{transform:translate(-50%,-50%) scale(.98)}.vf-road-name{position:absolute;left:50%;transform:translateX(-50%);background:var(--vf-surface);font-size:.75rem;padding:3px 5px;border-radius:6px;white-space:nowrap}.vf-road-name.first{top:76%}.vf-road-name.second{top:11%}.vf-origin{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:.75rem;background:var(--vf-surface)}
+.hi-scene .vf-objects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:560px){.vf-art{height:110px}.scene-board .vf-objects{gap:8px}.vf-objects .vf-object{padding:8px!important;min-height:150px}.vf-map{height:320px}.vf-result-art{width:90px}}
+@media(prefers-reduced-motion:reduce){.vf-object:active{transform:none}}
+/* These selectors intentionally outrank the older lesson-specific tile rules. */
+html body #main .vf-interaction .vf-objects,html body #main .vf-spatial-options{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px}
+html body #main .vf-interaction .vf-object{display:flex!important;min-height:170px;padding:12px!important;background:var(--vf-surface)!important;color:var(--ink)!important;border:2px solid var(--vf-line)!important}
+html body #main .vf-interaction .vf-object[aria-pressed=true]{border-color:var(--vf-accent)!important}
+html body #main .vf-interaction .vf-object .vf-art{width:100%;height:130px;max-width:240px}
+html body #main .vf-interaction .vf-map .vf-hotspot{background:var(--vf-surface)!important;color:var(--ink)!important}
+.vf-food-image{width:100%;max-width:190px;aspect-ratio:1;background-size:300% 400%;border-radius:10px;margin:auto}
+.vf-spatial{border:2px solid var(--vf-line);border-radius:32px;padding:12px;margin-top:16px;background:var(--vf-soft)}.vf-spatial-label{text-align:center}.vf-arrived{font-size:.8rem;color:var(--vf-accent)}
+.vf-counter{background:var(--vf-soft);padding:16px;border-radius:16px;margin-top:16px}.vf-counter-tray{min-height:140px;display:grid;place-items:center;border-bottom:3px solid var(--vf-line)}.vf-counter-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:16px}.vf-counter-controls output{font-size:1.5rem;font-weight:700}.vf-counter-controls button{min-height:44px}.vf-direct{margin:12px 0}.vf-direct summary{font-size:.85rem}
+:root[data-theme=dark] body #main .vf-interaction button{background:var(--vf-surface)!important;color:var(--ink)!important}
+/* Flow controls must not override the shared header or task navigation. */
+:root[data-theme=dark] body.lesson-focus :is(.tabs,.footer-actions,.dg-flow-actions) button:not(.primary){background:var(--panel)!important;color:var(--ink)!important;border-color:var(--line)!important}
+:root[data-theme=dark] body.lesson-focus .tabs button[aria-pressed=true]{background:var(--soft)!important;color:var(--ink)!important}
+@media(max-width:560px){html body #main .vf-interaction .vf-object{min-height:145px;padding:8px!important}html body #main .vf-interaction .vf-object .vf-art{height:110px}.vf-counter{padding:10px}.vf-counter-controls button{padding:8px}}
+
+/* Make actions identifiable without hover or color alone, in both themes. */
+.vf-interaction{--vf-action:#215b7c;--vf-on-action:#fff;--vf-action-soft:#e8f3f9;--vf-action-hover:#f3f9fc}
+:root[data-theme=dark] .vf-interaction{--vf-action:#a9d8f4;--vf-on-action:#142d3d;--vf-action-soft:#294653;--vf-action-hover:#304c5a}
+.vf-pick-area{margin-top:18px;padding-top:16px;border-top:2px solid var(--vf-line)}
+.vf-pick-heading{display:flex;gap:9px;align-items:center;color:var(--vf-action);font-size:1rem;line-height:1.5}
+.vf-pick-heading>span{display:grid;place-items:center;flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--vf-action);color:var(--vf-on-action);font-weight:800}
+html body #main .vf-pick-help{font-size:.85rem;line-height:1.5;margin:8px 0 14px;color:var(--ink)}
+html body #main .vf-interaction .vf-pick{position:relative;cursor:pointer;border:2px solid var(--vf-action)!important;background:var(--vf-surface)!important;color:var(--ink)!important;box-shadow:0 4px 0 color-mix(in srgb,var(--vf-action) 38%,transparent);transition:background-color .12s,border-color .12s,box-shadow .12s}
+html body #main .vf-interaction .vf-pick:not(:disabled):hover{background:var(--vf-action-hover)!important;box-shadow:0 5px 0 color-mix(in srgb,var(--vf-action) 55%,transparent)}
+html body #main .vf-interaction .vf-pick:focus-visible,html body #main .vf-interaction .vf-adjust:focus-visible{outline:3px solid var(--vf-action)!important;outline-offset:4px}
+html body #main .vf-interaction .vf-pick[aria-pressed=true]{background:var(--vf-action-soft)!important;border-color:var(--vf-action)!important;box-shadow:0 0 0 2px var(--vf-action)}
+html body #main .vf-interaction .vf-pick[data-result=wrong]{border-color:var(--d5-error)!important;box-shadow:0 0 0 2px var(--d5-error)}
+html body #main .vf-interaction .vf-pick:disabled{cursor:not-allowed;border:2px dashed var(--vf-line)!important;background:var(--vf-soft)!important;box-shadow:none;opacity:1!important}
+html body #main .vf-interaction .vf-pick:disabled>.vf-art,html body #main .vf-interaction .vf-pick:disabled>.vf-food-image{opacity:.55}
+html body #main .vf-interaction .vf-choice-action{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:34px;margin-top:auto;padding:7px 8px;box-sizing:border-box;border-radius:8px;background:var(--vf-action);color:var(--vf-on-action);font-size:.85rem;line-height:1.35;font-weight:800;white-space:normal}
+.vf-choice-action svg{width:17px;height:17px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7}.vf-choice-action>span:last-child{font-size:1.1em}
+html body #main .vf-interaction .vf-pick:disabled .vf-choice-action{background:transparent;color:var(--muted);border-top:1px solid var(--vf-line);border-radius:0}
+html body #main .vf-interaction .vf-adjust{cursor:pointer;border:2px solid var(--vf-action)!important;background:var(--vf-action)!important;color:var(--vf-on-action)!important;min-height:46px;box-shadow:0 3px 0 color-mix(in srgb,var(--vf-action) 35%,transparent)}
+html body #main .vf-interaction .vf-adjust:disabled{cursor:not-allowed;box-shadow:none;border-color:var(--vf-line)!important;background:var(--vf-soft)!important;color:var(--muted)!important;opacity:1}
+html body #main .vf-interaction .vf-hotspot.vf-pick{position:absolute;display:flex;flex-direction:column;gap:7px;z-index:2;transform:translate(-50%,-50%)!important}
+.vf-map>svg,.vf-map>.vf-road-name,.vf-map>.vf-origin{pointer-events:none}
+html body #main .vf-interaction .vf-hotspot .vf-choice-action{font-size:.75rem;min-height:27px;padding:5px 3px;gap:4px}
+@media(prefers-reduced-motion:reduce){html body #main .vf-interaction .vf-pick{transition:none}}

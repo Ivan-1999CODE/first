@@ -26,23 +26,16 @@ function dgStudyPreviewContent(r){
  return `<details class="panel dg-dialogue-preview"><summary>對話怎麼接？需要時看一小段</summary>${main}<p class="fine">其他句子到「同一段對話，再練一次」逐句練；③ 再把完整順序接起來。</p></details>`+(course.studySupplement?microStudySupplement(course.studySupplement):'');
 }
 function dgStudyChangedPhrases(r){
- const taught=new Set(r.phraseIds.map(id=>dgStudyPhraseById(id).en));
- const changes=[];
- for(const variation of [r.variation,...r.additionalVariations||[]]){
-  for(const step of variation?.steps||[]){
-   if(taught.has(step.answer))continue;
-   taught.add(step.answer);changes.push(step);
-  }
- }
+ const changes=r.studyChanges||[];
  if(!changes.length)return '';
- return `<section class="study-block dg-study-changes" aria-label="後面會用到的替換說法"><h2>換這個條件，再說一次</h2><p class="fine">④ 會用到下面的說法；先練改變的這一句，其餘沿用上面學過的句子。</p><div class="grid">${changes.map((s,i)=>`<article class="panel dg-change-card" data-study-change="${i}"><p class="eyebrow">${esc(s.label||'換一個條件')}</p><p>${esc(s.task)}</p><p class="en" lang="en">${esc(s.answer)}</p><p class="study-meaning">${esc(s.answerZh)}</p>${audio(s.answer)}</article>`).join('')}</div></section>`;
+ return `<section class="study-block dg-study-changes" aria-label="可以替換的說法"><h2>同一句，換一個詞</h2><p class="fine">看懂換詞後的意思，再到後面的短對話練習接話。</p><div class="grid">${changes.map((s,i)=>`<article class="panel dg-change-card" data-study-change="${i}"><p class="eyebrow">${esc(s.from[0])} → ${esc(s.to[0])}</p><p class="en" lang="en">${esc(s.answer)}</p><p class="study-meaning">${esc(s.answerZh)}</p>${audio(s.answer)}</article>`).join('')}</div></section>`;
 }
 function dgStudyHearLines(r){
  const lines=[...r.hearLines],known=new Set(lines.map(p=>p.en));
  for(const variation of [r.variation,...r.additionalVariations||[]]){
   for(const step of variation?.steps||[]){
    if(known.has(step.line))continue;
-   known.add(step.line);lines.push({en:step.line,zh:step.zh,role:step.role||r.role,sources:['④ 換條件時會聽到']});
+   known.add(step.line);lines.push({en:step.line,zh:step.zh,role:step.role||r.role,sources:['延伸：另一種情境的回話']});
   }
  }
  return lines;
@@ -50,7 +43,7 @@ function dgStudyHearLines(r){
 
 phrasePage=function(){
  const r=activeRound(),role=r.role||course.replyRole;
- const navigation=studyNavigation()+`<p class="dg-study-instruction">${mode==='reply'?'跟著角色輪流聽、說，一次只練當前這一句。':'先看意思、聽一次，再把這個任務的句子說出口。'}</p>`;
+ const navigation=studyNavigation()+`<p class="dg-study-instruction">${mode==='reply'?(course.day>0?'看中文翻譯，用英文說出這一句，再跟著角色接話。':'跟著角色輪流聽、說，一次只練當前這一句。'):'先看意思、聽一次，再把這個任務的句子說出口。'}</p>`;
  if(mode==='reply')return navigation+listeningReply();
  const reuse=r.reuse?.length?`<details class="panel dg-study-support"><summary>前面學過、這個任務會用到的說法</summary><div class="grid">${r.reuse.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i,true)).join('')}</div></details>`:'';
  const extra=r.extraPhraseIds?.length?`<details class="panel dg-study-support"><summary>也可以這樣說（原有句子都保留）</summary><div class="grid">${r.extraPhraseIds.map((id,i)=>dgStudyPhrase(dgStudyPhraseById(id),i)).join('')}</div></details>`:'';
@@ -72,19 +65,20 @@ function dgStudyScene(steps,index){
 listeningReply=function(){
  const r=activeRound(),ids=[...r.replyIds,...(r.extraReplyIds||[])],index=ids.indexOf(reply),q=replies[reply];
  const key=`${taskRound}:${reply}`,role=q.role||r.role||course.replyRole;
+ const translationPractice=course.day>0;
  if(dgStudyReplyKey!==key){dgStudyReplyKey=key;dgStudyReplyRole=q.askFirst?'self':'other';}
  const self=dgStudyReplyRole==='self',first=q.askFirst?'self':'other',isFirst=dgStudyReplyRole===first;
  const selfAction=q.askFirst?btn(`我說好了，聽${esc(role)}回覆 →`,'data-dg-reply-role="other"','class="primary"'):btn(`← 再聽${esc(role)}`,'data-dg-reply-role="other"');
  const otherAction=q.askFirst?btn('← 再說一次','data-dg-reply-role="self"'):btn('聽懂了，換我回答 →','data-dg-reply-role="self"','class="primary"');
  const current=self?
-  `<div class="workshop-answer dg-study-current" data-study-speaker="self"><p class="dg-role">你 · ${q.askFirst?'先開口':'換你回答'}</p><h3 id="dg-study-turn" class="dg-task" tabindex="-1">${esc(q.task)}</h3>${guidedHint(q.words,q.answer,q.answerZh,`study-${key}`)}<div class="dg-study-step-actions">${selfAction}</div></div>`:
+  `<div class="workshop-answer dg-study-current" data-study-speaker="self"><p class="dg-role">你 · ${q.askFirst?'先開口':'換你回答'}</p><h3 id="dg-study-turn" class="dg-task" data-study-prompt="${translationPractice?'translation':'situation'}" tabindex="-1">${esc(translationPractice?q.answerZh:q.task)}</h3>${guidedHint(q.words,q.answer,q.answerZh,`study-${key}`)}<div class="dg-study-step-actions">${selfAction}</div></div>`:
   `<div class="workshop-question dg-study-current" data-study-speaker="other"><p class="dg-role">${esc(role)} · ${q.askFirst?'聽回覆':'先聽對方'}</p><h3 id="dg-study-turn" tabindex="-1">聽懂這句就好</h3>${audio(q.line)}${transcript(q.line,q.zh)}<p class="fine">聽懂意思即可，不必背對方整句。</p><div class="dg-study-step-actions">${otherAction}</div></div>`;
  const picker=items=>items.map(n=>btn(`${ids.indexOf(n)+1}. ${esc(replies[n].name)}`,`data-reply="${n}"`,`aria-pressed="${n===reply}"`)).join('');
  const lastAction=index<ids.length-1?btn('下一段 →',`data-reply="${ids[index+1]}"`,isFirst?'':'class="primary"'):btn('帶著同一段對話去操作 →',`data-start="${r.flowIds[0]}"`,isFirst?'':'class="primary"');
  return `<div class="workshop-picker" role="group" aria-label="本任務短對話">${picker(r.replyIds)}</div>`+
   (r.extraReplyIds?.length?`<details class="panel"${r.extraReplyIds.includes(reply)?' open':''}><summary>更多短對話，選一段再練</summary><div class="workshop-picker">${picker(r.extraReplyIds)}</div></details>`:'')+
-  `<section class="panel workshop-card dg-study-dialogue"><div class="workshop-card-top"><h2>${esc(q.name)}</h2><span class="workshop-count">${index+1} / ${ids.length}</span></div>${dgStudyScene(ids.map(i=>replies[i]),index)}${current}<div class="lesson-footer dg-dialogue-nav">${btn('← 上一段',`data-reply="${ids[index-1]}"`,index===0?'disabled':'')}${lastAction}</div></section>`+
-  `<details class="panel dg-study-repeat"><summary>同一段，再練一次：提示怎麼收回？</summary><p>看完整說法 → 只看關鍵字 → 收起提示。每次都練同一段，還不熟就再來一次。</p>${q.change?`<p>${esc(q.change)}</p>`:''}${q.changeAnswer&&q.changeAnswer!==q.answer?guidedHint(q.changeWords,q.changeAnswer,q.changeAnswerZh||'',`study-change-${key}`):''}${q.note?`<p>${esc(q.note)}</p>`:''}</details>`;
+  `<section class="panel workshop-card dg-study-dialogue"><div class="workshop-card-top"><h2>${esc(q.name)}</h2><span class="workshop-count">${index+1} / ${ids.length}</span></div>${translationPractice?'':dgStudyScene(ids.map(i=>replies[i]),index)}${current}<div class="lesson-footer dg-dialogue-nav">${btn('← 上一段',`data-reply="${ids[index-1]}"`,index===0?'disabled':'')}${lastAction}</div></section>`+
+  `<details class="panel dg-study-repeat"><summary>同一段，再練一次：提示怎麼收回？</summary><p>${translationPractice?'中文翻譯會一直保留。需要時看完整英文 → 只看關鍵字 → 收起英文提示，再說一次。':'看完整說法 → 只看關鍵字 → 收起提示。每次都練同一段，還不熟就再來一次。'}</p>${!translationPractice&&q.change?`<p>${esc(q.change)}</p>`:''}${q.changeAnswer&&q.changeAnswer!==q.answer?(translationPractice?`<p>${esc(q.changeAnswerZh||'')}</p>`:'')+guidedHint(q.changeWords,q.changeAnswer,q.changeAnswerZh||'',`study-change-${key}`):''}${q.note?`<p>${esc(q.note)}</p>`:''}</details>`;
 };
 
 // Existing navigation listeners still own task selection, audio and saved work.

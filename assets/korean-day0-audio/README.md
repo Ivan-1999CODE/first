@@ -2,6 +2,8 @@
 
 音檔只包含編寫好的教材句子、單字與數字，不包含學生作答。
 
+情境數字另由 `assets/korean-number-lessons.cjs` 編寫：數量練 1～10 個，問價與付款練 11 組完整金額。新增 16 段後共 169 段音檔；每個「數量＋개」或「金額＋원」直接合成完整說法，不以單個數字拼接。只更新韓文時，準備與驗證指令加上 `ko`，例如 `node --preserve-symlinks --preserve-symlinks-main prepare-day0-practical-audio.cjs ko --check`。
+
 - 合成聲音：Microsoft Edge TTS `ko-KR-SunHiNeural`，語速 `-10%`。
 - 製作工具：`edge-tts`。執行 `generate-day0-audio.py --korean` 時需要連線。
 - `texts.json`：由韓文課程資料產生的音檔文字清單。

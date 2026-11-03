@@ -1,0 +1,44 @@
+/* Small language-specific additions to the shared English presentation. */
+:root[data-course-day="0"][data-theme] body.day0-guided {
+ --bg:inherit; --panel:inherit; --ink:inherit; --muted:inherit; --line:inherit;
+ --accent:inherit; --on-accent:inherit; --soft:inherit; --neutral:inherit;
+ --hear-bg:inherit; --hear-ink:inherit; --hear-line:inherit;
+ --dg-tint:var(--soft);
+}
+body.day0-guided { --say-bg:#fff0c7; --say-ink:#513a17; --say-line:#a66a17; }
+:root[data-theme=dark] body.day0-guided { --say-bg:#40351f; --say-ink:#ffe6af; --say-line:#e7b85c; }
+body.day0-guided .dg-lesson-cover.hero { min-height:0; padding:28px; margin:0 0 20px; }
+body.day0-guided .dg-lesson-cover h1 { font-size:clamp(1.65rem,3vw,2.5rem); }
+body.day0-guided .dg-cover-art img { object-fit:contain; }
+body.day0-guided .primer-entry { margin:0 0 20px; }
+body.day0-guided #dg-context { flex-wrap:wrap; gap:12px; }
+body.day0-guided .dg-context-copy { flex:1 1 380px; }
+body.day0-guided .dg-task-switch { display:flex; flex-wrap:wrap; justify-content:flex-end; max-width:100%; margin-inline-start:auto; }
+body.day0-guided #day0-task-open { flex:0 0 auto; }
+body.day0-guided .dg-task-panel .reading { color:inherit; }
+body.day0-guided .d5-chat-bubble .reading,
+body.day0-guided .d5-chat-bubble .reading :is(summary,p,.fine) { color:var(--bubble-ink); }
+body.day0-guided :is(.dg-study-card,.study-hear-card,.dg-change-card) > .reading { margin:10px 0; }
+body.day0-guided .dg-keywords { font-family:inherit; }
+body.day0-guided .dg-entry-note > summary { min-height:44px; padding:10px 0; }
+body.day0-guided .day0-reference table { min-width:0; }
+body.day0-guided .day0-reference td { overflow-wrap:anywhere; }
+#day0-task-dialog { width:min(780px,calc(100% - 24px)); max-height:calc(100dvh - 32px); margin:auto; padding:24px; color:var(--ink); background:var(--panel); border:1px solid var(--line); border-radius:20px; overflow:auto; }
+#day0-task-dialog::backdrop { background:rgba(12,25,38,.6); }
+#day0-task-dialog .dg-dialog-heading { display:flex; gap:12px; align-items:center; justify-content:space-between; }
+#day0-task-dialog h2 { font-size:1.3rem; }
+#day0-task-dialog .day0-task-group { border-top:1px solid var(--line); margin-top:20px; padding-top:16px; }
+#day0-task-dialog .day0-task-group h3 { margin:0; }
+#day0-task-dialog .day0-task-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+#day0-task-dialog .day0-task-options button { display:flex; align-items:center; gap:12px; text-align:left; min-height:60px; white-space:normal; }
+#day0-task-dialog .day0-task-options button small { display:block; font-size:.78em; margin-top:4px; }
+#day0-task-dialog .day0-task-options button[aria-pressed=true] { background:var(--accent); color:var(--on-accent,#fff); border-color:var(--accent); }
+#day0-task-dialog .day0-task-options button:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+@media(max-width:739px){
+ body.day0-guided .dg-lesson-cover.hero { padding:20px; gap:12px; }
+ body.day0-guided .dg-context-copy { flex:1 1 190px; }
+ body.day0-guided .primer-entry { flex-direction:column; align-items:stretch; }
+ body.day0-guided .primer-entry .actions button { width:100%; }
+ #day0-task-dialog { padding:18px; }
+ #day0-task-dialog .day0-task-options { grid-template-columns:1fr; }
+}

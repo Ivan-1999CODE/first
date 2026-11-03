@@ -3,7 +3,15 @@ function koreanPreviewCard(p,i,me){
  return `<article class="panel japanese-preview-card"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(me?p.use:course.replyRole+'可能會說')}</p><p class="en" lang="ko">${esc(p.en)}</p><p class="preview-meaning">${esc(p.zh)}</p>${reading(p.en)}${audio(p.en)}${me&&p.practice?`<div class="phrase-use"><b>現在就用一次</b><p>${esc(p.practice)}</p>${hint('先想現在要表達什麼，再換地點。',p.remix)}</div>`:''}</article>`;
 }
 function koreanNumberReference(){
- return `<details class="study-block study-vocabulary japanese-numbers" open><summary class="study-heading study-words"><div><h2>韓文數字 1～10：先用在金額與分鐘</h2><p>價格與分鐘用這組數字；物品數量另外先學一個、兩個。</p><span class="number-toggle" aria-hidden="true"></span></div></summary><div class="panel">${numberSequenceControls()}<div class="task-words">${numberWords.map(([ko,label])=>`<div><b>${esc(label)}</b><span lang="ko">${esc(ko)}</span>${reading(ko)}${audio(ko)}</div>`).join('')}</div><p class="fine number-note">數物品：한 개（一個）、두 개（兩個）。金額：삼천 원（3,000 韓元）、오천 원（5,000 韓元）、만 원（10,000 韓元）。先聽聲音，熟悉後再收起拼音。</p></div></details>`;
+ const lesson=koreanNumberLesson();if(!lesson)return '';
+ const sequence=lesson.groups.flatMap(g=>g.items.map(i=>i.text)).join(' ');
+ return `<details class="study-block study-vocabulary japanese-numbers korean-context-numbers" data-number-context="${lesson.id}" open><summary class="study-heading study-words"><div><h2>${esc(lesson.title)}</h2><p>${esc(lesson.description)}</p><span class="number-toggle" aria-hidden="true"></span></div></summary><div class="panel"><p>可以逐個點聽，或依序播放整組；先聽完整說法，再跟著說一次。</p><div class="actions number-sequence">${btn('▶ '+esc(lesson.sequenceLabel),`data-number-sequence="true" data-say="${esc(sequence)}"`)}${btn(esc(lesson.slowLabel),`data-number-sequence="true" data-say="${esc(sequence)}" data-slow="true"`)}</div>${lesson.groups.map(g=>`<section class="korean-number-group"><h3>${esc(g.title)}</h3><div class="task-words">${g.items.map(i=>`<div><b>${esc(i.zh)}</b><span lang="ko">${esc(i.text)}</span>${reading(i.text)}${audio(i.text)}</div>`).join('')}</div></section>`).join('')}<p class="fine number-note">${esc(lesson.note)}</p><p class="fine">拼音只協助認字；連讀和實際發音請跟著完整音檔聽。</p></div></details>`;
+}
+function koreanNumberLesson(){
+ const key=activeRound().key;
+ if(key.includes('practical-quantity-total'))return koreanNumberLessons.quantity;
+ if(key.includes('practical-price-buy')||key.includes('practical-payment'))return koreanNumberLessons.price;
+ return null;
 }
 studyVocabulary=function(r){
  if(!r.words.length)return '';

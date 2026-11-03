@@ -31,7 +31,7 @@ intro=function(){
  const r=currentRound();
  return `<section class="hero home-hero"><div class="hero-copy"><p class="eyebrow">DAY 1 / TRAVEL LAB</p><h1>問路與求助，<br>依序練習 A、B、C。</h1><p class="lead">每個小任務都有自己的開始與收尾。一堂課只完成一輪也可以，下次接著練。</p></div><div class="hero-art">${course.art}</div></section>
  <section class="panel before-panel"><h2>任務 ${r.id}：先試著說</h2>${roundChoices('before-round')}<p class="task">${esc(r.checkpoint.task)}</p>${field('before-'+r.id,'這一輪，第一次的嘗試')}<p class="fine">先口頭試說，再記下原本的說法；⑥ 會回到完全相同的題目。沒有填寫也可以練習。</p></section>
- <section class="panel"><p class="eyebrow">每個任務，反覆用到會</p><h2>一輪一個小循環</h2><p>② 學本輪句子 → ③ 原句操作 → ④ 只換一個條件 → ⑤ 真人接話 → ⑥ 看進步 → ⑦ 回家再練。</p><p>同一段可以重來。師生確認能用本輪句子完成溝通，再進下一輪；課程中途也能直接做本輪收尾。</p></section>
+ <section class="panel"><p class="eyebrow">每個任務，反覆用到會</p><h2>一輪一個小循環</h2><p>② 學本輪句子 → ③ 原句操作 → ④ 看情境，自己選用 → ⑤ 真人接話 → ⑥ 看進步 → ⑦ 回家再練。</p><p>同一段可以重來。師生確認能用本輪句子完成溝通，再進下一輪；課程中途也能直接做本輪收尾。</p></section>
  <div class="cards">${rounds.map((x,i)=>`<section class="panel"><p class="eyebrow">任務 ${x.id} · ${x.phraseIds.length} 個核心說法</p><h2>${esc(x.name)}</h2><p>${esc(x.goal)}</p><p class="fine">${roundsDone.includes(x.id)?'✓ 師生已確認熟悉，可加入混合複習':'尚未確認熟悉，可反覆練習'}</p>${btn(`先試任務 ${x.id} →`,`data-before-round="${i}"`)}</section>`).join('')}</div>
  <details class="panel"><summary>老師看：怎麼分堂與收尾</summary><p>只教 A，就做 A 的 ⑥、⑦；下堂仍可重練 A。A 熟悉後才接 B，C 也一樣。兩輪以上熟悉時，再手動開啟「已學任務混合複習」，挑選要回顧的任務。</p><p>看過句卡、點完流程、勾完目標，都不會自動判定學會。以學生是否知道何時用、能接住回話並表達意思為準；不要求逐字背誦。</p></details>`;
 };
@@ -50,13 +50,13 @@ focusReply=function(){
 };
 roundBanner=function(){
  const r=currentRound();
- return `<section class="focus-banner" aria-label="目前練習輪次">${roundChoices()}<strong>${r.id}｜${esc(r.name)} · 本輪只練 ${r.phraseIds.length} 個說法</strong><div class="focus-stages">${[1,2,3,4,5,6].map((n,i)=>btn(['② 學本輪句子','③ 跟著做','④ 換情況','⑤ 真人用','⑥ 看進步','⑦ 回家練'][i],`data-page="${n}"`,page===n?'aria-current="step"':'')).join('<span aria-hidden="true">→</span>')}</div></section>`;
+ return `<section class="focus-banner" aria-label="目前練習輪次">${roundChoices()}<strong>${r.id}｜${esc(r.name)} · 本輪只練 ${r.phraseIds.length} 個說法</strong><div class="focus-stages">${[1,2,3,4,5,6].map((n,i)=>btn(['② 學本輪句子','③ 跟著做','④ 看情境，自己選用','⑤ 真人用','⑥ 看進步','⑦ 回家練'][i],`data-page="${n}"`,page===n?'aria-current="step"':'')).join('<span aria-hidden="true">→</span>')}</div></section>`;
 };
 focusFooter=function(){
  const r=currentRound();let nextButton='';
  if(page===0)nextButton=btn(`開始任務 ${r.id}：學本輪句子 →`,'data-page="1"');
  if(page===1)nextButton=btn('用本輪短對話去練習 →',`data-start="${focusRound}"`);
- if(page===2)nextButton=btn('只換一個條件 →','data-page="3"',finished?'':'disabled');
+ if(page===2)nextButton=btn('看情境，自己選用 →','data-page="3"',finished?'':'disabled');
  if(page===3)nextButton=btn('用同樣句子，和老師接話 →','data-page="4"');
  if(page===4)nextButton=btn('本輪收尾：看看進步 →','data-page="5"');
  if(page===5)nextButton=btn(reviewMode==='mixed'?'這些任務帶回家練 →':`只練任務 ${r.id} 的回家挑戰 →`,'data-page="6"');

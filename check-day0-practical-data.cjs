@@ -12,10 +12,11 @@ for(const language of ['ja','ko']){
  const originalGlossaryKeys=new Set(originalGlossary.map(row=>row[0]));
  assert.equal(d.course.id,`travel-lab-${language}-day0-practical-v1`);
  assert.equal(d.previousFocusKey,oldKey);assert.equal(d.previousLesson.key,oldKey);
- assert.equal(d.course.labels.length,7);assert.equal(d.course.taskGroups.length,6);
+ assert.equal(d.course.labels.length,7);assert.equal(d.course.taskGroups.length,3);
  assert.deepEqual(d.rounds.map(r=>r.id),['A','B','C','D','E','F','G','H','I','J']);
- assert.deepEqual(d.course.taskGroups.flatMap(g=>g.roundIds),d.rounds.map(r=>r.id));
- assert.deepEqual(d.course.taskGroups.find(g=>g.id==='phone-route').roundIds,['J']);
+ assert.deepEqual(d.course.taskGroups.flatMap(g=>g.roundIds),['A','B','C','D','F','E','G','H','I','J']);
+ assert.deepEqual(d.course.taskGroups.find(g=>g.id==='places').roundIds,['H','I','J']);
+ assert.deepEqual(d.course.taskGroups.flatMap(g=>g.roundIds).map(id=>d.rounds.find(r=>r.id===id).displayLabel),['A','B','C','D','E','F','G','H','I','J']);
  assert.ok(!d.course.studySupplement);assert.equal(d.practicalSupport.length,4);
  assert.equal(d.optionalTravelPhrases?.groups.reduce((n,g)=>n+g.phrases.length,0)||0,language==='ko'?16:0);
  for(const r of d.rounds){
@@ -81,6 +82,7 @@ for(const language of ['ja','ko']){
  const samples=language==='ja'?['これはいくらですか。','カードで払えますか。','すみません。']:['이거 얼마예요?','카드로 계산할 수 있어요?','저기요.'];
  for(const text of samples)assert.equal(JSON.stringify(newSegments(text).map(x=>x.entry.text)),JSON.stringify(priorSegments(text).map(x=>x.entry.text)),language+': sentence/primer entry stole word segmentation '+text);
  const taskWords=new Set(d.rounds.flatMap(r=>r.words.map(([text])=>text)));
+ for(const lesson of Object.values(d.koreanNumberLessons||d.japaneseNumberLessons||{}))for(const group of lesson.groups)for(const item of group.items)taskWords.add(item.text);
  for(const [text]of d.day0GlossaryData)if(!originalGlossaryKeys.has(text))assert.ok(taskWords.has(text),language+': glossary contains a new non-task-word '+text);
  result.push({language,tasks:d.rounds.length,chapters:d.course.taskGroups.length,audio:Object.keys(d.day0Audio).length,cues:cueCount});
 }

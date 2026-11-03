@@ -26,7 +26,7 @@ function verifyRenderedStudy(data) {
   const label = `Day ${data.course.day} / ${round.displayLabel || round.id}`;
   const core = new Set(round.phraseIds.map(id => data.phrases.find(phrase => phrase.id === id).en));
   const variations = [round.variation, ...(round.additionalVariations || [])].flatMap(variation => variation.steps);
-  const expectedChanges = unique(variations.map(step => step.answer).filter(answer => !core.has(answer)));
+  const expectedChanges = unique(round.sayPrompts.filter(p=>p.mode==='swap').map(p=>p.answer));
   const changeHtml = sandbox.dgStudyChangedPhrases(round);
   assert.equal((changeHtml.match(/data-study-change=/g) || []).length, expectedChanges.length, `${label}: substitution cards are deduplicated`);
   assert(!/<details\b|\bhidden\b|\binert\b/.test(changeHtml), `${label}: required substitutions are not hidden in optional dialogue`);

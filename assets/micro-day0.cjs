@@ -37,6 +37,6 @@ function makeLegacy(language){
 }
 function make(language,options={}){
  const base=makeLegacy(language);
- return options.legacy?base:require('./day0-practical.cjs').make(language,base);
+ return options.legacy?base:require('./learning-practice.cjs')(require('./say-practice.cjs').addSayPractice(require('./day0-practical.cjs').make(language,base)));
 }
 module.exports={make};

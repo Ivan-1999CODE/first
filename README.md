@@ -1,3 +1,115 @@
+## 第 8 章：A～F 綜合練習已補齊
+
+第八章保留 A～F 個別任務，綜合入口分成「完成入住」（A～C）、「處理住宿需求」（D～F）和「全章住宿挑戰」（A～F）。三組分別有 8／6／6 道情境題及 4／4／3 個真人任務，均有七部分教學流程、分層提示、老師接話卡與課前／課後回顧；各組作答與練習紀錄分開保存。新增題目要求判斷已知資訊、換順序接話、依價格與時間決定訂餐，以及從入住切換到房內求助。
+
+開啟 `travel-english-unit8-hotel.html` 後選擇「綜合練習 · A～F」；`#integrated`、`#integrated-stay`、`#integrated-chapter` 可直接進入各組。建置使用 `node --preserve-symlinks --preserve-symlinks-main build-task-rounds.cjs 8`。驗證入口為 `check-day8-integration.cjs`、`check-day8-synthesis.cjs`、`check-day8-complete.cjs` 與 `check-pwa.cjs`。以下較早的「整合入住試行」僅記錄原 A～C 階段，以本節三組安排為準。
+
+## 第三部分：逐題判斷與操作介面
+
+英文第 1～14 天的 188 個流程步驟（156 個不同題目 ID）已在 `assets/part03-review.cjs` 逐題列出判斷依據、操作問題及修改內容；另檢查第 1 天的 1 個問路暖身、第 8 天整合入住的 35 個步驟。保留 02 教過的英文、題目 ID 與可接受的選項索引。聽力題依對方回覆判斷，學生已知的需求則用圖片、位置、數量或多條件核對操作；熟度、蛋料理等偏好只記錄選擇。
+
+新增 `assets/interactive-choice-art.js` 提供現金、月曆、訂位卡、房號與物品、票種組合等比較圖片。`assets/interactive-redesign.css` 將第三部分操作區改為中性底色、暖色操作提示，並區分停用、滑鼠停留、焦點、正確與重試狀態。過去紀錄和場景可按需要展開；尚未作答時不顯示答案，錯選只提示核對方向。第 8 天第三部分的情境選單使用中性編號，不預告退房時間或電梯方向。
+
+建置：`node --preserve-symlinks --preserve-symlinks-main build-unit1-focus.cjs`，再執行相同 Node 參數的 `build-task-rounds.cjs 2 3 4 5 6 7 8 9 10 11 12 13 14`。檢查使用 `check-part03-review.cjs`、`check-interactive-flow.cjs`、`check-task-scenes.cjs`、`check-choice-disclosure.cjs`、`check-interaction-affordance.cjs`、`check-day8-integration.cjs` 與 `check-pwa.cjs`。逐題紀錄及畫面存於 `outputs/part03-review/`；修改題型時須同步維護題目檢查與場景狀態測試。
+
+## 第五部分：英文對話與逐句提示
+
+英文第 1～11 天及第 12～14 天整合單元的「導師提示」，展開後以左右對話泡泡呈現：Teacher 靠左、Student 靠右，依原本對話順序只顯示英文，不含中文翻譯或播放按鈕。「學生提示」獨立放在下方，每句可分別展開關鍵字與參考說法，不再包在同一個「學生卡住了」裡。
+
+共用來源為 `assets/lesson5-teacher.js/css`。修改後建置 `build-unit1-focus.cjs` 與 `build-task-rounds.cjs 2 3 4 5 6 7 8 9 10 11 12 13 14`；`check-lesson5-teacher.cjs` 驗證各任務的英文、順序、逐句提示、紀錄保存、深淺色與窄螢幕，畫面保存在 `tmp/teacher-chat-qa/`。
+
+第五部分的目標勾選後整列顯示綠色，取消勾選恢復原色；深淺色及第八天整合入住的目標共用此規則。使用 `check-lesson5-teacher.cjs --goals-only` 可只檢查目標勾選、色彩對比與保存。
+
+## 頁首選單與任務按鈕固定樣式
+
+保留「01 · A 選單」與右側獨立的圓角方形 A、B、C 任務按鈕；選單及選中任務使用主題強調底色，未選中維持面板底色與邊框。英文深色模式為淺藍底、深色字。第 12～14 課相容入口也顯示當前部分及任務字母。
+
+第三部分的互動圖片樣式不得覆蓋 `.top`、`#dg-menu-open` 或 `.dg-task-switch`。先前 `interactive-flow.css` 的深色通用規則範圍過大，已排除這些導覽區。`check-task-navigation-style.cjs` 驗證全 16 課的文字、實際計算顏色、切換、手機邊界及展開選單，修前／修後畫面保存在 `tmp/task-navigation-style/`；搭配 `check-pwa.cjs` 驗證離線更新。
+
+## 其他天的第三部分：讓圖片接續同一個任務
+
+第三部分的作答前結果區保持「尚未選擇」，只有當步已開放且實際選取後才顯示物件。結果標為「你剛才選的是」並立即區分符合對話或需要重試；選錯的卡片顯示「再試一次 ↻」，不使用成功勾號，也不在錯誤回饋直接列出正解。`check-choice-disclosure.cjs` 實際操作機場登機門的未答、選錯、改對、下一題、返回及重練狀態，並檢查文字提示需自行展開、手機／桌面、深淺色與選單。截圖在 `tmp/choice-disclosure/`。
+
+口說所需的已知條件保留，但座位、冰糖量、票券方向、實物數量、衣服、付款物件等 40 個圖像操作步驟（39 個不同步驟 ID）改用圖片辨識，不把中文答案直接重複在圖片下。圖片以畫面順序標記 A、B，與正解索引無關；文字描述供讀屏使用，也可自行展開「需要圖片文字說明」。第 2、6 天的預算題另由 `assets/interactive-challenges.cjs` 改成聽價格後決定是否購買，保留 02 教過的英文、步驟 ID 與口說流程。`check-interactive-flow.cjs` 覆蓋全部 14 個英文入口、60 條流程、188 步，核對未作答的畫面不依正解變化、圖片說明預設收起，以及聽說來源一致。
+
+第三部分的資訊圖與操作區使用不同樣式：資訊區有明確標示，圖片按鈕則有強調邊框、立體邊緣與「點選這張 →」操作條，整張卡片都能點。未完成聽說時顯示虛線、鎖頭及「尚未開放」；選後顯示「已選取」。路口、座位、門口、路線和數量按鈕共用相同的可操作提示，含第一天開場及第八天整合模式。樣式只限互動區，不覆蓋頁首選單與任務按鈕。`check-interaction-affordance.cjs` 檢查七種操作、深淺色、三種寬度、停用／可選／滑鼠停留／鍵盤焦點／已選狀態及展開選單；修前證據與修後圖片保存在 `tmp/interaction-affordance/`。
+
+延續路口與飲料操作，英文第 2～5、7～11 天及第 12～14 天整合求助單元，新增 38 個任務的專屬圖像場景。購物會累積商品、付款與袋子；機場可直接點窗邊／走道座位與登機門；交通可點路線、站名及月台；試衣會保留尺寸、顏色與購買結果；客房推車保留房號及已索取的物品；訂位簿、成人／兒童票夾、邀請行事曆、旅伴資訊卡與求助單隨當下操作更新。
+
+各步仍對應 02 的同一個學生句子和對方回覆，保留先聽／先說順序、重試與下一步條件。未操作時不提前填好答案，選錯時明確標成預覽；同一任務換另一筆訂位、衣服或對話時，清除前一情境的資料。回頭重新選會清除後續結果。報修只顯示已請人查看，紙條只表示已記下服務台位置，不誤稱設備修好或物品找回。
+
+來源：`assets/interactive-task-scenes.js/css`，由 `build-task-rounds.cjs` 接在共用圖像元件之後；圖片全部內嵌，支援離線。`check-task-scenes.cjs` 檢查所有場景、錯誤預覽、合法操作、連續資訊、情境重設及手機大字版，並保存每個任務的深淺色畫面至 `tmp/task-scenes/`。搭配下節的全流程、飯店整合及離線檢查。第 13、14 天是整合求助單元的相容入口，計數不重複列為新任務。
+
+## 第三部分：依 02 對話操作圖片
+
+英文第 1～11 天與第 12～14 天整合求助單元，第三部分現在共用 `assets/interactive-flow.js/css`。各步沿用第二部分已教的學生句子、對方回話與有效選項；圖片依任務呈現路口、座位、飲料、實物數量、衣服、票券、時間、付款及其他情境。冰量與糖量分別操作，糖量結果保留先前冰量；牛排與蛋沿用第二部分的實際圖集。
+
+第一天 A 的問路回覆現在要選路口與轉彎方向，A、B 都有第一／第二路口及左右轉，與第二部分的同一段回覆一致。數量題可逐個放入或拿走，也可展開整組圖卡操作。聽與說仍按原順序進行；選錯顯示操作結果與需核對的資訊，正確後才能繼續。上一句會清除相依的後續操作，完成頁提供圖像回顧，不把按完流程當成口說評分。儲存識別碼、課前課後作答及其他部分的紀錄沿用原有機制。
+
+第八課的整合入住練習沿用自己的狀態與紀錄，第三部分接入相同圖像元件。日韓教材及舊版教材不在這次英文改版範圍內。
+
+建置：`node --preserve-symlinks --preserve-symlinks-main build-unit1-focus.cjs`，再執行 `build-task-rounds.cjs 2 3 4 5 6 7 8 9 10 11 12 13 14`。新驗證入口 `check-interactive-flow.cjs` 會核對 02／03 句子與回覆、所有流程及合法選項、錯誤重試、回頭、數量增減、鍵盤操作、深淺色、手機大字與彈出選單。報告與畫面在 `tmp/interactive-flow/`。飯店整合、第一天句子對應與離線回歸分別使用 `check-day8-integration.cjs`、`check-day1-practice-alignment.cjs`、`check-pwa.cjs`。
+
+舊 `check-practice-alignment.cjs` 的全章檢查仍把第二部分換詞短答限制為主要句卡；舊 `check-day6-drinks.cjs` 仍期待第四部分是四個逐句題，與目前情境組句題不符。這兩個既有斷言不作為本次第三部分的通過依據；新檢查直接核對每條第三部分流程的學習來源。
+
+## 日文數字依購物情境分開
+
+日文任務 A「問價錢，再買這個」與付款任務，改為 100～900、1,000～9,000 日圓，並加上 1,500、3,800、10,000 日圓。任務 B「說幾個，再問總價」練 `ひとつ`、`ふたつ` 到 `とお`；其餘任務收掉不相關的數字表。第二部分與其他步驟的收合工具使用同一份情境資料。
+
+金額卡直接顯示平假名，標出 300、600、800、3,000、8,000 的變音，以及 3,800 的組合；數量卡提醒小「っ」和 10 個的「とお」。正常、慢速、連續播放都使用完整說法，新增 28 段後共 200 段日文音檔。原有作答、字音入門與韓文教材保留。
+
+資料在 `assets/japanese-number-lessons.cjs`，呈現在 `assets/day0-library.js`；讀法核對日本國際交流基金的 [Irodori 詞彙表](https://www.jpf.or.kr/irodori/sData/pdf/resources/wordlist_X.pdf) 與 [助數詞教材](https://www.kyozai.jpf.go.jp/kyozai/material/BTS00010/ja/render.do)。音檔準備及生成依 `assets/day0-audio/README.md`，重建使用 `build-day0.cjs`。情境驗證沿用 `check-korean-context-numbers.cjs ja`（不加參數仍驗證韓文），搭配 `check-day0-number-sequence.cjs`、`check-day0-practical-data.cjs`、`check-day0-practical-ui.cjs`、`check-pwa.cjs`；畫面在 `tmp/japanese-context-numbers/`。下方日文固定基本數字表的描述為歷史紀錄。
+
+## 韓文數字依購物情境分開
+
+韓文任務 A「問價錢，再買這個」和付款任務，第二部分改為完整金額：100、200、300、500、1,000、2,000、3,000、5,000、1,500、3,500、10,000 韓元。任務 B「說幾個，再問總價」則練 `한 개`、`두 개` 到 `열 개`，直接連同「個」一起說；其他任務不再重複顯示不相關的數字表。各任務其餘步驟的收合工具也使用同一組情境數字。
+
+每張卡保留中文、韓文、可展開拼音、正常與慢速播放，並提供整組依序播放。新增 16 段完整說法音檔，韓文共 169 段；原音檔、字音入門、日文教材與所有作答欄位保留。數量使用固有數詞，金額使用漢字數詞；讀音以完整音檔為準，不用單個數字音檔拼湊。
+
+來源：`assets/korean-number-lessons.cjs`、`assets/korean-day0-library.js`。內容參考國立國語院的 [數詞與量詞教學指引](https://www.korean.go.kr/common/download.do?book_seq=294&c_file_name=48c417c6-047f-48f4-88a7-959f28e5e0ad_0.pdf&downGubun=bookDataView&file_path=bookData&o_file_name=한국어진흥-02-17.pdf) 與 [金額省略「일」的說明](https://www.korean.go.kr/front/mcfaq/mcfaqView.do?mcfaq_seq=8574&mn_id=)。音檔依韓文音訊資料夾 README 準備與生成後，執行 `build-korean-day0.cjs`；驗證使用 `check-korean-context-numbers.cjs`、`check-day0-number-sequence.cjs`、`check-day0-practical-data.cjs`、`check-day0-practical-ui.cjs` 與 `check-pwa.cjs`。以下固定 1～10 漢字數字表的描述為歷史紀錄。
+
+## 日文、韓文：沿用英文的首頁、選單與七步流程
+
+日韓教材沿用英文目前的視覺引導版：收合「切換教材」、標示目前任務與步驟、右上角開啟七步選單。首頁改為單句課前題、選填紀錄和一個前進入口，任務概覽預設收起。字音入門保留在主題介紹下方、課前嘗試上方；字音內容與音檔不變。
+
+「選擇任務」依三個生活主題分組：買東西（問價與購買、數量與總價、付款、袋子）；吃東西（先回答幾位，再拿菜單與點餐，最後內用外帶）；找地方（廁所、出口、指手機問路與確認）。十個任務依顯示順序標為 A～J。內部陣列、任務 ID 與作答欄位保留，所以原 E 的點餐紀錄仍屬於點餐（現顯示 F），原 F 的人數紀錄仍屬於人數（現顯示 E）。新單句課前／課後題使用 `entry-before-`／`entry-after-` 欄位，原長題紀錄可在第六步展開回看。
+
+七步共用英文的句卡、逐角色接話、情境選句練習、師生對話、前後比較和課後練習畫面；保留日韓讀音、查詞、內嵌音訊、數字連播及隨手用語。來源為 `assets/day0-guided-build.cjs`、`assets/day0-guided.js/css` 與 `assets/day0-practical.cjs`。重建：`node --preserve-symlinks --preserve-symlinks-main build-day0.cjs`、`node --preserve-symlinks --preserve-symlinks-main build-korean-day0.cjs`，再執行 `build-pwa.cjs`。
+
+驗證入口：`check-day0-guided.cjs`、`check-day0-practical-data.cjs`、`check-day0-practical-ui.cjs`、`check-day0-primer.cjs`、`check-day0-number-sequence.cjs` 與 `check-pwa.cjs`。新導覽測試涵蓋兩語所有任務與原有流程、重試、餐飲順序、舊紀錄、新短題保存、七步前進返回，以及深淺色、大字、手機與展開選單；截圖在 `tmp/day0-guided-qa/`。以下六章與舊版日韓導覽的描述為歷史紀錄，以本節為準。
+
+## 02 練接話，04 看情境自己選用
+
+英文各天的 02「同一段對話，再練一次」直接用學生句子的中文翻譯作提示，移除情境敘述與情境卡。角色先後順序不變，英文仍可切換自己說、關鍵字、看整句；中文翻譯持續保留。第一天與第八天整合入住的短答也採相同方式，04 繼續使用情境題。驗證由 `check-guided-study.cjs` 核對每組中文翻譯、角色切換及提示收放。
+
+所有課程上方右側保留 A、B、C 等任務按鈕，可直接點選切換並保留目前部分。日韓 A～J 在窄螢幕換行，任務總覽另可展開；第八天整合模式也提供 A～F，點選會回到該任務的相同部分。
+
+所有現行教材（英文第 1～14 天、日韓第 0 天及第八課整合練習）依同一原則整理。02 在「我會說」下方列出適合的「同一句，換一個詞」，沒有適合替換的任務直接省略；其後的短對話包含原句與替換說法，練習先說或接話。肯定／否定等完整回應列為基本說法，不當作換字。
+
+04 固定「一個情境、一個需求、只說一句」。有多個說法要練，就在上方分成編號的小情境按鈕，每次只顯示一題，禁止一題要求連續回答多句；「自己說／關鍵字／參考說法」三段提示預設收起答案，換情境或任務會重設。選填筆記預設收起。16 個教材檔案共 73 個任務、197 題單句情境（含第 12～14 課相容入口的重複內容）；48 個任務有換詞，25 個省略換詞區。
+
+第六天 C 練不加冰、不加糖、少冰、少糖，04 把冰量與糖量分開，一題只表達一項需求。第八天 E 分成點餐、問總價、問等候時間、接受與婉拒五個小情境，含 No, thank you.。第二天 B 依是否自備袋子選擇說法，不把兩種相反回答接著說。
+
+內容由 assets/single-situation-prompts.cjs 與 assets/single-situation-practice.cjs 整理，接在 assets/learning-practice.cjs 後；舊情境資料只用於保留既有作答，畫面使用 assets/say-practice.js。新情境使用獨立欄位；舊 say-v1-…、mission-… 與飯店整合 change-… 作答保留，已有內容時可展開回看。原有完整對話流程與其餘練習紀錄保留。
+
+重建：node build-unit1-focus.cjs、node build-task-rounds.cjs，最後 node build-pwa.cjs 更新離線快取。驗證：check-single-situation.cjs、check-learning-practice.cjs、check-say-practice.cjs、check-guided-study.cjs、check-day8-integration.cjs 與 check-pwa.cjs。本節取代下方歷次紀錄的 02／04 舊安排；歷史教材保留原樣。
+
+## 第 8 課整合試行：完成飯店入住（本機試用）
+
+[第八課](travel-english-unit8-hotel.html) 保留 A～F 的逐步練習，新增「整合練習 · A＋B＋C」入口；網址加上 `#integrated` 可直接進入。這組把提出入住、訂房姓名、護照與晚數、早餐、退房時間和電梯串成同一筆訂房，共用七部分。第五部分可選「有提示的整合／自主接話」，也可從整合首頁直接試完整對話。
+
+主情境及換姓名、住 3 晚、12 點退房、電梯在右邊，共 5 種條件。第三部分的櫃檯卡隨操作更新，回頭會清除後續資訊；第四部分分成七個小情境，每題只選一句需要的說法，第五部分再完整接話。額外櫃檯問法先在第二部分認識，老師確認後才切換使用。整合紀錄獨立保存於 `travel-lab-en-day8-integrated-checkin-v1`；原任務紀錄不移用、不自動勾選熟悉。
+
+來源：`assets/day8-integration-data.cjs`、`assets/day8-integration.js/css`。建置：`node --preserve-symlinks --preserve-symlinks-main build-task-rounds.cjs 8`。驗證：`node --preserve-symlinks --preserve-symlinks-main check-day8-integration.cjs`，涵蓋完整流程、重試、回頭、紀錄隔離、原任務回歸、深淺色、大字、窄螢幕與展開選單。截圖與報告在 `tmp/day8-integration/`。本次只在本機製作與驗證，未執行發布。
+
+## 第 12～14 課整合：旅行出狀況，我能開口求助
+
+原第 12、13、14 課合成一個單元、三個完整任務：景點關閉，改去有開的博物館並確認路線；趕不上集合，告知導遊位置、重問並確認會合點；包包忘在公車上，描述物品、找到服務台並請對方寫下位置。每個任務有 5 次接話，保留七部分、課前課後同題、自評及課後練習；共 15 句主要說法、6 題聽力。第二部分先教車號、所在位置與包包顏色的替換及接話；第四部分依旅行困難選用已學說法。
+
+主入口是 [整合教材](travel-english-unit12-how.html)。原第 13、14 課檔名保留為相容入口，顯示同一份整合內容；全站選單與首頁只列一個整合單元。新紀錄使用 `travel-lab-en-rescue-12-14-v1`，舊三課的儲存 key 不覆寫、不移作新題進度，可在第六部分查看。原三課句表保留在首頁的老師補充區。
+
+資料來源：`assets/travel-rescue.cjs`；專用畫面：`assets/travel-rescue.js/css`；連結同步：`sync-rescue-links.cjs`。建置執行 `node --preserve-symlinks --preserve-symlinks-main build-unit12.cjs`，會同時重建三個入口、同步導覽並更新離線快取。`build-unit13.cjs`、`build-unit14.cjs` 亦指向同一建置。驗證：`check-travel-rescue.cjs`（完整接話、錯誤重試、取消／回頭、三任務保存、舊紀錄保留、手機大字、深淺色與彈出選單）及 `check-pwa.cjs`。歷史資料可透過 `make(day, {rescue:false})` 取得；以下第 12～14 課的舊編排紀錄以本節為準。
+
 ## 日文、韓文試行版：先練旅行中會用到的對話
 
 日韓第 0 天改為 6 章、10 個小任務：問價與購買 → 數量與總價 → 付款與袋子 → 餐飲（點餐、人數、內外帶）→ 找位置（廁所、出口）→ 指著手機問路。每個任務練 1～2 句，沿用七部分流程與獨立的課前／課後紀錄。禮貌、道謝、請重說與放慢改為各部分都可展開的隨手工具。原有句表與韓文延伸說法保留在首頁的收合區。

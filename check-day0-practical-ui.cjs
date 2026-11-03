@@ -11,16 +11,21 @@ const out=path.resolve('tmp/day0-practical-ui');fs.mkdirSync(out,{recursive:true
   const p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
   await p.goto(pathToFileURL(path.resolve(d.file||'travel-japanese-day0-directions.html')).href);
   const nav=async n=>{
+   await p.locator('#dg-menu-open').click();
    const menu=p.locator('#courseMenu');
    if(await menu.locator(':scope > summary').isVisible()&&!await menu.evaluate(e=>e.open))await menu.locator(':scope > summary').click();
    await p.locator(`#nav [data-page="${n}"]`).click();
   };
   for(const [i,g]of d.course.taskGroups.entries()){
-   await nav(0);await p.locator(`.before-panel [data-practical-chapter="${i}"]`).click();
+   await nav(0);await p.locator('#day0-task-open').click();
+   await p.locator(`#day0-task-dialog [data-day0-task="${d.rounds.findIndex(r=>r.id===g.roundIds[0])}"]`).click();
    assert.equal(await p.evaluate(()=>activeRound().id),g.roundIds[0]);
-   assert.deepEqual(await p.locator('.practical-tasks [data-before-round]').evaluateAll(es=>es.map(e=>Number(e.dataset.beforeRound))),g.roundIds.map(id=>d.rounds.findIndex(r=>r.id===id)));
+   await p.locator('#day0-task-open').click();
+   assert.deepEqual(await p.locator('.day0-task-group').nth(i).locator('[data-day0-task]').evaluateAll(es=>es.map(e=>Number(e.dataset.day0Task))),g.roundIds.map(id=>d.rounds.findIndex(r=>r.id===id)));
+   await p.keyboard.press('Escape');
   }
   // The phone scene keeps the chosen route consistent with the spoken task.
+  await p.locator('#day0-task-open').click();await p.locator('[data-day0-task="9"]').click();
   await nav(2);assert.equal(await p.locator('.practical-phone-map').count(),1);
   assert((await p.locator('.practical-phone-map').innerText()).includes('先聽路線'));
   await p.locator('#spoken').check();await p.locator('#heard').check();await p.locator('[data-choice="0"]').click();
@@ -30,12 +35,12 @@ const out=path.resolve('tmp/day0-practical-ui');fs.mkdirSync(out,{recursive:true
    await nav(n);assert.equal(await p.locator('.practical-tools').count(),1);
    await p.locator('.practical-tools > summary').click();
    assert.equal(await p.locator('.practical-tools [data-say]:not([data-slow])').count(),4);
-   assert.equal(await p.locator('.japanese-numbers').count(),1);
+    assert.equal(await p.locator('.japanese-numbers').count(),0,'Route task only keeps relevant tools');
   }
   for(const theme of ['light','dark'])for(const width of [1440,768,390,320]){
    await p.setViewportSize({width,height:1000});
    await p.evaluate(t=>{document.documentElement.dataset.theme=t;document.documentElement.dataset.size='large';},theme);
-   await nav(0);await p.locator('.before-panel [data-practical-chapter="0"]').click();
+   await nav(0);await p.locator('#day0-task-open').click();await p.locator('[data-day0-task="0"]').click();
    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${language}/${theme}/${width}: no horizontal page overflow`);
    if(width===1440||width===390)await p.screenshot({path:path.join(out,`${language}-${theme}-${width}-home.png`)});
    await nav(1);const word=p.locator('.jp-word').first();await word.click();
@@ -47,7 +52,7 @@ const out=path.resolve('tmp/day0-practical-ui');fs.mkdirSync(out,{recursive:true
    await word.focus();await word.press('Enter');assert(await popup.isVisible());
    await p.keyboard.press('Escape');
   }
-  assert.deepEqual(errors,[]);reports.push({language,status:'passed',chapters:6,parts:7,themes:['light','dark'],widths:[1440,768,390,320]});
+  assert.deepEqual(errors,[]);reports.push({language,status:'passed',chapters:3,parts:7,themes:['light','dark'],widths:[1440,768,390,320]});
   await context.close();console.log(`PASS ${language}: chapters, route scene, support tools, themes, glossary, mobile and large text`);
  }}finally{await browser.close();}
  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(reports,null,2)+'\n');

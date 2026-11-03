@@ -69,6 +69,8 @@ const urlFor=day=>pathToFileURL(path.resolve(curriculum.make(day).file||'travel-
      assert.equal(await p.locator('.dg-study-current').getAttribute('data-study-speaker'),first);
      if(first==='other')assert((await p.locator('.dg-study-current .dg-role').innerText()).includes(q.role||r.role||data.course.replyRole));
      const selfChecks=async()=>{
+      assert.equal((await p.locator('[data-study-prompt="translation"]').innerText()).trim(),q.answerZh,'Part 02 prompts with the exact Chinese translation');
+      assert.equal(await p.locator('.dg-study-scene').count(),0,'Situation prompts belong outside this translation rehearsal');
       const box=p.locator('.dg-study-current .dg-hint');
       assert.equal(await box.locator('[data-level="0"]').getAttribute('aria-pressed'),'true','New exchange begins without the answer');
       assert.equal(await box.locator('[data-pane="2"]').evaluate(e=>e.inert&&getComputedStyle(e).visibility==='hidden'),true);
@@ -88,8 +90,7 @@ const urlFor=day=>pathToFileURL(path.resolve(curriculum.make(day).file||'travel-
       assert((await p.locator('.dg-study-current .dg-role').innerText()).includes(q.role||r.role||data.course.replyRole));
       const details=p.locator('.dg-study-current details');assert.equal(await details.evaluate(e=>e.open),false);await details.locator('summary').click();assert((await details.innerText()).includes(q.line));
      }
-     const scene=r.replyIds.slice(0,r.replyIds.indexOf(id)+1).map(i=>data.replies[i]).reverse().find(x=>x.sceneTitle||x.sceneContext);
-     if(scene){const text=await p.locator('.dg-study-scene').innerText();if(scene.sceneTitle)assert(text.includes(scene.sceneTitle));if(scene.sceneContext)assert(text.includes(scene.sceneContext));}
+     assert.equal(await p.locator('.dg-study-scene').count(),0,'No scenario above either speaker');
      report.replies++;
     }
     await view(p,'library');

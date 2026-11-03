@@ -120,6 +120,7 @@ body.day1-guided .top-inner > div:first-child { display: flex; align-items: cent
 body.day1-guided :is(.tools, .top-tools) { flex-wrap: nowrap; gap: 8px; margin-left: auto; }
 body.day1-guided :is(.tools, .top-tools) button { font-size: .82rem; padding: 9px 12px; border: 1px solid var(--line); border-radius: 11px; background: var(--panel); color: var(--ink); }
 body.day1-guided :is(.tools, .top-tools) button[aria-pressed=true] { background: var(--soft); color: var(--accent); }
+body.day1-guided #dg-menu-open { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 body.day1-guided :is(.layout, .shell) { display: block; width: 100%; max-width: 1328px; padding: 0; margin: auto; }
 body.day1-guided #main { padding: 0 28px 30px; min-width: 0; }
 body.day1-guided .dg-context { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 66px; padding: 10px 28px; margin: auto; max-width: 1328px; }

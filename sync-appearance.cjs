@@ -11,6 +11,7 @@ module.exports=function syncAppearance(file){
  for(const name of files){
   let html=fs.readFileSync(name,'utf8');
   html=require('./sync-day0-links.cjs').updateHtml(name,html);
+  html=require('./sync-rescue-links.cjs').updateHtml(name,html);
   for(const id of ['shared-appearance-init','shared-appearance-styles','shared-appearance-controls','course-palette-styles','travel-app-navigation','responsive-layout-styles','responsive-layout-script','travel-offline-styles','travel-offline-script'])html=html.replace(new RegExp('<(script|style) id="'+id+'"[^>]*>[\\s\\S]*?<\\/\\1>\\s*','g'),'');
   html=html.replace(/<!-- travel-pwa-meta -->[\s\S]*?<!-- \/travel-pwa-meta -->\s*/g,'');
   html=html.replace(/<script data-(?:theme-init|appearance-init|theme-controls)[^>]*>[\s\S]*?<\/script>\s*/g,'');
