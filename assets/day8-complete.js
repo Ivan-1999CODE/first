@@ -5,6 +5,64 @@ function hotelStudyPhrase(p,i,r){
 function hotelStudyHear(s,i){
  return `<article class="panel study-hear-card hi-language hi-hear"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${esc(s.label||'對方可能會說')}</p><p class="en hi-en" lang="en">${esc(s.line)}</p><p class="study-meaning">${esc(s.zh)}</p>${audio(s.line)}</article>`;
 }
+function hotelStudyGroups(labels){
+ return [
+  {id:'arrival',title:'辦理入住',sources:['A','B']},
+  {id:'information',title:'詢問住宿資訊',sources:['C']},
+  {id:'supplies',title:'索取用品',sources:['D']},
+  {id:'dining',title:'客房點餐',sources:['E']},
+  {id:'repair',title:'設備報修',sources:['F']}
+ ].map(g=>({...g,sources:g.sources.filter(s=>labels.includes(s))})).filter(g=>g.sources.length);
+}
+function hotelStudyRound(labels){
+ const sources=rounds.filter(r=>labels.includes(r.displayLabel||r.id));
+ return {
+  phraseIds:[...new Set(sources.flatMap(r=>r.phraseIds))],
+  flowIds:sources.flatMap(r=>r.flowIds),
+  hearLines:sources.flatMap(r=>r.hearLines),
+  studyChanges:sources.flatMap(r=>r.studyChanges||[]),
+  words:[...new Map(sources.flatMap(r=>r.words).map(w=>[JSON.stringify(w),w])).values()]
+ };
+}
+function hotelStudyPicker(groups,current,showAll){
+ return `<section class="hi-study-picker" aria-label="選擇學習情境"><div class="hi-study-picker-head"><h2>依情境找句子</h2><div class="hi-options"><button type="button" data-hotel-study-all aria-pressed="${showAll}">查看全部句子</button></div></div><div class="hi-options hi-study-groups" role="group" aria-label="學習情境">${groups.map(g=>`<button type="button" data-hotel-study-group="${g.id}" aria-pressed="${!showAll&&current===g.id}"><strong>${esc(g.title)}</strong><small>${g.sources.join('＋')} · ${hotelStudyRound(g.sources).phraseIds.length} 句</small></button>`).join('')}</div><p class="fine">${showAll?'目前顯示全部句子，依情境排列；點選上方情境可回到分組查看。':'選一個情境，先看這一組會用到的聽與說。需要整體複習時，再查看全部句子。'}</p></section>`;
+}
+function hotelStudyLibrary(groups,hearFor,extraFor=()=>'',role='飯店人員'){
+ const content=groups.map(g=>{
+  const r=hotelStudyRound(g.sources),spoken=r.phraseIds.map(dgStudyPhraseById);
+  const heard=[...new Map(hearFor(g).map(s=>[s.line,s])).values()];
+  return `<section class="hi-study-section" data-hotel-study-section="${g.id}" aria-labelledby="hi-study-title-${g.id}"><header class="hi-study-title"><p class="eyebrow">${g.sources.join('＋')} · ${spoken.length} 個主要說法</p><h2 id="hi-study-title-${g.id}">${esc(g.title)}</h2></header><section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'旅客：我會說','')}<div class="grid task-phrase-grid hi-language-grid hi-speaking-library">${spoken.map((p,i)=>hotelStudyPhrase(p,i,r)).join('')}</div></section><section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,role+'：我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid hi-language-grid">${heard.map(hotelStudyHear).join('')}</div></section>${extraFor(g)}</section>`;
+ }).join('');
+ const r=hotelStudyRound(groups.flatMap(g=>g.sources));
+ return `<div class="hi-study-sections" data-hotel-study-content>${content}</div>`+studyVocabulary(r).replace('class="study-block study-vocabulary" open','class="study-block study-vocabulary"');
+}
+function hotelStudyIntro(mode,prefix){
+ const library=prefix==='hx'?'say':'library';
+ return `<header class="d5-section-heading"><span class="d5-section-number" aria-hidden="true">02</span><div><h1 tabindex="-1">把句子帶著走</h1><p>先練暖黃色的「我會說」，再看藍色的「我要聽得懂」。</p></div></header>`+
+  `<nav class="study-navigation" aria-label="第二部分學習入口">${[[library,'我會說／我要聽得懂'],['reply','同一段對話，再練一次']].map(([key,label])=>`<button type="button" data-${prefix}-study="${key}" aria-pressed="${mode===key}"><strong>${label}</strong></button>`).join('')}</nav>`+
+  `<p class="dg-study-instruction">${mode==='reply'?'看中文翻譯，用英文說出這一句，再跟著角色接話。':'先看意思、聽一次，再把這個任務的句子說出口。'}</p>`;
+}
+function hotelStudyExchanges(round,bank){
+ const main=round.flowIds.flatMap(id=>flows[id].steps);
+ return {steps:[...main,...bank.filter(s=>!main.some(t=>t.answer===s.answer&&t.line===s.line))],mainCount:main.length};
+}
+function hotelStudyDialogue({steps,mainCount,index,speaker,prefix,key,role}){
+ const s=steps[index],first=s.askFirst?'self':'other',currentRole=speaker||first,self=currentRole==='self';
+ const action=(text,attrs,extra='')=>`<button type="button" ${attrs} ${extra}>${text}</button>`;
+ const changeRole=target=>`data-${prefix}-study-role="${target}"`;
+ const selfAction=s.askFirst?action(`我說好了，聽${esc(role)}回覆 →`,changeRole('other'),'class="primary"'):action(`← 再聽${esc(role)}`,changeRole('other'));
+ const otherAction=s.askFirst?action('← 再說一次',changeRole('self')):action('聽懂了，換我回答 →',changeRole('self'),'class="primary"');
+ const current=self?
+  `<div class="workshop-answer dg-study-current" data-study-speaker="self"><p class="dg-role">你 · ${s.askFirst?'先開口':'換你回答'}</p><h3 id="hotel-study-turn" class="dg-task" data-study-prompt="translation" tabindex="-1">${esc(s.answerZh)}</h3>${guidedHint(s.words,s.answer,s.answerZh,'hotel-study-'+key+'-'+index)}<div class="dg-study-step-actions">${selfAction}</div></div>`:
+  `<div class="workshop-question dg-study-current" data-study-speaker="other"><p class="dg-role">${esc(role)} · ${s.askFirst?'聽回覆':'先聽對方'}</p><h3 id="hotel-study-turn" tabindex="-1">聽懂這句就好</h3>${audio(s.line)}<details class="hi-transcript"><summary>看對方英文與中文</summary><p class="en" lang="en">${esc(s.line)}</p><p>${esc(s.zh)}</p></details><p class="fine">聽懂意思即可，不必背對方整句。</p><div class="dg-study-step-actions">${otherAction}</div></div>`;
+ const picker=(start,end)=>steps.slice(start,end).map((s,i)=>action(`${start+i+1}. ${esc(s.label)}${start>=mainCount?' · '+esc(s.askFirst?s.zh:s.answerZh):''}`,`data-${prefix}-reply="${start+i}"`,`aria-pressed="${index===start+i}"`)).join('');
+ const limit=index<mainCount?mainCount:steps.length;
+ const next=index<limit-1?action('下一段 →',`data-${prefix}-reply="${index+1}"`,currentRole===first?'':'class="primary"'):action('前往 03 完整流程 →','data-hi-page="2"','class="primary"');
+ return `<div class="workshop-picker" role="group" aria-label="本組短對話">${picker(0,mainCount)}</div>`+
+  (steps.length>mainCount?`<details class="panel hotel-study-alternatives"${index>=mainCount?' open':''}><summary>換個條件，選一段再練</summary><div class="workshop-picker">${picker(mainCount,steps.length)}</div></details>`:'')+
+  `<section class="panel workshop-card dg-study-dialogue"><div class="workshop-card-top"><h2>${esc(s.label)}</h2><span class="workshop-count">${index<mainCount?index+1:index-mainCount+1} / ${index<mainCount?mainCount:steps.length-mainCount}</span></div>${current}<div class="lesson-footer dg-dialogue-nav">${action('← 上一段',`data-${prefix}-reply="${index-1}"`,index===0||index===mainCount?'disabled':'')}${next}</div></section>`+
+  `<details class="panel dg-study-repeat"><summary>同一段，再練一次：提示怎麼收回？</summary><p>中文翻譯會一直保留。需要時看完整英文 → 只看關鍵字 → 收起英文提示，再說一次。</p></details>`;
+}
 // Keep the three integration routes on the same presentation components.
 function hotelIntegrationHeading(section,title,sub){
  return `<header class="hi-heading"><span class="hi-number">${String(section+1).padStart(2,'0')}</span><div><h1 tabindex="-1">${esc(title)}</h1><p>${esc(sub)}</p></div></header>`;
@@ -40,7 +98,7 @@ function createCompleteHotel(data, ctx) {
    for(const k of ['listen','spoken'])r.home[k]=old.home?.[k]===true;
   }catch{failures[g.id]=true;}
   records[g.id]=r;
-  memory[g.id]={study:'say',source:g.sourceLabels[0],reply:0,flowId:g.flows[0].id,flow:emptyFlow(),questionId:g.questions[0].id,missionId:g.missions[0].id,mode:'guided',quiz:{}};
+  memory[g.id]={study:'say',studyGroup:hotelStudyGroups(g.sourceLabels)[0].id,studyAll:false,reply:0,replyRole:null,flowId:g.flows[0].id,flow:emptyFlow(),questionId:g.questions[0].id,missionId:g.missions[0].id,mode:'guided',quiz:{}};
  }
  const group=()=>data.groups.find(g=>g.id===ctx.group());
  const state=()=>records[group().id],ui=()=>memory[group().id];
@@ -67,19 +125,12 @@ function createCompleteHotel(data, ctx) {
    ])}</section>`;
  }
  function study(){
-  const g=group(),m=ui(),all=data.bank.filter(s=>s.source===m.source);
-  const r=rounds.find(r=>(r.displayLabel||r.id)===m.source),spoken=r.phraseIds.map(dgStudyPhraseById);
-  const replies=all.filter(s=>!s.askFirst),selected=replies[Math.min(m.reply,Math.max(0,replies.length-1))];
-  const controls=`<div class="hi-options hi-section-tabs">${btn('我想怎麼說','data-hx-study="say"',`aria-pressed="${m.study==='say'}"`)}${btn('飯店問，我來答','data-hx-study="reply"',`aria-pressed="${m.study==='reply'}"`)}</div><div class="hi-options hi-section-tabs" role="group" aria-label="選擇句型來源">${g.sourceLabels.map(s=>btn(s+' · '+esc(data.sources[s]),`data-hx-source="${s}"`,`aria-pressed="${m.source===s}"`)).join('')}</div>`;
-  if(m.study==='reply'){
-   if(!selected)return head('飯店問，我來答','一次聽一個問題，直接用自己的英文回答。')+controls+`<section class="panel"><p>這一類主要由你主動提出需求。可以切到其他任務練回應，或回「我想怎麼說」查用語。</p></section>`;
-   const j=Math.min(m.reply,replies.length-1),same=replies.find(s=>s.label===selected.label&&s.answer!==selected.answer);
-   return head('先聽懂，再接一句','對方的台詞只需聽懂，不要求背誦。')+controls+`<section class="panel"><div class="hi-row"><h2>${esc(selected.label)}</h2><span>${j+1} / ${replies.length}</span></div><div class="hi-grid"><section class="hi-role hi-hear"><p class="dg-role">① 飯店先說</p>${audio(selected.line)}${transcript(selected)}</section><section class="hi-role hi-say"><p class="dg-role">② 換你回答</p><p class="task">${esc(selected.task)}</p>${hint(selected,'reply-'+m.source+'-'+j)}</section></div>${same?`<details><summary>換個條件再回答</summary><p>${esc(same.task)}</p>${hint(same,'reply-change-'+m.source+'-'+j)}</details>`:`<p>收起提示，再用自己的說法回應一次。</p>`}<div class="hi-actions">${btn('← 上一組',`data-hx-reply="${j-1}"`,j===0?'disabled':'')}${btn('下一組 →',`data-hx-reply="${j+1}"`,j===replies.length-1?'disabled':'')}</div></section>`;
-  }
-  return head('需要時，回來找一個說法','共用已學過的用語；依目前需求選擇，不必每次從頭重讀。')+controls+
-   `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'旅客：我會說','')}<div class="grid task-phrase-grid hi-language-grid hi-speaking-library">${spoken.map((p,i)=>hotelStudyPhrase(p,i,r)).join('')}</div></section>`+
-   `<section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'飯店人員：我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid hi-language-grid">${[...new Map(all.map(s=>[s.line,s])).values()].map(hotelStudyHear).join('')}</div></section>`+
-   studyVocabulary(r).replace('class="study-block study-vocabulary" open','class="study-block study-vocabulary"');
+  const g=group(),m=ui(),groups=hotelStudyGroups(g.sourceLabels),visible=m.studyAll?groups:groups.filter(g=>g.id===m.studyGroup);
+  const sources=visible.flatMap(g=>g.sources),r=hotelStudyRound(sources),bank=data.bank.filter(s=>sources.includes(s.source));
+  const controls=hotelStudyIntro(m.study,'hx')+hotelStudyPicker(groups,m.studyGroup,m.studyAll);
+  if(m.study==='reply')return controls+hotelStudyDialogue({...hotelStudyExchanges(r,bank),index:m.reply,speaker:m.replyRole,prefix:'hx',key:g.id+'-'+(m.studyAll?'all':m.studyGroup),role:'飯店人員'});
+  return controls+hotelStudyLibrary(visible,g=>data.bank.filter(s=>g.sources.includes(s.source)))+
+   `<div class="dg-study-step-actions">${btn('用這些句子，練同一段對話 →','data-hx-study="reply"','class="primary"')}</div>`;
  }
  const flowData=()=>group().flows.find(f=>f.id===ui().flowId);
  function current(){const s=flowData().steps[ui().flow.index],choice=s.decisions?.[ui().flow.decision];return choice?{...s,...choice}:s;}
@@ -118,9 +169,11 @@ function createCompleteHotel(data, ctx) {
  document.addEventListener('click',e=>{
   if(!ctx.active())return;const b=e.target.closest('button');if(!b||b.disabled)return;const x=b.dataset,m=ui(),g=group();
   if(x.hxDirect!==undefined){m.mode='independent';ctx.navigate(4);return;}
-  if(x.hxStudy&&['say','reply'].includes(x.hxStudy)){m.study=x.hxStudy;reset();redraw(`[data-hx-study="${m.study}"]`);return;}
-  if(x.hxSource&&g.sourceLabels.includes(x.hxSource)){m.source=x.hxSource;m.reply=0;reset();redraw(`[data-hx-source="${m.source}"]`);return;}
-  if(x.hxReply!==undefined){const n=Number(x.hxReply),count=data.bank.filter(s=>s.source===m.source&&!s.askFirst).length;if(!Number.isInteger(n)||n<0||n>=count)return;m.reply=n;reset();redraw('.hx-content h1');return;}
+  if(x.hxStudy&&['say','reply'].includes(x.hxStudy)){m.study=x.hxStudy;m.replyRole=null;reset();redraw(`.study-navigation [data-hx-study="${m.study}"]`);dgScrollToLesson();return;}
+  if(x.hotelStudyGroup&&ctx.section()===1&&hotelStudyGroups(g.sourceLabels).some(g=>g.id===x.hotelStudyGroup)){m.studyGroup=x.hotelStudyGroup;m.studyAll=false;m.reply=0;m.replyRole=null;reset();redraw(`[data-hotel-study-group="${m.studyGroup}"]`);return;}
+  if(x.hotelStudyAll!==undefined&&ctx.section()===1){m.studyAll=true;m.study='say';m.reply=0;m.replyRole=null;reset();redraw('[data-hotel-study-all]');return;}
+  if(x.hxStudyRole&&['self','other'].includes(x.hxStudyRole)&&ctx.section()===1&&m.study==='reply'){m.replyRole=x.hxStudyRole;reset();redraw('#hotel-study-turn');return;}
+  if(x.hxReply!==undefined){const n=Number(x.hxReply),sources=m.studyAll?g.sourceLabels:hotelStudyGroups(g.sourceLabels).find(g=>g.id===m.studyGroup).sources,count=hotelStudyExchanges(hotelStudyRound(sources),data.bank.filter(s=>sources.includes(s.source))).steps.length;if(!Number.isInteger(n)||n<0||n>=count)return;m.reply=n;m.replyRole=null;reset();redraw('#hotel-study-turn');return;}
   for(const [attr,collection,fieldName] of [['hxFlow','flows','flowId'],['hxQuestion','questions','questionId'],['hxMission','missions','missionId']])if(x[attr]){if(!g[collection].some(t=>t.id===x[attr]))return;m[fieldName]=x[attr];if(attr==='hxFlow')m.flow=emptyFlow();reset();redraw('.hx-content h1');return;}
   if(x.hxMode&&['guided','independent'].includes(x.hxMode)){m.mode=x.hxMode;reset();redraw(`[data-hx-mode="${m.mode}"]`);return;}
   if(x.hxChoice!==undefined){const n=Number(x.hxChoice),s=current(),f=m.flow;if(!f.heard||!f.spoken||!Number.isInteger(n)||!s.options[n])return;f.choice=n;redraw(`[data-hx-choice="${n}"]`);return;}
@@ -131,5 +184,5 @@ function createCompleteHotel(data, ctx) {
   if(x.hxRating){const [key,value]=x.hxRating.split(':'),n=Number(value);if(!g.skills.some(s=>s.id===key)||![1,2,3].includes(n))return;state().ratings[key]=n;save();redraw(`[data-hx-rating="${x.hxRating}"]`);return;}
   if(x.hxQuiz){const [j,i]=x.hxQuiz.split(':').map(Number),s=g.homework.listen[j];if(!Number.isInteger(j)||!Number.isInteger(i)||!s?.options[i])return;m.quiz[j]=i;redraw(`[data-hx-quiz="${x.hxQuiz}"]`);}
  });
- return {view};
+ return {view,resetStudy:()=>{ui().replyRole=null;}};
 }

@@ -23,7 +23,7 @@ for(const g of d.extended.groups){
 }
 const report={groups:3,newQuestions:12,flowPaths:0,missionModes:0,layouts:0,errors:[],screenshots:[]};
 const url=pathToFileURL(path.resolve('travel-english-unit8-hotel.html')).href;
-async function part(p,n){await p.locator('#dg-menu-open').click();await p.locator(`#nav [data-hi-page="${n}"]`).click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),String(n+1));if(n)assert.equal(await p.locator('.hi-heading .hi-number').innerText(),String(n+1).padStart(2,'0'),'shared section number');}
+async function part(p,n){await p.locator('#dg-menu-open').click();await p.locator(`#nav [data-hi-page="${n}"]`).click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),String(n+1));if(n)assert.equal(await p.locator(n===1?'.d5-section-heading .d5-section-number':'.hi-heading .hi-number').innerText(),String(n+1).padStart(2,'0'),'shared section number');}
 const selectGroup=(p,id)=>p.locator(`[data-hi-group="${id}"]`).click();
 async function fill(p,key,value){const field=p.locator(`[data-hx-field="${key}"]`);for(const parent of await field.locator('xpath=ancestor::details').all())if(!await parent.evaluate(e=>e.open))await parent.locator(':scope > summary').click();await field.fill(value);}
 const stored=(p,g)=>p.evaluate(key=>JSON.parse(localStorage.getItem(key)),g.storageKey);
@@ -68,7 +68,13 @@ async function stepThrough(p,s,decision,resetGate=false){
    await p.locator('[data-hx-direct]').click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),'5');assert.equal(await p.locator('[data-hx-mode="independent"]').getAttribute('aria-pressed'),'true');await selectGroup(p,g.id);
    const beforeText=await p.locator('.hx-checkpoint').innerText();await fill(p,'before',g.id+' 原句 <img src=x onerror=alert(1)>');
    await part(p,1);
-   for(const source of g.sourceLabels){await p.locator(`[data-hx-source="${source}"]`).click();assert((await p.locator('.hi-language').count())>0);await p.locator('[data-hx-study="reply"]').click();const count=d.extended.bank.filter(s=>s.source===source&&!s.askFirst).length;if(count){for(let i=0;i<count;i++){if(i)await p.locator(`[data-hx-reply="${i}"]`).click();assert.equal(await p.locator('.hi-transcript').getAttribute('open'),null);}}await p.locator('[data-hx-study="say"]').click();}
+   const studyScopes=[['arrival',['A','B']],['information',['C']],['supplies',['D']],['dining',['E']],['repair',['F']]].filter(([,labels])=>labels.every(label=>g.sourceLabels.includes(label)));
+   for(const [scope,sources] of studyScopes){
+    await p.locator(`[data-hotel-study-group="${scope}"]`).click();assert((await p.locator('.hi-language').count())>0);await p.locator('.study-navigation [data-hx-study="reply"]').click();
+    const steps=curriculum.rounds.filter(r=>sources.includes(r.displayLabel||r.id)).flatMap(r=>r.flowIds.flatMap(id=>curriculum.flows[id].steps));
+    for(let i=0;i<steps.length;i++){await p.locator(`.workshop-picker [data-hx-reply="${i}"]`).click();assert.equal(await p.locator('.dg-study-current').getAttribute('data-study-speaker'),steps[i].askFirst?'self':'other');if(steps[i].askFirst)await p.locator('[data-hx-study-role="other"]').click();assert.equal(await p.locator('.hi-transcript').getAttribute('open'),null);}
+    await p.locator('.study-navigation [data-hx-study="say"]').click();
+   }
    await part(p,2);
    for(const f of g.flows){
     const flexible=f.steps.find(s=>s.decisions&&s.allowed.length===2),decisions=flexible?[0,1]:[1];

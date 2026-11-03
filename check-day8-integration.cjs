@@ -59,11 +59,13 @@ async function shot(p,name){await p.evaluate(()=>window.scrollTo({top:0,behavior
   await p.locator('[data-hi-goal="1"]').check();await p.locator('[data-hi-goal="1"]').uncheck();
   await pick(p,'pair','nights');await p.locator('[data-hi-goal="1"]').check();
   await p.locator('.hi-teacher > summary').click();await p.locator('[data-hi-alternate]').check();assert((await p.locator('.hi-teacher-cards').innerText()).includes('How long will you be staying?'));
-  await chapter(p,1);await p.locator('[data-hi-study="reply"]').click();
-  for(let i=0;i<3;i++){
-   assert.equal(await p.locator('.hi-transcript').getAttribute('open'),null);
-   await p.locator('[data-guide-hint][data-level="2"]').first().click();
-   if(i<2)await p.locator(`[data-hi-reply="${i+1}"]`).click();
+  await chapter(p,1);await p.locator('[data-hotel-study-all]').click();await p.locator('.study-navigation [data-hi-study="reply"]').click();
+  for(let i=0;i<data.steps.length;i++){
+   const s=data.steps[i];await p.locator(`.workshop-picker [data-hi-reply="${i}"]`).click();
+   assert.equal(await p.locator('.dg-study-current').getAttribute('data-study-speaker'),s.askFirst?'self':'other');
+   if(!s.askFirst){assert.equal(await p.locator('.hi-transcript').getAttribute('open'),null);await p.locator('[data-hi-study-role="self"]').click();}
+   await p.locator('[data-guide-hint][data-level="2"]').click();
+   if(s.askFirst){await p.locator('[data-hi-study-role="other"]').click();assert.equal(await p.locator('.hi-transcript').getAttribute('open'),null);}
   }
   await chapter(p,2);
   for(const c of data.scenarios){

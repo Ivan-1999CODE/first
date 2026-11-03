@@ -1,7 +1,7 @@
 /* Generated as sw.js by build-pwa.cjs after all lesson HTML has been rebuilt. */
 'use strict';
 
-const VERSION = "ccde8a449c6d5f4e";
+const VERSION = "02880f1f0cf94f81";
 const FILES = [
   {
     "path": "assets/pwa-icon-180.png",
@@ -104,8 +104,8 @@ const FILES = [
   },
   {
     "path": "travel-english-unit8-hotel.html",
-    "bytes": 1123635,
-    "sha256": "c29852a29c11161f70346d15a52970c102acf58ca05e0800463a4a84c17b4579",
+    "bytes": 1130594,
+    "sha256": "ea4313472c019033d2be3f9dc143563cf3f9ed28fb2193fcdd0bb7cc6e74e22a",
     "normalizedText": true
   },
   {

@@ -11,7 +11,8 @@ async function checkLibrary(p,data,rs){
  const ps=rs.flatMap(r=>r.phraseIds.map(id=>data.phrases.find(p=>p.id===id)));
  const changes=rs.flatMap(r=>r.studyChanges||[]),cards=p.locator('.study-library .dg-study-card');
  assert.deepEqual(await cards.locator(':scope > .en').allTextContents(),ps.map(p=>p.en),'Only original sentences appear as main cards');
- assert.equal(await p.locator('.study-heading .study-portrait').count(),2,'Speaking and listening retain the shared portraits');
+ const sections=await p.locator('[data-hotel-study-section]').count();
+ assert.equal(await p.locator('.study-heading .study-portrait').count(),2*Math.max(1,sections),'Each situation retains both role portraits');
  assert.equal(await p.locator('.study-variation-vocabulary,#main > .dg-study-changes').count(),0,'No detached vocabulary replacement lesson');
  for(const [i,phrase]of ps.entries()){
   const card=cards.nth(i),swap=card.locator(':scope > .study-inline-changes'),expected=changes.filter(c=>c.baseAnswer===phrase.en);
@@ -46,7 +47,7 @@ async function checkLibrary(p,data,rs){
 async function shot(p,name){
  const swap=p.locator('.study-library .study-inline-changes').first();
  if(await swap.count()){await swap.locator(':scope > summary').click();await swap.locator(':scope > summary').hover();await swap.locator(':scope > summary').focus();}
- await p.locator('.study-library').screenshot({path:path.join(out,name+'.png')});report.screens.push(name);
+ await p.locator('.study-library').first().screenshot({path:path.join(out,name+'.png')});report.screens.push(name);
 }
 (async()=>{
  const browser=await chromium.launch({channel:'msedge',headless:true});
@@ -60,9 +61,28 @@ async function shot(p,name){
    const expectedHear=await p.locator('.study-hear-card').first().evaluate(cardStyle);
    for(const [group,labels]of [['checkin',['A','B','C']],['stay',['D','E','F']],['chapter',['A','B','C','D','E','F']]]){
     await p.goto(url(hotel.file));await p.locator('[data-hi-mode="integrated"]').click();await p.locator(`[data-hi-group="${group}"]`).click();await p.evaluate(()=>navigate(1));
-    if(group==='checkin')await checkLibrary(p,hotel,hotel.rounds.filter(r=>labels.includes(r.displayLabel)));
-    else for(const label of labels){await p.locator(`[data-hx-source="${label}"]`).click();await checkLibrary(p,hotel,[hotel.rounds.find(r=>r.displayLabel===label)]);}
-    if(group!=='checkin')await p.locator(`[data-hx-source="${labels[0]}"]`).click();
+    const scopes=[['arrival',['A','B']],['information',['C']],['supplies',['D']],['dining',['E']],['repair',['F']]].filter(([,ls])=>ls.every(l=>labels.includes(l)));
+    assert.deepEqual(await p.locator('[data-hotel-study-group]').evaluateAll(es=>es.map(e=>e.dataset.hotelStudyGroup)),scopes.map(([id])=>id));
+    assert.deepEqual(await p.locator('[data-hotel-study-section]').evaluateAll(es=>es.map(e=>e.dataset.hotelStudySection)),[scopes[0][0]],'First situation is the default');
+    const storedBefore=await p.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('travel-lab-en-day8')||k.startsWith('travel-lab-en-day8-integrated')));
+    for(const [id,ls]of scopes){
+     const tab=p.locator(`[data-hotel-study-group="${id}"]`);await tab.focus();await p.keyboard.press('Enter');
+     assert.equal(await tab.getAttribute('aria-pressed'),'true');
+     assert.deepEqual(await p.locator('[data-hotel-study-section]').evaluateAll(es=>es.map(e=>e.dataset.hotelStudySection)),[id]);
+     await checkLibrary(p,hotel,hotel.rounds.filter(r=>ls.includes(r.displayLabel)));
+    }
+    await p.locator('[data-hotel-study-all]').focus();await p.keyboard.press('Space');
+    assert.equal(await p.locator('[data-hotel-study-all]').getAttribute('aria-pressed'),'true');
+    assert.equal(await p.locator('[data-hotel-study-group][aria-pressed=true]').count(),0);
+    assert.deepEqual(await p.locator('[data-hotel-study-section]').evaluateAll(es=>es.map(e=>e.dataset.hotelStudySection)),scopes.map(([id])=>id),'Overview keeps situation headings and order');
+    await checkLibrary(p,hotel,hotel.rounds.filter(r=>labels.includes(r.displayLabel)));
+    await p.locator('.hi-study-picker').scrollIntoViewIfNeeded();await p.locator('[data-hotel-study-all]').hover();await p.locator('[data-hotel-study-all]').focus();
+    await p.screenshot({path:path.join(out,`day8-${group}-${width}-${theme}-overview.png`)});
+    await p.locator(`[data-hotel-study-group="${scopes[0][0]}"]`).click();
+    assert.equal(await p.locator('[data-hotel-study-all]').getAttribute('aria-pressed'),'false');
+    assert.equal(await p.locator('.study-inline-changes[open],.study-vocabulary[open]').count(),0,'Switching back closes optional content');
+    assert.deepEqual(await p.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('travel-lab-en-day8')||k.startsWith('travel-lab-en-day8-integrated'))),storedBefore,'Grouping does not write learning records');
+    await p.locator('.hi-study-picker').scrollIntoViewIfNeeded();await p.screenshot({path:path.join(out,`day8-${group}-${width}-${theme}-grouped.png`)});
     assert.deepEqual(await p.locator('.study-library .dg-study-card').first().evaluate(cardStyle),expectedSay);
     assert.deepEqual(await p.locator('.study-hear-card').first().evaluate(cardStyle),expectedHear);
     await shot(p,`day8-${group}-${width}-${theme}`);

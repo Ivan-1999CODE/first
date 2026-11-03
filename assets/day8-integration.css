@@ -8,6 +8,20 @@
 .hi-mode-bar button,.hi-content button{min-height:44px;white-space:normal;line-height:1.45}
 .hi-mode-bar button[aria-pressed=true],.hi-content .hi-options button[aria-pressed=true],.hi-object-options button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 .hi-content{max-width:1200px;margin:0 auto;min-width:0}
+.hi-study-picker{margin:24px 0 32px;padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--panel);color:var(--ink)}
+.hi-study-picker-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.hi-study-picker-head h2{margin:0;font-size:1.2rem}
+.hi-content .hi-study-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;align-items:stretch}
+.hi-content .hi-study-groups button{display:grid;gap:5px;text-align:left;align-content:center;min-width:0;padding:14px 16px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px}
+.hi-study-groups small{font-size:.85em;color:inherit}
+.hi-study-picker>.fine{margin-bottom:0}
+.hi-study-sections{display:grid;gap:42px}
+.hi-study-title{padding:0 0 16px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.hi-study-title h2{margin:6px 0 0;font-size:1.5rem}
+.hi-study-title .eyebrow{margin:0}
+.hi-study-section{min-width:0;scroll-margin-top:100px}
+.hi-study-picker button:hover:not([aria-pressed=true]){border-color:var(--accent)}
+@media(max-width:620px){.hi-study-picker{padding:16px}.hi-content .hi-study-groups{grid-template-columns:repeat(2,minmax(0,1fr))}.hi-content .hi-study-groups button{padding:12px}.hi-study-picker-head{align-items:flex-start}.hi-study-sections{gap:30px}}
 .hi-group-switch{max-width:1440px;margin:0 auto;padding:18px 28px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border-bottom:1px solid var(--line)}
 .hi-group-switch[hidden]{display:none}
 .hi-group-switch button{display:grid;gap:5px;text-align:left;min-height:70px;white-space:normal;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
@@ -28,6 +42,11 @@ body.lesson-guided .hi-group-switch button[aria-pressed=true]{background:var(--a
 .hi-content .hi-course-path{margin-top:24px}
 .hi-content .hi-course-path article{display:block}
 .hi-content .hi-course-path h3{margin-top:0}
+/* Part 02 uses the ordinary lesson's heading, navigation and turn cards. */
+body.lesson-guided.hi-active #main .hi-study-page .dg-study-dialogue{padding:0;overflow:hidden}
+body.lesson-guided.hi-active #main .hi-study-page .d5-section-heading>div{min-width:0}
+body.lesson-guided.hi-active #main .hi-study-page :is(.d5-section-heading,.study-navigation,.study-navigation button){font-size:1rem}
+body.lesson-guided.hi-active #main .hi-study-page .dg-study-instruction{line-height:1.7}
 .hi-known{background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:16px}
 .hi-known ul{padding-left:22px;margin-bottom:0}
 .hi-known li{line-height:1.7;margin:8px 0}

@@ -89,6 +89,7 @@ async function expandIndependently(disclosure){
   // The hotel integration uses the same anchor rule and lookup as A/B/C.
   const c=await browser.newContext({viewport:{width:390,height:844}}),p=await c.newPage();active=p;p.on('pageerror',e=>report.errors.push(e.message));
   await p.goto(pathToFileURL(path.resolve(fileFor(8))).href);await p.locator('[data-hi-mode="integrated"]').click();await p.evaluate(()=>navigate(1));
+  assert.equal(await p.locator('.hi-speaking-library > .hi-language').count(),4,'A+B is shown first');await p.locator('[data-hotel-study-all]').click();
   assert.equal(await p.locator('.hi-speaking-library > .hi-language').count(),7);assert.equal(await p.locator('.hi-speaking-library .study-inline-changes').count(),2);
   for(const el of await p.locator('.hi-speaking-library .study-inline-changes').all()){
    assert.equal(await el.getAttribute('data-substitution-base'),await el.locator('..').locator(':scope > .hi-en').textContent());
@@ -96,7 +97,7 @@ async function expandIndependently(disclosure){
    assert(await el.locator('.study-change-content').isVisible());await el.locator(':scope > summary').click();
   }
   await p.locator('.study-vocabulary > summary').click();assert.equal(await p.locator('.study-originals').first().locator('.study-original-sentence').count(),7);await fits(p);
-  await p.locator('[data-hi-study="reply"]').click();await p.locator('[data-hi-reply="1"]').click();assert.equal(await p.locator('.hi-remix').count(),0,'No empty passport replacement');
+  await p.locator('.study-navigation [data-hi-study="reply"]').click();await p.locator('.workshop-picker [data-hi-reply="2"]').click();assert.equal(await p.locator('.hi-remix').count(),0,'No empty passport replacement');
   await c.close();
   // Visual coverage: both themes, mobile large type and desktop. Exercise the
   // food disclosure and lookup drawer, plus the open navigation popover.

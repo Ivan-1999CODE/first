@@ -3,13 +3,14 @@
 (() => {
  'use strict';
  const d = hotelIntegration, q = s => document.querySelector(s);
- const studySources=rounds.filter(r=>d.sourceIds.includes(r.id));
- const studyRound={
-  phraseIds:studySources.flatMap(r=>r.phraseIds),
-  hearLines:studySources.flatMap(r=>r.hearLines),
-  studyChanges:studySources.flatMap(r=>r.studyChanges||[]),
-  words:[...new Map(studySources.flatMap(r=>r.words).map(word=>[JSON.stringify(word),word])).values()]
- };
+ const studyReplies=[...d.steps,...d.scenarios.slice(1).map(c=>c.steps.find(s=>s.key===c.key))];
+ let studyGroup='arrival',studyAll=false;
+ const studyGroups=hotelStudyGroups(d.sourceLabels);
+ const visibleStudyGroups=()=>studyAll?studyGroups:studyGroups.filter(g=>g.id===studyGroup);
+ function currentStudyReplies(){
+  const sources=visibleStudyGroups().flatMap(g=>g.sources);
+  return {steps:studyReplies.filter(s=>sources.includes(s.sourceLabel)),mainCount:d.steps.filter(s=>sources.includes(s.sourceLabel)).length};
+ }
  const labels = d.sections, originalRender = render, originalNavigate = navigate;
  labels[3] = '看情境，自己選用';
  let sayIndex = 0;
@@ -37,7 +38,7 @@
    saved.suite.homeSpoken=s.suite?.homeSpoken===true;
   }
  } catch { saveFailed = true; }
- let active = ['#integrated','#integrated-stay','#integrated-chapter'].includes(window.location.hash), section = 0, studyMode = 'library', replyIndex = 0;
+ let active = ['#integrated','#integrated-stay','#integrated-chapter'].includes(window.location.hash), section = 0, studyMode = 'library', replyIndex = 0, replyRole = null;
  let groupId=window.location.hash==='#integrated-stay'?'stay':window.location.hash==='#integrated-chapter'?'chapter':'checkin';
  const groupDefs=[{id:'checkin',title:'完成入住',sourceLabels:['A','B','C'],sections:labels},...d.extended.groups];
  function syncRoute(){try{window.history.replaceState(window.history.state,'',window.location.href.split('#')[0]+(active?(groupId==='checkin'?'#integrated':'#integrated-'+groupId):''));}catch{}}
@@ -82,19 +83,18 @@
   ])}</section>
   <details class="panel hi-teacher"><summary>老師看：50～60 分鐘怎麼帶</summary><p>先試 5 分鐘 → 補需要的句子約 8 分鐘 → 連續流程約 10 分鐘 → 看情境選用句子約 10 分鐘 → 真人接話約 13 分鐘 → 回顧與作業約 9 分鐘。依學生表現調整。</p><p>學生已能完成時，可直接進第五部分。整合紀錄和原 A～F 任務分開；不必先勾選原任務熟悉。</p></details>`;
  }
- function phraseCard(s, kind, i) {
-  const self = kind === 'say';
-  return self?hotelStudyPhrase(phrases.find(p=>p.en===s.answer)||{en:s.answer,zh:s.answerZh,use:s.label},i,studyRound):hotelStudyHear(s,i);
- }
  function studyPage() {
-  const modes = `<div class="hi-options" role="group" aria-label="句子與短問答">${button('我想怎麼說','data-hi-study="library"',`aria-pressed="${studyMode==='library'}"`)}${button('櫃檯問，我來答','data-hi-study="reply"',`aria-pressed="${studyMode==='reply'}"`)}</div>`;
-  if (studyMode === 'reply') {
-   const replies = [d.steps[1],d.steps[2],d.steps[3]], s = replies[replyIndex];
-   const remix=replyIndex===0?scenario('name').steps[1]:replyIndex===2?scenario('nights').steps[3]:s;
-   return heading('先聽懂，再接一句','看中文翻譯，用英文回答；一次練一句。') + modes + `<section class="panel"><div class="hi-row"><h2>${esc(s.label)}</h2><span>${replyIndex+1} / ${replies.length}</span></div><div class="hi-grid"><div class="hi-hear hi-role"><p class="dg-role">① 櫃檯先說</p>${audio(s.line)}${transcriptFor(s)}</div><div class="hi-say hi-role"><p class="dg-role">② 換你回答</p><p class="task" data-study-prompt="translation">${esc(s.answerZh)}</p>${hintFor(s,'reply-'+replyIndex)}</div></div>${remix.answer!==s.answer?`<details class="hi-remix"><summary>同一句，換詞再答一次</summary><p data-study-prompt="translation">${esc(remix.answerZh)}</p>${hintFor(remix,'reply-remix-'+replyIndex)}</details>`:''}<div class="hi-actions">${button('← 上一組',`data-hi-reply="${replyIndex-1}"`,replyIndex===0?'disabled':'')}${replyIndex<replies.length-1?button('下一組 →',`data-hi-reply="${replyIndex+1}"`):go('把整段連起來 →',2,'class="primary"')}</div></section>`;
-  }
-  const changed = d.scenarios.slice(1).map(s => s.steps.find(t => t.key === s.key));
-  return heading('會的快速看，需要的再練',`${d.steps.length} 個主要說法來自 A＋B＋C；用自己的自然說法也可以。`) + modes + `<section class="study-block study-library" aria-label="我會說">${studyRoleHeading(true,'旅客：我會說','')}<div class="grid task-phrase-grid hi-language-grid hi-speaking-library">${d.steps.map((s,i) => phraseCard(s,'say',i)).join('')}</div></section><section class="study-block study-listening" aria-label="我要聽得懂">${studyRoleHeading(false,'櫃檯：我要聽得懂','聽懂意思即可，不必背對方整句。')}<div class="grid study-hear-grid hi-language-grid">${d.steps.map((s,i) => phraseCard(s,'hear',i)).join('')}</div></section><h2 class="hi-block-title">住宿資訊不同時，這樣聽懂</h2><div class="hi-language-grid">${changed.slice(2).map((s,i) => phraseCard(s,'hear',i)).join('')}</div><section class="panel hi-support-lesson"><h2>綜合練習前：聽懂對方的確認</h2><p>先聽過這兩句，再試「晚數說錯了」。對方說錯時，可以沿用已學的 I’m staying for three nights.，或清楚說出 Three nights.</p><div class="hi-language-grid">${d.practice.hearSupport.map(s=>phraseCard(s,"hear",0)).join("")}</div></section><details class="panel hi-teacher"><summary>自主接話前：認識另外 ${d.alternateQuestions.length} 種櫃檯問法</summary><p>和原本的問題意思相近。老師要換問法時，先一起聽過，再到第五部分勾選使用。</p>${d.alternateQuestions.map(s => phraseCard(s,'hear',0)).join('')}</details>${studyVocabulary(studyRound).replace('class="study-block study-vocabulary" open','class="study-block study-vocabulary"')}`;
+  const controls=hotelStudyIntro(studyMode,'hi')+hotelStudyPicker(studyGroups,studyGroup,studyAll);
+  if(studyMode==='reply')return controls+hotelStudyDialogue({...currentStudyReplies(),index:replyIndex,speaker:replyRole,prefix:'hi',key:'checkin-'+(studyAll?'all':studyGroup),role:'櫃檯'});
+  const extraFor=g=>{
+   const changed=d.scenarios.slice(1).map(s=>s.steps.find(t=>t.key===s.key)).filter(s=>s.sourceLabel==='C'&&g.sources.includes('C'));
+   const alternate=d.alternateQuestions.filter(s=>g.sources.includes(d.steps.find(t=>t.key===s.key)?.sourceLabel));
+   return (changed.length?`<h3 class="hi-block-title">住宿資訊不同時，這樣聽懂</h3><div class="hi-language-grid">${changed.map(hotelStudyHear).join('')}</div>`:'')+
+    (g.sources.includes('B')?`<section class="panel hi-support-lesson"><h3>綜合練習前：聽懂對方的確認</h3><p>先聽過這兩句，再試「晚數說錯了」。對方說錯時，可以沿用已學的 I’m staying for three nights.，或清楚說出 Three nights.</p><div class="hi-language-grid">${d.practice.hearSupport.map(hotelStudyHear).join('')}</div></section>`:'')+
+    (alternate.length?`<details class="panel hi-teacher"><summary>自主接話前：認識另外 ${alternate.length} 種櫃檯問法</summary><p>和原本的問題意思相近。老師要換問法時，先一起聽過，再到第五部分勾選使用。</p>${alternate.map(hotelStudyHear).join('')}</details>`:'');
+  };
+  return controls+hotelStudyLibrary(visibleStudyGroups(),g=>d.steps.filter(s=>g.sources.includes(s.sourceLabel)),extraFor,'櫃檯')+
+   `<div class="dg-study-step-actions">${button('用這些句子，練同一段對話 →','data-hi-study="reply"','class="primary"')}</div>`;
  }
  function flowReady() {
   const f = flowState, s = flowScenario().steps[f.index];
@@ -199,6 +199,7 @@
  function resetSupport() { dgResetSupport(); }
  function goSection(n) {
   if (!Number.isInteger(n) || n<0 || n>=views.length) return;
+  replyRole=null;if(groupId!=='checkin')extended.resetStudy();
   stopAudio(); resetSupport(); section=n; closeMenus(); render(); focusMain(); dgScrollToLesson();
  }
  render = function() {
@@ -209,7 +210,7 @@
   if (!active) { originalRender(); notice.hidden=true; return; }
   const currentGroup=groupDefs.find(g=>g.id===groupId),viewLabels=currentGroup.sections,caption=currentGroup.sourceLabels.join('＋')+' · '+currentGroup.title;
   const main=q('#main'); main.classList.toggle('lesson-phrase-page',section===1); main.dataset.lessonSection=String(section+1);
-  main.innerHTML=`<div class="hi-content">${groupId==='checkin'?views[section]():extended.view(groupId,section)}${section===0?'':`<div class="footer-actions hi-section-footer">${go('← 上一部分',section-1)}${go(section===6?'回到本組首頁':'下一部分：'+viewLabels[section+1]+' →',section===6?0:section+1,'class="primary"')}</div>`}</div>`;
+  main.innerHTML=`<div class="hi-content${section===1?' hi-study-page':''}">${groupId==='checkin'?views[section]():extended.view(groupId,section)}${section===0?'':`<div class="footer-actions hi-section-footer">${go('← 上一部分',section-1)}${go(section===6?'回到本組首頁':'下一部分：'+viewLabels[section+1]+' →',section===6?0:section+1,'class="primary"')}</div>`}</div>`;
   q('#nav').innerHTML=`<p class="dg-menu-position">${esc(caption)}</p><div class="dg-section-list">${viewLabels.map((name,i) => button(`<span class="number">${String(i+1).padStart(2,'0')}</span>${esc(name)}`,`data-hi-page="${i}"`,section===i?'aria-current="step"':'')).join('')}</div>`;
   q('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(section+1).padStart(2,'0')} · ${esc(viewLabels[section])}</span><span class="dg-current-round">${esc(caption)}</span></div><div class="dg-task-switch" role="group" aria-label="切換任務"><span class="dg-task-label">任務</span>${rounds.map((r,n)=>button(esc(taskLabel(r)),`data-hi-task="${n}"`,`aria-label="切換到任務 ${esc(taskLabel(r))}：${esc(r.name)}" aria-pressed="false"`)).join('')}</div>`;
   const menu=q('#dg-menu-open'); menu.textContent=`${String(section+1).padStart(2,'0')} · 綜合選單`; menu.setAttribute('aria-label','開啟綜合課程選單，目前第 '+(section+1)+' 部分'); menu.title=viewLabels[section];
@@ -285,8 +286,11 @@
   if(x.hiSay!==undefined){const n=Number(x.hiSay);if(!Number.isInteger(n)||!d.sayPrompts[n])return;sayIndex=n;stopAudio();render();moveFocus('.say-prompt');return;}
 
   if(x.hiDirect!==undefined){practice='independent';goSection(4);return;}
-  if(x.hiStudy){studyMode=x.hiStudy;stopAudio();resetSupport();redraw(`[data-hi-study="${studyMode}"]`);return;}
-  if(x.hiReply!==undefined){const n=Number(x.hiReply);if(!Number.isInteger(n)||n<0||n>=d.steps.filter(s=>!s.askFirst).length)return;replyIndex=n;stopAudio();resetSupport();redraw('#main h2');focusMain();return;}
+  if(x.hotelStudyGroup&&section===1&&studyGroups.some(g=>g.id===x.hotelStudyGroup)){studyGroup=x.hotelStudyGroup;studyAll=false;replyIndex=0;replyRole=null;stopAudio();resetSupport();redraw(`[data-hotel-study-group="${studyGroup}"]`);return;}
+  if(x.hotelStudyAll!==undefined&&section===1){studyAll=true;studyMode='library';replyIndex=0;replyRole=null;stopAudio();resetSupport();redraw('[data-hotel-study-all]');return;}
+  if(x.hiStudy&&['library','reply'].includes(x.hiStudy)){studyMode=x.hiStudy;replyRole=null;stopAudio();resetSupport();redraw(`.study-navigation [data-hi-study="${studyMode}"]`);dgScrollToLesson();return;}
+  if(x.hiStudyRole&&['self','other'].includes(x.hiStudyRole)&&section===1&&studyMode==='reply'){replyRole=x.hiStudyRole;stopAudio();resetSupport();redraw('#hotel-study-turn');return;}
+  if(x.hiReply!==undefined){const n=Number(x.hiReply);if(!Number.isInteger(n)||n<0||n>=currentStudyReplies().steps.length)return;replyIndex=n;replyRole=null;stopAudio();resetSupport();redraw('#hotel-study-turn');return;}
   for(const attr of ['hiFlowScenario','hiChange','hiPair'])if(x[attr]){
    const id=x[attr];if(!d.scenarios.some(s=>s.id===id)||attr==='hiChange'&&id==='original')return;
    if(attr==='hiFlowScenario'){flowId=id;flowState=newFlow();}
