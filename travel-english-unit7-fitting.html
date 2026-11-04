@@ -740,7 +740,8 @@ body.lesson-guided button {
   font-weight: 600;
   line-height: 1.5;
 }
-body.lesson-guided button:hover:not(:disabled) { background: var(--soft); border-color: var(--accent); }
+/* Touch browsers can retain :hover after a tap; keep selected controls' own fill and ink. */
+body.lesson-guided button:hover:not(:disabled):where(:not([aria-pressed=true], [aria-current=step])) { background: var(--soft); border-color: var(--accent); }
 body.lesson-guided button:active:not(:disabled) { transform: translateY(1px); }
 body.lesson-guided button:disabled { opacity: .5; cursor: default; }
 body.lesson-guided button:is([aria-pressed=true], [aria-current=step]) { background: var(--dg-tint); border-color: var(--accent); color: var(--accent); }
@@ -1238,8 +1239,6 @@ body.lesson-guided .dg-quick-start .task { margin-bottom: 16px; }
 body.lesson-guided .dg-entry-note { margin: 0; }
 body.lesson-guided .dg-entry-note > summary { color: var(--muted); font-size: .9rem; }
 body.lesson-guided .dg-entry-note textarea { margin-top: 12px; }
-body.lesson-guided #main > .dg-entry-next { justify-content: flex-end; }
-body.lesson-guided #main > .dg-entry-next > button { flex: 0 1 auto; margin-inline-start: auto; max-width: 100%; }
 body.lesson-guided #main > .dg-section-footer { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
 body.lesson-guided #main > .dg-section-footer > button { min-width: 0; max-width: 100%; min-height: 48px; margin: 0; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
 body.lesson-guided #main > .dg-section-footer > button:first-child { justify-self: start; }
@@ -1706,6 +1705,10 @@ html body #main .scene-board:has(.vf-interaction)>h2{font-size:.9rem;color:var(-
 </style><style id="chapter-integration-styles">.ci-mode-bar{max-width:1200px;margin:18px auto;padding:16px 24px;background:var(--panel,#fff);border:1px solid var(--line,#d9e2ec);border-radius:18px;color:var(--ink,#172335)}
 .ci-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.ci-actions,.ci-paths{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.ci-actions button,.ci-paths button,.ci-mode-bar button{min-height:44px;white-space:normal;max-width:100%;overflow-wrap:anywhere}
 .ci-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px;margin-top:12px}.ci-groups button{display:flex;align-items:flex-start;flex-direction:column;text-align:left;gap:5px;padding:14px}.ci-groups span{font-size:.9em}
+.ci-content .ci-entry-actions{justify-content:flex-end}.ci-content .ci-entry-actions>button{flex:0 1 auto}
+/* Match the other selected controls, including retained hover after a touch. */
+body:is(.day1-guided,.lesson-guided) .ci-content :is(.ci-paths,.ci-study-picker) button[aria-pressed=true],
+body:is(.day1-guided,.lesson-guided) .ci-content :is(.ci-paths,.ci-study-picker) button[aria-pressed=true]:hover{background:var(--accent);color:var(--on-accent);border-color:var(--accent);box-shadow:none}
 .ci-mode-bar button[aria-pressed=true],.ci-content button[aria-pressed=true]{background:#dcecff;color:#143955;border-color:#6f9fca}.ci-content button:focus-visible,.ci-mode-bar button:focus-visible,.ci-content summary:focus-visible{outline:3px solid #438ad0;outline-offset:3px}.ci-content button:hover:not(:disabled),.ci-mode-bar button:hover:not(:disabled){box-shadow:0 0 0 2px #438ad055}.ci-content button:disabled{opacity:.5;cursor:not-allowed}
 .ci-content{min-width:0}.ci-content h1,.ci-content h2,.ci-content h3,.ci-content p{overflow-wrap:anywhere}.ci-content .en,.ci-content .dg-en{overflow-wrap:normal;word-break:normal}.ci-content .panel{margin-bottom:18px}.ci-content .task{line-height:1.8}.ci-content .ci-say{background:#fff6e7;color:#302b24;border:1px solid #e9d4ac}.ci-content .ci-hear{background:#edf5ff;color:#20364d;border:1px solid #c9d9ec}.ci-turn{border-radius:16px;padding:20px;margin:12px 0}.ci-turn .ci-check{margin-bottom:0}
 .ci-grid,.ci-flow-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}.ci-flow-grid>div{min-width:0}.ci-content .grid{align-items:start}.ci-content .task-phrase-grid,.ci-content .study-hear-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ci-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}.ci-cards article{border:1px solid var(--line,#d6e0ea);border-radius:14px;padding:18px}.ci-study-section{margin:26px 0}.ci-content .ci-vocabulary>summary{padding:16px;font-weight:700}.ci-content details>summary{min-height:44px;cursor:pointer}.ci-content details{margin:12px 0}.ci-content .study-inline-changes{margin-bottom:0}
@@ -1715,6 +1718,15 @@ html body #main .scene-board:has(.vf-interaction)>h2{font-size:.9rem;color:var(-
 @media(max-width:1000px){.ci-flow-grid{grid-template-columns:1fr}.ci-mode-bar{margin:12px 16px}.ci-flow-grid .vf-objects{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.ci-mode-bar{padding:14px;margin:10px 12px}.ci-grid,.ci-content .task-phrase-grid,.ci-content .study-hear-grid{grid-template-columns:1fr}.ci-turn{padding:14px}.ci-content .panel{padding:16px}.ci-groups{grid-template-columns:1fr}.ci-row{gap:8px}.ci-actions button{flex:1 1 auto}.ci-flow-grid .vf-objects{grid-template-columns:1fr}.ci-content .study-heading{gap:12px}.ci-content .study-portrait{max-width:80px;height:auto}}
 @media(prefers-reduced-motion:reduce){.ci-content *,.ci-mode-bar *{scroll-behavior:auto;transition:none}}
+/* The primary action follows the choices, in the same column. */
+.ci-content .ci-step-next{justify-content:flex-end;margin:16px 0 0}
+.ci-content .ci-step-next>button{flex:0 1 auto;min-height:48px;max-width:100%;margin-left:auto;background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+@media(max-width:640px){.ci-content .ci-step-next>button{width:100%;flex:1 1 100%}}
+.ci-study-difference{margin-top:18px;padding:18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--soft);color:var(--ink)}
+.ci-study-difference p{margin:6px 0;line-height:1.65}
+.ci-difference-reply{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 14px;margin:14px 0}
+.ci-difference-answer{font-size:1.3rem;color:var(--accent)}
+.ci-study-difference .fine{margin-top:14px}
 </style>
 <style id="lesson-navigation-styles">/* Frequent chapter changes stay available beneath the fixed page header. */
 body.dg-navigation #dg-context {
@@ -1756,6 +1768,13 @@ body.dg-navigation #main :is(textarea,input,button,summary,[tabindex],.scene-boa
  body.dg-navigation .dg-section-switch { width: 100%; padding-block: 4px; }
  body.dg-navigation .dg-section-switch button { flex-grow: 1; }
 }
+/* Home entry actions share the Day 8 order, alignment and theme colors. */
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; gap:10px; }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button { flex:0 1 auto; margin-inline:0; max-width:100%; white-space:normal; line-height:1.45; background:var(--panel); color:var(--ink); border-color:var(--line); }
+body:is(.day1-guided,.lesson-guided) #main > .footer-actions.dg-entry-actions > button { margin-inline:0; }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button:hover:not(:disabled) { background:var(--soft); border-color:var(--accent); }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button.primary,
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button.primary:hover:not(:disabled) { background:var(--accent); color:var(--on-accent); border-color:var(--accent); }
 </style></head><body>
 <a class="skip" href="#main">跳到課程內容</a>
 <header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
@@ -2560,15 +2579,19 @@ function dgLessonOverview() {
  return `<div class="cards">${rounds.map(dgLessonRoundCard).join('')}</div>`;
 }
 
-intro = function() {
- const r = activeRound(), c = r.entryCheckpoint || r.checkpoint;
+function dgLessonCover() {
  return `<section class="dg-lesson-cover" aria-labelledby="dg-lesson-title">
   <div class="dg-cover-copy">
    <p class="eyebrow">第 ${course.day} 天 · 今日主題</p>
    <h1 id="dg-lesson-title">${esc(course.title)}</h1>
   </div>
   <div class="dg-cover-art dg-course-art">${course.art}</div>
- </section>
+ </section>`;
+}
+
+intro = function() {
+ const r = activeRound(), c = r.entryCheckpoint || r.checkpoint;
+ return `${dgLessonCover()}
  <section class="panel dg-panel dg-task-panel before-panel dg-quick-start">
   <p class="dg-role">你先說</p><h2>任務 ${esc(taskLabel(r))}：先試一句</h2>
   <p class="task">${esc(c.task)}</p>
@@ -2997,7 +3020,7 @@ const dgOriginalReviewScope=reviewScope;
 reviewScope=function(){return `<details class="dg-review-options" ${reviewMode==='mixed'?'open':''}><summary>${reviewMode==='mixed'?'正在複習多個已學任務':'需要時：一起複習已學任務'}</summary>${dgOriginalReviewScope()}</details>`;};
 const dgOriginalFooter=taskFooter;
 taskFooter=function(){
- if(page===0)return `<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
+ if(page===0)return `<div class="footer-actions dg-entry-actions">${btn('05 完整對話','data-page="4"')}${btn('02 整理聽說句子','data-page="1"','class="primary"')}</div>`;
  // Chapter navigation stays separate from conversation steps and early wrap-up.
  if(page===1)return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分','data-page="0"')}${btn('前往 03 跟著做 →',`data-start="${activeRound().flowIds[0]}"`,'class="primary"')}</div>`;
  if(page===2)return `<div class="footer-actions dg-section-footer">${btn('← 上一部分','data-page="1"')}${btn(`前往 04 ${esc(dgLabels[3])} →`,'data-page="3"','class="primary"')}</div>`;
@@ -4449,9 +4472,15 @@ const chapterIntegration={"version":1,"day":7,"groups":[{"id":"find","title":"�
   const key=art.byRound[index][me?'self':'other'];
   return `<div class="study-heading ${me?'study-self':'study-other'}"><img class="study-portrait" src="${art.images[key]}" width="120" height="120" alt=""><div><h2>${esc(title)}</h2><p>${me?'先看意思，聽一次，再自己開口。':'聽懂意思即可，不必背對方整句。'}</p></div></div>`;
  }
- function before(){const g=group();return heading(g.title,g.description)+`<section class="panel ci-say"><p class="eyebrow">先試一次完整情境</p><p class="task ci-checkpoint">${esc(g.checkpoint)}</p><p>你是旅客，老師扮演${esc(g.paths[0].role)}。${g.paths[0].steps[0].askFirst?'你先開口':'老師先開口'}，可以分段完成。</p><details><summary>記下第一次的說法（選填）</summary>${field('before','第一次的我')}</details><div class="ci-actions">${go('05 完整對話',4)}${go('02 整理聽說句子',1)}</div></section><section class="panel"><h2>這組怎麼練</h2><p>從任務 ${g.sources.join('＋')} 選用說法；每次沿用同一筆資料，切換情境時重新看清起點。</p><div class="ci-cards">${g.paths.map(p=>`<article><h3>${esc(p.title)}</h3><p>${esc(p.context)}</p>${button('開始這個情境 →',`data-ci-start="${p.id}"`)}</article>`).join('')}</div><div class="ci-actions">${go('03 連起來完成任務',2)}${go('04 看情境，自己選用',3)}</div></section>`;}
+ function before(){const g=group();return heading(g.title,g.description)+`<section class="panel ci-say"><p class="eyebrow">先試一次完整情境</p><p class="task ci-checkpoint">${esc(g.checkpoint)}</p><p>你是旅客，老師扮演${esc(g.paths[0].role)}。${g.paths[0].steps[0].askFirst?'你先開口':'老師先開口'}，可以分段完成。</p><details><summary>記下第一次的說法（選填）</summary>${field('before','第一次的我')}</details><div class="ci-actions ci-entry-actions dg-entry-actions">${go('05 完整對話',4)}${button('02 整理聽說句子','data-ci-section="1"','class="primary"')}</div></section><section class="panel"><h2>這組怎麼練</h2><p>從任務 ${g.sources.join('＋')} 選用說法；每次沿用同一筆資料，切換情境時重新看清起點。</p><div class="ci-cards">${g.paths.map(p=>`<article><h3>${esc(p.title)}</h3><p>${esc(p.context)}</p>${button('開始這個情境 →',`data-ci-start="${p.id}"`)}</article>`).join('')}</div><div class="ci-actions">${go('03 連起來完成任務',2)}${go('04 看情境，自己選用',3)}</div></section>`;}
  const visiblePaths=()=>ui().all?group().paths:group().paths.filter(p=>p.id===ui().studyPath);
  const studySteps=()=>visiblePaths().flatMap(p=>p.steps);
+ function studyDifference(){
+  if(ui().all||!group().studyDifference)return '';
+  const p=visiblePaths()[0],s=p?.steps.find(s=>s.id===p.studyFocusStepId);
+  if(!s)return '';
+  return `<aside class="ci-study-difference" aria-label="這個情境的袋子回答"><p class="eyebrow">${esc(p.title)} · 袋子怎麼回答</p><p>店員問：<span class="ci-difference-question" lang="en">${esc(s.line)}</span></p><p>${esc(s.zh)}</p><div class="ci-difference-reply"><span>你回答</span><strong class="ci-difference-answer" lang="en">${esc(s.answer)}</strong><span>${esc(s.answerZh)}</span></div><p class="fine">${esc(group().studyDifference)}</p></aside>`;
+ }
  function library(p){
   const steps=p.steps,spoken=dedupe(steps,s=>s.answer),heard=dedupe(steps,s=>s.line),r={studyChanges:group().studyChanges};
   return `<section class="ci-study-section" data-ci-study-section="${p.id}"><h2>${esc(p.title)}</h2><p>${esc(p.context)}</p><section class="study-block study-library">${artHeading(true,'旅客：我會說',steps[0].source)}<div class="grid task-phrase-grid">${spoken.map((s,i)=>`<article class="panel task-phrase focus-phrase dg-study-card" data-study-phrase="${s.phrase.id}"><p class="eyebrow">${i+1} / ${esc(s.label)}</p><p class="en" lang="en">${esc(s.answer)}</p><p class="study-meaning">${esc(s.answerZh)}</p>${audio(s.answer)}${studyPhraseSubstitutions(s.phrase,r)}${s.adaptationNote?`<p class="fine">${esc(s.adaptationNote)}</p>`:''}</article>`).join('')}</div></section><section class="study-block study-listening">${artHeading(false,p.role+'：我要聽得懂',steps[0].source)}<div class="grid study-hear-grid">${heard.map(s=>`<article class="panel study-hear-card ci-hear"><p class="eyebrow">${esc(s.role)}</p><p class="en" lang="en">${esc(s.line)}</p><p class="study-meaning">${esc(s.zh)}</p>${audio(s.line)}</article>`).join('')}</div></section></section>`;
@@ -4462,7 +4491,7 @@ const chapterIntegration={"version":1,"day":7,"groups":[{"id":"find","title":"�
  }
  function study(){
   const m=ui(),ss=studySteps(),s=ss[m.reply]||ss[0],speaker=m.speaker||(s.askFirst?'self':'other');
-  let html=heading('把這個情境的句子帶著走','先整理聽說句子，再用同一段對話接話。')+`<nav class="study-navigation" aria-label="第二部分學習入口">${[['library','我會說／我要聽得懂'],['reply','同一段對話，再練一次']].map(([key,title])=>button(title,`data-ci-study="${key}"`,`aria-pressed="${m.study===key}"`)).join('')}</nav><section class="panel ci-study-picker"><div class="ci-row"><h2>依情境找句子</h2>${button('查看全部句子','data-ci-all',`aria-pressed="${m.all}"`)}</div><nav class="ci-paths" aria-label="句庫情境">${group().paths.map(p=>button(esc(p.title),`data-ci-study-path="${p.id}"`,`aria-pressed="${!m.all&&m.studyPath===p.id}"`)).join('')}</nav></section>`;
+  let html=heading('把這個情境的句子帶著走','先整理聽說句子，再用同一段對話接話。')+`<nav class="study-navigation" aria-label="第二部分學習入口">${[['library','我會說／我要聽得懂'],['reply','同一段對話，再練一次']].map(([key,title])=>button(title,`data-ci-study="${key}"`,`aria-pressed="${m.study===key}"`)).join('')}</nav><section class="panel ci-study-picker"><div class="ci-row"><h2>依情境找句子</h2>${button('查看全部句子','data-ci-all',`aria-pressed="${m.all}"`)}</div><nav class="ci-paths" aria-label="句庫情境">${group().paths.map(p=>button(esc(p.title),`data-ci-study-path="${p.id}"`,`aria-pressed="${!m.all&&m.studyPath===p.id}"`)).join('')}</nav>${studyDifference()}</section>`;
   if(m.study==='library')return html+visiblePaths().map(library).join('')+button('用這些句子，練同一段對話 →','data-ci-study="reply"')+vocabulary();
   html+=`<nav class="workshop-picker" aria-label="短對話段落">${ss.map((s,i)=>button(`${i+1}. ${esc(s.label)}`,`data-ci-reply="${i}"`,`aria-pressed="${m.reply===i}"`)).join('')}</nav><section class="panel workshop-card"><p class="eyebrow">${m.reply+1} / ${ss.length}</p><div class="ci-turn ${speaker==='self'?'ci-say':'ci-hear'}" data-study-speaker="${speaker}"><p class="dg-role">${speaker==='self'?'你 · 旅客':esc(s.role)}</p>${speaker==='self'?`<h2 tabindex="-1" id="ci-study-turn">${esc(s.answerZh)}</h2>${hint(s,'reply-'+m.reply)}`:`<h2 tabindex="-1" id="ci-study-turn">聽懂這句就好</h2>${audio(s.line)}${transcript(s)}`}<div class="ci-actions">${button(speaker==='self'?'聽對方說 →':'換我說 →',`data-ci-speaker="${speaker==='self'?'other':'self'}"`)}</div></div><div class="ci-actions">${button('← 上一段',`data-ci-reply="${m.reply-1}"`,m.reply===0?'disabled':'')}${m.reply<ss.length-1?button('下一段 →',`data-ci-reply="${m.reply+1}"`):go('到 03 練完整流程 →',2)}</div></section>`;
   return html;
@@ -4474,7 +4503,7 @@ const chapterIntegration={"version":1,"day":7,"groups":[{"id":"find","title":"�
   if(f.done)return top+`<section class="panel ci-complete"><h2>✓ 這個情境已練習</h2><p>${esc(group().outcome)}</p><p>和老師回顧實際完成的需求；操作紀錄不等於口說評分。</p><details><summary>查看這次確認的資訊</summary><ol>${p.steps.map((s,i)=>`<li>${esc(s.label)}：${esc(s.objects[f.history[i]][1])}</li>`).join('')}</ol></details><div class="ci-actions">${button('再練一次','data-ci-restart')}${go('04 看情境，自己選用 →',3)}</div></section>`;
   const say=`<section class="ci-turn ci-say"><p class="dg-role">${s.askFirst?'① 你先說':'② 換你回答'} · 旅客</p><p class="task">${esc(s.task)}</p>${hint(s,'flow-'+s.id)}<label class="ci-check"><input type="checkbox" data-ci-gate="spoken" ${f.spoken?'checked':''} ${!s.askFirst&&!f.heard?'disabled':''}>我已用自己的聲音說</label></section>`;
   const hear=`<section class="ci-turn ci-hear"><p class="dg-role">${s.askFirst?'② 對方回應':s.carryHeard?'① 延續剛才的回覆':'① 對方先說'} · ${esc(s.role)}</p>${audio(s.line)}${transcript(s)}<label class="ci-check"><input type="checkbox" data-ci-gate="heard" ${f.heard?'checked':''} ${s.askFirst&&!f.spoken?'disabled':''}>我已聽完，或已讀完文字</label></section>`;
-  return top+`<section class="panel"><details class="ci-context"><summary>這次的情境與條件</summary><p>${esc(p.context)}</p></details>${s.phase?`<section class="ci-phase"><h2>${esc(s.phase)}</h2><p>${esc(s.phaseContext)}</p></section>`:''}<div class="ci-row ci-stage"><h2 tabindex="-1">${esc(s.label)}</h2><span>${f.index+1} / ${p.steps.length}</span></div><div class="ci-flow-grid"><div>${s.askFirst?say+hear:hear+say}</div><div>${vfPanel(s,{selected:f.choice,ready:f.heard&&f.spoken,attr:'data-ci-choice',previous:vfHistory(p,f.history,f.index)})}</div></div><div class="ci-actions">${button('← 上一步','data-ci-back',f.index===0?'disabled':'')}${button(f.index===p.steps.length-1?'確認並完成':'確認這項，繼續 →','data-ci-next',ready()?'class="primary"':'disabled')}${button('重新開始','data-ci-restart')}</div></section>`;
+  return top+`<section class="panel"><details class="ci-context"><summary>這次的情境與條件</summary><p>${esc(p.context)}</p></details>${s.phase?`<section class="ci-phase"><h2>${esc(s.phase)}</h2><p>${esc(s.phaseContext)}</p></section>`:''}<div class="ci-row ci-stage"><h2 tabindex="-1">${esc(s.label)}</h2><span>${f.index+1} / ${p.steps.length}</span></div><div class="ci-flow-grid"><div>${s.askFirst?say+hear:hear+say}<div class="ci-actions">${button('← 上一步','data-ci-back',f.index===0?'disabled':'')}${button('重新開始','data-ci-restart')}</div></div><div>${vfPanel(s,{selected:f.choice,ready:f.heard&&f.spoken,attr:'data-ci-choice',previous:vfHistory(p,f.history,f.index)})}<div class="ci-actions ci-step-next">${button(f.index===p.steps.length-1?'確認並完成':'確認這項，繼續 →','data-ci-next',`class="primary" ${ready()?'':'disabled'}`)}</div></div></div></section>`;
  }
  function questions(){
   const g=group(),m=ui(),item=g.questions[m.question];
@@ -4507,7 +4536,7 @@ const chapterIntegration={"version":1,"day":7,"groups":[{"id":"find","title":"�
   document.body.classList.toggle('ci-active',active);
   if(!active){originalRender();q('#nav').innerHTML=taskMenu();return;}
   const g=group(),main=q('#main');main.dataset.lessonSection=String(section+1);main.classList.toggle('lesson-phrase-page',section===1);
-  main.innerHTML=`<div class="ci-content" data-ci-group-id="${g.id}"><p id="ci-save-notice" class="notice" role="status" ${errors[g.id]?'':'hidden'}>此瀏覽器目前無法保存本組紀錄，仍可繼續練習。</p>${pages[section]()}${section?`<div class="footer-actions">${go('← 上一部分',section-1)}${go(section===6?'回到本組首頁':'下一部分 →',section===6?0:section+1)}</div>`:''}</div>`;
+  main.innerHTML=(section===0?dgLessonCover():'')+`<div class="ci-content" data-ci-group-id="${g.id}"><p id="ci-save-notice" class="notice" role="status" ${errors[g.id]?'':'hidden'}>此瀏覽器目前無法保存本組紀錄，仍可繼續練習。</p>${pages[section]()}${section?`<div class="footer-actions">${go('← 上一部分',section-1)}${go(section===6?'回到本組首頁':'下一部分 →',section===6?0:section+1)}</div>`:''}</div>`;
   q('#nav').innerHTML=taskMenu();
   q('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(section+1).padStart(2,'0')} · ${esc(g.sections[section])}</span><span class="dg-current-round">綜合 · ${esc(g.title)}</span></div>${dgSectionSwitch(g.sections,section,'data-ci-section')}`;
   dgSetMenuLabel('綜合練習','綜合練習 · '+g.title);

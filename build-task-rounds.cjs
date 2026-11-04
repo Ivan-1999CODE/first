@@ -4,6 +4,7 @@ function buildDay(day){
  const japanese=day===0;
  if(![0,...Array.from({length:13},(_,i)=>i+2)].includes(day))throw Error('Day must be 0 or 2–14.');
  const d=day===0?require('./assets/micro-day0.cjs').make('ja'):require('./assets/micro-curriculum.cjs').make(day);
+ if(day===2)d.day2Practice=require('./assets/day2-part03.cjs')(d);
  if(day===8)d.hotelIntegration=require('./assets/day8-integration-data.cjs')(d);
  if(day===6)d.foodArtwork='data:image/png;base64,'+fs.readFileSync('assets/illustrations/day6-steak-eggs-atlas.png').toString('base64');
  // Canonical task data already contains every taught reply and translation.
@@ -49,6 +50,7 @@ ${read('assets/day8-integration.js')}\nrender();\n</script>\n</body>`);
   // Install after topic-specific presentation overrides; keep the shared lesson
   // state and the separate hotel integration's state owners unchanged.
   fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>read('assets/interactive-flow.js')+'\n'+read('assets/interactive-task-scenes.js')+'\n'+read('assets/interactive-choice-art.js')+'\nload();render();appearance();').replace('</head>',()=>'<style id="interactive-flow-styles">'+read('assets/interactive-flow.css')+'\n'+read('assets/interactive-task-scenes.css')+'\n'+read('assets/interactive-redesign.css')+'</style></head>'));
+  if(day===2)fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>read('assets/day2-part03.js')+'\nload();render();appearance();').replace('</head>',()=>'<style id="day2-part03-styles">'+read('assets/day2-part03.css')+'</style></head>'));
   require('./install-chapter-integration.cjs')(file,d);
   fs.writeFileSync(file,read(file).replace('</head>',()=>'<style id="lesson-navigation-styles">'+read('assets/lesson-navigation.css')+'</style></head>'));
   require('./build-pwa.cjs')();

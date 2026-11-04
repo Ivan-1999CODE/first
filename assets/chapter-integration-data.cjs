@@ -39,8 +39,8 @@ module.exports=function makeChapterIntegration(d){
    path('own-bag','自備袋子','你有 10 美元，想買眼前的杯子。帶了自己的袋子；聽清價格與付款規則再結帳。',[s('A',0),s('A',1),...payment('杯子',6)]),
    path('need-bag','需要袋子','你有 10 美元，想買眼前的杯子，也需要一個袋子。',[s('A',0),s('A',1),...payment('杯子',6,1)])],'完成一筆杯子的購物與付款。');
   add('water','買幾瓶水並結帳',['A','B'],'只計算這次買水的金額，不加入前一筆杯子。',[
-   path('three','買 3 瓶水','店員知道你想買水，每瓶 2 美元；你要 3 瓶，有足夠現金，也自備袋子。',[s('A',2),s('A',3),...payment('這 3 瓶水',6)]),
-   path('bag','買水並要袋子','店員知道你想買水，每瓶 2 美元；你要 3 瓶，有足夠現金，需要袋子。',[s('A',2),s('A',3),...payment('這 3 瓶水',6,1)])],'確認數量與總價，完成這一筆買水的交易。');
+   path('three','買水，自備袋子','店員知道你想買水，每瓶 2 美元；你要 3 瓶，有足夠現金，也自備袋子。',[s('A',2),s('A',3),...payment('這 3 瓶水',6)]),
+   path('bag','買水，需要袋子','店員知道你想買水，每瓶 2 美元；你要 3 瓶，有足夠現金，需要袋子。',[s('A',2),s('A',3),...payment('這 3 瓶水',6,1)])],'確認數量與總價，完成這一筆買水的交易。');
   const price=changed(s('A',0),[['It’s six dollars.','It’s twelve dollars.'],['這個 6 美元','這個 12 美元'],['6 美元','12 美元']]);
   const budget=s('C',0,0,{carryHeard:true,line:price.line,zh:price.zh});
   const buy=changed(s('A',1),[['6 美元','4 美元'],['杯子','磁鐵']],{task:'替代的磁鐵符合你的預算，告訴店員你決定買這個。'});
@@ -134,6 +134,10 @@ module.exports=function makeChapterIntegration(d){
    p.role=unique(p.steps.map(s=>s.role),x=>x).join('／');
    p.goals=p.steps.map(t=>({id:t.id,text:t.label}));
   });
+  if(day===2&&['single','water'].includes(g.id)){
+   g.studyDifference='前面的購物與付款說法相同；這兩個情境換的是袋子回答。';
+   for(const p of g.paths)p.studyFocusStepId=p.steps.at(-1).id;
+  }
   g.questions=unique(g.paths.flatMap(p=>p.steps.map(t=>({id:t.id,pathId:p.id,context:p.context,prompt:t.task,step:t}))),q=>q.prompt+'|'+q.step.answer);
   g.skills=[{id:'needs',text:'我能說清楚這次的需求與資料。'},{id:'listen',text:'我能聽懂關鍵資訊，需要時再確認。'},{id:'connect',text:'我能依當下情境接話，完成這段溝通。'}];
   g.words=unique(g.sources.flatMap(l=>rounds[l].words||[]),x=>JSON.stringify(x));

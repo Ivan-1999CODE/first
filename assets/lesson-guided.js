@@ -45,7 +45,7 @@ const dgOriginalReviewScope=reviewScope;
 reviewScope=function(){return `<details class="dg-review-options" ${reviewMode==='mixed'?'open':''}><summary>${reviewMode==='mixed'?'正在複習多個已學任務':'需要時：一起複習已學任務'}</summary>${dgOriginalReviewScope()}</details>`;};
 const dgOriginalFooter=taskFooter;
 taskFooter=function(){
- if(page===0)return `<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
+ if(page===0)return `<div class="footer-actions dg-entry-actions">${btn('05 完整對話','data-page="4"')}${btn('02 整理聽說句子','data-page="1"','class="primary"')}</div>`;
  // Chapter navigation stays separate from conversation steps and early wrap-up.
  if(page===1)return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分','data-page="0"')}${btn('前往 03 跟著做 →',`data-start="${activeRound().flowIds[0]}"`,'class="primary"')}</div>`;
  if(page===2)return `<div class="footer-actions dg-section-footer">${btn('← 上一部分','data-page="1"')}${btn(`前往 04 ${esc(dgLabels[3])} →`,'data-page="3"','class="primary"')}</div>`;

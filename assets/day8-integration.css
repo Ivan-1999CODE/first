@@ -3,6 +3,9 @@
 .hi-mode-caption{font-size:.85rem;font-weight:700;color:var(--muted)}
 .hi-options,.hi-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .hi-actions{margin-top:22px}
+.hi-content .hi-step-next{justify-content:flex-end;margin-top:16px}
+.hi-content .hi-step-next>button{flex:0 1 auto;min-height:48px;max-width:100%;margin-left:auto;background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+@media(max-width:640px){.hi-content .hi-step-next>button{width:100%;flex:1 1 100%}}
 .hi-content .hi-entry-actions{justify-content:flex-end}
 .hi-content .hi-entry-actions>button{flex:0 1 auto}
 .hi-mode-bar button,.hi-content button{min-height:44px;white-space:normal;line-height:1.45}
@@ -152,3 +155,24 @@ body.lesson-guided.hi-active #main .hx-content .hi-say>details:has(.hx-one-hint)
  body.lesson-guided.hi-active #main .hx-content .dg-hint-stage{padding:12px}
  body.lesson-guided.hi-active #main .hx-content .dg-hint-tabs button{font-size:.86rem;padding-inline:3px}
 }
+/* One turn at a time; completed dialogue stays available on demand. */
+.hi-turn-progress{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:16px 0}
+.hi-turn-progress li{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;color:var(--muted);font-size:.85rem;line-height:1.5}
+.hi-turn-progress li[aria-current=step]{background:var(--soft);border-color:var(--accent);color:var(--ink);font-weight:700}
+.hi-turn-progress .done{color:var(--ink)}
+.hi-dialogue .hi-role{margin-top:0}
+.hi-dialogue-complete{padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--soft);color:var(--ink)}
+.hi-dialogue-recap section+section{border-top:1px solid var(--line);margin-top:18px;padding-top:12px}
+.hi-dialogue-recap>.hi-actions{margin-bottom:16px}
+.hi-dialogue .hi-actions>button{max-width:100%}
+.hi-choice-verdict{display:block;margin-top:7px;font-size:.85em;font-weight:700}
+.hi-choice-feedback{margin:14px 0 0;line-height:1.7}
+.hi-choice-feedback:empty{display:none}
+.hi-choice-feedback strong,.hi-choice-feedback span{display:block}
+.hi-content{--hi-correct-bg:#d1eadb;--hi-correct-ink:#174d33;--hi-correct-line:#29835a;--hi-wrong-bg:#fbe4e0;--hi-wrong-ink:#842d25;--hi-wrong-line:#b3463c}
+:root[data-theme=dark] .hi-content{--hi-correct-bg:#224c37;--hi-correct-ink:#d6f6e3;--hi-correct-line:#65bd8e;--hi-wrong-bg:#542e2b;--hi-wrong-ink:#ffe1db;--hi-wrong-line:#ee998b}
+body.lesson-guided.hi-active #main :is(.hi-object-options,.hx-decisions) button[data-result=correct][aria-pressed=true]{background:var(--hi-correct-bg);color:var(--hi-correct-ink);border-color:var(--hi-correct-line)}
+body.lesson-guided.hi-active #main :is(.hi-object-options,.hx-decisions) button[data-result=wrong][aria-pressed=true]{background:var(--hi-wrong-bg);color:var(--hi-wrong-ink);border-color:var(--hi-wrong-line)}
+body.lesson-guided.hi-active #main .hi-choice-feedback[data-result=correct]{color:var(--hi-correct-ink)}
+body.lesson-guided.hi-active #main .hi-choice-feedback[data-result=wrong]{color:var(--hi-wrong-ink)}
+@media(max-width:620px){.hi-turn-progress{gap:6px}.hi-turn-progress li{padding:7px 9px}.hi-dialogue .hi-actions>button{width:100%;flex-basis:100%}.hi-dialogue-complete{padding:18px}}

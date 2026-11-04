@@ -38,3 +38,10 @@ body.dg-navigation #main :is(textarea,input,button,summary,[tabindex],.scene-boa
  body.dg-navigation .dg-section-switch { width: 100%; padding-block: 4px; }
  body.dg-navigation .dg-section-switch button { flex-grow: 1; }
 }
+/* Home entry actions share the Day 8 order, alignment and theme colors. */
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; gap:10px; }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button { flex:0 1 auto; margin-inline:0; max-width:100%; white-space:normal; line-height:1.45; background:var(--panel); color:var(--ink); border-color:var(--line); }
+body:is(.day1-guided,.lesson-guided) #main > .footer-actions.dg-entry-actions > button { margin-inline:0; }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button:hover:not(:disabled) { background:var(--soft); border-color:var(--accent); }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button.primary,
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button.primary:hover:not(:disabled) { background:var(--accent); color:var(--on-accent); border-color:var(--accent); }

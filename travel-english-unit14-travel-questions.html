@@ -759,7 +759,8 @@ body.lesson-guided button {
   font-weight: 600;
   line-height: 1.5;
 }
-body.lesson-guided button:hover:not(:disabled) { background: var(--soft); border-color: var(--accent); }
+/* Touch browsers can retain :hover after a tap; keep selected controls' own fill and ink. */
+body.lesson-guided button:hover:not(:disabled):where(:not([aria-pressed=true], [aria-current=step])) { background: var(--soft); border-color: var(--accent); }
 body.lesson-guided button:active:not(:disabled) { transform: translateY(1px); }
 body.lesson-guided button:disabled { opacity: .5; cursor: default; }
 body.lesson-guided button:is([aria-pressed=true], [aria-current=step]) { background: var(--dg-tint); border-color: var(--accent); color: var(--accent); }
@@ -1257,8 +1258,6 @@ body.lesson-guided .dg-quick-start .task { margin-bottom: 16px; }
 body.lesson-guided .dg-entry-note { margin: 0; }
 body.lesson-guided .dg-entry-note > summary { color: var(--muted); font-size: .9rem; }
 body.lesson-guided .dg-entry-note textarea { margin-top: 12px; }
-body.lesson-guided #main > .dg-entry-next { justify-content: flex-end; }
-body.lesson-guided #main > .dg-entry-next > button { flex: 0 1 auto; margin-inline-start: auto; max-width: 100%; }
 body.lesson-guided #main > .dg-section-footer { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
 body.lesson-guided #main > .dg-section-footer > button { min-width: 0; max-width: 100%; min-height: 48px; margin: 0; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
 body.lesson-guided #main > .dg-section-footer > button:first-child { justify-self: start; }
@@ -1716,6 +1715,13 @@ body.dg-navigation #main :is(textarea,input,button,summary,[tabindex],.scene-boa
  body.dg-navigation .dg-section-switch { width: 100%; padding-block: 4px; }
  body.dg-navigation .dg-section-switch button { flex-grow: 1; }
 }
+/* Home entry actions share the Day 8 order, alignment and theme colors. */
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; gap:10px; }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button { flex:0 1 auto; margin-inline:0; max-width:100%; white-space:normal; line-height:1.45; background:var(--panel); color:var(--ink); border-color:var(--line); }
+body:is(.day1-guided,.lesson-guided) #main > .footer-actions.dg-entry-actions > button { margin-inline:0; }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button:hover:not(:disabled) { background:var(--soft); border-color:var(--accent); }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button.primary,
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button.primary:hover:not(:disabled) { background:var(--accent); color:var(--on-accent); border-color:var(--accent); }
 </style></head><body>
 <a class="skip" href="#main">跳到課程內容</a>
 <header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
@@ -2519,15 +2525,19 @@ function dgLessonOverview() {
  return `<div class="cards">${rounds.map(dgLessonRoundCard).join('')}</div>`;
 }
 
-intro = function() {
- const r = activeRound(), c = r.entryCheckpoint || r.checkpoint;
+function dgLessonCover() {
  return `<section class="dg-lesson-cover" aria-labelledby="dg-lesson-title">
   <div class="dg-cover-copy">
    <p class="eyebrow">第 ${course.day} 天 · 今日主題</p>
    <h1 id="dg-lesson-title">${esc(course.title)}</h1>
   </div>
   <div class="dg-cover-art dg-course-art">${course.art}</div>
- </section>
+ </section>`;
+}
+
+intro = function() {
+ const r = activeRound(), c = r.entryCheckpoint || r.checkpoint;
+ return `${dgLessonCover()}
  <section class="panel dg-panel dg-task-panel before-panel dg-quick-start">
   <p class="dg-role">你先說</p><h2>任務 ${esc(taskLabel(r))}：先試一句</h2>
   <p class="task">${esc(c.task)}</p>
@@ -2956,7 +2966,7 @@ const dgOriginalReviewScope=reviewScope;
 reviewScope=function(){return `<details class="dg-review-options" ${reviewMode==='mixed'?'open':''}><summary>${reviewMode==='mixed'?'正在複習多個已學任務':'需要時：一起複習已學任務'}</summary>${dgOriginalReviewScope()}</details>`;};
 const dgOriginalFooter=taskFooter;
 taskFooter=function(){
- if(page===0)return `<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
+ if(page===0)return `<div class="footer-actions dg-entry-actions">${btn('05 完整對話','data-page="4"')}${btn('02 整理聽說句子','data-page="1"','class="primary"')}</div>`;
  // Chapter navigation stays separate from conversation steps and early wrap-up.
  if(page===1)return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分','data-page="0"')}${btn('前往 03 跟著做 →',`data-start="${activeRound().flowIds[0]}"`,'class="primary"')}</div>`;
  if(page===2)return `<div class="footer-actions dg-section-footer">${btn('← 上一部分','data-page="1"')}${btn(`前往 04 ${esc(dgLabels[3])} →`,'data-page="3"','class="primary"')}</div>`;

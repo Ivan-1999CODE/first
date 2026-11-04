@@ -4,8 +4,7 @@ function dgTaskTabs(items, key, current, ids) {
  return ids.length > 1 ? tabs(items, key, current) : '';
 }
 
-intro = function() {
- const r = currentRound();
+function dgLessonCover() {
  return `<section class="dg-lesson-cover" aria-labelledby="dg-lesson-title">
   <div class="dg-cover-copy">
    <p class="eyebrow">第 1 天 · 今日主題</p>
@@ -25,7 +24,12 @@ intro = function() {
    <span class="dg-cover-question" aria-hidden="true">?</span>
    <img class="dg-cover-person dg-cover-traveler" src="${studyArtwork.images.asker}" alt="" width="640" height="640">
   </div>
- </section>
+ </section>`;
+}
+
+intro = function() {
+ const r = currentRound();
+ return `${dgLessonCover()}
  <section class="panel dg-panel dg-task-panel before-panel">
    <p class="dg-role">你先說</p>
    <h2>任務 ${r.id}：先試著說</h2>

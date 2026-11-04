@@ -32,15 +32,19 @@ function dgLessonOverview() {
  return `<div class="cards">${rounds.map(dgLessonRoundCard).join('')}</div>`;
 }
 
-intro = function() {
- const r = activeRound(), c = r.entryCheckpoint || r.checkpoint;
+function dgLessonCover() {
  return `<section class="dg-lesson-cover" aria-labelledby="dg-lesson-title">
   <div class="dg-cover-copy">
    <p class="eyebrow">第 ${course.day} 天 · 今日主題</p>
    <h1 id="dg-lesson-title">${esc(course.title)}</h1>
   </div>
   <div class="dg-cover-art dg-course-art">${course.art}</div>
- </section>
+ </section>`;
+}
+
+intro = function() {
+ const r = activeRound(), c = r.entryCheckpoint || r.checkpoint;
+ return `${dgLessonCover()}
  <section class="panel dg-panel dg-task-panel before-panel dg-quick-start">
   <p class="dg-role">你先說</p><h2>任務 ${esc(taskLabel(r))}：先試一句</h2>
   <p class="task">${esc(c.task)}</p>

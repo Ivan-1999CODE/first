@@ -740,7 +740,8 @@ body.lesson-guided button {
   font-weight: 600;
   line-height: 1.5;
 }
-body.lesson-guided button:hover:not(:disabled) { background: var(--soft); border-color: var(--accent); }
+/* Touch browsers can retain :hover after a tap; keep selected controls' own fill and ink. */
+body.lesson-guided button:hover:not(:disabled):where(:not([aria-pressed=true], [aria-current=step])) { background: var(--soft); border-color: var(--accent); }
 body.lesson-guided button:active:not(:disabled) { transform: translateY(1px); }
 body.lesson-guided button:disabled { opacity: .5; cursor: default; }
 body.lesson-guided button:is([aria-pressed=true], [aria-current=step]) { background: var(--dg-tint); border-color: var(--accent); color: var(--accent); }
@@ -1238,8 +1239,6 @@ body.lesson-guided .dg-quick-start .task { margin-bottom: 16px; }
 body.lesson-guided .dg-entry-note { margin: 0; }
 body.lesson-guided .dg-entry-note > summary { color: var(--muted); font-size: .9rem; }
 body.lesson-guided .dg-entry-note textarea { margin-top: 12px; }
-body.lesson-guided #main > .dg-entry-next { justify-content: flex-end; }
-body.lesson-guided #main > .dg-entry-next > button { flex: 0 1 auto; margin-inline-start: auto; max-width: 100%; }
 body.lesson-guided #main > .dg-section-footer { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
 body.lesson-guided #main > .dg-section-footer > button { min-width: 0; max-width: 100%; min-height: 48px; margin: 0; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
 body.lesson-guided #main > .dg-section-footer > button:first-child { justify-self: start; }
@@ -1562,6 +1561,9 @@ body:is(.day1-guided,.lesson-guided) :is(.d5-teacher-guide,.d5-student-hint) > s
 .hi-mode-caption{font-size:.85rem;font-weight:700;color:var(--muted)}
 .hi-options,.hi-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .hi-actions{margin-top:22px}
+.hi-content .hi-step-next{justify-content:flex-end;margin-top:16px}
+.hi-content .hi-step-next>button{flex:0 1 auto;min-height:48px;max-width:100%;margin-left:auto;background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+@media(max-width:640px){.hi-content .hi-step-next>button{width:100%;flex:1 1 100%}}
 .hi-content .hi-entry-actions{justify-content:flex-end}
 .hi-content .hi-entry-actions>button{flex:0 1 auto}
 .hi-mode-bar button,.hi-content button{min-height:44px;white-space:normal;line-height:1.45}
@@ -1711,6 +1713,27 @@ body.lesson-guided.hi-active #main .hx-content .hi-say>details:has(.hx-one-hint)
  body.lesson-guided.hi-active #main .hx-content .dg-hint-stage{padding:12px}
  body.lesson-guided.hi-active #main .hx-content .dg-hint-tabs button{font-size:.86rem;padding-inline:3px}
 }
+/* One turn at a time; completed dialogue stays available on demand. */
+.hi-turn-progress{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:16px 0}
+.hi-turn-progress li{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;color:var(--muted);font-size:.85rem;line-height:1.5}
+.hi-turn-progress li[aria-current=step]{background:var(--soft);border-color:var(--accent);color:var(--ink);font-weight:700}
+.hi-turn-progress .done{color:var(--ink)}
+.hi-dialogue .hi-role{margin-top:0}
+.hi-dialogue-complete{padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--soft);color:var(--ink)}
+.hi-dialogue-recap section+section{border-top:1px solid var(--line);margin-top:18px;padding-top:12px}
+.hi-dialogue-recap>.hi-actions{margin-bottom:16px}
+.hi-dialogue .hi-actions>button{max-width:100%}
+.hi-choice-verdict{display:block;margin-top:7px;font-size:.85em;font-weight:700}
+.hi-choice-feedback{margin:14px 0 0;line-height:1.7}
+.hi-choice-feedback:empty{display:none}
+.hi-choice-feedback strong,.hi-choice-feedback span{display:block}
+.hi-content{--hi-correct-bg:#d1eadb;--hi-correct-ink:#174d33;--hi-correct-line:#29835a;--hi-wrong-bg:#fbe4e0;--hi-wrong-ink:#842d25;--hi-wrong-line:#b3463c}
+:root[data-theme=dark] .hi-content{--hi-correct-bg:#224c37;--hi-correct-ink:#d6f6e3;--hi-correct-line:#65bd8e;--hi-wrong-bg:#542e2b;--hi-wrong-ink:#ffe1db;--hi-wrong-line:#ee998b}
+body.lesson-guided.hi-active #main :is(.hi-object-options,.hx-decisions) button[data-result=correct][aria-pressed=true]{background:var(--hi-correct-bg);color:var(--hi-correct-ink);border-color:var(--hi-correct-line)}
+body.lesson-guided.hi-active #main :is(.hi-object-options,.hx-decisions) button[data-result=wrong][aria-pressed=true]{background:var(--hi-wrong-bg);color:var(--hi-wrong-ink);border-color:var(--hi-wrong-line)}
+body.lesson-guided.hi-active #main .hi-choice-feedback[data-result=correct]{color:var(--hi-correct-ink)}
+body.lesson-guided.hi-active #main .hi-choice-feedback[data-result=wrong]{color:var(--hi-wrong-ink)}
+@media(max-width:620px){.hi-turn-progress{gap:6px}.hi-turn-progress li{padding:7px 9px}.hi-dialogue .hi-actions>button{width:100%;flex-basis:100%}.hi-dialogue-complete{padding:18px}}
 
 </style>
 <style id="interactive-flow-styles">.vf-interaction{--vf-surface:var(--panel,#fff);--vf-line:var(--line,#c5d2d9);--vf-soft:var(--soft,#edf4f7);--vf-accent:var(--accent,#256b83);color:var(--ink,#23343a);min-width:0}
@@ -1900,6 +1923,13 @@ body.dg-navigation #main :is(textarea,input,button,summary,[tabindex],.scene-boa
  body.dg-navigation .dg-section-switch { width: 100%; padding-block: 4px; }
  body.dg-navigation .dg-section-switch button { flex-grow: 1; }
 }
+/* Home entry actions share the Day 8 order, alignment and theme colors. */
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; gap:10px; }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button { flex:0 1 auto; margin-inline:0; max-width:100%; white-space:normal; line-height:1.45; background:var(--panel); color:var(--ink); border-color:var(--line); }
+body:is(.day1-guided,.lesson-guided) #main > .footer-actions.dg-entry-actions > button { margin-inline:0; }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button:hover:not(:disabled) { background:var(--soft); border-color:var(--accent); }
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button.primary,
+body:is(.day1-guided,.lesson-guided) #main .dg-entry-actions > button.primary:hover:not(:disabled) { background:var(--accent); color:var(--on-accent); border-color:var(--accent); }
 </style></head><body>
 <a class="skip" href="#main">跳到課程內容</a>
 <header class="top"><div class="top-inner"><div><a class="brand" href="index.html"><span aria-hidden="true">↗</span>Travel Lab</a><span class="top-label">一點英文，走遠一點。</span></div><div class="tools"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
@@ -2705,15 +2735,19 @@ function dgLessonOverview() {
  return `<div class="cards">${rounds.map(dgLessonRoundCard).join('')}</div>`;
 }
 
-intro = function() {
- const r = activeRound(), c = r.entryCheckpoint || r.checkpoint;
+function dgLessonCover() {
  return `<section class="dg-lesson-cover" aria-labelledby="dg-lesson-title">
   <div class="dg-cover-copy">
    <p class="eyebrow">第 ${course.day} 天 · 今日主題</p>
    <h1 id="dg-lesson-title">${esc(course.title)}</h1>
   </div>
   <div class="dg-cover-art dg-course-art">${course.art}</div>
- </section>
+ </section>`;
+}
+
+intro = function() {
+ const r = activeRound(), c = r.entryCheckpoint || r.checkpoint;
+ return `${dgLessonCover()}
  <section class="panel dg-panel dg-task-panel before-panel dg-quick-start">
   <p class="dg-role">你先說</p><h2>任務 ${esc(taskLabel(r))}：先試一句</h2>
   <p class="task">${esc(c.task)}</p>
@@ -3142,7 +3176,7 @@ const dgOriginalReviewScope=reviewScope;
 reviewScope=function(){return `<details class="dg-review-options" ${reviewMode==='mixed'?'open':''}><summary>${reviewMode==='mixed'?'正在複習多個已學任務':'需要時：一起複習已學任務'}</summary>${dgOriginalReviewScope()}</details>`;};
 const dgOriginalFooter=taskFooter;
 taskFooter=function(){
- if(page===0)return `<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`;
+ if(page===0)return `<div class="footer-actions dg-entry-actions">${btn('05 完整對話','data-page="4"')}${btn('02 整理聽說句子','data-page="1"','class="primary"')}</div>`;
  // Chapter navigation stays separate from conversation steps and early wrap-up.
  if(page===1)return `<div class="footer-actions dg-section-footer">${btn('← 回上一部分','data-page="0"')}${btn('前往 03 跟著做 →',`data-start="${activeRound().flowIds[0]}"`,'class="primary"')}</div>`;
  if(page===2)return `<div class="footer-actions dg-section-footer">${btn('← 上一部分','data-page="1"')}${btn(`前往 04 ${esc(dgLabels[3])} →`,'data-page="3"','class="primary"')}</div>`;
@@ -4621,10 +4655,44 @@ function hotelIntegrationHero(labels,title,intro,journey){
  return `<section class="hi-hero"><div><p class="eyebrow">第 8 天 · ${labels.join('＋')} 整合練習</p><h1>${esc(title)}</h1><p>${esc(intro)}</p><div class="hi-journey">${journey.map(text=>`<span>${esc(text)}</span>`).join('')}</div></div><div class="hi-keycard" aria-hidden="true"><span>TRAVEL LAB HOTEL</span><strong>305</strong><span>WELCOME · 歡迎入住</span><i></i></div></section>`;
 }
 function hotelIntegrationEntry(direct){
- return `<div class="hi-actions hi-entry-actions"><button type="button" ${direct}>05 完整對話</button><button type="button" data-hi-page="1" class="primary">02 整理聽說句子</button></div>`;
+ return `<div class="hi-actions hi-entry-actions dg-entry-actions"><button type="button" ${direct}>05 完整對話</button><button type="button" data-hi-page="1" class="primary">02 整理聽說句子</button></div>`;
 }
 function hotelIntegrationPaths(paths){
  return `<div class="hi-route-cards hi-course-path">${paths.map(p=>`<article><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p><button type="button" data-hi-page="${p.page}">${esc(p.action)}</button></article>`).join('')}</div>`;
+}
+// Part 03 shares one active turn across all three hotel integration routes.
+function hotelFlowRole(s,f){return f.heard&&f.spoken?'complete':s.askFirst?(f.spoken?'heard':'spoken'):(f.heard?'spoken':'heard');}
+function hotelFlowConfirm(s,f,role){
+ if(!['heard','spoken'].includes(role)||hotelFlowRole(s,f)!==role)return false;
+ if(role==='spoken'&&s.decisions&&!s.allowed.includes(f.decision))return false;
+ f[role]=true;f.choice=-1;return true;
+}
+function hotelFlowResult(selected,valid){return selected<0?'pending':valid.includes(selected)?'correct':'wrong';}
+function hotelFlowVerdict(result){return result==='correct'?'✓ 答對了':result==='wrong'?'✕ 再試一次':'';}
+function hotelFlowFeedback(result,message=''){
+ return `<p class="hi-choice-feedback" data-result="${result}" role="status">${result==='pending'?'':`<strong>${hotelFlowVerdict(result)}</strong><span>${esc(message||(result==='correct'?'確認後，按下一步繼續。':'再聽或讀一次，然後重新選擇。'))}</span>`}</p>`;
+}
+function hotelFlowDialogue(s,f,{prefix,role='飯店人員',hint,plan=''}){
+ const current=hotelFlowRole(s,f),complete=current==='complete',first=s.askFirst?'spoken':'heard';
+ const last=s.decisions?'確認決定':'點選答案';
+ const labels=s.askFirst?['你先說',`聽${role}回應`,last]:[`先聽${role}`,'換你回答',last];
+ const stage=complete?2:current===first?0:1;
+ const progress=`<ol class="hi-turn-progress" aria-label="這段對話的練習順序">${labels.map((label,i)=>`<li ${i===stage?'aria-current="step"':''} class="${i<stage?'done':''}"><span aria-hidden="true">${i<stage?'✓':i+1}</span>${esc(label)}</li>`).join('')}</ol>`;
+ const next=current==='spoken'?(s.askFirst?'我說好了，聽對方回應 →':s.decisions?'我說好了，確認決定 →':'我說好了，開始選擇 →'):(s.askFirst?'我聽懂了，開始選擇 →':'我聽懂了，換我回答 →');
+ const confirm=`<div class="hi-actions"><button type="button" class="primary" data-${prefix}-gate="${current}" ${current==='spoken'&&s.decisions&&!s.allowed.includes(f.decision)?'disabled':''}>${next}</button></div>`;
+ const active=complete?`<section class="hi-dialogue-complete"><h3 id="hotel-flow-turn" tabindex="-1">✓ 聽與說都完成了</h3><p>${s.decisions?'這次的訂餐決定已說好，確認結果後繼續。':'接著點選符合剛才對話的答案。'}</p></section>`:
+  current==='spoken'?`<section class="hi-role hi-say" data-hotel-flow-role="spoken"><p class="dg-role">你 · ${s.askFirst?'先開口':'換你回答'}</p><h3 id="hotel-flow-turn" class="task" tabindex="-1">${esc(s.decisions?'依這次的價格與時間，選好決定，再用英文回應。':s.task)}</h3>${plan}${!s.decisions||f.decision>=0?hint:'<p>先選擇自己的決定，再用英文回答。</p>'}${confirm}</section>`:
+  `<section class="hi-role hi-hear" data-hotel-flow-role="heard"><h3 id="hotel-flow-turn" tabindex="-1">${esc(role)} · ${s.askFirst?'聽對方回應':'先聽對方說'}</h3>${audio(s.line)}<details class="hi-transcript"><summary>看對方英文與中文</summary><p class="hi-en" lang="en">${esc(s.line)}</p><p>${esc(s.zh)}</p></details><p class="fine">可以聽英文，也可以閱讀文字後繼續。</p>${confirm}</section>`;
+ const self=f.spoken?`<section><p class="eyebrow">你說的這句 · 參考說法</p><p class="hi-en" lang="en">${esc(s.answer)}</p><p>${esc(s.answerZh||'')}</p></section>`:'';
+ const other=f.heard?`<section><p class="eyebrow">${esc(role)}說</p><p class="hi-en" lang="en">${esc(s.line)}</p><p>${esc(s.zh)}</p>${audio(s.line)}</section>`:'';
+ const recap=f.heard||f.spoken?`<details class="hi-dialogue-recap"><summary>回看剛才的對話</summary>${s.askFirst?self+other:other+self}<div class="hi-actions"><button type="button" data-${prefix}-dialogue-restart>重新練這段對話</button></div></details>`:'';
+ return `<div class="hi-dialogue" data-hotel-flow-stage="${current}">${progress}${active}${recap}</div>`;
+}
+function hotelFocusFlowTurn(){
+ const el=document.querySelector('#hotel-flow-turn');if(!el)return;
+ el.focus({preventScroll:true});
+ const rect=el.getBoundingClientRect(),inset=dgStickyHeight()+18;
+ if(rect.top<inset||rect.bottom>innerHeight-48)window.scrollTo({top:Math.max(0,scrollY+rect.top-inset),behavior:'instant'});
 }
 // Seven-part routes for the two additional integration groups.
 // All records are separate from the original A-F and the existing check-in route.
@@ -4690,11 +4758,11 @@ function createCompleteHotel(data, ctx) {
   const g=group(),c=flowData(),f=ui().flow,s=current();
   const top=head('連起來，完成這次任務','用同一筆資料接續對話。換時點時看清楚角色和需求。')+picker(g.flows,c.id,'data-hx-flow','完整流程');
   if(f.done)return top+`<section class="panel hi-complete"><h2>✓ 這次的流程已練習</h2>${journal()}<p>依最後的結果口頭回顧：提供了哪些資料？哪些需求已確認？若婉拒訂餐，沒有送出餐點訂單。</p><p class="fine">這是操作與自行確認的練習紀錄；口說是否清楚，由師生實際核對。</p><div class="hi-actions">${btn('同一情境再練一次','data-hx-restart')}${go('換情境，自己說 →',3)}</div></section>`;
-  const plan=s.decisions?`<div class="hi-options hx-decisions" role="group" aria-label="我的訂餐決定">${s.decisions.map((o,i)=>btn(esc(o.label),`data-hx-decision="${i}"`,`aria-pressed="${f.decision===i}" ${!f.heard?'disabled':''}`)).join('')}</div>${f.decision>=0&&!s.allowed.includes(f.decision)?`<p role="status">${esc(s.reason)}</p>`:''}`:'';
-  const speak=`<section class="hi-role hi-say"><p class="hi-focus-cue">↓ 看這裡，換你說</p><p class="task">${esc(s.decisions?'依這次的價格與時間，選好決定，再用英文回應。':s.task)}</p>${plan}${!s.decisions||f.decision>=0?hint(s,'flow-'+c.id+'-'+s.id+'-'+f.decision):'<p>先聽對方的確認，再選擇自己的決定。</p>'}<label class="hi-check"><input type="checkbox" data-hx-gate="spoken" ${f.spoken?'checked':''} ${(!s.askFirst&&!f.heard)||(s.decisions&&f.decision<0)?'disabled':''}>我已用自己的聲音說</label></section>`;
-  const hear=`<section class="hi-role hi-hear"><p class="dg-role">${s.askFirst?'② 對方回應':'① 對方先說'}</p>${audio(s.line)}${transcript(s)}<label class="hi-check"><input type="checkbox" data-hx-gate="heard" ${f.heard?'checked':''} ${s.askFirst&&!f.spoken?'disabled':''}>我已聽完，或已讀完文字</label></section>`;
-  const choices=s.decisions?`<section class="hi-known"><h3>本次訂餐決定</h3><p>${f.decision<0?'先依價格和時間做決定。':esc(s.result)}</p><p class="fine">按下確認後，才記錄這次的結果。</p></section>`:`<section class="hi-known"><h3>依對話確認結果</h3><div class="hi-object-options">${s.options.map((o,i)=>btn(esc(o),`data-hx-choice="${i}"`,`aria-pressed="${f.choice===i}" ${!f.heard||!f.spoken?'disabled':''}`)).join('')}</div>${f.choice>=0&&!s.valid.includes(f.choice)?'<p role="status">這項結果不符合本次資料。再聽或讀一次，然後重選。</p>':''}</section>`;
-  return top+`<section class="panel"><p class="task">${esc(c.context)}</p>${facts(c.facts)}<div class="hi-row hx-stage"><div><p class="eyebrow">${esc(s.phase)}</p><h2>${esc(s.label)}</h2></div><span class="hi-count">${f.index+1} / ${c.steps.length}</span></div><div class="hi-track">${c.steps.map((_,i)=>`<span class="${i<=f.index?'on':''}"></span>`).join('')}</div><div class="hi-flow-grid"><div>${s.askFirst?speak+hear:hear+speak}</div><div>${journal()}${choices}</div></div><div class="hi-actions">${btn('← 上一步','data-hx-back',f.index===0?'disabled':'')}${btn(f.index===c.steps.length-1?'確認並完成這段流程':'確認這項，繼續 →','data-hx-next',`class="primary" ${ready()?'':'disabled'}`)}${btn('重新開始','data-hx-restart')}</div><p class="fine">已開口由自己確認；此處不錄音，也不自動評分。</p></section>`;
+  const result=hotelFlowResult(f.choice,s.valid||[]),decisionResult=s.decisions?hotelFlowResult(f.decision,s.allowed):'pending';
+  const plan=s.decisions?`<div class="hi-options hx-decisions" role="group" aria-label="我的訂餐決定">${s.decisions.map((o,i)=>btn(esc(o.label)+(f.decision===i?`<span class="hi-choice-verdict">${hotelFlowVerdict(decisionResult)}</span>`:''),`data-hx-decision="${i}"`,`aria-pressed="${f.decision===i}" data-result="${f.decision===i?decisionResult:'pending'}" ${!f.heard?'disabled':''}`)).join('')}</div>${hotelFlowFeedback(decisionResult,decisionResult==='wrong'?s.reason:decisionResult==='correct'?'這個決定符合條件，接著用英文說出來。':'')}`:'';
+  const dialogue=hotelFlowDialogue(s,f,{prefix:'hx',hint:hint(s,'flow-'+c.id+'-'+s.id+'-'+f.decision),plan});
+  const choices=s.decisions?`<section class="hi-known"><h3>本次訂餐決定</h3><p>${f.spoken?esc(s.result):'先聽對方確認，再選擇自己的決定並用英文回答。'}</p><p class="fine">按下確認後，才記錄這次的結果。</p></section>`:`<section class="hi-known"><h3>依對話確認結果</h3><p class="fine">${f.heard&&f.spoken?'點選符合剛才對話的答案。':'先完成這段聽與說，再開始點選。'}</p><div class="hi-object-options">${s.options.map((o,i)=>btn(esc(o)+(f.choice===i?`<span class="hi-choice-verdict">${hotelFlowVerdict(result)}</span>`:''),`data-hx-choice="${i}"`,`aria-pressed="${f.choice===i}" data-result="${f.choice===i?result:'pending'}" ${!f.heard||!f.spoken?'disabled':''}`)).join('')}</div>${hotelFlowFeedback(result)}</section>`;
+  return top+`<section class="panel"><p class="task">${esc(c.context)}</p>${facts(c.facts)}<div class="hi-row hx-stage"><div><p class="eyebrow">${esc(s.phase)}</p><h2>${esc(s.label)}</h2></div><span class="hi-count">${f.index+1} / ${c.steps.length}</span></div><div class="hi-track">${c.steps.map((_,i)=>`<span class="${i<=f.index?'on':''}"></span>`).join('')}</div><div class="hi-flow-grid"><div>${dialogue}<div class="hi-actions">${btn('← 上一步','data-hx-back',f.index===0?'disabled':'')}${btn('重新開始','data-hx-restart')}</div></div><div>${journal()}${choices}<div class="hi-actions hi-step-next">${btn(f.index===c.steps.length-1?'確認並完成這段流程':'確認這項，繼續 →','data-hx-next',`class="primary" ${ready()?'':'disabled'}`)}</div></div></div><p class="fine">已開口由自己確認；此處不錄音，也不自動評分。</p></section>`;
  }
  function questions(){
   const g=group(),q=g.questions.find(q=>q.id===ui().questionId);
@@ -4712,12 +4780,13 @@ function createCompleteHotel(data, ctx) {
  document.addEventListener('input',e=>{if(!ctx.active())return;const key=e.target.dataset.hxField;if(keys(group()).includes(key)){state().answers[key]=e.target.value;save();}});
  document.addEventListener('change',e=>{
   if(!ctx.active())return;const x=e.target.dataset,m=ui();
-  if(x.hxGate){const f=m.flow,s=current();if(f.done||e.target.disabled)return;if(x.hxGate==='spoken')f.spoken=e.target.checked&&(s.askFirst||f.heard);if(x.hxGate==='heard')f.heard=e.target.checked&&(!s.askFirst||f.spoken);if(s.askFirst&&!f.spoken)f.heard=false;if(!s.askFirst&&!f.heard){f.spoken=false;f.decision=-1;}f.choice=-1;redraw(`[data-hx-gate="${x.hxGate}"]`);return;}
   if(x.hxGoal){const task=group().missions.find(t=>t.id===m.missionId);if(!task.goals.some(g=>g.id===x.hxGoal))return;const flags=state().goals[task.id+'-'+m.mode];flags[x.hxGoal]=e.target.checked;save();$('#hx-goal-count').textContent=Object.values(flags).filter(Boolean).length+' / '+task.goals.length+' 項';return;}
   if(x.hxHome&&Object.hasOwn(state().home,x.hxHome)){state().home[x.hxHome]=e.target.checked;save();}
  });
  document.addEventListener('click',e=>{
   if(!ctx.active())return;const b=e.target.closest('button');if(!b||b.disabled)return;const x=b.dataset,m=ui(),g=group();
+  if(x.hxGate&&ctx.section()===2){if(m.flow.done||!hotelFlowConfirm(current(),m.flow,x.hxGate))return;reset();redraw();hotelFocusFlowTurn();return;}
+  if(x.hxDialogueRestart!==undefined&&ctx.section()===2){const f=m.flow;if(f.done)return;f.heard=false;f.spoken=false;f.choice=-1;f.decision=-1;reset();redraw();hotelFocusFlowTurn();return;}
   if(x.hxDirect!==undefined){m.mode='independent';ctx.navigate(4);return;}
   if(x.hxStudy&&['say','reply'].includes(x.hxStudy)){m.study=x.hxStudy;m.replyRole=null;reset();redraw(`.study-navigation [data-hx-study="${m.study}"]`);dgScrollToLesson();return;}
   if(x.hotelStudyGroup&&ctx.section()===1&&hotelStudyGroups(g.sourceLabels).some(g=>g.id===x.hotelStudyGroup)){m.studyGroup=x.hotelStudyGroup;m.studyAll=false;m.reply=0;m.replyRole=null;reset();redraw(`[data-hotel-study-group="${m.studyGroup}"]`);return;}
@@ -4849,9 +4918,8 @@ function createCompleteHotel(data, ctx) {
   const c = flowScenario(), f = flowState, s = c.steps[f.index], route=d.practice.flowRoutes.find(r=>r.id===flowRoute);
   const top = heading('連起來，完成這次入住','同一位旅客、同一筆訂房；說過的資訊一路延續。') + `<details class="panel hi-route-picker"><summary>接話順序：${esc(route.label)}</summary><div class="hi-options">${d.practice.flowRoutes.map(r=>button(esc(r.label),`data-hi-route="${r.id}"`,`aria-pressed="${flowRoute===r.id}"`)).join('')}</div><p>${esc(route.note)}</p></details>` + scenarioPicker(flowId,'flow-scenario') + ((flowRoute==='standard'&&saved.complete.includes(flowId))||saved.suite.routes.includes(flowRoute+':'+flowId)?'<p class="fine hi-flow-record">✓ 這組條件與順序已有一次完整流程的練習紀錄；可以重新練習。</p>':'');
   if (f.done) return top + `<section class="panel"><p class="dg-role">✓ 這段流程已練習</p><h2>已準備好拿著房卡上樓。</h2>${board()}<p class="task">請口頭整理：你用什麼名字訂房、住幾晚？早餐、退房時間和電梯位置確認了嗎？</p><p class="fine">完成操作是練習紀錄；接下來和老師實際接話，觀察需要多少提示。</p><div class="hi-actions">${button('同一段再練一次','data-hi-flow-restart')}${go('看情境，自己選用 →',3,'class="primary"')}${go('直接和老師接話 →',4)}</div></section>`;
-  const speaking = `<section class="hi-role hi-say"><p class="dg-role">${s.askFirst?'① 你先說':'② 換你回答'}</p><p class="hi-focus-cue">↓ 看這裡，換你說</p><p class="task">${esc(s.task)}</p>${hintFor(s,'flow-'+c.id+'-'+s.key)}<label class="hi-check"><input type="checkbox" data-hi-gate="spoken" ${f.spoken?'checked':''} ${!s.askFirst&&!f.heard?'disabled':''}>我已用自己的聲音說</label></section>`;
-  const listening = `<section class="hi-role hi-hear"><p class="dg-role">${s.askFirst?'② 櫃檯回應':'① 櫃檯先說'}</p>${audio(s.line)}${transcriptFor(s)}<label class="hi-check"><input type="checkbox" data-hi-gate="heard" ${f.heard?'checked':''} ${s.askFirst&&!f.spoken?'disabled':''}>我已聽完，或已讀完文字</label></section>`;
-  return top + `<section class="panel"><div class="hi-row"><div><p class="eyebrow">${esc(s.stage)} · 來自任務 ${esc(s.sourceLabel)}</p><h2>${esc(s.label)}</h2></div><span class="hi-count">${f.index+1} / ${c.steps.length}</span></div><div class="hi-track" aria-label="第 ${f.index+1} 步，共 ${c.steps.length} 步">${c.steps.map((_,i) => `<span class="${i<=f.index?'on':''}"></span>`).join('')}</div><div class="hi-flow-grid"><div>${facts(c)}${s.askFirst?speaking+listening:listening+speaking}</div><div class="hi-scene">${board()}${vfPanel(s,{selected:f.choice,ready:f.heard&&f.spoken,attr:'data-hi-choice',previous:vfHistory({steps:c.steps},f.history,f.index)})}<p class="hi-feedback" hidden>${esc(f.feedback)}</p></div></div><div class="hi-actions">${button('← 上一步','data-hi-flow-back',f.index===0?'disabled':'')}${button(f.index===c.steps.length-1?'完成入住流程 ✓':'下一步 →','data-hi-flow-next',`class="primary" ${flowReady()?'':'disabled'}`)}${button('重新開始','data-hi-flow-restart')}</div><p class="fine">勾選由自己確認；這裡不錄音，也不自動評分。</p></section>`;
+  const dialogue=hotelFlowDialogue(s,f,{prefix:'hi',role:'櫃檯',hint:hintFor(s,'flow-'+c.id+'-'+s.key)});
+  return top + `<section class="panel"><div class="hi-row"><div><p class="eyebrow">${esc(s.stage)} · 來自任務 ${esc(s.sourceLabel)}</p><h2>${esc(s.label)}</h2></div><span class="hi-count">${f.index+1} / ${c.steps.length}</span></div><div class="hi-track" aria-label="第 ${f.index+1} 步，共 ${c.steps.length} 步">${c.steps.map((_,i) => `<span class="${i<=f.index?'on':''}"></span>`).join('')}</div><div class="hi-flow-grid"><div>${facts(c)}${dialogue}<div class="hi-actions">${button('← 上一步','data-hi-flow-back',f.index===0?'disabled':'')}${button('重新開始','data-hi-flow-restart')}</div></div><div class="hi-scene">${board()}${vfPanel(s,{selected:f.choice,ready:f.heard&&f.spoken,attr:'data-hi-choice',previous:vfHistory({steps:c.steps},f.history,f.index)})}<p class="hi-feedback" hidden>${esc(f.feedback)}</p><div class="hi-actions hi-step-next">${button(f.index===c.steps.length-1?'完成入住流程 ✓':'下一步 →','data-hi-flow-next',`class="primary" ${flowReady()?'':'disabled'}`)}</div></div></div><p class="fine">已開口由自己確認；這裡不錄音，也不自動評分。</p></section>`;
  }
  function singlePracticePage() {
   const p = d.sayPrompts[sayIndex];
@@ -4882,7 +4950,7 @@ function createCompleteHotel(data, ctx) {
    if(s){
     const say=`<section class="hi-role hi-say"><p class="hi-focus-cue">↓ 看這裡，換你說</p><p class="task">${esc(s.task)}</p>${hintFor(s,'challenge-'+c.id+'-'+s.key)}<label class="hi-check"><input type="checkbox" data-hi-challenge-gate="spoken" ${f.spoken?'checked':''} ${!s.askFirst&&!f.heard?'disabled':''}>我已用自己的聲音說</label></section>`;
     const hear=`<section class="hi-role hi-hear"><p class="dg-role">${s.askFirst?'接著聽櫃檯的回答':'先聽櫃檯這一句'}</p>${audio(s.line)}${transcriptFor(s)}<label class="hi-check"><input type="checkbox" data-hi-challenge-gate="heard" ${f.heard?'checked':''} ${s.askFirst&&!f.spoken?'disabled':''}>我已聽完，或已讀完文字</label></section>`;
-    exchange=`<div class="hi-grid"><div>${s.askFirst?say+hear:hear+say}</div><section class="hi-role hi-known"><h3>依對話確認資料</h3><p>先開口並聽懂，再選這次符合的結果。</p><div class="hi-object-options">${s.objects.map((o,i)=>button(esc(o[1]),`data-hi-challenge-choice="${i}"`,`aria-pressed="${f.choice===i}" ${!f.heard||!f.spoken?'disabled':''}`)).join('')}</div>${f.choice>=0&&!s.valid.includes(f.choice)?'<p role="status">這項結果和本次資料不一致。再聽一次，也可以看文字後重選。</p>':''}<div class="hi-actions">${button('確認這項，繼續 →','data-hi-challenge-next',`class="primary" ${challengeReady()?'':'disabled'}`)}</div></section></div>`;
+    exchange=`<div class="hi-grid"><div>${s.askFirst?say+hear:hear+say}</div><section class="hi-role hi-known"><h3>依對話確認資料</h3><p>先開口並聽懂，再選這次符合的結果。</p><div class="hi-object-options">${s.objects.map((o,i)=>button(esc(o[1]),`data-hi-challenge-choice="${i}"`,`aria-pressed="${f.choice===i}" ${!f.heard||!f.spoken?'disabled':''}`)).join('')}</div>${f.choice>=0&&!s.valid.includes(f.choice)?'<p role="status">這項結果和本次資料不一致。再聽一次，也可以看文字後重選。</p>':''}<div class="hi-actions hi-step-next">${button('確認這項，繼續 →','data-hi-challenge-next',`class="primary" ${challengeReady()?'':'disabled'}`)}</div></section></div>`;
    }
    interaction=`<section class="panel"><div class="hi-grid"><div><p class="eyebrow">${esc(c.skill)}</p><h2 class="hi-challenge-title" tabindex="-1">${esc(c.context)}</h2>${cue}</div><div>${facts(c.scenario)}${progress}</div></div><h3>下一句，你想處理什麼？</h3><div class="hi-options hi-intents">${c.choices.map(key=>button(esc(names[key])+(f.history.some(x=>x.key===key)?' · 已確認':''),`data-hi-intent="${key}"`,`aria-pressed="${f.selected===key}" ${f.history.some(x=>x.key===key)?'disabled':''}`)).join('')}</div><p class="hi-intent-feedback" role="status">${esc(f.feedback)}</p><details class="hi-need-hint"><summary>需要一點方向</summary><p>${esc(c.nudge)}</p></details>${exchange}<p class="fine">先自己想要說什麼，再選需求繼續。選項和勾選不評定口說；以實際表達核對。已知資訊若沒聽清楚，也可以向老師再次確認。</p></section>`;
   }
@@ -4976,16 +5044,6 @@ function createCompleteHotel(data, ctx) {
    const guide=q('.hi-teacher'),open=guide.open;guide.outerHTML=missionGuide(liveTask());q('.hi-teacher').open=open;return;
   }
   if(x.hiHomeTransfer!==undefined){saved.suite.homeSpoken=el.checked;persist();return;}
-  if(x.hiGate){
-   const f=flowState,s=flowScenario().steps[f.index];
-   if(f.done||el.disabled)return;
-   if(x.hiGate==='spoken')f.spoken=el.checked&&(s.askFirst||f.heard);
-   if(x.hiGate==='heard')f.heard=el.checked&&(!s.askFirst||f.spoken);
-   if(s.askFirst&&!f.spoken)f.heard=false;
-   if(!s.askFirst&&!f.heard)f.spoken=false;
-   f.choice=-1;f.feedback='';f.history=f.history.slice(0,f.index);
-   redraw(`[data-hi-gate="${x.hiGate}"]`);return;
-  }
   if(x.hiGoal!==undefined){
    const i=Number(x.hiGoal);if(!Number.isInteger(i)||!d.goals[i])return;
    const flags=saved.checks[pairId+'-'+practice];flags[i]=el.checked;persist();q('#hi-pair-count').textContent=flags.filter(Boolean).length+' / '+d.goals.length+' 項';return;
@@ -5000,6 +5058,8 @@ function createCompleteHotel(data, ctx) {
   if(x.hiPage!==undefined){goSection(Number(x.hiPage));return;}
   if(x.hiTask!==undefined){const n=Number(x.hiTask);if(!Number.isInteger(n)||!rounds[n])return;active=false;syncRoute();stopAudio();resetSupport();closeMenus();setTaskRound(n);originalNavigate(section);moveFocus('#dg-menu-open');return;}
   if(groupId!=='checkin')return;
+  if(x.hiGate&&section===2){const f=flowState,s=flowScenario().steps[f.index];if(f.done||!hotelFlowConfirm(s,f,x.hiGate))return;f.feedback='';f.history=f.history.slice(0,f.index);stopAudio();resetSupport();render();hotelFocusFlowTurn();return;}
+  if(x.hiDialogueRestart!==undefined&&section===2){const f=flowState;if(f.done)return;f.heard=false;f.spoken=false;f.choice=-1;f.feedback='';f.history=f.history.slice(0,f.index);stopAudio();resetSupport();render();hotelFocusFlowTurn();return;}
   if(x.hiChallengeMode){if(!['integrated','single'].includes(x.hiChallengeMode))return;challengeMode=x.hiChallengeMode;stopAudio();resetSupport();redraw(`[data-hi-challenge-mode="${challengeMode}"]`);return;}
   if(x.hiChallenge){if(!d.practice.challenges.some(c=>c.id===x.hiChallenge))return;challengeId=x.hiChallenge;challengeState=newChallenge();stopAudio();resetSupport();render();moveFocus('.hi-challenge-title');return;}
   if(x.hiChallengeRestart!==undefined){challengeState=newChallenge();stopAudio();resetSupport();render();moveFocus('.hi-challenge-title');return;}

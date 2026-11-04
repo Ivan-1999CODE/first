@@ -64,7 +64,8 @@ body.day1-guided button {
   font-weight: 600;
   line-height: 1.5;
 }
-body.day1-guided button:hover:not(:disabled) { background: var(--soft); border-color: var(--accent); }
+/* Touch browsers can retain :hover after a tap; keep selected controls' own fill and ink. */
+body.day1-guided button:hover:not(:disabled):where(:not([aria-pressed=true], [aria-current=step])) { background: var(--soft); border-color: var(--accent); }
 body.day1-guided button:active:not(:disabled) { transform: translateY(1px); }
 body.day1-guided button:disabled { opacity: .5; cursor: default; }
 body.day1-guided button:is([aria-pressed=true], [aria-current=step]) { background: var(--dg-tint); border-color: var(--accent); color: var(--accent); }
