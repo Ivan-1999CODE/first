@@ -14,9 +14,9 @@ function dgListening(t,role=t.role||activeRound().role||course.replyRole){
  return `<div class="dg-listening"><div class="dg-listen-actions">${btn('▶ 播放',`data-say="${esc(t.line)}"`,`aria-label="播放${esc(role)}的回應"`)}${btn('慢速',`data-say="${esc(t.line)}" data-slow="true"`)}${btn(dgTranscript?'收起文字':'看文字','data-dg-transcript',`aria-pressed="${dgTranscript}"`)}</div><div class="dg-hint-stage dg-transcript"><div class="dg-hint-pane" aria-hidden="${dgTranscript}" ${dgTranscript?'inert':''}><p class="dg-hint-empty">先聽一句，聽懂意思就好。<br>需要時可以看文字。</p></div><div class="dg-hint-pane" aria-hidden="${!dgTranscript}" ${dgTranscript?'':'inert'}><p class="dg-en en" lang="en">${esc(t.line)}</p><p class="flow-translation">${esc(t.zh)}</p></div></div></div>`;
 }
 function dgCourseMenu(){
- return `<p class="dg-menu-position">任務 ${esc(taskLabel(activeRound()))} · ${esc(activeRound().name)}</p><div class="dg-section-list">${dgLabels.map((label,p)=>btn(`<span class="number">${String(p+1).padStart(2,'0')}</span>${esc(label)}`,`data-page="${p}"`,page===p?'aria-current="step"':'')).join('')}</div>`;
+ return dgTaskMenu(taskRound);
 }
-function dgTaskSwitch(){return `<div class="dg-task-switch" role="group" aria-label="切換任務"><span class="dg-task-label">任務</span>${rounds.map((r,n)=>btn(esc(taskLabel(r)),`data-dg-task="${n}"`,`aria-label="任務 ${esc(taskLabel(r))}：${esc(r.name)}" aria-pressed="${taskRound===n}"`)).join('')}</div>`;}
+function dgTaskSwitch(){return dgSectionSwitch(dgLabels,page);}
 function dgInstallShell(){
  document.body.classList.add('lesson-guided');document.documentElement.setAttribute('data-lesson-guided','');
  const currentDay=$('.day-switcher-links a[aria-current=page]'),dayName=`${course.dayLabel||'第 '+course.day+' 天'} · ${currentDay?.querySelector('small')?.textContent||course.title}`;
@@ -39,6 +39,7 @@ function dgInstallShell(){
  $('#dg-menu-close').addEventListener('click',()=>dialog.close());
  dialog.addEventListener('click',e=>{if(e.target!==dialog)return;const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();});
  compact.addEventListener('change',()=>queueMicrotask(()=>{$('#courseMenu').open=true}));
+ dgInstallNavigation();
 }
 const dgOriginalReviewScope=reviewScope;
 reviewScope=function(){return `<details class="dg-review-options" ${reviewMode==='mixed'?'open':''}><summary>${reviewMode==='mixed'?'正在複習多個已學任務':'需要時：一起複習已學任務'}</summary>${dgOriginalReviewScope()}</details>`;};
@@ -62,15 +63,11 @@ render=function(){
  $('#main').innerHTML=views[page]()+taskFooter();$('#main').classList.toggle('lesson-phrase-page',page===1);$('#main').dataset.lessonSection=String(page+1);
  if(page===0){const first=$('#main .before-panel'),footer=$('#main > .footer-actions');if(first&&footer)first.after(footer);}
  $('#nav').innerHTML=dgCourseMenu();
- const taskLabelNow=taskLabel(activeRound()),menu=$('#dg-menu-open');
- menu.textContent=`${String(page+1).padStart(2,'0')} · ${taskLabelNow} 選單`;
- menu.setAttribute('aria-label',`開啟課程選單，目前任務 ${taskLabelNow}，第 ${page+1} 部分：${dgLabels[page]}`);
- menu.title=`任務 ${taskLabelNow} · ${dgLabels[page]} · 開啟課程選單`;
  $('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(page+1).padStart(2,'0')} · ${dgLabels[page]}</span><span class="dg-current-round">${esc(taskLabel(activeRound()))} · ${esc(activeRound().name)}</span></div>${dgTaskSwitch()}`;
- const switcher=$('.dg-task-switch'),active=switcher.querySelector('[aria-pressed=true]');if(active)switcher.scrollLeft=Math.max(0,active.offsetLeft-switcher.offsetLeft-switcher.clientWidth+active.offsetWidth+8);
+ dgSetMenuLabel('任務 '+taskLabel(activeRound()),'任務 '+taskLabel(activeRound())+' · '+activeRound().name);
  showStorage();
 };
-function dgScrollToLesson(){const top=$('#dg-context').getBoundingClientRect().top+scrollY-$('.top').getBoundingClientRect().height;window.scrollTo({top:Math.max(0,top),behavior:'instant'});}
+function dgScrollToLesson(){dgScrollLesson();}
 navigate=function(p){if(!Number.isInteger(p)||p<0||p>=dgLabels.length)return;stopAudio();dgResetSupport();page=p;$('#dg-day-picker').open=false;$('#dg-course-dialog').close();render();focusMain();dgScrollToLesson();};
 focusSceneStep=function(){focusMain();dgScrollToLesson();};
 // The current role and its interaction panel stay together on a tablet.
@@ -84,10 +81,10 @@ document.addEventListener('click',e=>{
   $('#dg-announcement').textContent=['已收起提示','已顯示關鍵字','已顯示參考說法'][level];
  }
  if(b.hasAttribute('data-dg-transcript')){dgTranscript=!dgTranscript;render();$('[data-dg-transcript]')?.focus({preventScroll:true});}
- if(b.dataset.dgTask!==undefined){const n=Number(b.dataset.dgTask);if(!Number.isInteger(n)||!rounds[n]||n===taskRound)return;setTaskRound(n);navigate(page);$(`[data-dg-task="${n}"]`)?.focus({preventScroll:true});$('#dg-announcement').textContent=`已切換到任務 ${taskLabel(activeRound())}，${dgLabels[page]}`;}
+ if(b.dataset.dgTask!==undefined){const n=Number(b.dataset.dgTask);if(!Number.isInteger(n)||!rounds[n])return;if(n!==taskRound)setTaskRound(n);navigate(page);$('#dg-menu-open').focus({preventScroll:true});$('#dg-announcement').textContent=`已切換到任務 ${taskLabel(activeRound())}，${dgLabels[page]}`;}
 });
 document.addEventListener('change',e=>{
  if(page!==2||!['heard','spoken'].includes(e.target.id)||!matchMedia('(max-width:739px)').matches)return;
- const region=$(heard&&spoken?'.scene-board':'.dg-speaker');if(!region)return;region.tabIndex=-1;region.focus({preventScroll:true});window.scrollTo({top:Math.max(0,region.getBoundingClientRect().top+scrollY-$('.top').getBoundingClientRect().height-12),behavior:'instant'});
+ const region=$(heard&&spoken?'.scene-board':'.dg-speaker');if(!region)return;region.tabIndex=-1;region.focus({preventScroll:true});window.scrollTo({top:Math.max(0,region.getBoundingClientRect().top+scrollY-dgStickyHeight()-12),behavior:'instant'});
 });
 dgInstallShell();

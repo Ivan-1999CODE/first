@@ -190,9 +190,11 @@
  }
  const views = [beforePage,studyPage,flowPage,changePage,pairPageIntegrated,progressPageIntegrated,transferPage];
  const descriptions = ['先試完整情境，再挑需要的句子','集中整理 A＋B＋C 的聽說內容','同一筆訂房，完成連續流程','一個情境、一個需求，用一句話表達','有提示或自主接話，和真人完成目標','同題比較，回顧整段溝通','自己再聽、說、用一次'];
- const bar = document.createElement('section'); bar.id = 'hi-mode-bar'; bar.className = 'hi-mode-bar'; bar.setAttribute('aria-label','第八課練習方式'); q('#dg-context').before(bar);
- const notice = document.createElement('div'); notice.id='hi-save-notice'; notice.className='notice'; notice.setAttribute('role','status'); notice.hidden=true; bar.after(notice);
- const groupBar=document.createElement('nav');groupBar.className='hi-group-switch';groupBar.setAttribute('aria-label','第八章綜合練習分組');notice.after(groupBar);
+ const notice = document.createElement('div'); notice.id='hi-save-notice'; notice.className='notice'; notice.setAttribute('role','status'); notice.hidden=true; q('#dg-lesson-anchor').before(notice);
+ function taskMenu(){
+  const choices=groupDefs.map(g=>button(`<span>${esc(g.title)}<span class="dg-menu-sources">${esc(g.sourceLabels.join('＋'))}</span></span><span class="dg-menu-check" aria-hidden="true">${active&&g.id===groupId?'✓':''}</span>`,`data-hi-group="${g.id}"`,`aria-pressed="${active&&g.id===groupId}"`)).join('');
+  return dgTaskMenu(active?-1:taskRound,active?'data-hi-task':'data-dg-task',dgMenuGroup('綜合練習',choices));
+ }
  function closeMenus() { q('#dg-day-picker').open=false; q('#dg-course-dialog').close(); }
  function moveFocus(selector) { const el=q(selector); if(el)el.focus({preventScroll:true}); }
  function redraw(selector) { render(); if(selector)moveFocus(selector); }
@@ -204,16 +206,13 @@
  }
  render = function() {
   document.body.classList.toggle('hi-active',active);
-  bar.innerHTML=`<span class="hi-mode-caption">第 8 天 · 練習方式</span><div class="hi-options">${button('逐步練習','data-hi-mode="single"',`aria-pressed="${!active}"`)}${button('綜合練習 · A～F','data-hi-mode="integrated"',`aria-pressed="${active}"`)}</div>`;
-  groupBar.hidden=!active;
-  groupBar.innerHTML=active?groupDefs.map(g=>button(`<strong>${esc(g.title)}</strong><span>${g.sourceLabels.join('＋')}</span>`,`data-hi-group="${g.id}"`,`aria-pressed="${groupId===g.id}"`)).join(''):'';
-  if (!active) { originalRender(); notice.hidden=true; return; }
+  if (!active) { originalRender(); q('#nav').innerHTML=taskMenu(); notice.hidden=true; return; }
   const currentGroup=groupDefs.find(g=>g.id===groupId),viewLabels=currentGroup.sections,caption=currentGroup.sourceLabels.join('＋')+' · '+currentGroup.title;
   const main=q('#main'); main.classList.toggle('lesson-phrase-page',section===1); main.dataset.lessonSection=String(section+1);
   main.innerHTML=`<div class="hi-content${section===1?' hi-study-page':''}">${groupId==='checkin'?views[section]():extended.view(groupId,section)}${section===0?'':`<div class="footer-actions hi-section-footer">${go('← 上一部分',section-1)}${go(section===6?'回到本組首頁':'下一部分：'+viewLabels[section+1]+' →',section===6?0:section+1,'class="primary"')}</div>`}</div>`;
-  q('#nav').innerHTML=`<p class="dg-menu-position">${esc(caption)}</p><div class="dg-section-list">${viewLabels.map((name,i) => button(`<span class="number">${String(i+1).padStart(2,'0')}</span>${esc(name)}`,`data-hi-page="${i}"`,section===i?'aria-current="step"':'')).join('')}</div>`;
-  q('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(section+1).padStart(2,'0')} · ${esc(viewLabels[section])}</span><span class="dg-current-round">${esc(caption)}</span></div><div class="dg-task-switch" role="group" aria-label="切換任務"><span class="dg-task-label">任務</span>${rounds.map((r,n)=>button(esc(taskLabel(r)),`data-hi-task="${n}"`,`aria-label="切換到任務 ${esc(taskLabel(r))}：${esc(r.name)}" aria-pressed="false"`)).join('')}</div>`;
-  const menu=q('#dg-menu-open'); menu.textContent=`${String(section+1).padStart(2,'0')} · 綜合選單`; menu.setAttribute('aria-label','開啟綜合課程選單，目前第 '+(section+1)+' 部分'); menu.title=viewLabels[section];
+  q('#nav').innerHTML=taskMenu();
+  q('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(section+1).padStart(2,'0')} · ${esc(viewLabels[section])}</span><span class="dg-current-round">綜合 · ${esc(caption)}</span></div>${dgSectionSwitch(viewLabels,section,'data-hi-page')}`;
+  dgSetMenuLabel('綜合練習','綜合練習 · '+caption);
   if(groupId==='checkin')storageMessage();else notice.hidden=true;
  };
  navigate = function(n) { if(active)goSection(n);else originalNavigate(n); };
@@ -257,11 +256,10 @@
  });
  document.addEventListener('click',e => {
   const b=e.target.closest('button');if(!b||b.disabled)return;const x=b.dataset;
-  if(x.hiMode){active=x.hiMode==='integrated';syncRoute();stopAudio();resetSupport();closeMenus();render();moveFocus(`[data-hi-mode="${x.hiMode}"]`);return;}
+  if(x.hiGroup){if(!groupDefs.some(g=>g.id===x.hiGroup))return;if(!active)section=page;active=true;groupId=x.hiGroup;syncRoute();stopAudio();resetSupport();replyRole=null;if(groupId!=='checkin')extended.resetStudy();closeMenus();render();moveFocus('#dg-menu-open');dgScrollToLesson();return;}
   if(!active)return;
-  if(x.hiGroup){if(!groupDefs.some(g=>g.id===x.hiGroup))return;groupId=x.hiGroup;section=0;syncRoute();stopAudio();resetSupport();closeMenus();render();focusMain();dgScrollToLesson();return;}
   if(x.hiPage!==undefined){goSection(Number(x.hiPage));return;}
-  if(x.hiTask!==undefined){const n=Number(x.hiTask);if(!Number.isInteger(n)||!rounds[n])return;active=false;syncRoute();stopAudio();resetSupport();closeMenus();setTaskRound(n);originalNavigate(section);moveFocus(`[data-dg-task="${n}"]`);return;}
+  if(x.hiTask!==undefined){const n=Number(x.hiTask);if(!Number.isInteger(n)||!rounds[n])return;active=false;syncRoute();stopAudio();resetSupport();closeMenus();setTaskRound(n);originalNavigate(section);moveFocus('#dg-menu-open');return;}
   if(groupId!=='checkin')return;
   if(x.hiChallengeMode){if(!['integrated','single'].includes(x.hiChallengeMode))return;challengeMode=x.hiChallengeMode;stopAudio();resetSupport();redraw(`[data-hi-challenge-mode="${challengeMode}"]`);return;}
   if(x.hiChallenge){if(!d.practice.challenges.some(c=>c.id===x.hiChallenge))return;challengeId=x.hiChallenge;challengeState=newChallenge();stopAudio();resetSupport();render();moveFocus('.hi-challenge-title');return;}

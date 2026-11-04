@@ -1,0 +1,40 @@
+/* Frequent chapter changes stay available beneath the fixed page header. */
+body.dg-navigation #dg-context {
+ position: sticky; top: var(--dg-top-height,66px); z-index: 29;
+ background: var(--bg); border-bottom: 1px solid var(--line);
+ flex-wrap: nowrap; gap: 16px;
+}
+body.dg-navigation #dg-context .dg-context-copy { display: grid; flex: 1 1 auto; gap: 2px; }
+body.dg-navigation .dg-section-switch {
+ display: flex; flex: 0 1 auto; gap: 4px; max-width: 100%; margin-left: auto;
+ padding: 5px; overflow-x: auto; overscroll-behavior-x: contain;
+ scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+}
+body.dg-navigation .dg-section-switch button {
+ flex: 0 0 44px; min-width: 44px; min-height: 44px; padding: 8px 4px;
+ font-size: .9rem; font-variant-numeric: tabular-nums;
+ background: var(--panel); color: var(--ink); border: 1px solid var(--line);
+}
+body.dg-navigation .dg-section-switch button[aria-current=step],
+body.dg-navigation .dg-section-switch button[aria-current=step]:hover,
+body.dg-navigation #dg-course-dialog #nav button[aria-pressed=true],
+body.dg-navigation #dg-course-dialog #nav button[aria-pressed=true]:hover {
+ background: var(--accent); color: var(--on-accent); border-color: var(--accent); font-weight: 750;
+}
+body.dg-navigation .dg-section-switch button[aria-current=step] { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
+body.dg-navigation #dg-course-dialog #nav button[aria-pressed=true] .number { color: inherit; }
+body.dg-navigation .dg-menu-group + .dg-menu-group { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+body.dg-navigation .dg-menu-group h3 { color: var(--muted); font-size: .85rem; margin: 0 0 10px; }
+body.dg-navigation .dg-task-list { display: grid; gap: 8px; }
+body.dg-navigation #dg-course-dialog #nav button { white-space: normal; overflow-wrap: anywhere; }
+body.dg-navigation #dg-course-dialog #nav .dg-menu-check { margin-left: auto; flex: 0 0 1em; }
+body.dg-navigation #dg-course-dialog #nav .dg-menu-sources { display: block; font-size: .8em; opacity: .85; }
+body.dg-navigation #main :is(textarea,input,button,summary,[tabindex],.scene-board,.cap-board,.dg-speaker,.cap-dialogue,.ci-stage,.ci-complete) {
+ scroll-margin-top: calc(var(--dg-sticky-height,140px) + 16px);
+}
+@media(max-width:739px) {
+ body.dg-navigation #dg-context { flex-wrap: wrap; gap: 4px; padding-block: 6px; }
+ body.dg-navigation #dg-context .dg-context-copy { flex-basis: 100%; }
+ body.dg-navigation .dg-section-switch { width: 100%; padding-block: 4px; }
+ body.dg-navigation .dg-section-switch button { flex-grow: 1; }
+}

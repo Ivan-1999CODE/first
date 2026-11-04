@@ -41,13 +41,12 @@ scenePage=function(){
  return `<div class="dg-grid scene-grid task-scene"><section class="panel dg-panel dg-speaker ${student?'':'dg-listener'}" aria-label="當前對話"><div class="dg-role-row"><p class="dg-role">${esc(role)}</p><span class="fine">對話 ${turn+1} / ${f.steps.length}</span></div><h1 class="dg-task">${student?esc(t.task):'聽聽路人怎麼說'}</h1>${student?guidedHint(t.words,t.answer,t.answerZh,'flow-'+f.id+'-'+turn):dgListening(t)}<div class="dg-turn-confirm">${student?check('id="spoken"','我說好了，聽路人回應 →',spoken):check('id="heard"',heard?'已聽／讀完，接著點選':'我已聽完，或已讀完文字 →',heard)}${!student&&t.askFirst?`<div class="dg-repeat-confirm">${check('id="spoken"','已開口（取消可重說）',spoken)}</div>`:''}</div><div class="dg-flow-back">${btn('← 上一段','data-act="back"',turn===0?'disabled':'')}${btn('重新開始本輪',`data-start="${focusRound}"`,'class="dg-quiet"')}</div></section><section class="panel dg-panel scene-board" aria-label="情境操作"><div class="dg-role-row"><h2>${confirmed?'點選符合回覆的物件':student?'看情境，先開口':'聽懂後，在這裡點選'}</h2><span class="fine">示意地圖</span></div>${sceneState()}${student?`<div class="dg-scene-context"><p>${esc(f.context)}</p><p class="fine">先把題目的意思說出口，再聽路人回應。</p></div>`:`<div class="objects">${t.objects.map(([,label],i)=>btn(`<span class="dg-object-label">${esc(label)}${choice===i?(accepted(t,i)?' ✓':' · 再試一次'):''}</span>`,`data-choice="${i}"`,`class="object ${choice===i&&!accepted(t,i)?'dg-choice-wrong':''}" aria-pressed="${choice===i}" ${confirmed?'':'disabled'}`)).join('')}</div><div id="flowFeedback" class="dg-feedback" role="status">${feedback?`<p class="feedback ${accepted(t,choice)?'':'retry'}">${esc(feedback)}</p>`:`<p class="fine">${confirmed?'選一個符合剛才回覆的選項。':'先確認聽讀，再選擇物件。'}</p>`}</div><div class="dg-flow-actions">${btn(turn===f.steps.length-1?'完成這段對話 →':'接著，說下一句 →','data-act="next"',`class="primary" ${canNext()?'':'disabled'}`)}</div>`}</section></div>`;
 };
 
-// Choose the task beside the lesson; the course menu only selects a section.
+// Choose tasks in the header; chapters remain directly available beside the lesson.
 function dgCourseMenu(){
- const sections=dgLabels.slice(0,7).map((label,p)=>btn(`<span class="number">${String(p+1).padStart(2,'0')}</span>${esc(label)}`,`data-page="${p}"`,page===p?'aria-current="step"':'')).join('');
- return `<p class="dg-menu-position">任務 ${esc(currentRound().id)} · ${esc(currentRound().name)}</p><div class="dg-section-list">${sections}</div><div class="dg-capstone-menu"><p class="dg-kicker">全課整合 · 老師決定何時帶入</p>${btn('<span class="number">08</span>整合挑戰','data-page="7"',page===7?'aria-current="step"':'')}</div>`;
+ return dgTaskMenu(page===7?-1:focusRound,'data-dg-task',dgMenuGroup('綜合練習',dgCapstoneOption(page===7)));
 }
 function dgTaskSwitch(){
- return `<div class="dg-task-switch" role="group" aria-label="切換任務"><span class="dg-task-label">任務</span>${rounds.map((r,n)=>btn(esc(r.id),`data-dg-task="${n}"`,`aria-label="任務 ${esc(r.id)}：${esc(r.name)}" aria-pressed="${page!==7&&focusRound===n}"`)).join('')}</div>`;
+ return dgSectionSwitch(dgLabels,page);
 }
 function dgInstallShell(){
  document.body.classList.add('day1-guided');document.documentElement.setAttribute('data-day1-guided','');
@@ -72,6 +71,7 @@ function dgInstallShell(){
  $('#dg-menu-close').addEventListener('click',()=>dialog.close());
  dialog.addEventListener('click',e=>{if(e.target!==dialog)return;const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();});
  compact.addEventListener('change',()=>queueMicrotask(()=>{$('#courseMenu').open=true}));
+ dgInstallNavigation();
 }
 
 // Preserve the original data-driven footer and its early-close action, with a single primary next step.
@@ -97,16 +97,16 @@ render=function(){
  if(page===0){const first=$('#main .before-panel'),footer=$('#main > .footer-actions');if(first&&footer)first.after(footer);}
  $('#nav').innerHTML=dgCourseMenu();
  $('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(page+1).padStart(2,'0')} · ${dgLabels[page]}</span><span class="dg-current-round">${page===7?'自己完成一趟問路':`${esc(currentRound().id)} · ${esc(currentRound().name)}`}</span></div>${dgTaskSwitch()}`;
+ dgSetMenuLabel(page===7?'整合挑戰':'任務 '+currentRound().id,page===7?'整合挑戰 · 自己完成一趟問路':'任務 '+currentRound().id+' · '+currentRound().name);
  showStorage();
 };
 navigate=function(p){
  if(!Number.isInteger(p)||p<0||p>=dgLabels.length)return;
  if(p===7&&page!==7)resetCapstone();
  stopAudio();dgResetSupport();page=p;$('#dg-day-picker').open=false;$('#dg-course-dialog').close();render();focusMain();
- const top=$('#dg-context').getBoundingClientRect().top+scrollY-($('.top').getBoundingClientRect().height||0);
- window.scrollTo({top:Math.max(0,top),behavior:'instant'});
+ dgScrollLesson();
 };
-focusSceneStep=function(){focusMain();const top=$('#dg-context').getBoundingClientRect().top+scrollY-($('.top').getBoundingClientRect().height||0);window.scrollTo({top:Math.max(0,top),behavior:'instant'});};
+focusSceneStep=function(){focusMain();dgScrollLesson();};
 // The old portrait relocation is intentionally replaced: the scene stays beside the current speaker.
 tabletScene.removeEventListener('change',placeSceneControls);
 
@@ -115,7 +115,7 @@ function dgFocusMobileRegion(selector){
  if(!matchMedia('(max-width:739px)').matches)return;
  const region=document.querySelector(selector);if(!region)return;
  region.tabIndex=-1;region.focus({preventScroll:true});
- const top=region.getBoundingClientRect().top+scrollY-$('.top').getBoundingClientRect().height-12;
+ const top=region.getBoundingClientRect().top+scrollY-dgStickyHeight()-12;
  window.scrollTo({top:Math.max(0,top),behavior:'instant'});
 }
 document.addEventListener('change',e=>{
@@ -147,10 +147,10 @@ document.addEventListener('click',e=>{
  if(b.hasAttribute('data-dg-transcript')){dgTranscript=!dgTranscript;render();$('[data-dg-transcript]')?.focus({preventScroll:true});}
  if(b.dataset.dgTask!==undefined){
   const n=Number(b.dataset.dgTask);
-  if(!Number.isInteger(n)||!rounds[n]||(n===focusRound&&page!==7))return;
+  if(!Number.isInteger(n)||!rounds[n])return;
   if(n!==focusRound){setRound(n);dgResetPrelude();}
   navigate(page===7?0:page);
-  $(`[data-dg-task="${n}"]`)?.focus({preventScroll:true});
+  $('#dg-menu-open').focus({preventScroll:true});
   $('#dg-announcement').textContent=`已切換到任務 ${currentRound().id}，${String(page+1).padStart(2,'0')} ${dgLabels[page]}`;
  }
 });

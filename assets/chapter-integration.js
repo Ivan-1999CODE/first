@@ -36,7 +36,7 @@
  function reset(){stopAudio();dgResetSupport();ui().speaker=null;}
  function closeMenus(){q('#dg-day-picker').open=false;q('#dg-course-dialog').close();}
  function route(){try{window.history.replaceState(null,'',location.pathname+location.search+(active?'#chapter-'+groupId:''));}catch{}}
- function part(n){if(!Number.isInteger(n)||n<0||n>6)return;reset();section=n;closeMenus();render();focus('#main h1');const top=q('#dg-context').getBoundingClientRect().top+scrollY-q('.top').getBoundingClientRect().height;window.scrollTo({top:Math.max(0,top),behavior:'instant'});}
+ function part(n){if(!Number.isInteger(n)||n<0||n>6)return;reset();section=n;closeMenus();render();focus('#main h1');dgScrollLesson();}
  function picker(){return `<nav class="ci-paths" aria-label="這組的情境">${group().paths.map(p=>button(esc(p.title),`data-ci-path="${p.id}"`,`aria-pressed="${ui().path===p.id}"`)).join('')}</nav>`;}
  function artHeading(me,title,source){
   const art=typeof lessonArtwork==='object'?lessonArtwork:studyArtwork,index=Math.max(0,rounds.findIndex(r=>label(r)===source));
@@ -92,16 +92,19 @@
  const quizzes=()=>path().steps.filter(s=>s.choiceReview.mode==='listen').slice(-2);
  function homework(){const p=path(),ss=quizzes(),r=record();return heading('課後再用一次','選一個情境重聽，再收起提示自己開口。')+picker()+`<section class="panel"><p class="task">${esc(p.context)}</p></section><div class="ci-grid"><section class="panel ci-hear"><h2>先聽懂對方</h2>${(ss.length?ss:p.steps.slice(0,1)).map(s=>{const listen=ss.length>0,items=listen?s.objects.map(o=>o[1]):[s.zh,'對方說已經沒有任何可用的選擇。'],valid=listen?s.valid:[0],n=r.quiz[s.id];return `<article class="ci-quiz"><h3>${esc(s.label)}</h3>${audio(s.line)}${transcript(s)}<p>對方這句話傳達哪個資訊？</p><div class="ci-actions">${items.map((x,i)=>button(esc(x),`data-ci-quiz="${s.id}:${i}"`,`aria-pressed="${n===i}"`)).join('')}</div><p role="status">${n===undefined?'':valid.includes(n)?'✓ '+esc(s.zh):'再聽或讀一次，核對關鍵資訊。'}</p></article>`;}).join('')}<label class="ci-check"><input type="checkbox" data-ci-home="listen" ${r.home[p.id].listen?'checked':''}>我已練習理解對方的話</label></section><section class="panel ci-say"><h2>收起提示，自己再說一次</h2><p>依上方情境，試著從開場說到完成。卡住時才展開需要的一句。</p>${p.steps.map(s=>`<details><summary>${esc(s.label)}</summary>${hint(s,'home-'+s.id)}</details>`).join('')}<details><summary>記下這次說法（選填）</summary>${field('home-'+p.id,'課後的說法')}</details><label class="ci-check"><input type="checkbox" data-ci-home="spoken" ${r.home[p.id].spoken?'checked':''}>我已用自己的聲音練習</label></section></div>`;}
  const pages=[before,study,flow,questions,live,progress,homework];
- const bar=document.createElement('section');bar.id='ci-mode-bar';bar.className='ci-mode-bar';bar.setAttribute('aria-label','章內練習方式');q('#dg-context').before(bar);
+ function taskMenu(){
+  const selected=active||page===7?-1:data.day===1?focusRound:taskRound;
+  const choices=groups.map(g=>button(`<span>${esc(g.title)}<span class="dg-menu-sources">${esc(g.sources.join('＋'))}</span></span><span class="dg-menu-check" aria-hidden="true">${active&&g.id===groupId?'✓':''}</span>`,`data-ci-group="${g.id}"`,`aria-pressed="${active&&g.id===groupId}"`)).join('');
+  return dgTaskMenu(selected,active?'data-ci-task':'data-dg-task',dgMenuGroup('綜合練習',choices+(data.day===1?dgCapstoneOption(!active&&page===7,'data-ci-capstone'):'')));
+ }
  render=function(){
   document.body.classList.toggle('ci-active',active);
-  bar.innerHTML=`<div class="ci-row"><strong>第 ${data.day} 天 · 練習方式</strong><div class="ci-actions">${button('個別任務','data-ci-mode="single"',`aria-pressed="${!active}"`)}${button('章內綜合','data-ci-mode="integrated"',`aria-pressed="${active}"`)}</div></div>${active?`<nav class="ci-groups" aria-label="章內綜合分組">${groups.map(g=>button(`<strong>${esc(g.title)}</strong><span>${g.sources.join('＋')}</span>`,`data-ci-group="${g.id}"`,`aria-pressed="${g.id===groupId}"`)).join('')}</nav>`:''}`;
-  if(!active){originalRender();return;}
+  if(!active){originalRender();q('#nav').innerHTML=taskMenu();return;}
   const g=group(),main=q('#main');main.dataset.lessonSection=String(section+1);main.classList.toggle('lesson-phrase-page',section===1);
   main.innerHTML=`<div class="ci-content" data-ci-group-id="${g.id}"><p id="ci-save-notice" class="notice" role="status" ${errors[g.id]?'':'hidden'}>此瀏覽器目前無法保存本組紀錄，仍可繼續練習。</p>${pages[section]()}${section?`<div class="footer-actions">${go('← 上一部分',section-1)}${go(section===6?'回到本組首頁':'下一部分 →',section===6?0:section+1)}</div>`:''}</div>`;
-  q('#nav').innerHTML=`<p>${esc(g.title)} · ${g.sources.join('＋')}</p><div class="dg-section-list">${g.sections.map((title,i)=>button(`<span class="number">${String(i+1).padStart(2,'0')}</span>${title}`,`data-ci-section="${i}"`,section===i?'aria-current="step"':'')).join('')}</div>`;
-  q('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(section+1).padStart(2,'0')} · ${g.sections[section]}</span><span class="dg-current-round">${esc(g.title)}</span></div><div class="dg-task-switch" role="group" aria-label="返回個別任務"><span class="dg-task-label">個別任務</span>${rounds.map((r,i)=>button(label(r),`data-ci-task="${i}"`,`aria-label="任務 ${label(r)}：${esc(r.name)}" aria-pressed="false"`)).join('')}</div>`;
-  const menu=q('#dg-menu-open');menu.textContent=String(section+1).padStart(2,'0')+' · 綜合選單';menu.title=g.sections[section];menu.setAttribute('aria-label','開啟章內綜合選單，目前第 '+(section+1)+' 部分');
+  q('#nav').innerHTML=taskMenu();
+  q('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(section+1).padStart(2,'0')} · ${esc(g.sections[section])}</span><span class="dg-current-round">綜合 · ${esc(g.title)}</span></div>${dgSectionSwitch(g.sections,section,'data-ci-section')}`;
+  dgSetMenuLabel('綜合練習','綜合練習 · '+g.title);
  };
  navigate=function(n){if(active)part(n);else originalNavigate(n);};
  const redrawFlow=()=>{reset();redraw('.ci-stage h2,.ci-complete h2');q('.ci-stage,.ci-complete')?.scrollIntoView({block:'start',behavior:'instant'});};
@@ -114,10 +117,10 @@
  });
  document.addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b||b.disabled)return;const x=b.dataset;
-  if(x.ciMode){active=x.ciMode==='integrated';reset();closeMenus();route();redraw(`[data-ci-mode="${x.ciMode}"]`);return;}
+  if(x.ciGroup&&groups.some(g=>g.id===x.ciGroup)){reset();if(!active)section=page<7?page:0;active=true;groupId=x.ciGroup;reset();route();closeMenus();render();focus('#dg-menu-open');dgScrollLesson();return;}
+  if(x.ciCapstone!==undefined&&data.day===1){active=false;reset();route();originalNavigate(7);focus('#dg-menu-open');return;}
   if(!active)return;
-  if(x.ciGroup&&groups.some(g=>g.id===x.ciGroup)){reset();groupId=x.ciGroup;section=0;reset();route();closeMenus();redraw(`[data-ci-group="${groupId}"]`);return;}
-  if(x.ciTask!==undefined){const i=Number(x.ciTask);if(!rounds[i])return;active=false;reset();route();if(data.day===1)setRound(i);else setTaskRound(i);originalNavigate(0);return;}
+  if(x.ciTask!==undefined){const i=Number(x.ciTask);if(!Number.isInteger(i)||!rounds[i])return;active=false;reset();route();if(data.day===1){setRound(i);dgResetPrelude();}else setTaskRound(i);originalNavigate(section);focus('#dg-menu-open');return;}
   if(x.ciSection!==undefined){part(Number(x.ciSection));return;}
   if(x.ciPath||x.ciStart){const id=x.ciPath||x.ciStart;if(!group().paths.some(p=>p.id===id))return;reset();ui().path=id;ui().flow=emptyFlow();if(x.ciStart)part(2);else redraw(`[data-ci-path="${id}"]`);return;}
   if(x.ciStudy&&['library','reply'].includes(x.ciStudy)){ui().study=x.ciStudy;reset();redraw(`[data-ci-study="${x.ciStudy}"]`);return;}

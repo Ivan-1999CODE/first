@@ -23,11 +23,7 @@ const d5GuidedRender = render;
 render = function () {
  d5GuidedRender();
  const main = $('#main');
- const menu = $('#dg-menu-open');
  const label = d5TaskLabel(d5ActiveRound());
- menu.textContent = page === 7 ? '08 · 整合選單' : `${String(page + 1).padStart(2, '0')} · ${label} 選單`;
- menu.setAttribute('aria-label', `開啟課程選單，目前任務 ${label}，第 ${page + 1} 部分：${dgLabels[page]}`);
- menu.title = `任務 ${label} · ${dgLabels[page]} · 開啟課程選單`;
  main.dataset.lessonSection = String(page + 1);
  if (page === 0) {
   if (d5LessonDay === 5) $('.dg-cover-copy').insertAdjacentHTML('beforeend', '<p class="d5-cover-subtitle">問清方向，也能安心搭車。</p>');

@@ -60,7 +60,7 @@ function focusCurrentPracticeStage() {
  const target = finished ? $('#main .dg-completion h1, #main .dg-completion h2') : heard && spoken ? $('#focus-scene-action') : $('.dg-speaker .dg-task');
  if (!target) return;
  target.tabIndex = -1; target.focus({preventScroll: true});
- const rect = target.getBoundingClientRect(), inset = ($('.top')?.getBoundingClientRect().height || 0) + 18;
+ const rect = target.getBoundingClientRect(), inset = dgStickyHeight() + 18;
  if (rect.top < inset || rect.bottom > innerHeight - 48) window.scrollTo({top: Math.max(0, scrollY + rect.top - inset), behavior: 'instant'});
 }
 focusSceneStep = focusCurrentPracticeStage;
