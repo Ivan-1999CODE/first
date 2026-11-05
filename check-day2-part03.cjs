@@ -11,7 +11,19 @@ for(const key of ['course','rounds','flows','phrases','replies','missions','pair
 const baselineFile=path.join(out,'baseline.json');
 if(fs.existsSync(baselineFile)){
  const baseline=JSON.parse(fs.readFileSync(baselineFile,'utf8'));
- assert.deepEqual(d,baseline.data,'Canonical Day 2 curriculum unchanged');
+ const original=baseline.data;
+ assert.deepEqual({...d,flows:original.flows},original,'Saved data and other parts stay aligned');
+ for(const [i,flow] of d.flows.entries()){
+  const before=original.flows[i];
+  assert.deepEqual({...flow,steps:before.steps},before,'Flow identity stays stable');
+  for(const [j,step] of flow.steps.entries()){
+   const prior=before.steps[j];
+   const fields=['choicePrompt','choiceReview','practiceReply'];
+   if(step.id==='micro-en-d2-merged-payment-bag-v1-0')fields.push('task');
+   const omit=s=>Object.fromEntries(Object.entries(s).filter(([k])=>!fields.includes(k)));
+   assert.deepEqual(omit(step),omit(prior),'Only reviewed practice cues change '+step.id);
+  }
+ }
 }
 for(const f of fs.readdirSync('.').filter(f=>/^travel-.*\.html$/.test(f)&&f!==file))assert(!fs.readFileSync(f,'utf8').includes('<style id="day2-part03-styles">'),f+' has no Day 2 pilot');
 const source=s=>d.flows.find(f=>f.id===s.flowId);
@@ -37,6 +49,7 @@ async function gates(p,s){
 }
 async function step(p,s){
  await gates(p,s);
+ await checkShoppingChoices(p,'data-choice',s);
  const wrong=s.objects.findIndex((_,i)=>!s.valid.includes(i));
  if(wrong>=0){await (await directChoice(p,`[data-choice="${wrong}"]`)).click();assert(await p.locator('[data-act="next"]').isDisabled());}
  await (await directChoice(p,`[data-choice="${s.valid[0]}"]`)).click();
@@ -46,9 +59,16 @@ async function step(p,s){
 async function integratedStep(p,s){
  assert(await p.locator('[data-ci-next]').isDisabled());
  const first=s.askFirst?'spoken':'heard',second=s.askFirst?'heard':'spoken';
- assert(await p.locator(`[data-ci-gate="${second}"]`).isDisabled());
- await p.locator(`[data-ci-gate="${first}"]`).check();await p.locator(`[data-ci-gate="${second}"]`).check();
+ assert.equal(await p.locator(`[data-ci-gate="${second}"]`).count(),0,'the next role is not shown before confirmation');
+ await p.locator(`[data-ci-gate="${first}"]`).click();await p.locator(`[data-ci-gate="${second}"]`).click();
+ await checkShoppingChoices(p,'data-ci-choice',s);
  await (await directChoice(p,`[data-ci-choice="${s.valid[0]}"]`)).click();await p.locator('[data-ci-next]').click();
+}
+async function checkShoppingChoices(p,attr,s){
+ assert.equal(await p.locator('.vf-picture-help,.vf-scene-context').count(),0);
+ for(const [index,option] of s.objects.entries()){
+  assert.equal(await p.locator(`[${attr}="${index}"]`).getAttribute('aria-label'),'選擇：'+option[1]);
+ }
 }
 async function shot(p,name){if(!name.startsWith('menu'))await p.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await p.screenshot({path:path.join(out,name+'.png'),fullPage:!name.startsWith('menu')});report.screenshots.push(name+'.png');}
 async function bounds(p){

@@ -21,6 +21,7 @@ const cases=[{day:11,flow:1,step:0,name:'companion'},{day:1,flow:0,step:0,name:'
     document.documentElement.dataset.theme=theme;document.documentElement.dataset.size='large';
     const fi=c.kind?flows.findIndex(f=>f.steps.some(s=>vfKind(s)===c.kind)):c.flow;
     start(fi);if(typeof dgPrelude!=='undefined'){dgPrelude.done=true;render();}
+    if(c.name==='quantity')document.querySelector('[data-d2-scene="water"]').click();
     const n=c.kind?flows[fi].steps.findIndex(s=>vfKind(s)===c.kind):c.step;
     while(turn<n){heard=spoken=true;choose(currentStep().valid[0]);next();}
    },{c,theme});
@@ -33,7 +34,7 @@ const cases=[{day:11,flow:1,step:0,name:'companion'},{day:1,flow:0,step:0,name:'
    for(const id of await p.evaluate(()=>currentStep().askFirst?['spoken','heard']:['heard','spoken']))await p.locator('#'+id).check();
    assert.equal(await p.locator('.vf-pick-area').getAttribute('data-ready'),'true');
    assert(await p.locator('.vf-pick').evaluateAll(bs=>bs.every(b=>!b.disabled&&b.querySelector('.vf-choice-action').textContent.includes('點選'))));
-   assert.equal(await p.locator('.vf-task-stage button').count(),0,'Information area never contains choice buttons');
+   assert.equal(await p.locator('.vf-scene-context,.vf-picture-help').count(),0,'Choice cards lead straight to feedback');
    await shot('ready');
    if(c.name==='quantity'){
     for(let i=0;i<3;i++)await p.locator('[data-vf-delta="1"]').click();
@@ -50,7 +51,7 @@ const cases=[{day:11,flow:1,step:0,name:'companion'},{day:1,flow:0,step:0,name:'
    assert(await p.evaluate(()=>canNext()));await shot('selected');
    for(const width of [320,1100]){await p.setViewportSize({width,height:850});assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),prefix+' no overflow '+width);}
    if(c.name==='companion'){
-    await p.setViewportSize({width:390,height:844});await p.locator('#dg-menu-open').click();await p.locator('#nav [data-page="2"]').hover();await p.locator('#nav [data-page="2"]').focus();
+    await p.setViewportSize({width:390,height:844});await p.locator('#dg-menu-open').click();await p.locator('#nav [data-dg-task="1"]').hover();await p.locator('#nav [data-dg-task="1"]').focus();
     await p.screenshot({path:path.join(out,`${prefix}-menu.png`)});await p.locator('#dg-menu-close').click();
     const nav=await p.evaluate(()=>{const cs=getComputedStyle(document.body),normalize=v=>{const s=document.createElement('span');s.style.color=v;document.body.append(s);const result=getComputedStyle(s).color;s.remove();return result;};return {expected:normalize(cs.getPropertyValue('--accent')),actual:getComputedStyle(document.querySelector('#dg-menu-open')).backgroundColor};});
     assert.equal(nav.actual,nav.expected,'Choice styling leaves header styling intact');

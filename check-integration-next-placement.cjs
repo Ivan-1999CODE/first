@@ -26,7 +26,7 @@ async function geometry(p,t){
  if(m.width<=640)assert(Math.abs(m.b.width-(m.col.width-m.left-m.right))<3,'Mobile continue fills the options column');
  report.layoutStates++;
 }
-async function unlock(p,t){const s=sel[t.kind];for(let i=0;i<2;i++){if(t.kind==='ci'){const role=await p.locator(`input[${s.gate}]:not(:disabled):not(:checked)`).first().getAttribute(s.gate);await p.locator(`input[${s.gate}="${role}"]`).check();}else{const role=await p.locator(`button[${s.gate}]:not(:disabled)`).getAttribute(s.gate);await p.locator(`button[${s.gate}="${role}"]`).press('Enter');}}}
+async function unlock(p,t){const s=sel[t.kind];for(let i=0;i<2;i++){if(t.kind==='ci'){const role=await p.locator(`input[${s.gate}]:not(:disabled):not(:checked)`).first().getAttribute(s.gate);await p.locator(`input[${s.gate}="${role}"]`).click();}else{const role=await p.locator(`button[${s.gate}]:not(:disabled)`).getAttribute(s.gate);await p.locator(`button[${s.gate}="${role}"]`).press('Enter');}}}
 async function chooseCorrect(p,t){
  const s=sel[t.kind],buttons=p.locator(`[${s.choice}]`);
  for(let i=0;i<await buttons.count();i++){const b=buttons.nth(i);for(const a of await b.locator('xpath=ancestor::details').all())if(!await a.evaluate(e=>e.open))await a.locator(':scope > summary').click();await b.click();if(!await p.locator(s.next).isDisabled())return;}

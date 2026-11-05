@@ -38,7 +38,7 @@ if(fs.existsSync(snapshot)){
   const nav=n=>p.evaluate(n=>navigate(n),n);
   const fits=async()=>assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'No horizontal overflow');
   const shot=async name=>{await p.screenshot({path:path.join(out,name+'.png'),fullPage:true});report.screenshots.push(name);};
-  const select=()=>p.locator('#dg-context [data-dg-task="2"]').click();
+  const select=async()=>{await p.locator('#dg-menu-open').click();await p.locator('#nav [data-dg-task="2"]').click();};
   const fill=async(key,value)=>{
    const input=p.locator(`[data-field="${key}"]`);
    for(const box of await input.locator('xpath=ancestor::details').all())if(!await box.evaluate(e=>e.open))await box.locator(':scope > summary').click();
@@ -70,9 +70,9 @@ if(fs.existsSync(snapshot)){
     assert.equal(await p.locator('[data-scene-state="preview"]').count(),1);
     await p.locator('[data-choice="0"]').focus();await p.keyboard.press('Enter');assert(await p.evaluate(()=>canNext()));
     if(turnIndex===1){
-     const cards=await p.locator('.vf-person-cards > section').allTextContents();
-     assert(cards[0].includes(fi===r.flowIds[0]?'我第一次來':'我以前來過'));
-     assert(cards[1].includes(fi===r.flowIds[0]?'旅伴以前來過':'旅伴第一次來'));
+     const firstStep=d.flows[fi].steps[0];
+     assert((await p.locator('.vf-history').textContent()).includes(firstStep.objects[firstStep.valid[0]][1]));
+     assert((await p.locator('.vf-result').textContent()).includes(s.objects[s.valid[0]][1]));
      await shot('03-path-'+fi);
     }
     await p.locator('[data-act="next"]').click();
@@ -131,7 +131,7 @@ if(fs.existsSync(snapshot)){
     if(await p.locator('#large').getAttribute('aria-pressed')!=='true')await p.locator('#large').click();
     for(let section=0;section<7;section++){await nav(section);await fits();}
     await nav(1);await shot(`02-${theme}-${width}`);
-    await p.locator('#dg-menu-open').click();await p.locator('#nav [data-page="2"]').hover();await p.locator('#nav [data-page="2"]').focus();
+    await p.locator('#dg-menu-open').click();await p.locator('#nav [data-dg-task="2"]').hover();await p.locator('#nav [data-dg-task="2"]').focus();
     await shot(`menu-${theme}-${width}`);await p.locator('#dg-menu-close').click();
    }
   }

@@ -20,7 +20,7 @@ html body #main .vf-pick-area{padding:0;border:0;margin-top:12px}
 html body #main .vf-pick-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
 html body #main .vf-mode{font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--muted)}
 html body #main .vf-interaction .vf-replay{border:1px solid var(--vf-line)!important;background:transparent!important;color:var(--ink)!important;padding:8px 12px;font-size:.8rem;min-height:42px;box-shadow:none;border-radius:24px}
-html body #main .vf-pick-heading{color:var(--ink);font-size:1.12rem;line-height:1.65}
+html body #main .vf-pick-heading{color:var(--ink);font-size:1.12rem;line-height:1.65;margin:0}
 html body #main .vf-pick-help{color:var(--muted);font-size:.8rem;margin:8px 0 16px}
 html body #main .vf-interaction .vf-pick{border:1px solid var(--vf-line)!important;box-shadow:0 3px 0 color-mix(in srgb,var(--vf-line) 35%,transparent);border-radius:16px}
 html body #main .vf-interaction .vf-pick:not(:disabled):hover{border-color:var(--vf-accent)!important;background:var(--vf-action-hover)!important;box-shadow:0 4px 0 color-mix(in srgb,var(--vf-accent) 45%,transparent)}
@@ -45,9 +45,9 @@ html body #main .vf-interaction .vf-doors>p{display:none}
 html body #main .scene-board:has(.vf-interaction)>.vf-interaction{margin-top:0!important;padding-top:0!important}
 html body #main .vf-interaction .vf-pick[data-result=wrong] .vf-door-panels span{background:var(--vf-error-soft)}
 html body #main .vf-interaction .vf-pick[data-result=correct] .vf-door-panels span{background:var(--vf-success-soft)}
-html body #main .vf-interaction :is(.vf-scene-context,.vf-history,.vf-picture-help){border:0;border-top:1px solid var(--vf-line);margin:18px 0 0;border-radius:0;background:transparent}
-html body #main .vf-interaction :is(.vf-scene-context,.vf-history,.vf-picture-help)>summary{color:var(--muted);padding:12px 0;font-size:.8rem;cursor:pointer;min-height:44px}
-html body #main .vf-interaction :is(.vf-scene-context,.vf-history,.vf-picture-help)>summary:hover{color:var(--ink)}
+html body #main .vf-interaction .vf-history{border:0;border-top:1px solid var(--vf-line);margin:18px 0 0;border-radius:0;background:transparent}
+html body #main .vf-interaction .vf-history>summary{color:var(--muted);padding:12px 0;font-size:.8rem;cursor:pointer;min-height:44px}
+html body #main .vf-interaction .vf-history>summary:hover{color:var(--ink)}
 html body #main .vf-interaction :is(button,summary):focus-visible{outline:3px solid var(--vf-accent)!important;outline-offset:4px}
 html body #main .vf-door-options{margin-top:18px;gap:16px}
 html body #main .vf-door-options .vf-door-button{padding:12px!important;gap:12px;background:var(--vf-surface)!important}
@@ -59,6 +59,10 @@ html body #main .vf-taxi-points{display:grid;grid-template-columns:1fr 1fr;gap:1
 html body #main .vf-taxi-points button{display:flex;flex-direction:column;gap:12px;padding:12px}
 html body #main .scene-board:has(.vf-interaction) :is(.dg-flow-actions,.footer-actions) button.primary{background:var(--vf-action)!important;color:var(--vf-on-action)!important;border-color:var(--vf-action)!important}
 html body #main .scene-board:has(.vf-interaction)>h2{font-size:.9rem;color:var(--muted);margin-bottom:8px}
+/* Keep sentence navigation compact, with back on the left and next on the right. */
+html body #main .scene-board .vf-flow-navigation{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:16px}
+html body #main .scene-board .vf-flow-navigation>button{flex:0 1 auto;width:auto;max-width:100%;min-height:44px;padding:10px 14px;text-align:center;white-space:normal}
+html body #main .scene-board .vf-flow-navigation>[data-act=next]{margin-left:auto}
 @media(max-width:560px){
  html body #main :is(.scene-board,.hi-scene):has(.vf-interaction){padding:18px 14px}
  html body #main .vf-door-options{gap:10px}

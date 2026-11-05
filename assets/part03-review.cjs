@@ -11,7 +11,7 @@ add('route-a-ask-v4',L('依路人的回覆，點出要轉彎的路口與方向�
 add('route-a-right-v4',L('聽完確認，再選要繼續走的方向。','Right? 是確認問題；不能把學生的疑問當成路人的答案。'));
 add('route-a-thanks-v4',L('路人最後這句話，是什麼意思？','兩個選項都是可能的接話，辨認道謝回應與請求重說。',{objects:opts('對方回應你的道謝','對方請你再說一次'),choiceKind:'social',choiceVisuals:[{type:'thanks'},{type:'repeat'}]}));
 add('route-b-way-v4',L('依回覆，選出完整的轉彎路線。','必須同時核對路口順序與方向，不能只認左或右。'));
-add('route-b-bus-v4',L('路人說可以搭車後，你先到哪裡？','聽懂 bus stop，才知道前往車站或站牌。'));
+add('route-b-bus-v4',L('聽路人的回覆，你接下來該去哪裡？','聽懂 bus stop，才知道前往車站或站牌。'));
 copy('route-a-thanks-v4','route-b-thanks-v4');
 add('route-c-repeat-v4',L('這次重聽到的方向是哪一條？','重聽後仍需辨認左右；不在任務文字公布方向。'));
 add('route-c-map-v4',L('在地圖上指出路人說的郵局位置。','兩邊都放郵局，只能依 on the right 判斷，不用地點名稱排除。',{objects:opts('在右側標記郵局','在左側標記郵局')}));
@@ -20,11 +20,11 @@ group('d2-merged-price-quantity-v1',[
  L('把店員剛報的價格放到杯子旁。','6 與 10 都是合理價格，必須聽懂數字。'),
  L('你提出購買後，店員的回覆表示什麼？','不再重選「買杯子」；辨認店員受理或請稍候。',{objects:opts('店員開始受理這個杯子','店員請你稍候再買'),choiceKind:'service',choiceVisuals:[{type:'service'},{type:'wait'}]}),
  V('把你要的水一瓶一瓶放到準備區。','以實物加減完成數量，不只配對「3 瓶」文字。'),
- L('店員說的 6 美元，是哪一種價格？','單價與總價同為 6，必須辨認 in total。')
+ L('店員報的是單價，還是這筆購物的總價？','單價與總價同為 6，必須辨認 in total。')
 ]);
 group('d2-merged-payment-bag-v1',[
- L('依店員的付款規則，拿出可以使用的付款物件。','Cash only 是店方新資訊，不能由想刷卡推測結果。'),
- D('杯子是 6 美元。哪一組現金剛好付清？','改為核對實際鈔票面額；兩組都是現金，不能只選現金圖示。',{objects:opts('5 美元加 1 美元現金','5 美元加 5 美元現金'),choiceKind:'cash-set',pictureChoices:true,choiceVisuals:[{type:'cash',values:[5,1]},{type:'cash',values:[5,5]}]}),
+ L('依店員的付款規則，拿出可以使用的付款物件。','Cash only 是店方新資訊，不能由想刷卡推測結果。',{task:'你手上有卡片和現金。先問店員能不能刷卡。'}),
+ D('聽店員報價，哪一組現金剛好付清？','依店員報出的金額核對鈔票面額。',{practiceReply:{line:'Six dollars in total. Thank you.',zh:'一共 6 美元，謝謝。'},objects:opts('5 美元加 1 美元現金','5 美元加 5 美元現金'),choiceKind:'cash-set',pictureChoices:true,choiceVisuals:[{type:'cash',values:[5,1]},{type:'cash',values:[5,5]}]}),
  V('看結帳後的裝袋畫面，哪一個符合你剛才的需求？','比較自備袋裝商品與另外提供紙袋，操作結果不再只有是／否。',{choiceVisuals:[{type:'own-bag'},{type:'store-bag'}],pictureChoices:true})
 ]);
 group('d2-budget-and-cheaper-v1',[
@@ -95,7 +95,7 @@ group('d5-driver-and-pickup-v1',[
  V('在兩個入口中選出你等車的位置。','辨認飯店與博物館入口，位置名稱是場景資料。')
 ]);
 group('d5-dropoff-and-stop-v1',[
- V('車子還沒到入口。點出你想下車的位置。','改在同一張街道圖選現在的位置或前方入口，需判斷相對位置。',{choiceFormat:'taxi-stop'}),
+ V('依剛才和司機的對話，選出下車位置。','改在同一張街道圖選現在的位置或前方入口，需判斷相對位置。',{choiceFormat:'taxi-stop'}),
  L('聽完司機回應，這裡可以停車嗎？','到達入口仍需確認司機同意停車，不單憑目的地作答。')
 ]);
 
@@ -141,11 +141,11 @@ group('d7-try-fitting-room-v1',[
 ]);
 group('d7-merged-day7-size-and-fit-v1',[
  V('哪面鏡子呈現你剛才描述的試穿情況？','用身體與衣服比例比較過緊、過鬆和合身。',{objects:opts('這件太小','這件太大','這件合身'),pictureChoices:true}),
- L('兩個尺寸都比 S 大；店員實際拿來哪一件？','M 與 L 都滿足換大的方向，必須聽店員說 medium。',{objects:opts('換成 M 號','換成 L 號','繼續穿 S 號'),pictureChoices:true}),
+ L('聽店員的回覆，他拿來的是哪個尺寸？','M 與 L 都滿足換大的方向，必須聽店員說 medium。',{objects:opts('換成 M 號','換成 L 號','繼續穿 S 號'),pictureChoices:true}),
  V('選出與你剛才感受相符的試穿畫面。','增加合身干擾，需看衣身寬度，不能只靠兩個相反詞。',{objects:opts('這件太大','這件太小','這件合身'),pictureChoices:true}),
- L('兩個尺寸都比 L 小；店員實際拿來哪一件？','M 與 S 都是合理換小方向，正解需聽 medium。',{objects:opts('換成 M 號','換成 S 號','繼續穿 L 號'),pictureChoices:true}),
- D('原本那件太小。依你接受的建議，選下一件。','從原衣服的緊繃狀態判斷要換大的方向，不重選接受二字。',{objects:opts('試比原本大一點的衣服','試比原本小一點的衣服'),choiceKind:'resize',choiceVisuals:[{type:'resize',scale:1.15},{type:'resize',scale:.75}],pictureChoices:true}),
- V('哪面鏡子顯示換穿後的合身狀態？','合身、過小、過大都有實際身衣比例，不預先印成功勾號。',{objects:opts('新尺寸合身','新尺寸太小','新尺寸太大'),pictureChoices:true})
+ L('店員這次提供哪個尺寸？','M 與 S 都是合理換小方向，正解需聽 medium。',{objects:opts('換成 M 號','換成 S 號','繼續穿 L 號'),pictureChoices:true}),
+ D('聽店員的建議，下一件要試哪個尺寸？','從原衣服的緊繃狀態判斷要換大的方向，不重選接受二字。',{objects:opts('試比原本大一點的衣服','試比原本小一點的衣服'),choiceKind:'resize',choiceVisuals:[{type:'resize',scale:1.15},{type:'resize',scale:.75}],pictureChoices:true}),
+ V('哪面鏡子符合你剛才描述的試穿感受？','合身、過小、過大都有實際身衣比例，不預先印成功勾號。',{objects:opts('新尺寸合身','新尺寸太小','新尺寸太大'),pictureChoices:true})
 ]);
 group('d7-compare-buy-v1',[
  V('把你比較喜歡的那件放到準備區。','讓兩件衣服保持同款不同色，靠圖像做偏好操作。'),
@@ -167,8 +167,8 @@ group('d8-merged-day8-hotel-information-v1',[
 ]);
 group('d8-merged-day8-room-supplies-v1',[
  V('依房卡找到這通電話的房間。','房卡號碼對應真實門牌，保留數字作空間辨認。'),
- D('核對房號與毛巾數量，選出正確的推車。','三組分別錯房號或數量，必須同時核對兩項。',{objects:opts('305 號房：2 條毛巾','305 號房：1 條毛巾','512 號房：2 條毛巾'),choiceKind:'parcel',choiceVisuals:[{type:'parcel',room:305,item:'towel',count:2},{type:'parcel',room:305,item:'towel',count:1},{type:'parcel',room:512,item:'towel',count:2}],pictureChoices:true}),
- D('把水送到這通電話已確認的房間。','房號要從前文保留，並核對這次要水而非毛巾。',{objects:opts('305 號房：一些水','512 號房：一些水','305 號房：2 條毛巾'),choiceKind:'parcel',choiceVisuals:[{type:'parcel',room:305,item:'water',count:2},{type:'parcel',room:512,item:'water',count:2},{type:'parcel',room:305,item:'towel',count:2}],pictureChoices:true}),
+ D('聽清房號、物品和數量，選出相符的推車。','三組分別錯房號或數量，必須同時核對兩項。',{objects:opts('305 號房：2 條毛巾','305 號房：1 條毛巾','512 號房：2 條毛巾'),choiceKind:'parcel',choiceVisuals:[{type:'parcel',room:305,item:'towel',count:2},{type:'parcel',room:305,item:'towel',count:1},{type:'parcel',room:512,item:'towel',count:2}],pictureChoices:true}),
+ D('依電話中的確認，選出房號和物品都相符的一組。','房號要從前文保留，並核對這次要水而非毛巾。',{objects:opts('305 號房：一些水','512 號房：一些水','305 號房：2 條毛巾'),choiceKind:'parcel',choiceVisuals:[{type:'parcel',room:305,item:'water',count:2},{type:'parcel',room:512,item:'water',count:2},{type:'parcel',room:305,item:'towel',count:2}],pictureChoices:true}),
  D('核對房號，再選這次追加的物品。','房號與品項都有合理干擾，不能只看到 305 就點。',{objects:opts('305 號房：一條額外的棉被','512 號房：一條額外的棉被','305 號房：一些水'),choiceKind:'parcel',choiceVisuals:[{type:'parcel',room:305,item:'blanket',count:1},{type:'parcel',room:512,item:'blanket',count:1},{type:'parcel',room:305,item:'water',count:2}],pictureChoices:true})
 ]);
 group('d8-merged-day8-room-service-order-v1',[
@@ -199,7 +199,7 @@ group('d9-merged-day9-booking-changes-v1',[
 group('d9-merged-day9-ticket-quantity-total-v1',[
  L('把成人票單價核對清楚。','辨認每張票價格，不與之後總價混淆。'),
  V('把需要的成人票放進票夾。','用實際票張數操作，保留人物圖示區別票種。'),
- D('保留兩張成人票，再選出追加後的整個票組。','比較 2 成人＋1 兒童、1 成人＋2 兒童；總張數相同，必須看票種。',{objects:opts('2 張成人票加 1 張兒童票','1 張成人票加 2 張兒童票'),choiceKind:'ticket-set',choiceVisuals:[{type:'tickets',adults:2,children:1},{type:'tickets',adults:1,children:2}],pictureChoices:true}),
+ D('聽清楚追加的票種和張數，選出最後的整組票。','比較 2 成人＋1 兒童、1 成人＋2 兒童；總張數相同，必須看票種。',{objects:opts('2 張成人票加 1 張兒童票','1 張成人票加 2 張兒童票'),choiceKind:'ticket-set',choiceVisuals:[{type:'tickets',adults:2,children:1},{type:'tickets',adults:1,children:2}],pictureChoices:true}),
  L('確認這一整組票的總價。','20 是成人票小計，25 才包含兒童票；需要聽懂總價範圍。')
 ]);
 group('d9-merged-day9-entry-payment-v1',[
@@ -212,7 +212,7 @@ group('d10-merged-day10-polite-requests-v1',[
  L('店員這句回應表示你現在可以做什麼？','Yes? 在此是接住招呼，不是同意尚未提出的請求。',{objects:opts('開始向店員說明需求','把這句當成需求已完成'),choiceKind:'social',choiceVisuals:[{type:'request'},{type:'completed'}]}),
  V('從桌面拿出正確數量的餐巾紙。','比較實物數量，不再次直接選兩張字樣。'),
  V('拿起與你剛才請求相符的飲料。','水與茶以液體顏色辨認，兩杯都可取用。'),
- L('旅伴答應幫忙後，袋子應該怎麼移動？','以一人／兩人搬運呈現答應幫忙的結果，不把勾號當正解線索。')
+ L('聽旅伴的回應，接下來誰會搬袋子？','以一人／兩人搬運呈現答應幫忙的結果，不把勾號當正解線索。')
 ]);
 group('d10-merged-day10-decline-and-reschedule-v1',[
  D('看你今晚的行程，這個邀請能不能加入？','用既有安排與邀請時間衝突作判斷，不直接提示不能參加。',{task:'你今晚已有另一個約。聽清楚旅伴邀約的時間，再用學過的婉拒句回應。'}),
@@ -247,7 +247,7 @@ group('d12-rescue-closed-v1',[
  L('哪個門口狀態符合工作人員的回覆？','開門與休館均可能，先聽 closed today。'),
  L('選出工作人員說今天有開的替代景點。','兩個不同博物館都可選，不再讓休館字樣直接排除錯項。',{objects:opts('改去歷史博物館','改去市立博物館'),choiceKind:'place'}),
  L('到車站後，依指示選出正確公車。','5 與 9 是合理車號，需聽 number five。'),
- L('對方的 10 分鐘是在說哪一件事？','同樣數字的班距與車程，必須依 How long does it take 理解意義。'),
+ L('對方說的時間指的是哪一件事？','同樣數字的班距與車程，必須依 How long does it take 理解意義。'),
  D('核對交通卡：車號和車程有沒有放反？','交叉檢查兩項前文資訊，不能只辨認一個數字。')
 ]);
 group('d12-rescue-late-v1',[

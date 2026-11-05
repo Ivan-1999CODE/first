@@ -23,3 +23,15 @@ body:is(.day1-guided,.lesson-guided) .ci-content :is(.ci-paths,.ci-study-picker)
 .ci-difference-reply{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 14px;margin:14px 0}
 .ci-difference-answer{font-size:1.3rem;color:var(--accent)}
 .ci-study-difference .fine{margin-top:14px}
+.ci-flow-progress{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:12px 0;list-style:none}
+.ci-flow-progress li{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;color:var(--muted);font-size:.82rem}
+.ci-flow-progress [aria-current=step]{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
+.ci-flow-progress .done{color:var(--d5-success,#216547);border-color:var(--d5-success,#216547);background:var(--d5-success-bg,#e6f4eb)}
+.ci-dialogue-complete{background:var(--soft);border:1px solid var(--line);color:var(--ink)}
+.ci-dialogue-complete>.dg-role{color:var(--d5-success,#216547)}
+.ci-dialogue h3{font-size:1.15rem;line-height:1.65;margin:12px 0}
+.ci-dialogue-recap{border:1px solid var(--line);border-radius:12px;padding:0 14px;background:var(--panel);color:var(--ink)}
+.ci-dialogue-recap>summary{padding:12px 0}
+.ci-dialogue-recap>section{padding:12px 0;border-top:1px solid var(--line)}
+.ci-dialogue-recap .en{font-size:1.2rem;line-height:1.5}
+.ci-content .ci-dialogue-tools>button{flex:0 1 auto;min-height:44px;padding:8px 12px}

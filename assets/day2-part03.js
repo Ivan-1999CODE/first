@@ -3,6 +3,11 @@
 (() => {
  'use strict';
  const data=day2Practice, scenes=data.scenes;
+ const baseCurrentStep=currentStep;
+ currentStep=function(){
+  const step=baseCurrentStep();
+  return page===2?vfPracticeDialogue(step):step;
+ };
  d5SectionIntros[2]=['先分開練，再連起來', '先練一個小情境，再到下方把任務串成完整購物。'];
  const byId=id=>scenes.find(s=>s.id===id);
  const forTask=()=>scenes.filter(s=>s.taskId===activeRound().id);

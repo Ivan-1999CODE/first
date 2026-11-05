@@ -69,12 +69,23 @@
  }
  const current=()=>path().steps[ui().flow.index];
  const ready=()=>{const f=ui().flow;return !f.done&&f.heard&&f.spoken&&current().valid.includes(f.choice);};
+ function flowDialogue(s,f){
+  const order=s.askFirst?['spoken','heard']:['heard','spoken'];
+  const role=order.find(key=>!f[key]);
+  const labels={spoken:s.askFirst?'你先說':'換你回答',heard:s.askFirst?'聽對方回應':'先聽對方'};
+  const progress=`<ol class="ci-flow-progress" aria-label="這一句的練習順序">${[...order,'action'].map((key,i)=>`<li ${key===(role||'action')?'aria-current="step"':''} class="${f[key]?'done':''}"><span aria-hidden="true">${f[key]?'✓':i+1}</span>${key==='action'?'情境操作':labels[key]}</li>`).join('')}</ol>`;
+  const confirm=role?`<label class="ci-check"><input type="checkbox" data-ci-gate="${role}">${role==='spoken'?(s.askFirst?'我說好了，聽對方回應 →':'我說好了，接著點選 →'):(s.askFirst?'我已聽完，或已讀完文字 →':'我已聽完，換我回答 →')}</label>`:'';
+  const card=role==='spoken'?`<section class="ci-turn ci-say" data-ci-flow-role="spoken"><p class="dg-role">你 · 旅客</p><h3 id="ci-flow-turn" class="task" tabindex="-1">${esc(s.task)}</h3>${hint(s,'flow-'+s.id)}${confirm}</section>`:
+   role==='heard'?`<section class="ci-turn ci-hear" data-ci-flow-role="heard"><p class="dg-role">對方 · ${esc(s.role)}</p><h3 id="ci-flow-turn" tabindex="-1">${s.carryHeard?'再聽剛才的回覆':'聽聽'+esc(s.role)+'怎麼說'}</h3>${audio(s.line)}${transcript(s)}${confirm}</section>`:
+   `<section class="ci-turn ci-dialogue-complete"><p class="dg-role">✓ 聽與說都完成了</p><h3 id="ci-flow-turn" tabindex="-1">接著，點選符合情境的選項</h3><p>依剛才的對話做選擇，確認你聽懂的意思。</p></section>`;
+  const completed=order.filter(key=>f[key]);
+  const recap=completed.length?`<details class="ci-dialogue-recap"><summary>回看剛才已完成的對話</summary>${completed.map(key=>`<section><p class="dg-role">${key==='spoken'?'你 · 旅客':'對方 · '+esc(s.role)}</p><p class="en" lang="en">${esc(key==='spoken'?s.answer:s.line)}</p><p>${esc(key==='spoken'?s.answerZh:s.zh)}</p>${audio(key==='spoken'?s.answer:s.line)}</section>`).join('')}</details><div class="ci-actions ci-dialogue-tools">${button('重練這段對話','data-ci-dialogue-restart')}</div>`:'';
+  return `<div class="ci-dialogue" data-ci-flow-stage="${role||'complete'}">${progress}${card}${recap}</div>`;
+ }
  function flow(){
-  const p=path(),f=ui().flow,s=current(),top=heading('連起來，完成這次任務','看清起點與角色，依本次對話操作。')+picker();
+  const p=path(),f=ui().flow,s=vfPracticeDialogue(current()),top=heading('連起來，完成這次任務','看清起點與角色，依本次對話操作。')+picker();
   if(f.done)return top+`<section class="panel ci-complete"><h2>✓ 這個情境已練習</h2><p>${esc(group().outcome)}</p><p>和老師回顧實際完成的需求；操作紀錄不等於口說評分。</p><details><summary>查看這次確認的資訊</summary><ol>${p.steps.map((s,i)=>`<li>${esc(s.label)}：${esc(s.objects[f.history[i]][1])}</li>`).join('')}</ol></details><div class="ci-actions">${button('再練一次','data-ci-restart')}${go('04 看情境，自己選用 →',3)}</div></section>`;
-  const say=`<section class="ci-turn ci-say"><p class="dg-role">${s.askFirst?'① 你先說':'② 換你回答'} · 旅客</p><p class="task">${esc(s.task)}</p>${hint(s,'flow-'+s.id)}<label class="ci-check"><input type="checkbox" data-ci-gate="spoken" ${f.spoken?'checked':''} ${!s.askFirst&&!f.heard?'disabled':''}>我已用自己的聲音說</label></section>`;
-  const hear=`<section class="ci-turn ci-hear"><p class="dg-role">${s.askFirst?'② 對方回應':s.carryHeard?'① 延續剛才的回覆':'① 對方先說'} · ${esc(s.role)}</p>${audio(s.line)}${transcript(s)}<label class="ci-check"><input type="checkbox" data-ci-gate="heard" ${f.heard?'checked':''} ${s.askFirst&&!f.spoken?'disabled':''}>我已聽完，或已讀完文字</label></section>`;
-  return top+`<section class="panel"><details class="ci-context"><summary>這次的情境與條件</summary><p>${esc(p.context)}</p></details>${s.phase?`<section class="ci-phase"><h2>${esc(s.phase)}</h2><p>${esc(s.phaseContext)}</p></section>`:''}<div class="ci-row ci-stage"><h2 tabindex="-1">${esc(s.label)}</h2><span>${f.index+1} / ${p.steps.length}</span></div><div class="ci-flow-grid"><div>${s.askFirst?say+hear:hear+say}<div class="ci-actions">${button('← 上一步','data-ci-back',f.index===0?'disabled':'')}${button('重新開始','data-ci-restart')}</div></div><div>${vfPanel(s,{selected:f.choice,ready:f.heard&&f.spoken,attr:'data-ci-choice',previous:vfHistory(p,f.history,f.index)})}<div class="ci-actions ci-step-next">${button(f.index===p.steps.length-1?'確認並完成':'確認這項，繼續 →','data-ci-next',`class="primary" ${ready()?'':'disabled'}`)}</div></div></div></section>`;
+  return top+`<section class="panel"><details class="ci-context"><summary>這次的情境與條件</summary><p>${esc(p.context)}</p></details>${s.phase?`<section class="ci-phase"><h2>${esc(s.phase)}</h2><p>${esc(s.phaseContext)}</p></section>`:''}<div class="ci-row ci-stage"><h2 tabindex="-1">對話 ${f.index+1} / ${p.steps.length}</h2></div><div class="ci-flow-grid"><div>${flowDialogue(s,f)}<div class="ci-actions">${button('← 上一步','data-ci-back',f.index===0?'disabled':'')}${button('重新開始','data-ci-restart')}</div></div><div>${vfPanel(s,{selected:f.choice,ready:f.heard&&f.spoken,attr:'data-ci-choice',previous:vfHistory(p,f.history,f.index)})}<div class="ci-actions ci-step-next">${button(f.index===p.steps.length-1?'確認並完成':'確認這項，繼續 →','data-ci-next',`class="primary" ${ready()?'':'disabled'}`)}</div></div></div></section>`;
  }
  function questions(){
   const g=group(),m=ui(),item=g.questions[m.question];
@@ -117,7 +128,7 @@
  document.addEventListener('input',e=>{const key=e.target.dataset.ciField;if(active&&Object.hasOwn(record().answers,key)){record().answers[key]=e.target.value;save();}});
  document.addEventListener('change',e=>{
   if(!active||e.target.disabled)return;const x=e.target.dataset,f=ui().flow;
-  if(x.ciGate){if(f.done)return;const s=current();if(x.ciGate==='heard')f.heard=e.target.checked&&(!s.askFirst||f.spoken);if(x.ciGate==='spoken')f.spoken=e.target.checked&&(s.askFirst||f.heard);if(s.askFirst&&!f.spoken)f.heard=false;if(!s.askFirst&&!f.heard)f.spoken=false;f.choice=-1;redraw(`[data-ci-gate="${x.ciGate}"]`);}
+  if(x.ciGate){if(f.done)return;const s=current();if(x.ciGate==='heard')f.heard=e.target.checked&&(!s.askFirst||f.spoken);if(x.ciGate==='spoken')f.spoken=e.target.checked&&(s.askFirst||f.heard);if(s.askFirst&&!f.spoken)f.heard=false;if(!s.askFirst&&!f.heard)f.spoken=false;f.choice=-1;stopAudio();dgResetSupport();redraw('#ci-flow-turn');q('#ci-flow-turn')?.scrollIntoView({block:'nearest',behavior:'instant'});}
   if(x.ciGoal&&Object.hasOwn(record().goals[path().id],x.ciGoal)){record().goals[path().id][x.ciGoal]=e.target.checked;save();}
   if(['listen','spoken'].includes(x.ciHome)){record().home[path().id][x.ciHome]=e.target.checked;save();}
  });
@@ -126,6 +137,7 @@
   if(x.ciGroup&&groups.some(g=>g.id===x.ciGroup)){reset();if(!active)section=page<7?page:0;active=true;groupId=x.ciGroup;reset();route();closeMenus();render();focus('#dg-menu-open');dgScrollLesson();return;}
   if(x.ciCapstone!==undefined&&data.day===1){active=false;reset();route();originalNavigate(7);focus('#dg-menu-open');return;}
   if(!active)return;
+  if(x.ciDialogueRestart!==undefined&&section===2){const f=ui().flow;if(f.done)return;f.heard=false;f.spoken=false;f.choice=-1;f.history=f.history.slice(0,f.index);reset();redraw('#ci-flow-turn');return;}
   if(x.ciTask!==undefined){const i=Number(x.ciTask);if(!Number.isInteger(i)||!rounds[i])return;active=false;reset();route();if(data.day===1){setRound(i);dgResetPrelude();}else setTaskRound(i);originalNavigate(section);focus('#dg-menu-open');return;}
   if(x.ciSection!==undefined){part(Number(x.ciSection));return;}
   if(x.ciPath||x.ciStart){const id=x.ciPath||x.ciStart;if(!group().paths.some(p=>p.id===id))return;reset();ui().path=id;ui().flow=emptyFlow();if(x.ciStart)part(2);else redraw(`[data-ci-path="${id}"]`);return;}

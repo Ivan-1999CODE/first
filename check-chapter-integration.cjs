@@ -49,8 +49,8 @@ async function shot(p,name){if(!name.startsWith('menu'))await p.evaluate(()=>win
 async function step(p,s){
  assert(await p.locator('[data-ci-next]').isDisabled());
  const first=s.askFirst?'spoken':'heard',second=s.askFirst?'heard':'spoken';
- assert(await p.locator(`[data-ci-gate="${second}"]`).isDisabled());
- await p.locator(`[data-ci-gate="${first}"]`).check();await p.locator(`[data-ci-gate="${second}"]`).check();
+ assert.equal(await p.locator(`[data-ci-gate="${second}"]`).count(),0,'the next role is not shown before confirmation');
+ await p.locator(`[data-ci-gate="${first}"]`).click();await p.locator(`[data-ci-gate="${second}"]`).click();
  const wrong=s.objects.findIndex((_,i)=>!s.valid.includes(i));
  if(wrong>=0){await p.locator(`[data-ci-choice="${wrong}"]`).click();assert(await p.locator('[data-ci-next]').isDisabled());}
  for(const valid of s.valid){await p.locator(`[data-ci-choice="${valid}"]`).click();assert(!await p.locator('[data-ci-next]').isDisabled());}

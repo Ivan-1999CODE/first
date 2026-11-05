@@ -51,7 +51,7 @@ fs.writeFileSync(path.join(out,'逐題檢查.txt'),`第三部分逐題檢查\n\n
    await gate.press('Enter');assert(await p.locator('[data-act="next"]').isEnabled());
    await p.locator('.scene-board').screenshot({path:path.join(out,`gate-${theme}-correct.png`)});
    for(const w of [320,390,1280]){await p.setViewportSize({width:w,height:850});assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'no overflow '+theme+' '+w);}
-   await p.setViewportSize({width:390,height:844});await p.locator('#dg-menu-open').click();await p.locator('#nav [data-page="2"]').hover();await p.locator('#nav [data-page="2"]').focus();await p.screenshot({path:path.join(out,`menu-${theme}.png`)});await p.locator('#dg-menu-close').click();
+   await p.setViewportSize({width:390,height:844});await p.locator('#dg-menu-open').click();await p.locator('#nav [data-dg-task="0"]').hover();await p.locator('#nav [data-dg-task="0"]').focus();await p.screenshot({path:path.join(out,`menu-${theme}.png`)});await p.locator('#dg-menu-close').click();
   }
   await p.close();assert.deepEqual(errors,[]);
   console.log(`PASS: ${ids.size} authored question reviews / ${rows.length} flow steps + ${prelude.length} prelude + ${integrated.length} hotel steps; all custom drawings distinct; gate retry/keyboard/themes/mobile/menus.`);

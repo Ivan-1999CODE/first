@@ -34,13 +34,13 @@ module.exports=function makeChapterIntegration(d){
    path('bus','問路後考慮公車','你要去火車站；沒聽清楚時請重說，再看地圖，最後詢問能不能搭公車。',[s('A',0),repeat,s('A',1),map,s('B',1),s('A',2)])],'用同一條路線完成問路與交通詢問。');
  }
  if(day===2){
-  const payment=(item,amount,bag=0)=>all('B',bag).map(t=>changed(t,[['杯子',item],['6 美元',amount+' 美元']],t.label==='改用現金'&&amount===4?{objects:[['▣','1 美元加 1 美元加 1 美元加 1 美元'],['▣','5 美元加 1 美元']],choiceVisuals:[{type:'cash',values:[1,1,1,1]},{type:'cash',values:[5,1]}]}:{}));
+  const payment=(item,amount,bag=0)=>all('B',bag).map(t=>changed(t,[['杯子',item],['6 美元',amount+' 美元']],t.choiceKind==='cash-set'&&amount===4?{practiceReply:{line:'Four dollars in total. Thank you.',zh:'一共 4 美元，謝謝。'},objects:[['▣','1 美元加 1 美元加 1 美元加 1 美元'],['▣','5 美元加 1 美元']],choiceVisuals:[{type:'cash',values:[1,1,1,1]},{type:'cash',values:[5,1]}]}:{}));
   add('single','買一件商品並結帳',['A','B'],'價格、商品、付款與袋子都屬於同一筆購物。',[
    path('own-bag','自備袋子','你有 10 美元，想買眼前的杯子。帶了自己的袋子；聽清價格與付款規則再結帳。',[s('A',0),s('A',1),...payment('杯子',6)]),
    path('need-bag','需要袋子','你有 10 美元，想買眼前的杯子，也需要一個袋子。',[s('A',0),s('A',1),...payment('杯子',6,1)])],'完成一筆杯子的購物與付款。');
   add('water','買幾瓶水並結帳',['A','B'],'只計算這次買水的金額，不加入前一筆杯子。',[
-   path('three','買水，自備袋子','店員知道你想買水，每瓶 2 美元；你要 3 瓶，有足夠現金，也自備袋子。',[s('A',2),s('A',3),...payment('這 3 瓶水',6)]),
-   path('bag','買水，需要袋子','店員知道你想買水，每瓶 2 美元；你要 3 瓶，有足夠現金，需要袋子。',[s('A',2),s('A',3),...payment('這 3 瓶水',6,1)])],'確認數量與總價，完成這一筆買水的交易。');
+   path('three','買水，自備袋子','你想買 3 瓶水，有足夠現金，也自備袋子。先詢問總價，再結帳。',[s('A',2),s('A',3),...payment('這 3 瓶水',6)]),
+   path('bag','買水，需要袋子','你想買 3 瓶水，有足夠現金，需要袋子。先詢問總價，再結帳。',[s('A',2),s('A',3),...payment('這 3 瓶水',6,1)])],'確認數量與總價，完成這一筆買水的交易。');
   const price=changed(s('A',0),[['It’s six dollars.','It’s twelve dollars.'],['這個 6 美元','這個 12 美元'],['6 美元','12 美元']]);
   const budget=s('C',0,0,{carryHeard:true,line:price.line,zh:price.zh});
   const buy=changed(s('A',1),[['6 美元','4 美元'],['杯子','磁鐵']],{task:'替代的磁鐵符合你的預算，告訴店員你決定買這個。'});
@@ -62,7 +62,7 @@ module.exports=function makeChapterIntegration(d){
  if(day===4){
   add('rail','買好火車票，找到月台',['A','B','C'],'同一張車票的目的地與票種一路沿用。',[
    path('single','購買單程票','你要 1 張到 Central Station 的單程票。買票時問價格與刷卡，買好後向站務人員問發車時間和月台。',[...all('A'),...all('B'),...phase('買好車票後','車票已買好，出示同一張票，接著詢問搭車資訊。',all('C'))]),
-   path('return','購買來回票','你要 1 張到 Central Station 的來回票，這次教學票價同為 12 美元。問刷卡後買好票，再詢問去程時間與月台。',[...all('A',1),...all('B').map(t=>changed(t,[['單程','來回']])),...phase('買好車票後','來回票已買好，現在問去程列車的資訊。',all('C'))])],'買到需要的票，確認出發時間與月台。');
+   path('return','購買來回票','你要 1 張到 Central Station 的來回票，請聽售票員報價。問刷卡後買好票，再詢問去程時間與月台。',[...all('A',1),...all('B').map(t=>changed(t,[['單程','來回']])),...phase('買好車票後','來回票已買好，現在問去程列車的資訊。',all('C'))])],'買到需要的票，確認出發時間與月台。');
   add('bus','搭對公車，知道在哪裡下車',['E','F'],'從候車到車上，沿用同一個目的地。',[
    path('market','前往 River Market','你要去 River Market。先問車號、確認眼前公車有到；上車後和司機核對目的地並問下車站。',[...all('E'),...phase('上車後','你已搭上剛才確認的那班車，司機和你核對目的地。',all('F'))]),
    path('correct','上車後更正目的地','你已搭上確認會到 Central Station 的公車。司機誤以為你去 River Market，請更正，再問下車站。',all('F',1))],'確認公車與目的地；司機說錯時能更正。');

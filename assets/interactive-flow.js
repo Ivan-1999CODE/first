@@ -1,5 +1,10 @@
 // Part 03 only. The same authored steps used by Part 02 remain the source of
 // answers, allowed choices, speech and persistence. All drawings are inline/offline.
+// Some picture questions need an extra detail in the spoken reply. Keep it
+// scoped to Part 03 and use the same line for listening, replay and transcript.
+function vfPracticeDialogue(step) {
+ return step.practiceReply ? {...step, ...step.practiceReply} : step;
+}
 function vfKind(t) {
  if(t.choiceKind)return t.choiceKind;
  const labels=t.objects.map(o=>o[1]).join(' '), key=t.label||t.task||'';
@@ -162,8 +167,7 @@ function vfSpatial(t,selected,ready,attr){
  return `<div class="vf-spatial ${seat?'vf-airplane':'vf-corridor'}"><p class="vf-spatial-label">${seat?'窗邊 │ 座位 │ 走道':'面朝前方 ↑'}</p><div class="vf-spatial-options">${t.objects.map((o,i)=>`<button type="button" class="object vf-object" ${attr}="${i}" ${ready?'':'disabled'} style="order:${/左|靠窗/.test(o[1])?0:1}" aria-pressed="${selected===i}">${vfArt(o[1],t)}<span>${esc(o[1])}</span>${selected===i?'<span class="vf-arrived">● 你的位置</span>':''}</button>`).join('')}</div></div>`;
 }
 // Picture application tasks keep the known speaking goal, but require reading
-// the picture rather than matching the same Chinese answer twice. Optional
-// descriptions support learners who need help interpreting an illustration.
+// the picture rather than matching the same Chinese answer twice.
 function vfChoiceChallenge(t){
  const k=vfKind(t),labels=t.objects.map(o=>o[1]),all=pattern=>labels.every(l=>pattern.test(l));
  let prompt=t.choicePrompt||'',pictures=false;
@@ -186,7 +190,7 @@ function vfChoiceChallenge(t){
 // Keep the original buttons and delegated handlers; informational pictures stay inert.
 function vfChoiceArea(t,operation,{selected=-1,ready=false,attr='data-choice',listenOnly=false}={}){
  const box=document.createElement('div');box.innerHTML=operation;
- const challenge=vfChoiceChallenge(t),descriptions=[];
+ const challenge=vfChoiceChallenge(t);
  const buttons=[...box.querySelectorAll(`[${attr}]`)];
  const visualOrder=[...buttons].sort((a,b)=>(Number(a.style.order)||0)-(Number(b.style.order)||0));
  buttons.forEach(button=>{
@@ -200,7 +204,7 @@ function vfChoiceArea(t,operation,{selected=-1,ready=false,attr='data-choice',li
   if(challenge.pictures){
    button.querySelectorAll('svg text').forEach(text=>{if(text.textContent==='✓')text.remove();});
    const label=button.querySelector('.dg-object-label')||(button.classList.contains('vf-seat-button')?button.querySelector(':scope > span:not(.vf-seat-shape)'):null);
-   if(label){const letter=String.fromCharCode(65+visualOrder.indexOf(button));label.textContent='圖 '+letter;label.classList.add('vf-picture-id');descriptions.push(`圖 ${letter}：${t.objects[index][1]}`);}
+   if(label){const letter=String.fromCharCode(65+visualOrder.indexOf(button));label.textContent='圖 '+letter;label.classList.add('vf-picture-id');}
   }
   const cue=!ready?'尚未開放':wrong?'再試一次':chosen?'已選取':compact?'點選':'點選這張';
   const icon=!ready?'<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="8" width="12" height="10" rx="2"/><path d="M6 8V5a4 4 0 0 1 8 0v3"/></svg>':`<span aria-hidden="true">${wrong?'↻':chosen?'✓':'→'}</span>`;
@@ -211,7 +215,7 @@ function vfChoiceArea(t,operation,{selected=-1,ready=false,attr='data-choice',li
  box.querySelectorAll('[data-vf-delta]').forEach(button=>button.classList.add('vf-adjust'));
  const count=!!box.querySelector('[data-vf-delta]'),kind=vfKind(t);
  const instruction=count?'按 ＋ 或 − 調整數量':kind==='route'?'點選地圖上的方向':kind==='seat'?'點選你要的座位':box.querySelector('.vf-doors')?'點選要前往的門口':box.querySelector('.vf-map-actions')?'點選路線或站名':'請點選一張圖片';
- return `<div class="vf-pick-area" data-ready="${ready}"><div class="vf-pick-toolbar"><span class="vf-mode">${({listen:"聽懂後選擇",apply:"看圖操作",decide:"綜合判斷",preference:"你的偏好"})[t.choiceReview?.mode]||"看圖操作"}</span>${ready&&t.line?`<button type="button" class="vf-replay" data-say="${esc(t.line)}" aria-label="重聽對方說話">↻ 重聽對方</button>`:""}</div><div class="vf-pick-heading"><strong>${ready?esc(challenge.prompt||instruction):listenOnly?"先聽完對方說話":"先完成聽與說"}</strong></div><p class="vf-pick-help">${ready?(count?"按 ＋ 或 − 調整實物數量。":"點選圖片作答；選好後可以改選。"):listenOnly?"聽完或讀完文字後，圖片就會開放。":"完成聽與說後，圖片就會開放。"}</p>${box.innerHTML}${descriptions.length?`<details class="vf-picture-help"><summary>需要圖片文字說明</summary>${descriptions.map(s=>`<p>${esc(s)}</p>`).join("")}</details>`:""}</div>`;
+ return `<div class="vf-pick-area" data-ready="${ready}"><div class="vf-pick-toolbar"><span class="vf-mode">${({listen:"聽懂後選擇",apply:"看圖操作",decide:"綜合判斷",preference:"你的偏好"})[t.choiceReview?.mode]||"看圖操作"}</span>${ready&&t.line?`<button type="button" class="vf-replay" data-say="${esc(t.line)}" aria-label="重聽對方說話">↻ 重聽對方</button>`:""}</div><h2 class="vf-pick-heading">${ready?esc(challenge.prompt||instruction):listenOnly?"先聽完對方說話":"先完成聽與說"}</h2><p class="vf-pick-help">${ready?(count?"按 ＋ 或 − 調整實物數量。":"點選圖片作答；選好後可以改選。"):listenOnly?"聽完或讀完文字後，圖片就會開放。":"完成聽與說後，圖片就會開放。"}</p>${box.innerHTML}</div>`;
 }
 function vfPanel(t,{selected=-1,ready=false,attr='data-choice',previous=[]}={}) {
  // Only an available choice in this step may produce a result. A stale choice
@@ -246,10 +250,13 @@ scenePage=function(){
  }
  const board=box.querySelector('.scene-board');if(!board)return box.innerHTML;
  const t=currentStep(),ready=heard&&spoken;
- const actions=board.querySelector('.dg-flow-actions')?.outerHTML||`<div class="dg-flow-actions">${btn(turn===f.steps.length-1?'完成這段對話 →':'下一句 →','data-act="next"',canNext()?'class="primary"':'disabled')}</div>`;
+ const actions=board.querySelector('.dg-flow-actions')?.innerHTML||btn(turn===f.steps.length-1?'完成這段對話 →':'下一句 →','data-act="next"',canNext()?'class="primary"':'disabled');
  const headingId=course.day===5?'d5-scene-action':'focus-scene-action';
  // Do not expose the context's translated answer on the listening test board.
- board.innerHTML=`<h2 id="${headingId}" tabindex="-1">${esc(t.label||'情境操作')}</h2>${vfPanel(t,{selected:choice,ready,previous:vfHistory(f,history,turn)})}<div class="dg-flow-actions">${btn('← 上一句','data-act="back"',turn===0?'disabled':'')}</div>${actions}`;
+ board.innerHTML=`${vfPanel(t,{selected:choice,ready,previous:vfHistory(f,history,turn)})}<div class="dg-flow-actions vf-flow-navigation">${btn('← 上一句','data-act="back"',turn===0?'disabled':'')}${actions}</div>`;
+ const prompt=board.querySelector('.vf-pick-heading');
+ prompt.id=headingId;
+ prompt.tabIndex=-1;
  board.dataset.result=choice<0?'pending':accepted(t,choice)?'correct':'wrong';
  return box.innerHTML;
 };
