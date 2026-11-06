@@ -22,7 +22,7 @@ function compile(base,tasks){
   if(!s.objects?.length||!s.valid?.length||s.valid.some(i=>!s.objects[i]))throw Error(`${key}/${index}: invalid choices`);
   meaning(s.answer,s.answerZh);
   if(s.when)throw Error(`${key}/${index}: hidden branches must be taught as explicit variations`);
-  return {...clone(s),id:`${key}-${index}`,label:s.label||s.task,words:s.words||s.answer,askFirst:s.askFirst===true,effect:s.effect||'✓ 已更新任務卡；用同一句再練一次也可以。'};
+  return {...clone(s),id:`${key}-${s.recordIndex??index}`,label:s.label||s.task,words:s.words||s.answer,askFirst:s.askFirst===true,effect:s.effect||'✓ 已更新任務卡；用同一句再練一次也可以。'};
  };
  const keys=new Set(),roundIds=new Set();
  for(const [i,spec] of tasks.entries()){
@@ -39,18 +39,18 @@ function compile(base,tasks){
   const changeAnswer=changes.map(s=>s.answer).join(' '),changeZh=changes.map(s=>s.answerZh).join(' ');
   meaning(answer,answerZh);meaning(changeAnswer,changeZh);
   const words=steps.map(s=>s.words).join(' / ');
-  const checkpoint={task:spec.context,words,answer,answerZh,review:'只看本輪目標：能否用已學的說法完成這段溝通？',skills:steps.map((s,j)=>({id:`${key}-skill-${j}`,text:`我能完成「${s.label.replace(/[。.]$/,'')}」這段對話。`}))};
+  const checkpoint={task:spec.context,words,answer,answerZh,review:'只看本輪目標：能否用已學的說法完成這段溝通？',skills:steps.map((s,j)=>({id:`${key}-skill-${s.recordIndex??j}`,text:`我能完成「${s.label.replace(/[。.]$/,'')}」這段對話。`}))};
   const r={id,key,name:spec.name,goal:spec.goal||spec.context,role:spec.role||old.course.replyRole,phraseIds:[],replyIds:[],flowIds:[d.flows.length],missionIds:[d.missions.length],pairIds:[d.pairs.length],reuse:[],words:spec.words||[],bridge:`本輪每次練 ${steps.length} 個說法，後面的操作與真人接話都用這一組。`,listen:'對方回話先聽懂即可，不要求背誦。',checkpoint,variation:{task:spec.variation.task,steps:changes},hearLines:[],variationMode:spec.variationMode||'change',coreNote:spec.coreNote||spec.extraNotes||'',chapter:spec.chapter||null};
   if(spec.sourceIds)Object.assign(r,{sourceIds:clone(spec.sourceIds),merged:!!spec.isMerged});
   steps.forEach((s,j)=>{
-   const phrase={id:`${key}-phrase-${j}`,use:s.label,en:s.answer,zh:s.answerZh};
+   const phrase={id:`${key}-phrase-${s.recordIndex??j}`,use:s.label,en:s.answer,zh:s.answerZh};
    if(s.foodKind){
     phrase.illustratedOptions=clone(require('./day6-food-options.cjs')[s.foodKind]);
     phrase.substitutions=[{target:s.answer.replace(', please.',''),options:phrase.illustratedOptions.map(o=>[o.en,o.zh])}];
    }
    d.phrases.push(phrase);r.phraseIds.push(phrase.id);
    r.replyIds.push(d.replies.length);
-   d.replies.push({...s,id:`${key}-reply-${j}`,name:s.label,listen:'認出這段已學過的話，再練自己的句子。',options:s.objects.map(x=>x[1]),correct:s.valid[0],why:s.zh,change:'同一段再說一次，試著少看一層提示。',changeWords:s.words,changeAnswer:s.answer});
+   d.replies.push({...s,id:`${key}-reply-${s.recordIndex??j}`,name:s.label,listen:'認出這段已學過的話，再練自己的句子。',options:s.objects.map(x=>x[1]),correct:s.valid[0],why:s.zh,change:'同一段再說一次，試著少看一層提示。',changeWords:s.words,changeAnswer:s.answer});
    if(!r.hearLines.some(p=>p.en===s.line))r.hearLines.push({en:s.line,zh:s.zh,sources:['② 短對話','③ 操作','⑤ 真人接話'],...s.role?{role:s.role}:{}});
   });
   d.flows.push({id:key,name:`${id}｜${spec.name}`,desc:spec.context,context:spec.context,summary:'用剛才同樣的說法，再把這個小任務說一次；還不熟就重練。',sceneTitle:spec.name,sceneIcon:spec.icon||old.flows[0]?.sceneIcon||'🧭',generic:true,steps});
@@ -58,15 +58,17 @@ function compile(base,tasks){
   const first=steps[0];
   d.pairs.push({id:key+'-live',name:`${id}｜和老師再練同一段`,role:`學生扮演情境中的旅客，老師當${r.role}；師生共看畫面。`,first:first.askFirst?'學生':'老師',opening:first.askFirst?first.answerZh:first.zh,start:first.askFirst?'':first.line,next:'依序完成本輪的短對話。老師沿用剛才聽過的回話，學生可看關鍵字；熟悉後再收起提示。',objects:spec.context,goals:steps.map(s=>s.label),tags:spec.context,cards:steps.map(s=>[s.askFirst?`學生${s.label}後`:`接著請學生${s.label}`,s.line,s.zh]),words,answer,answerZh});
   r.primaryPhraseIds=[...r.phraseIds];
+  // Goal checkboxes were saved by array index, independent of display order.
+  if(steps.some(s=>s.recordIndex!==undefined))d.pairs.at(-1).goalRecordIndices=steps.map((s,j)=>s.recordIndex??j);
   r.primaryReplyIds=[...r.replyIds];
   if(r.variationMode==='core'){
    for(const [j,s]of changes.entries()){
     if(!r.phraseIds.some(id=>d.phrases.find(p=>p.id===id)?.en===s.answer)){
-     const p={id:key+'-alternative-phrase-'+j,use:s.label,en:s.answer,zh:s.answerZh};d.phrases.push(p);r.phraseIds.push(p.id);
+     const p={id:key+'-alternative-phrase-'+(s.recordIndex??j),use:s.label,en:s.answer,zh:s.answerZh};d.phrases.push(p);r.phraseIds.push(p.id);
     }
     if(!r.hearLines.some(p=>p.en===s.line))r.hearLines.push({en:s.line,zh:s.zh,sources:['② 短對話','③ 另一情境','⑤ 真人接話'],...s.role?{role:s.role}:{}});
     if(!steps.some(x=>x.answer===s.answer&&x.line===s.line)){
-     r.replyIds.push(d.replies.length);d.replies.push({...s,id:key+'-alternative-reply-'+j,name:s.label+'（另一種回答）',listen:'同樣先教，再練習。',options:s.objects.map(x=>x[1]),correct:s.valid[0],why:s.zh,change:'收起提示，重複這段已學的接話。',changeWords:s.words,changeAnswer:s.answer});
+     r.replyIds.push(d.replies.length);d.replies.push({...s,id:key+'-alternative-reply-'+(s.recordIndex??j),name:s.label+'（另一種回答）',listen:'同樣先教，再練習。',options:s.objects.map(x=>x[1]),correct:s.valid[0],why:s.zh,change:'收起提示，重複這段已學的接話。',changeWords:s.words,changeAnswer:s.answer});
     }
    }
    r.flowIds.push(d.flows.length);
@@ -74,6 +76,7 @@ function compile(base,tasks){
    const firstChange=changes[0],changeWords=changes.map(s=>s.words).join(' / ');
    r.pairIds.push(d.pairs.length);
    d.pairs.push({id:key+'-alternative-live',name:`${id}｜和老師練另一個已學情境`,role:`學生扮演旅客，老師當${r.role}。`,first:firstChange.askFirst?'學生':'老師',opening:firstChange.askFirst?firstChange.answerZh:firstChange.zh,start:firstChange.askFirst?'':firstChange.line,next:'沿用第二部分已教過的這組問答。兩種情境分次練，不把不同回答連著說。',objects:spec.variation.task,goals:changes.map(s=>s.label),tags:spec.variation.task,cards:changes.map(s=>[s.askFirst?`學生${s.label}後`:`請學生${s.label}`,s.line,s.zh]),words:changeWords,answer:changeAnswer,answerZh:changeZh});
+   if(changes.some(s=>s.recordIndex!==undefined))d.pairs.at(-1).goalRecordIndices=changes.map((s,j)=>s.recordIndex??j);
    r.alternativeCheckpoint={...clone(checkpoint),task:spec.variation.task,words:changeWords,answer:changeAnswer,answerZh:changeZh};
    r.bridge=`本輪有 ${r.phraseIds.length} 種說法；每個情境只用 ${steps.length} 句，兩種情境分次練。`;
   }
@@ -89,7 +92,8 @@ function compile(base,tasks){
     return {task:v.task,steps:extraSteps,missionId};
    });
   }
-  const qstep=steps.find(s=>s.line.length>8)||steps[0],distractor=steps.find(s=>s.zh!==qstep.zh)?.zh||'請你改天再來。';
+  const recordedSteps=steps.map((s,j)=>({s,index:s.recordIndex??j})).sort((a,b)=>a.index-b.index).map(x=>x.s);
+  const qstep=recordedSteps.find(s=>s.line.length>8)||recordedSteps[0],distractor=steps.find(s=>s.zh!==qstep.zh)?.zh||'請你改天再來。';
   const quiz={id:key+'-listen',line:qstep.line,zh:qstep.zh,question:'這句已學過的回話，意思是什麼？',task:'聽懂本輪的回話',options:[qstep.zh,distractor],correct:0,feedback:qstep.zh,why:qstep.zh};
   r.home={quiz,task:spec.context,words,answer,answerZh};
   if(spec.homeQuizSteps){
@@ -179,6 +183,7 @@ function make(day,options={}){
  delete combined.course.taskGroups;
  combined.course.description=`${combined.rounds.length} 個完整任務；同任務的句子一起學，依序接話並反覆練習，再回顧同一組內容。`;
  combined.course.labels=['這個任務：先試著說','這個任務：句子與對話','這個任務：完整接話','這個任務：練已學變化','這個任務：和老師練','這個任務：看看進步','這個任務：課後再練'];
+ if(day===6)require('./day6-ready-order.cjs')(combined);
  const labeled=labelTasks(combined);
  return require('./learning-practice.cjs')(day===8?require('./day8-order-choice.cjs')(labeled):labeled);
 }

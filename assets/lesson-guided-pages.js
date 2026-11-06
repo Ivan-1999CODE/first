@@ -132,7 +132,7 @@ pairPage = function() {
    <div class="section-title"><h2>這次要完成的事</h2>
     <span id="pairProgress">${state.checks[p.id].filter(Boolean).length} / ${p.goals.length} 項已做到</span>
    </div>
-   ${p.goals.map((g, i) => check(`data-pair-check="${p.id}:${i}"`, g, state.checks[p.id][i])).join('')}
+   ${p.goals.map((g, i) => { const recordIndex=p.goalRecordIndices?.[i]??i; return check(`data-pair-check="${p.id}:${recordIndex}"`, g, state.checks[p.id][recordIndex]); }).join('')}
    <p class="fine">老師依實際表達勾選，也能取消。先沿用本任務順序，熟悉後再收起提示。</p>
    ${dgLessonTeacherGuide(p, r, steps)}
    <p class="fine">師生共看同一個畫面，自然接話；勾選記錄溝通目標，不是自動評分。</p>

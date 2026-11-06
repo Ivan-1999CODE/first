@@ -73,22 +73,24 @@ module.exports=function makeChapterIntegration(d){
   add('taxi','搭計程車到目的地',['B','D'],'上車時說需求，接近目的地時再說下車位置。',[
    path('museum','到博物館入口下車','你在計程車排班區，想去博物館。問清車程與車資；接近目的地時，指定入口並請司機停車。',[...all('B'),...phase('接近目的地','車已快到博物館，你想在入口下車。',all('D'))])],'說清目的地，理解車程車資，在入口下車。');
   add('uber','找到預約車，再指定下車處',['C','D'],'預約行程已有目的地，接車與下車分成兩幕。',[
-   path('hotel','從飯店入口出發','你已預約 Uber 去博物館，在飯店入口外等車。聯絡司機確認後上車；抵達時請在博物館入口停車。',[...all('C'),...phase('抵達博物館附近','你已搭上預約車，現在接近博物館入口。',all('D'))])],'聯絡到預約司機，說清等車與下車位置。');
+   path('hotel','從飯店入口出發','你已預約 Uber 去博物館，在飯店入口外等車。先聯絡說明等車位置，車到、見面後確認司機再上車；抵達時請在博物館入口停車。',[...all('C').map(t=>({...t,integrationRecordIndex:t.recordIndex})),...phase('抵達博物館附近','你已搭上預約車，現在接近博物館入口。',all('D'))])],'先說清等車位置，見面後確認預約司機，再指定下車位置。');
  }
  if(day===6){
   add('simple','從看菜單到完成簡餐點餐',['B','A','F'],'同一張菜單，先爭取時間，再請推薦與點餐。',[
    path('time','還沒準備好','你和旅伴還在看菜單，需要一點時間。稍後請店員推薦主餐，點雞肉三明治，選內用並結束點餐。',[...all('B'),...phase('稍後店員回來','你準備好請店員推薦，接著點主餐。',all('A')),...all('F')]),
-   path('ready','已準備好詢問','你準備好請店員推薦主餐，想點雞肉三明治、內用，不再加點。',[...all('A'),...all('F')])],'說出餐點與用餐方式，結束這次點餐。');
-  add('drink','主餐加飲料，說清楚偏好',['A','C','F'],'茶已先點好，接著點主餐、確認冰糖，再結束點餐。',[
-   path('none','不加冰、不加糖','同一筆訂單已先點好一杯茶，尚未加冰或糖。你想再點雞肉三明治，茶不要冰糖，內用且不再加點。',[...all('A'),...all('C'),...all('F')]),
-   path('less','少冰、少糖','同一筆訂單已先點好茶。你要雞肉三明治，茶少冰少糖，內用且不再加點。',[...all('A'),...all('C',1),...all('F')])],'在同一筆主餐與茶的訂單中說清楚冰糖需求。');
+   path('ready','已準備好詢問','你準備好請店員推薦主餐，想點雞肉三明治帶去公園吃，不再加點。',[...all('A'),...all('F',1)])],'說出餐點與用餐方式，結束這次點餐。');
+  // Keep old ice/sugar/finish goal and question IDs when inserting two exchanges.
+  const mealWithDrink=variant=>[...all('A'),...all('C',variant).map(t=>({...t,integrationRecordIndex:t.recordIndex<2?t.recordIndex+2:t.recordIndex+4})),...all('F',variant).map((t,i)=>({...t,integrationRecordIndex:i+4}))];
+  add('drink','主餐加飲料，說清楚偏好',['A','C','F'],'點好雞肉三明治後，答應升級成含飲料的套餐、選茶，再確認冰糖並結束點餐。',[
+   path('none','不加冰、不加糖','你想點雞肉三明治。店員詢問套餐時，答應升級並選茶；茶不要冰、不要糖，最後選內用並表示不再加點。',mealWithDrink(0)),
+   path('less','少冰、少糖','你想點雞肉三明治。店員詢問套餐時，答應升級並選茶；茶少冰、少糖，餐點與茶都要外帶，而且不再加點。',mealWithDrink(1))],'完成雞肉三明治套餐點餐，選好茶並說清楚冰糖需求。');
   add('steak','牛排配蛋，確認做法後結束點餐',['D','F'],'已選牛排配蛋，這一組不加入三明治。',[
    path('steak','選喜歡的做法','你已點好牛排配蛋，也已告知內用。回答熟度與蛋的做法，最後表示不再加點。',[...all('D'),s('F',1)])],'選擇自己喜歡的熟度與蛋料理，結束點餐。');
   const toast=changed(s('A',1),[['a chicken sandwich','the egg toast'],['雞肉三明治','蛋吐司']],{adaptationNote:'沿用 I’d like …, please.，這次把餐點換成蛋吐司。'});
   const confirm=changed(s('E',2),[['eight dollars fifty','seven dollars fifty'],['8 美元 50 分','7 美元 50 分'],['8.50','7.50'],['18.50','17.50']],{task:'蛋吐司已點好；你想再確認這筆訂單是不是 7 美元 50 分。'});
   const again=changed(s('E',3),[['Eight dollars fifty','Seven dollars fifty'],['8 美元 50 分','7 美元 50 分'],['8.50','7.50'],['18.50','17.50']]);
   add('budget','依預算選餐，確認同一筆金額',['E','A','F'],'替代餐點、訂單與帳單一致；另一筆帳單另開情境。',[
-   path('toast','預算內選餐','你有 10 美元，先詢問眼前餐點的價格。超出預算就找便宜餐點，選蛋吐司、內用，不再加點；最後核對這筆金額。',[s('E',0),s('E',1),toast,...all('F'),confirm,again]),
+   path('toast','預算內選餐','你有 10 美元，先詢問眼前餐點的價格。超出預算就找便宜餐點，選蛋吐司外帶、不再加點；最後核對這筆金額。',[s('E',0),s('E',1),toast,...all('F',1),confirm,again]),
    path('bill','只練另一筆帳單','這是另一筆已完成的訂單，和蛋吐司無關。環境很吵，你剛聽到似乎是 8 美元 50 分，請確認並重聽。',[s('E',2),s('E',3)])],'蛋吐司訂單沿用 7.50 美元；8.50 美元帳單分次練。');
  }
  if(day===7){
@@ -131,7 +133,7 @@ module.exports=function makeChapterIntegration(d){
   g.sections=['先試完整情境','整理聽說句子','連起來完成任務','看情境，自己選用','和老師完整接話','看看整體進步','課後再用一次'];
   g.checkpoint=g.paths[0].context;
   g.paths.forEach(p=>{
-   p.steps=p.steps.map((t,i)=>({...t,id:`ci-d${day}-${g.id}-${p.id}-${i}`,label:t.label||t.task,phase:t.phase||'',choiceReview:{...t.choiceReview,reason:t.choiceReview?.reason||'依本次對話與條件操作。'}}));
+   p.steps=p.steps.map((t,i)=>({...t,id:`ci-d${day}-${g.id}-${p.id}-${t.integrationRecordIndex??i}`,label:t.label||t.task,phase:t.phase||'',choiceReview:{...t.choiceReview,reason:t.choiceReview?.reason||'依本次對話與條件操作。'}}));
    p.steps.forEach((t,i)=>{if(t.carryHeard&&(!i||p.steps[i-1].line!==t.line))throw Error('Invalid carry '+t.id);});
    p.role=unique(p.steps.map(s=>s.role),x=>x).join('／');
    p.goals=p.steps.map(t=>({id:t.id,text:t.label}));

@@ -106,15 +106,22 @@ group('d6-recommend-and-order-v1',[
 group('d6-more-time-to-choose-v1',[
  V('依你剛才的回應，點餐流程應該停在哪一步？','比較繼續閱讀菜單與交出訂單，操作呈現還沒決定的需求。')
 ]);
-copy('micro-en-d6-more-time-to-choose-v1-0','micro-en-d6-more-time-to-choose-v1-change-0');
+add('micro-en-d6-more-time-to-choose-v1-ready-order-v1-ready',V('依你剛才的回應，點餐流程接下來要怎麼進行？','把已準備好的回應落實成開始點餐；與繼續看菜單的原情境作對照。'));
+add('micro-en-d6-more-time-to-choose-v1-ready-order-v1-meal',V('把你剛才點的主餐放進訂單。','依自己的點餐內容辨認雞肉三明治與番茄義大利麵；沿用任務 A 的餐點圖。'));
 group('d6-drink-ice-and-sugar-v1',[
  V('觀察三杯飲料的冰塊量，選出符合需求的一杯。','新增一般冰量作合理比較，不只在有冰與沒冰之間猜。',{objects:opts('不加冰','少冰','一般冰量'),pictureChoices:true}),
- V('看糖匙裡的糖量，完成這杯飲料。','新增一般糖量，少糖與一般糖用不同實物量呈現。',{objects:opts('不加糖','少糖','一般糖量'),pictureChoices:true})
+ V('看糖匙裡的糖量，完成這杯飲料。','新增一般糖量，少糖與一般糖用不同實物量呈現。',{objects:opts('不加糖','少糖','一般糖量'),pictureChoices:true}),
+ V('把你剛才答應的餐點組合放到訂單。','比較主餐加飲料與單點主餐，把升級套餐的需求落實到圖片。',{choiceKind:'food',choiceVisuals:[{type:'meal-order',extra:true},{type:'meal-order',extra:false}],pictureChoices:true}),
+ V('把你剛才點的飲料加入套餐。','比較茶與水的實際外觀，選好飲料後才進入冰糖調整。',{choiceKind:'food',pictureChoices:true})
 ]);
-for(let i=0;i<2;i++)copy('micro-en-d6-drink-ice-and-sugar-v1-'+i,'micro-en-d6-drink-ice-and-sugar-v1-change-'+i);
+for(let i=0;i<4;i++)copy('micro-en-d6-drink-ice-and-sugar-v1-'+i,'micro-en-d6-drink-ice-and-sugar-v1-change-'+i);
 group('d6-steak-and-eggs-v1',[
  R('preference','選你剛才用英文說的牛排熟度。','這是偏好操作，多個選項皆合理；不用對錯分數假裝測驗。'),
  R('preference','把你想吃的蛋料理加入餐點。','所有已教過的做法都可選，結果回饋記錄偏好。')
+]);
+group('d6-steak-and-eggs-v1-change',[
+ V('選出符合這次需求的牛排圖片。','第二個情境指定七分熟；先用英文回答，再把已知需求對應到熟度圖片。'),
+ V('選出符合這次需求的蛋料理圖片。','第二個情境指定翻面稍煎、蛋黃仍流心；先用英文回答，再選相符的料理圖片。')
 ]);
 group('d6-merged-day6-price-and-confirmation-v1',[
  D('聽完價格，依 10 美元預算決定下一步。','兩種行動取決於報價與預算比較，不直接寫超出預算。'),
@@ -125,6 +132,10 @@ group('d6-merged-day6-price-and-confirmation-v1',[
 group('d6-eat-in-and-finish-v1',[
  V('把餐點放到符合用餐方式的容器。','比較餐盤與外帶袋，將 for here 應用到圖片操作。'),
  V('依你最後的回應，哪張訂單才是完整餐點？','用原餐點與多加飲料的訂單比較，取代直接點不再加點。',{choiceVisuals:[{type:'meal-order',extra:false},{type:'meal-order',extra:true}],pictureChoices:true})
+]);
+group('d6-eat-in-and-finish-v1-change',[
+ V('把餐點放到符合用餐方式的容器。','比較餐盤與外帶袋，將 to go 應用到圖片操作。'),
+ V('依你最後的回應，哪張訂單才是完整餐點？','用原餐點與多加飲料的訂單比較，外帶仍只保留已點好的餐點。',{choiceVisuals:[{type:'meal-order',extra:false},{type:'meal-order',extra:true}],pictureChoices:true})
 ]);
 
 group('d7-merged-day7-item-size-color-v1',[

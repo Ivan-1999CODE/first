@@ -37,7 +37,7 @@ function day5(tasks) {
         chapter(task, 'day5-taxi-trip', '搭計程車：目的地、車程與車資', 2, '分兩輪練：先決定搭車並說目的地，再問車程和車資。每輪先完成自己的回顧。', 1);
         break;
       case 'driver-and-pickup':
-        chapter(task, 'day5-pickup', '確認司機與等車位置', 3, '確認預約司機，再說等車位置；維持原有兩句及已教的地點替換。');
+        chapter(task, 'day5-pickup', '說等車位置，再確認司機', 3, '先聯絡說明等車位置，車到、見面後再確認預約司機；維持原有兩句及已教的地點替換。');
         break;
       case 'dropoff-and-stop':
         task.changeNote = '保留 Would you like to get out here? 的聽力、指定入口與請停車兩句主句；恢復街角下車的原變化與字彙，先看對話順序，再分次練入口與街角。';
@@ -70,7 +70,8 @@ function day6(tasks) {
         chapter(task, 'day6-dessert-and-coffee', '甜點與咖啡', 3, '先練要不要甜點，再練咖啡偏好；每輪的不同回答先看示範，再分次使用。', 1);
         break;
       case 'steak-and-eggs':
-        task.changeNote = '保留牛排熟度與蛋的做法兩個主問答，以及全部圖片選項；恢復把示範牛排改為全熟、蛋維持炒蛋的原變化，先看對話順序再練，不要求背完菜單。';
+        task.variationMode = 'core';
+        task.changeNote = '保留牛排熟度與蛋的做法兩個主問答，以及全部圖片選項；第二個情境練七分熟與翻面稍煎、蛋黃仍流心，先看對話順序再練，不要求背完菜單。';
         chapter(task, 'day6-steak-and-eggs', '牛排熟度與蛋的做法', 4, '先從圖片選單各選一種偏好，再反覆練相同問答；不用背完全部選項。');
         break;
       case 'price-and-cheaper-food':
@@ -78,7 +79,12 @@ function day6(tasks) {
         chapter(task, 'day6-price-and-confirmation', '問價格、找便宜餐點與確認金額', 5, '分兩個獨立情境：先比較 12 美元餐點和 7.50 美元蛋吐司；另一輪確認另一筆 8.50 美元帳單並請重說。', 0);
         break;
       case 'eat-in-and-finish':
-        task.changeNote = '保留內用與不再加點兩句主句，恢復 To go, please. 的原外帶變化；內用、外帶各自先看問答順序，再用同一句結束點餐。';
+        task.variationMode = 'core';
+        task.variation.steps[0].label = '選外帶';
+        task.variation.steps[0].task = '你想把餐點帶走吃，告訴店員要外帶。';
+        task.variation.task = '餐點已經選好，你想帶回飯店吃，而且不再加點。先告訴店員要外帶，再說就這些。';
+        task.coreNote = '內用與外帶分成兩個情境練習；依本次安排回答，再用同一句結束點餐。';
+        task.changeNote = '保留內用練習，將 To go, please. 的外帶變化加入獨立操作、情境口說與師生對話；內用、外帶分次練，再用同一句結束點餐。';
         chapter(task, 'day6-finish-ordering', '說內用或外帶並結束點餐', 6, '回答要內用或外帶，再說不再加點；兩種用餐方式分次練。');
         break;
       case 'confirm-price-and-repeat':

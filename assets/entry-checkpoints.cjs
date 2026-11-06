@@ -20,7 +20,9 @@ const prompts = {
 function addEntryCheckpoints(data) {
   if ((data.language || 'en') !== 'en') return data;
   for (const round of data.rounds) {
-    const step = data.flows[round.flowIds[0]].steps[0];
+    const steps = data.flows[round.flowIds[0]].steps;
+    // Keep the same before/after question when only the conversation order changes.
+    const step = steps.find(s => s.recordIndex === 0) || steps[0];
     round.entryCheckpoint = {
       task: prompts[round.key] || step.task,
       words: step.words,

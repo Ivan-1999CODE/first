@@ -38,7 +38,7 @@ const lessons={
   A:[P('主餐','a chicken sandwich','一份雞肉三明治','the tomato pasta','這裡說的番茄義大利麵','sandwich 是三明治，pasta 是義大利麵；番茄義大利麵在本題用 the tomato pasta。')],
   B:[P('聽懂店員的另一種問法','Are you ready to order?','準備好點餐了嗎？','May I take your order?','可以幫你們點餐了嗎？','兩句都在問能不能開始點餐；仍可回答請再給一點時間。'),P('請多給時間的人數','we','我們','I','我','Could we have…（可以給我們……嗎？）換成 Could I have…（可以給我……嗎？）。')],
   C:[P('是否要甜點','Chocolate cake, please.','請給我巧克力蛋糕。','No, thank you.','不用了，謝謝。'),P('咖啡調配','black','黑咖啡／不加奶','with milk','加牛奶')],
-  D:[P('牛排熟度','medium','五分熟','well-done','全熟')],
+  D:[P('牛排熟度','medium','五分熟','medium-well','七分熟','第二個情境的蛋也換成 over easy（翻面稍煎、蛋黃仍流心）；聽到店員問牛排或蛋時，分別回答 Medium-well, please. 或 Over easy, please.。')],
   E:[P('選餐時的預算','ten dollars','10 美元','eight dollars','8 美元','這題不必說出預算，仍用原句問價格、找便宜一點的餐點。'),P('確認帳單金額','eight dollars fifty','8 美元 50 分','seven dollars fifty','7 美元 50 分')],
   F:[P('用餐方式','for here','內用','to go','外帶')]
  },
@@ -82,6 +82,7 @@ function addVariationVocabulary(data){
   const label=r.displayLabel||r.id,entries=authored[label];
   if(!entries||entries.length!==r.missionIds.length)throw Error(`Part 4 vocabulary mapping changed: ${data.course.day}/${label}`);
   r.variationVocabulary=entries.map((entry,i)=>({...entry,missionId:data.missions[r.missionIds[i]].id}));
+  if(data.day6ReadyOrder&&r.id==='B')r.variationVocabulary[0]={...P('是否準備好點餐','Could we have a few more minutes?','可以再給我們幾分鐘嗎？',"Yes, I'm ready to order.",'是的，我準備好點餐了。','這是兩種不同需求的完整回答，分開練；表示準備好後，再聽店員問想要什麼並點餐。'),missionId:data.missions[r.missionIds[0]].id};
  }
  return data;
 }

@@ -16,7 +16,10 @@ module.exports=function prepareLearning(d){
   r.studyChanges=clone(r.sayVocabulary||[]);
   // Ice and sugar are already taught as distinct needs; show their useful link.
   if(d.course.day===6&&r.id==='DRINKS'){
-   r.studyChanges=[['No ice','不加冰','Less ice','少冰',0,2],['No sugar','不加糖','Less sugar','少糖',1,3]].map(([from,fz,to,tz,a,b])=>({from:[from,fz],to:[to,tz],baseAnswer:base[a].answer,baseZh:base[a].answerZh,answer:base[b].answer,answerZh:base[b].answerZh,label:base[b].label}));
+   r.studyChanges=[['No ice','不加冰','Less ice','少冰'],['No sugar','不加糖','Less sugar','少糖']].map(([from,fz,to,tz])=>{
+    const a=base.find(s=>s.answer===from+', please.'),b=base.find(s=>s.answer===to+', please.');
+    return {from:[from,fz],to:[to,tz],baseAnswer:a.answer,baseZh:a.answerZh,answer:b.answer,answerZh:b.answerZh,label:b.label};
+   });
   }
   if(d.course.day===0&&d.language==='ko'&&r.id==='C'){
    r.studyChanges=[{from:['카드로','用信用卡'],to:['현금으로','用現金'],baseAnswer:base[1].answer,baseZh:base[1].answerZh,answer:base[2].answer,answerZh:base[2].answerZh,label:'選擇付款方式'}];

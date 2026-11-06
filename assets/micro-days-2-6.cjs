@@ -213,8 +213,9 @@ function city(base){
   step('fare','詢問車資','How much will it be?','大約要多少錢？','About twelve dollars.','約 12 美元。','接著問這趟車大約要多少錢。','how much / be',['12 美元','20 美元'])
  ];
  const pickup=[
-  step('driver','確認預約司機','Are you my Uber driver?','你是我的 Uber 司機嗎？','Yes, I am.','對，我是。','你透過預約行程聯絡到司機，先確認是不是來接你的人。','my / Uber driver',['對，是預約的司機','不是預約的司機']),
-  step('location','說明等車位置','I’m outside the hotel entrance.','我在飯店入口外面。','Where are you waiting?','您在哪裡等車？','你在飯店入口外面，告訴司機。','outside / hotel entrance',['飯店入口外','博物館入口外'],false)
+  // Preserve the original record indices while presenting location before identity.
+  step('location','說明等車位置','I’m outside the hotel entrance.','我在飯店入口外面。','Where are you waiting?','您在哪裡等車？','你透過預約行程聯絡司機；你在飯店入口外面，先告訴司機等車位置。','outside / hotel entrance',['飯店入口外','博物館入口外'],false,[0],{recordIndex:1}),
+  step('driver','確認預約司機','Are you my Uber driver?','你是我的 Uber 司機嗎？','Yes, I am.','對，我是。','車已到達等候位置，你與司機見面了；上車前確認他是不是來接你的人。','my / Uber driver',['對，是預約的司機','不是預約的司機'],true,[0],{recordIndex:0})
  ];
  const off=[
   step('place','指定下車位置','At the entrance, please.','請在入口下車。','Would you like to get out here?','您想在這裡下車嗎？','車還沒到入口；你想在前方入口下車，先告訴司機。','at / entrance',['到入口再下車','現在就下車'],false),
@@ -236,11 +237,11 @@ function city(base){
    '把三句搭車流程拆開，這輪只問時間和費用，不再要求先說目的地。',
    '只把預估車程改成 20 分鐘，目的地和約 12 美元的車資都不變。問同樣兩個問題。','車程：15 → 20 分鐘',
    {0:{line:'About twenty minutes.',zh:'約 20 分鐘。',valid:[1]}}),
-  task('driver-and-pickup','確認司機，說等車位置','司機','你已預約 Uber，正在飯店入口外等車。透過預約行程聯絡司機，先確認身份，再告知等車位置。',pickup,
+  task('driver-and-pickup','說等車位置，再確認司機','司機','你已預約 Uber，正在飯店入口外等車。先透過預約行程告知等車位置；車到、見面後，再確認是不是你的司機。',pickup,
    [['driver','司機'],['outside','外面'],['hotel entrance','飯店入口'],['museum entrance','博物館入口']],
-   '保留身份與位置兩句，移除同一個位置問題在相鄰步驟重複出現的多餘台詞。',
-   '只把等車地點改成博物館入口外，仍是同一筆預約。先確認司機，再說明位置。','等車地點：飯店入口外 → 博物館入口外',
-   {1:{answer:'I’m outside the museum entrance.',answerZh:'我在博物館入口外面。',task:'你這次在博物館入口外面等車。',words:'outside / museum entrance',valid:[1]}}),
+   '先聯絡說明等車位置，見面後再確認司機；保留原有英文與作答識別碼。',
+   '只把等車地點改成博物館入口外，仍是同一筆預約。先說明位置，車到、見面後再確認司機。','等車地點：飯店入口外 → 博物館入口外',
+   {0:{answer:'I’m outside the museum entrance.',answerZh:'我在博物館入口外面。',task:'你這次在博物館入口外面等車，先告訴司機位置。',words:'outside / museum entrance',valid:[1]}}),
   task('dropoff-and-stop','指定位置，請司機停車','司機','車已接近目的地，但還沒到入口。你想在入口下車；先告知位置，等到入口可以停車時，再請司機停下。',off,
    [['entrance','入口'],['corner','街角'],['stop here','在這裡停車']],
    '保留下車地點與停車請求兩句，中文明確交代車輛何時到達，不重做整趟叫車。',
@@ -298,10 +299,10 @@ function dining(base){
    '只把咖啡偏好改成加牛奶，店員仍問同一個問題。','咖啡調配：黑咖啡 → 加牛奶',
    {0:{answer:'With milk, please.',answerZh:'加牛奶，謝謝。',task:'你這次想喝加牛奶的咖啡。',words:'with / milk',valid:[1]}}),
   task('steak-and-eggs','選牛排熟度與蛋的做法','店員','你已點一份牛排配蛋。店員依序問牛排熟度和蛋的做法；各選自己喜歡的一種，參考示範是五分熟與炒蛋。',foodSteps,
-   [['steak','牛排'],['eggs','蛋'],['medium','五分熟'],['scrambled','炒蛋'],['well-done','全熟']],
+   [['steak','牛排'],['eggs','蛋'],['medium','五分熟'],['scrambled','炒蛋'],['well-done','全熟'],['medium-well','七分熟'],['over easy','翻面稍煎，蛋黃仍流心']],
    '保留原本所有牛排與蛋料理圖片、自由選擇及兩個問答；只限制一輪各練一種選擇，不要求背全部菜單。',
-   '這次只把示範的牛排熟度從五分熟換成全熟，蛋仍是炒蛋。聽到哪一項問題，就回答對應的偏好。','牛排熟度：五分熟 → 全熟（蛋不變）',
-   {0:{answer:'Well-done, please.',answerZh:'全熟，謝謝。',task:'這次只把牛排改成全熟，聽到熟度問題後回答。',words:'well-done / please',valid:[4]},1:{task:'蛋的做法不變，仍回答炒蛋。',valid:[0]}}),
+   '這次你想要七分熟的牛排，蛋選翻面稍煎、蛋黃仍流心的做法。聽到店員依序提問，再分別回答。','牛排與蛋：七分熟＋翻面稍煎',
+   {0:{answer:'Medium-well, please.',answerZh:'七分熟，謝謝。',task:'這次你想要七分熟的牛排，聽到熟度問題後回答。',words:'medium-well / please',valid:[3]},1:{answer:'Over easy, please.',answerZh:'翻面稍煎、蛋黃仍流心，謝謝。',task:'這次蛋選翻面稍煎、蛋黃仍流心，聽到蛋的做法問題後回答。',words:'over easy / please',valid:[2]}}),
   task('price-and-cheaper-food','問價格，找預算內餐點','店員','你有 10 美元預算，先指著餐點問價。這份要 12 美元，超出預算；再問比較便宜的餐點，店員提供 7.50 美元的蛋吐司。',budget,
    [['twelve dollars','12 美元'],['cheaper','比較便宜'],['egg toast','蛋吐司'],['seven dollars fifty','7 美元 50 分']],
    '保留原本問價和找替代餐點兩句；相近替代問法不增加必學數量。',

@@ -33,7 +33,7 @@ function buildDay(day){
   html=html.replace('load();render();appearance();',()=>read('assets/travel-rescue.js')+'\nload();render();appearance();');
   html=html.replace('</head>',()=>'<style id="travel-rescue-styles">'+read('assets/travel-rescue.css')+'</style></head>');
  }
- if(day===6)html=html.replace('load();render();appearance();',()=>read('assets/day6-drinks.js')+'\nload();render();appearance();');
+ if(day===6)html=html.replace('load();render();appearance();',()=>read('assets/day6-drinks.js')+'\n'+read('assets/day6-ready-order.js')+'\nload();render();appearance();');
  if(japanese)html=html.replace('</head>',()=>`<style id="day0-guided-styles">${require('./assets/day0-guided-build.cjs').styles()}</style></head>`);
  fs.writeFileSync(file,html);
  require('./sync-appearance.cjs')(file);
@@ -53,6 +53,7 @@ ${read('assets/day8-integration.js')}\nrender();\n</script>\n</body>`);
   if(day===2)fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>read('assets/day2-part03.js')+'\nload();render();appearance();').replace('</head>',()=>'<style id="day2-part03-styles">'+read('assets/day2-part03.css')+'</style></head>'));
   require('./install-chapter-integration.cjs')(file,d);
   fs.writeFileSync(file,read(file).replace('</head>',()=>'<style id="lesson-navigation-styles">'+read('assets/lesson-navigation.css')+'</style></head>'));
+  require('./install-task-completion.cjs')(file);
   require('./build-pwa.cjs')();
  }
  console.log(`Built ${file}: ${d.rounds.length} rounds / ${d.phrases.length} phrases / ${d.replies.length} listening exchanges.`);

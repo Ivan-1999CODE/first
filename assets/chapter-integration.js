@@ -84,7 +84,6 @@
  }
  function flow(){
   const p=path(),f=ui().flow,s=vfPracticeDialogue(current()),top=heading('連起來，完成這次任務','看清起點與角色，依本次對話操作。')+picker();
-  if(f.done&&data.day===2)return top+`<div class="dg-grid dg-completion d2-completion"><section class="panel dg-panel ci-complete"><h2>✓ 這個情境已練習</h2>${dgCompletionReview(p.steps)}<p>和老師回顧實際完成的需求；操作紀錄不等於口說評分。</p><div class="ci-actions">${button('再練一次','data-ci-restart')}${go('04 看情境，自己選用 →',3)}</div></section>${d2CompletionResult(p.steps,f.history,p.title)}</div>`;
   if(f.done)return top+integratedCompletion({steps:p.steps,records:vfHistory(p,f.history),title:p.title,heading:'✓ 這個情境已練習',note:'和老師回顧實際完成的需求；操作紀錄不等於口說評分。',actions:button('再練一次','data-ci-restart')+go('04 看情境，自己選用 →',3)});
   return top+`<section class="panel"><details class="ci-context"><summary>這次的情境與條件</summary><p>${esc(p.context)}</p></details>${s.phase?`<section class="ci-phase"><h2>${esc(s.phase)}</h2><p>${esc(s.phaseContext)}</p></section>`:''}<div class="ci-row ci-stage"><h2 tabindex="-1">對話 ${f.index+1} / ${p.steps.length}</h2></div><div class="ci-flow-grid"><div>${flowDialogue(s,f)}<div class="ci-actions">${button('← 上一步','data-ci-back',f.index===0?'disabled':'')}${button('重新開始','data-ci-restart')}</div></div><div>${vfPanel(s,{selected:f.choice,ready:f.heard&&f.spoken,attr:'data-ci-choice',previous:vfHistory(p,f.history,f.index)})}<div class="ci-actions ci-step-next">${button(f.index===p.steps.length-1?'確認並完成':'確認這項，繼續 →','data-ci-next',`class="primary" ${ready()?'':'disabled'}`)}</div></div></div></section>`;
  }
