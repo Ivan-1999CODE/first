@@ -80,7 +80,7 @@ async function stepThrough(p,s,decision,resetGate=false){
     const flexible=f.steps.find(s=>s.decisions&&s.allowed.length===2),decisions=flexible?[0,1]:[1];
     for(const choice of decisions){await p.locator(`[data-hx-flow="${f.id}"]`).click();for(let i=0;i<f.steps.length;i++)await stepThrough(p,f.steps[i],choice,i===0);assert.equal(await p.locator('.hi-complete').count(),1);assert((await stored(p,g)).complete.includes(f.id));if(flexible)assert((await p.locator('.hx-journal').innerText()).includes(choice===0?'已訂三明治':'沒有送出餐點訂單'));report.flowPaths++;}
    }
-   await p.locator(`[data-hx-flow="${g.flows[0].id}"]`).click();await stepThrough(p,g.flows[0].steps[0],0);await p.locator('[data-hx-back]').click();assert.equal(await p.locator('.hx-journal li').count(),0);assert.equal(await p.locator('[data-hx-next]').isDisabled(),true);
+   await p.locator(`[data-hx-flow="${g.flows[0].id}"]`).click();await stepThrough(p,g.flows[0].steps[0],0);await p.locator('[data-vf-review="back"]').click();assert.equal(await p.locator('.hx-journal li').count(),1);await p.locator('[data-vf-review="current"]').click();assert.equal(await p.locator('.hx-journal li').count(),1);assert.equal(await p.locator('[data-hx-next]').isDisabled(),true);
    await part(p,3);
    for(const q of g.questions){await p.locator(`[data-hx-question="${q.id}"]`).click();assert.equal(await p.locator('.hx-rubric').getAttribute('open'),null);await fill(p,'question-'+q.id,g.id+' / '+q.id);}
    await p.locator(`[data-hx-question="${g.questions[0].id}"]`).click();assert.equal(await p.locator(`[data-hx-field="question-${g.questions[0].id}"]`).inputValue(),g.id+' / '+g.questions[0].id);

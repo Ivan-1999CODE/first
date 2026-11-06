@@ -29,14 +29,14 @@ function day7(base){
    [['T-shirt','T 恤'],['medium / large','M 號／L 號'],['looking for','正在找']],
    '原本進店、尺寸、顏色集中在一輪；先保留找商品和主動問指定尺寸，顏色移到另一輪。'),
   task('other-size-color','詢問其他尺寸與顏色','店員',
-   '你拿著一件紅色 L 號上衣，想看看其他尺寸和顏色。先問其他尺寸，再問其他顏色；店員有 M 號，也有藍色。',
+   '你已確認這款上衣有 M 號，手上拿著紅色 M 號，想看看其他尺寸和顏色。先問其他尺寸，再問其他顏色；店員也有 L 號和藍色。',
    [
-    step('size','問其他尺寸','Do you have this in another size?','這件有其他尺寸嗎？','We have medium.','我們有 M 號。','問這款有沒有其他尺寸。','another / size',['另有 M 號','沒有其他尺寸']),
+    step('size','問其他尺寸','Do you have this in another size?','這件有其他尺寸嗎？','We have large.','我們有 L 號。','問這款有沒有其他尺寸。','another / size',['另有 L 號','沒有其他尺寸']),
     step('color','問其他顏色','Do you have this in another color?','這件有其他顏色嗎？','We have blue.','我們有藍色。','再問同款有沒有其他顏色。','another / color',['另有藍色','只有紅色'])
    ],
-   '只把店員提供的顏色從藍色改成綠色，尺寸仍有 M 號。用原本兩句詢問其他尺寸與顏色。',
+   '只把店員提供的顏色從藍色改成綠色，其他尺寸仍提供 L 號。用原本兩句詢問其他尺寸與顏色。',
    {1:{line:'We have green.',zh:'我們有綠色。',objects:options('另有綠色','只有紅色')}},
-   [['another size','其他尺寸'],['another color','其他顏色'],['medium','M 號'],['blue / green','藍色／綠色']],
+   [['another size','其他尺寸'],['another color','其他顏色'],['medium','M 號'],['large','L 號'],['blue / green','藍色／綠色']],
    '把原句庫中主動詢問其他尺寸、其他顏色保留為獨立短任務，不因縮短流程而刪掉。'),
   task('answer-size-color','回答尺寸與顏色','店員',
    '店員已知道你想找 T-shirt，現在問尺寸和顏色。你穿 M 號，想看藍色。',
@@ -154,7 +154,7 @@ function day8(base){
   task('order-room-food','點房內餐點，確認總價','飯店人員',
    '你打電話訂客房餐點，飯店已知道房號。你想要一份總匯三明治，先說要點什麼，再問總共多少錢；此處金額都是教學設定。',
    [
-    step('order','說出餐點','I’d like a club sandwich, please.','我想要一份總匯三明治。','Certainly.','好的。','告訴接線人員你要一份總匯三明治。','club / sandwich',['一份總匯三明治','一份沙拉']),
+    step('order','說出餐點','I’d like a club sandwich, please.','我想要一份總匯三明治。','Sure.','好的。','告訴接線人員你要一份總匯三明治。','club / sandwich',['一份總匯三明治','一份沙拉']),
     step('total','確認總價','How much is it in total?','總共多少錢？','Twenty dollars in total.','總共 20 美元。','問這份餐點的總價。','how much / total',['總共 20 美元','總共 30 美元'])
    ],
    '只把總價從 20 美元改成 25 美元，餐點仍是總匯三明治。用同兩句點餐並確認總價。',
@@ -191,16 +191,16 @@ function day8(base){
 function day9(base){
  requireDay(base,9);
  return [
-  task('book-table-date','提出訂位，說日期時間','餐廳人員',
-   '你打電話到餐廳，想預訂明天晚上 7 點的兩人桌。先提出訂位需求，再回答對方問的日期與時間。',
+  task('book-table-date','提出訂位，說日期','餐廳人員',
+   '你打電話到餐廳，想預訂明天晚上 7 點的兩人桌。先提出訂位需求，再回答日期；時間留到下一個問題再回答。',
    [
     step('table','提出訂位需求','I’d like to book a table for two, please.','我想預訂兩人的桌位。','Of course.','當然可以。','告訴餐廳你想訂兩人的桌位。','book / table / two',['兩人桌','四人桌']),
-    step('date-time','說日期時間','For tomorrow at seven p.m., please.','明天晚上 7 點，謝謝。','What day and time would you like?','你想訂哪一天、幾點？','告訴對方你想訂明天晚上 7 點。','tomorrow / seven p.m.',['明晚 7 點','今晚 7 點'],false)
+    step('date-time','回答訂位日期','For tomorrow, please.','明天，謝謝。','What day would you like?','你想訂哪一天？','告訴對方你想訂明天。','tomorrow / please',['明天','今天'],false)
    ],
-   '只把用餐人數從兩位改成四位，日期和時間仍是明天晚上 7 點。用同樣兩段完成訂位需求。',
+   '只把用餐人數從兩位改成四位，日期仍是明天。這兩段先提出訂位需求，再回答日期。',
    {0:{answer:'I’d like to book a table for four, please.',answerZh:'我想預訂四人的桌位。',task:'告訴餐廳你想訂四人的桌位。',words:'book / table / four',objects:options('四人桌','兩人桌')}},
    [['book a table','訂位'],['two / four','2／4'],['tomorrow','明天'],['seven p.m.','晚上 7 點']],
-   '保留原句庫的主動訂位與完整日期時間說法，兩句即能形成自然的需求表達。'),
+   '先提出訂位需求，再只回答日期；與後面的時間問題分開，避免重複詢問。'),
   task('answer-party-day','短答人數與日期','餐廳人員',
    '餐廳已知道你想訂位，現在分別問人數和日期。你和旅伴共兩位，想明天去。',
    [

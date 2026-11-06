@@ -38,10 +38,9 @@ function buildDay(day){
  fs.writeFileSync(file,html);
  require('./sync-appearance.cjs')(file);
  if(!japanese){
-  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css')+'\n'+read('assets/lesson5-hierarchy.css')+(day<=11?'\n'+[...(day===5?['assets/lesson5-map.css']:[]),'assets/lesson5-flow.css'].map(read).join('\n'):'')+'\n'+read('assets/lesson5-teacher.css');
+  const guidedCss=read('assets/day1-guided.css').replaceAll('day1-guided','lesson-guided')+'\n'+read('assets/lesson-guided.css')+'\n'+read('assets/lesson5-hierarchy.css')+'\n'+[...(day===5?['assets/lesson5-map.css']:[]),'assets/lesson5-flow.css'].map(read).join('\n')+'\n'+read('assets/lesson5-teacher.css');
   fs.writeFileSync(file,read(file).replace('</head>',()=>`<style id="lesson-guided-styles">\n${guidedCss}\n</style>\n</head>`));
-  if(day<=11)fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>[...(day===5?['assets/lesson5-map.js','assets/lesson5-flow.js']:['assets/lesson-focus-flow.js']),'assets/lesson5-teacher.js','assets/lesson5-hierarchy.js'].map(read).join('\n')+'\nload();render();appearance();'));
-  else fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>read('assets/lesson5-teacher.js')+'\nload();render();appearance();'));
+  fs.writeFileSync(file,read(file).replace('load();render();appearance();',()=>[...(day===5?['assets/lesson5-map.js','assets/lesson5-flow.js']:['assets/lesson-focus-flow.js']),'assets/lesson5-teacher.js','assets/lesson5-hierarchy.js'].map(read).join('\n')+'\nload();render();appearance();'));
   if(day===8){
    const integrated=read(file).replace('</head>',()=>`<style id="day8-integration-styles">\n${read('assets/day8-integration.css')}\n${read('assets/integrated-completion.css')}\n</style>\n</head>`).replace('</body>',()=>`<script id="day8-integration">\n${read('assets/integrated-completion.js')}\n${read('assets/day8-complete.js')}
 ${read('assets/day8-integration.js')}\nrender();\n</script>\n</body>`);

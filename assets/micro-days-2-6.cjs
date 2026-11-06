@@ -14,7 +14,7 @@ const choices=(...labels)=>labels.map(label=>['▣',label]);
 function shopping(base){
  const price=[
   step('price','問單價','How much is this?','這個多少錢？','It’s six dollars.','這個 6 美元。','指著眼前的杯子，問多少錢。','how much / this',['6 美元','10 美元']),
-  step('buy','決定購買','I’ll take it.','我要買這個。','Certainly.','好的。','6 美元在你的預算內，告訴店員你要買。','take / it',['買這個杯子','這次不買'])
+  step('buy','決定購買','I’ll take it.','我要買這個。','OK.','好的。','6 美元在你的預算內，告訴店員你要買。','take / it',['買這個杯子','這次不買'])
  ];
  const find=[
   step('item','說要找的商品','I’m looking for a T-shirt.','我在找一件 T-shirt。','Can I help you?','需要幫忙嗎？','你在找一件 T-shirt，告訴店員。','looking for / T-shirt',['T-shirt','帽子'],false),
@@ -142,7 +142,7 @@ function airport(base){
 
 function transit(base){
  const ticket=[
-  step('ticket','說張數與目的地','One ticket to Central Station, please.','一張到中央車站的票，謝謝。','Certainly.','好的。','你要買 1 張到 Central Station 的車票，先提出需求。','one ticket / Central Station',['1 張到 Central Station','1 張到機場']),
+  step('ticket','說張數與目的地','One ticket to Central Station, please.','一張到中央車站的票，謝謝。','No problem.','沒問題。','你要買 1 張到 Central Station 的車票，先提出需求。','one ticket / Central Station',['1 張到 Central Station','1 張到機場']),
   step('type','選單程票','Single, please.','單程，謝謝。','Single or return?','單程還是來回？','你只需要單程票。','single / please',['單程票','來回票'],false)
  ];
  const pay=[

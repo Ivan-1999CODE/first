@@ -8,6 +8,7 @@ function d5TeacherLine(s, speaker) {
  </p>`;
 }
 function d5TeacherGuide(p, r, steps, prelude) {
+ steps = p.dialogueSteps || steps;
  return `<details class="teacher dg-teacher d5-teacher-guide">
   <summary>導師提示</summary>
   <div class="d5-teacher-script" lang="en" dir="ltr" aria-label="Conversation reference">

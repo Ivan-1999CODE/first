@@ -187,4 +187,15 @@ function make(day,options={}){
  const labeled=labelTasks(combined);
  return require('./learning-practice.cjs')(day===8?require('./day8-order-choice.cjs')(labeled):labeled);
 }
-module.exports={compile,make:(day,options)=>require('./interactive-challenges.cjs')(make(day,options))};
+module.exports={compile,make:(day,options)=>{
+ const data=require('./interactive-challenges.cjs')(make(day,options));
+ if(data.rescueVersion){
+  // Only Part 3 omits B's final confirmation; the other lesson parts stay intact.
+  const late=data.rounds.find(r=>r.key==='micro-en-d12-rescue-late-v1');
+  const lateFlow=data.flows[late.flowIds[0]];
+  data.pairs[late.pairIds[0]].dialogueSteps=clone(lateFlow.steps);
+  lateFlow.steps=lateFlow.steps.filter(s=>s.id!==late.key+'-4');
+  lateFlow.context=lateFlow.desc=lateFlow.context.replace('，最後確認','');
+ }
+ return data;
+}};

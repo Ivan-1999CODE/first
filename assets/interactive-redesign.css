@@ -59,7 +59,17 @@ html body #main .vf-taxi-points{display:grid;grid-template-columns:1fr 1fr;gap:1
 html body #main .vf-taxi-points button{display:flex;flex-direction:column;gap:12px;padding:12px}
 html body #main .scene-board:has(.vf-interaction) :is(.dg-flow-actions,.footer-actions) button.primary{background:var(--vf-action)!important;color:var(--vf-on-action)!important;border-color:var(--vf-action)!important}
 html body #main .scene-board:has(.vf-interaction)>h2{font-size:.9rem;color:var(--muted);margin-bottom:8px}
-/* Keep sentence navigation compact, with back on the left and next on the right. */
+/* Dialogue history stays left; restarting the current task stays far right. */
+html body #main .vf-dialogue-navigation{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:16px;width:100%}
+html body #main .vf-dialogue-navigation>button{flex:0 1 auto;width:auto;max-width:100%;min-height:44px;padding:8px;font-size:.79rem;font-weight:500;white-space:normal;background:transparent;border-color:transparent;color:var(--muted)}
+html body #main .vf-dialogue-navigation>button:last-child{margin-left:auto;text-align:right}
+html body #main .vf-dialogue-navigation>button:not(:disabled):hover{background:var(--soft);color:var(--ink);border-color:var(--line)}
+html body #main .vf-dialogue-navigation>button:disabled{opacity:.5;cursor:not-allowed}
+html body #main :is(.vf-dialogue-navigation,.vf-dialogue-review) button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+html body #main .vf-dialogue-review{margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--soft);color:var(--ink);overflow-wrap:anywhere}
+html body #main .vf-dialogue-review .en{font-size:1.15rem;line-height:1.5}
+html body #main .vf-review-return{display:flex;justify-content:flex-end;margin-top:12px}
+/* The next action remains beside the task it confirms. */
 html body #main .scene-board .vf-flow-navigation{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:16px}
 html body #main .scene-board .vf-flow-navigation>button{flex:0 1 auto;width:auto;max-width:100%;min-height:44px;padding:10px 14px;text-align:center;white-space:normal}
 html body #main .scene-board .vf-flow-navigation>[data-act=next]{margin-left:auto}

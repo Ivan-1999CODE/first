@@ -11,7 +11,13 @@ function vfChoiceDrawing(v,label){
  switch(v.type){
   case 'cash':a=v.values.map((n,i)=>rect(18+i*107,42,99,68)+vfText('$'+n,67+i*107,85,27)).join('');break;
   case 'calendar':a=rect(14,12,212,130)+'<path d="M14 38H226M45 5V23M195 5V23"/>';for(let i=0;i<21;i++){const x=26+i%7*28,y=47+Math.floor(i/7)*30;a+=`<rect x="${x}" y="${y}" width="23" height="24" rx="4" class="${i<v.days?'vf-selected-fill':'vf-fill'}"/>`+vfText(i+1,x+11,y+17,12);}break;
-  case 'nights':a=rect(20,15,200,120);for(let i=0;i<v.count;i++){const x=120+(i-(v.count-1)/2)*60;a+=`<path d="M${x+12} 48a24 24 0 1 0 0 49a21 21 0 0 1 0 -49Z" fill="#d6b675"/>`;}break;
+  case 'nights':
+   a=rect(20,15,200,120);
+   for(let i=0;i<v.count;i++){
+    const x=120+(i-(v.count-1)/2)*60;
+    a+=`<g class="vf-moon" transform="translate(${x} 73)"><path d="M7 -27C-9 -32 -27 -19 -27 -1C-27 16 -13 30 4 30C17 30 28 21 31 9C22 14 11 12 3 5C-5 -3 -6 -18 7 -27Z" fill="#f3c969" stroke="#a87b29" stroke-width="1.5"/><g fill="#d4a646" stroke="none"><circle cx="-15" cy="2" r="3.5"/><circle cx="-6" cy="17" r="2.5"/></g></g>`;
+   }
+   break;
   case 'clock':a=clock(120,76,62,v.hour,v.minute||0)+vfText('12',120,35,13)+vfText('3',163,81,13)+vfText('6',120,124,13)+vfText('9',77,81,13);break;
   case 'booking':a=rect(15,15,95,120)+vfText(v.day,62,82,24)+clock(175,77,54,v.hour,0);break;
   case 'record':a=rect(20,10,200,130)+'<path d="M20 43H220"/>'+vfText(v.title,120,33,15)+v.lines.map((line,i)=>vfText(line,120,78+i*32,18)).join('');break;
@@ -35,7 +41,7 @@ function vfChoiceDrawing(v,label){
   case 'arrival':case 'departure':a='<path d="M135 135V15H215V135M145 24H205V126" class="vf-fill"/>'+vfPerson(v.type==='arrival'?55:165,60,.85)+arrow(v.type==='arrival'?70:30,95,v.type==='arrival');break;
   case 'thanks':a=vfPerson(55,66,.8)+vfPerson(185,66,.8)+'<path d="M105 70Q85 45 105 38Q118 36 120 48Q126 33 138 39Q158 48 120 78Z"/>';break;
   case 'repeat':a='<path d="M172 45A58 58 0 1 0 175 112M172 15V45H143"/>'+vfText('…',120,87,30);break;
-  case 'request':a=vfPerson(60,63,.9)+'<path d="M95 20H215V90H130L110 113V90H95Z" class="vf-fill"/>'+vfText('…',155,67,30);break;
+  case 'request':a=vfPerson(60,63,.9)+'<path d="M95 20H215V90H130L110 113V90H95Z" class="vf-fill"/>'+(v.silent?'<path d="M142 42L168 68M168 42L142 68" stroke-width="5"/>':vfText('…',155,67,30));break;
   case 'completed':a=rect(45,12,150,125)+'<path d="M65 40H175M65 67H175M65 94H145"/>'+'<rect x="138" y="106" width="69" height="29" rx="5" class="vf-fill"/>';break;
   case 'interest':a=vfPerson(55,70,.9)+'<path d="M95 15H225V100H125L95 125V100Z" class="vf-fill"/>'+small('健行',106,22,105,75);break;
   case 'photo-memory':a=rect(25,15,190,120)+small('健行',40,20,160,105)+'<path d="M25 117H215"/>';break;

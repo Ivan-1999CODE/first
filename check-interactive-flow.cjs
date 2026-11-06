@@ -53,7 +53,7 @@ const out=path.resolve('tmp/interactive-flow');fs.mkdirSync(out,{recursive:true}
      if(turn===firstTurn+1){back();assert(turn===firstTurn&&history.length===firstTurn&&choice===-1,'back removes dependent results');for(const id of currentStep().askFirst?['spoken','heard']:['heard','spoken'])document.getElementById(id).click();choose(currentStep().valid[0]);next();for(const id of currentStep().askFirst?['spoken','heard']:['heard','spoken'])document.getElementById(id).click();choose(currentStep().valid[0]);}
      document.querySelector('[data-act="next"]').click();result.steps++;
     }
-    assert(document.querySelector(scene?'.d2-completion':'.vf-final'),'completed flow summary');result.flows++;
+    assert(document.querySelector(scene?'.d2-completion,.tc-frame':'.vf-final'),'completed flow summary');result.flows++;
    }
    return result;
   });report.days.push(r);

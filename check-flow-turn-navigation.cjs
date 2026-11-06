@@ -15,13 +15,13 @@ const url=(file,hash='')=>pathToFileURL(path.resolve(file)).href+hash;
 async function choose(p,selector){const b=p.locator(selector).first();for(const a of await b.locator('xpath=ancestor::details').all())if(!await a.evaluate(e=>e.open))await a.locator(':scope > summary').click();await b.click();}
 async function openIndividual(p,file){await p.goto(url(file));await p.evaluate(()=>{start(0);if(typeof dgPrelude!=='undefined'){dgPrelude.done=true;render();}});}
 async function geometry(p,label){
- const m=await p.locator('.scene-board .vf-flow-navigation').evaluate(row=>{
+ const m=await p.locator('.vf-dialogue-navigation').evaluate(row=>{
   const rect=e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
   const buttons=[...row.querySelectorAll('button')];return{row:rect(row),buttons:buttons.map(b=>{const range=document.createRange();range.selectNodeContents(b);return{...rect(b),textWidth:range.getBoundingClientRect().width,text:b.textContent,overflow:b.scrollWidth>b.clientWidth+1};}),viewport:innerWidth,scroll:document.documentElement.scrollWidth};
  });
- assert.equal(m.buttons.length,2,label+' two controls');const [back,next]=m.buttons;
- assert(Math.abs(back.x-m.row.x)<2,label+' back aligns left');assert(Math.abs(next.right-m.row.right)<2,label+' next aligns right');
- assert(back.right<=next.x||back.bottom<=next.y,label+' no overlap');
+ assert.equal(m.buttons.length,2,label+' two controls');const [back,restart]=m.buttons;
+ assert(Math.abs(back.x-m.row.x)<2,label+' back aligns left');assert(Math.abs(restart.right-m.row.right)<2,label+' restart aligns right');
+ assert(back.right<=restart.x||back.bottom<=restart.y,label+' no overlap');
  for(const b of m.buttons){assert(b.height>=44,label+' touch height');assert(!b.overflow,label+' text fits');assert(b.width-b.textWidth<=34,label+' compact text padding: '+JSON.stringify(b));}
  assert(m.scroll<=m.viewport+1,label+' no horizontal overflow');report.layouts++;
 }
@@ -59,7 +59,14 @@ async function shot(p,name,selector){await p.locator(selector).scrollIntoViewIfN
       for(const [index,s]of route.steps.entries()){
        dialogue(s);
        if(index===0){click('[data-ci-dialogue-restart]');dialogue(s);}
-       if(index===1){click('[data-ci-back]');dialogue(route.steps[0]);click(`[data-ci-choice="${route.steps[0].valid[0]}"]`);click('[data-ci-next]');dialogue(s);}
+       if(index===1){
+        const before=document.querySelector('.vf-interaction').innerHTML,stored=JSON.stringify({...localStorage});
+        click('[data-vf-review="back"]');click('[data-vf-review="back"]');click('[data-vf-review="back"]');
+        const previous=vfPracticeDialogue(route.steps[0]);
+        ensure(document.querySelector('.vf-dialogue-review .en').textContent===(previous.askFirst?previous.line:previous.answer),'previous dialogue available');
+        click('[data-vf-review="current"]');
+        ensure(document.querySelector('.vf-interaction').innerHTML===before&&JSON.stringify({...localStorage})===stored,'history review preserves choices and saved work');
+       }
        const wrong=s.objects.findIndex((_,i)=>!s.valid.includes(i));if(wrong>=0){click(`[data-ci-choice="${wrong}"]`);ensure(document.querySelector('[data-ci-next]').disabled,'wrong blocks progress');}
        for(const valid of s.valid){click(`[data-ci-choice="${valid}"]`);ensure(!document.querySelector('[data-ci-next]').disabled,'valid choice accepted');}
        ensure(document.querySelector('.ci-dialogue').dataset.ciFlowStage==='complete','choice does not auto-advance');
@@ -79,7 +86,10 @@ async function shot(p,name,selector){await p.locator(selector).scrollIntoViewIfN
    await geometry(p,theme+width+' enabled');await p.locator('.vf-flow-navigation [data-act=next]').hover();await p.locator('.vf-flow-navigation [data-act=next]').focus();await p.keyboard.press('Tab');await p.keyboard.press('Shift+Tab');
    assert.notEqual(await p.locator('.vf-flow-navigation [data-act=next]').evaluate(e=>getComputedStyle(e).outlineStyle),'none');
    if([390,1280].includes(width))await shot(p,`buttons-${theme}-${width}`,'.vf-flow-navigation');
-   await p.keyboard.press('Enter');assert(await p.locator('.vf-flow-navigation [data-act=next]').isDisabled());await p.locator('.vf-flow-navigation [data-act=back]').click();assert(await p.locator('.vf-flow-navigation [data-act=back]').isDisabled());
+   await p.keyboard.press('Enter');assert(await p.locator('.vf-flow-navigation [data-act=next]').isDisabled());
+   const stateBefore=await p.evaluate(()=>JSON.stringify({turn,history,heard,spoken,choice}));
+   await p.locator('[data-vf-review="back"]').click();await p.locator('[data-vf-review="current"]').click();
+   assert.equal(await p.evaluate(()=>JSON.stringify({turn,history,heard,spoken,choice})),stateBefore);
    await p.goto(url(day2,'#chapter-water'));await p.reload();await p.locator('.dg-section-switch button').nth(2).click();
    assert.equal(await p.locator('[data-ci-flow-role]').getAttribute('data-ci-flow-role'),'heard');
    await p.locator('.ci-transcript>summary').click();await shot(p,`listen-${theme}-${width}`,'#ci-flow-turn');

@@ -88,10 +88,10 @@ async function shot(p,name){await p.evaluate(()=>window.scrollTo({top:0,behavior
    assert((await p.locator('#main').innerText()).includes('已準備好拿著房卡上樓'));
    const text=await p.locator('.hi-desk').innerText();assert(text.includes(c.name));assert(text.includes(c.nights+' 晚'));assert(text.includes(c.checkout+' 點退房'));assert(text.includes('往'+c.elevator+'邊電梯'));report.paths++;
   }
-  // Backtracking invalidates facts learned later, without erasing persisted work.
+  // Reviewing earlier speech preserves facts and persisted work.
   await p.locator('[data-hi-flow-restart]').click();
   for(let i=0;i<2;i++){const s=data.steps[i];await p.locator(`[data-hi-gate="${s.askFirst?'spoken':'heard'}"]`).check();await p.locator(`[data-hi-gate="${s.askFirst?'heard':'spoken'}"]`).check();await p.locator('[data-hi-choice="0"]').click();await p.locator('[data-hi-flow-next]').click();}
-  await p.locator('[data-hi-flow-back]').click();assert((await p.locator('.hi-desk').innerText()).includes('待報姓名'));
+  const beforeReview=await p.locator('.hi-desk').innerText();await p.locator('[data-vf-review="back"]').click();assert.equal(await p.locator('.hi-desk').innerText(),beforeReview);await p.locator('[data-vf-review="current"]').click();assert.equal(await p.locator('.hi-desk').innerText(),beforeReview);
   await chapter(p,3);await p.locator('[data-hi-challenge-mode="single"]').click();
   const nights=data.sayPrompts.findIndex(s=>s.sentences.includes('I’m staying for two nights.')),checkout=data.sayPrompts.findIndex(s=>s.sentences.includes('What time is check-out?'));
   await p.locator(`nav [data-hi-say="${nights}"]`).click();await fill(p,data.sayPrompts[nights].id,'我住兩晚。');

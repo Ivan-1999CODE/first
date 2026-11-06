@@ -32,7 +32,8 @@ const rescueBaseRender=render;
 render=function(){
  rescueBaseRender();
  const main=$('#main');
- main.querySelectorAll('.dg-speaker:not(.dg-listener)').forEach(panel=>{
+ // Part 03 uses the shared speaking card and focus cue.
+ if(page!==2)main.querySelectorAll('.dg-speaker:not(.dg-listener)').forEach(panel=>{
   panel.classList.add('rescue-speaking');
   panel.querySelector('.dg-role-row').insertAdjacentHTML('afterend','<p class="speaking-cue">↓ 看這裡，換你說</p>');
  });

@@ -6,7 +6,14 @@ module.exports = function buildCompleteHotel(data) {
  const take=(source,answer,line)=>{
   const s=sources[source].find(s=>s.answer===answer&&(!line||s.line===line));
   if(!s)throw Error('Missing taught Day 8 expression: '+answer+' / '+line);
-  return {source,label:s.label,answer:s.answer,answerZh:s.answerZh,line:s.line,zh:s.zh,words:s.words,askFirst:s.askFirst,task:s.task,options:s.objects.map(o=>o[1]),valid:copy(s.valid)};
+  // Keep the night pictures when copying Task B into chapter routes and reviews.
+  // Variations may reverse the option order, so derive each count from its option.
+  const nightChoices=source==='B'&&s.label==='確認晚數'?{
+   pictureChoices:true,
+   choicePrompt:sources.B.find(step=>step.choiceVisuals?.some(v=>v.type==='nights')).choicePrompt,
+   choiceVisuals:s.objects.map(o=>({type:'nights',count:Number(o[1].match(/\d+/)[0])}))
+  }:{};
+  return {source,label:s.label,answer:s.answer,answerZh:s.answerZh,line:s.line,zh:s.zh,words:s.words,askFirst:s.askFirst,task:s.task,options:s.objects.map(o=>o[1]),valid:copy(s.valid),...nightChoices};
  };
  const bank=[];
  for(const [source,ss] of Object.entries(sources))for(const s of ss){if(!bank.some(t=>t.source===source&&t.answer===s.answer&&t.line===s.line))bank.push({...take(source,s.answer,s.line),id:'bank-'+source+'-'+bank.filter(t=>t.source===source).length});}

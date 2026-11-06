@@ -6,7 +6,7 @@ const file='travel-english-unit8-hotel.html',html=fs.readFileSync(file,'utf8');
 const read=(h,k)=>JSON.parse(h.match(new RegExp('(?:^|[>\\n])const '+k+'=(.*);(?:\\r?\\n|<)'))[1]);
 const d=read(html,'hotelIntegration'),out=path.resolve('tmp/day8-focus-flow');fs.mkdirSync(out,{recursive:true});
 for(const s of html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g))new vm.Script(s[1]);
-const baseline='tmp/day8-focus-before/'+file;
+const baseline=process.argv.find(x=>x.startsWith('--baseline='))?.slice(11)||'tmp/day8-focus-before/'+file;
 if(fs.existsSync(baseline))for(const m of fs.readFileSync(baseline,'utf8').matchAll(/(?:^|[>\n])const (\w+)=(.*);(?:\r?\n|<)/g)){
  let value;try{value=JSON.parse(m[2]);}catch{continue;}assert.deepEqual(read(html,m[1]),value,'curriculum preserved: '+m[1]);
 }
@@ -110,11 +110,12 @@ async function color(p,selector,result){
    }
    console.log('Completed integration routes: '+g.id);
   }
-  // Back and restart invalidate the current answer, while earlier history is retained.
+  // Reviewing keeps completed work; only restart clears this run.
   await open(p,'chapter');const firstFlow=d.extended.groups.find(g=>g.id==='chapter').flows[0];
   await step(p,'hx',firstFlow.steps[0]);await step(p,'hx',firstFlow.steps[1]);
-  await p.locator('[data-hx-back]').click();await role(p,'hx',firstFlow.steps[1].askFirst?'spoken':'heard');assert.equal(await p.locator('.hx-journal li').count(),1);
-  await p.locator('[data-hx-restart]').click();assert.equal(await p.locator('.hx-journal li').count(),0);assert(await p.locator('[data-hx-back]').isDisabled());
+  await p.locator('[data-vf-review="back"]').click();assert.equal(await p.locator('.hx-journal li').count(),2);assert.equal(await p.locator('.vf-dialogue-review').count(),1);
+  await p.locator('[data-vf-review="current"]').click();await role(p,'hx',firstFlow.steps[2].askFirst?'spoken':'heard');
+  await p.locator('[data-hx-restart]').click();assert.equal(await p.locator('.hx-journal li').count(),0);assert(await p.locator('[data-vf-review="back"]').isDisabled());
   for(const group of ['checkin','stay','chapter'])for(const theme of ['light','dark'])for(const width of [390,820,1366]){
    await p.setViewportSize({width,height:width===390?844:1024});await open(p,group);
    await p.evaluate(theme=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.size='large';},theme);

@@ -1,0 +1,13 @@
+/* Keep retry inside the result card; section navigation belongs below it. */
+html body #main .completion-retry-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px;flex-basis:100%;width:100%;margin-inline-start:auto}
+html body #main .completion-retry-actions > button{width:auto;max-width:100%;min-height:48px;white-space:normal}
+html body #main .completion-retry-actions > .completion-retry{flex:0 1 auto;margin-inline-start:auto}
+html body #main .footer-actions.completion-section-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:16px;width:100%}
+html body #main .completion-section-nav > button{min-width:0;max-width:100%;width:auto;min-height:48px;margin:0;padding:12px 16px;white-space:normal;word-break:normal;overflow-wrap:anywhere;line-height:1.6}
+html body #main .completion-section-nav > button:first-child{justify-self:start;text-align:left}
+html body #main .completion-section-nav > button:last-child{justify-self:end;text-align:right}
+html body #main :is(.completion-section-nav,.completion-retry-actions) > button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+@media(max-width:540px){
+ html body #main .footer-actions.completion-section-nav{gap:10px}
+ html body #main .completion-section-nav > button{padding:10px 8px}
+}

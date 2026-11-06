@@ -87,7 +87,7 @@ async function layout(p,name,width,theme,size){
    assert.equal(await p.locator('#d1-completion-title').innerText(),rounds[i].name);
    assert.equal(await p.locator('.d1-completion-status').count(),1);
    assert.equal(await p.locator('#main').getByText('前往 04｜看情境，自己選用 →',{exact:true}).count(),1);
-   assert.equal(await p.locator('#main > .footer-actions [data-page="3"]').count(),0,'No duplicate next-section control');
+   assert.equal(await p.locator('#main > .footer-actions [data-page="3"]').count(),1,'One next-section control in bottom navigation');
    assert.equal(await p.evaluate(()=>document.activeElement.id),'d1-completion-title','Completion focuses the shared heading');
    assert(!/分開練|小情境|1 \/ 3/.test(await p.locator('.d1-completion-frame').innerText()),'Single-task finish has no sub-scenario selector');
    const goals=pairs[rounds[i].pairIds[0]].goals.map(g=>g.replace(/^在得到/,'得到').replace('請老師再說一次','請他人再說一次').replace('請老師在地圖指出來','請他人在地圖中指出來'));
@@ -100,7 +100,7 @@ async function layout(p,name,width,theme,size){
    const position=flows[i].steps.filter(s=>s.position).at(-1)?.position;
    if(position)assert((await p.locator('.d1-completion-frame .dg-route').getAttribute('points')).endsWith(`${position[0]},${position[1]===90?72:position[1]===215?146:215}`),'The actual task route is preserved');
    for(const [width,theme,size] of i===0?[[1280,'dark','standard'],[1280,'light','standard'],[1280,'dark','large'],[820,'light','large'],[390,'dark','large'],[390,'light','large']]:[[1280,'dark','standard'],[390,'light','large']])await layout(p,'task-'+rounds[i].id,width,theme,size);
-   await p.locator('.d1-completion-footer [data-page="3"]').click();assert.equal(await p.evaluate(()=>page),3);
+   await p.locator('.completion-section-nav [data-page="3"]').click();assert.equal(await p.evaluate(()=>page),3);
    await p.evaluate(()=>navigate(2));await p.locator('.d1-completion-footer [data-start]').click();
    assert.equal(await p.locator('.d1-completion-frame').count(),0,'Restart returns to practice');
    assert(await p.evaluate(id=>state.complete.includes(id),flows[i].id),'Restart preserves the completion record');

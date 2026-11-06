@@ -45,7 +45,7 @@ async function verify(p,steps,name){
  if(!multi){
   const summary=frame.locator('.tc-result');
   assert(await summary.locator('.scene-ledger,.rescue-board,.hi-desk,.hx-journal,.scene-state').count()>0,name+' actual result board');
-  assert.equal(await p.locator('#main .footer-actions [data-page="3"],#main .footer-actions [data-ci-section="3"],#main .footer-actions [data-hi-page="3"]').count(),0,name+' no duplicate next-section action');
+  assert.equal(await p.locator('#main .footer-actions [data-page="3"],#main .footer-actions [data-ci-section="3"],#main .footer-actions [data-hi-page="3"]').count(),1,name+' one next-section action in bottom navigation');
  }
  const columns=await frame.locator(multi?'.d2-completion > section':'.tc-grid > section').evaluateAll(es=>es.map(e=>({x:e.getBoundingClientRect().x,y:e.getBoundingClientRect().y,right:e.getBoundingClientRect().right})));
  assert.equal(columns.length,2);assert(Math.abs(columns[0].y-columns[1].y)<2&&columns[1].x>=columns[0].right,name+' two desktop columns');
@@ -89,7 +89,7 @@ async function layouts(p,name){
     if(day!==2)assert.deepEqual(actual,expected,'Actual recorded choices');
     if(route===routes[0]||day===2&&route.sceneId==='budget')await layouts(p,`day${day}-${route.sceneId||'task-A'}`);
     if(route===routes.at(-1)){
-     const next=p.locator('.tc-footer [data-page="3"],.d2-scene-footer [data-page="3"]');
+     const next=p.locator('.completion-section-nav [data-page="3"]');
      if(await next.count()){await next.click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),'4');report.navigation++;await p.evaluate(()=>navigate(2));}
      const restart=p.locator('.tc-footer [data-start],.tc-footer [data-d2-restart],.d2-scene-footer [data-d2-restart]');
      await restart.click();assert.equal(await p.locator('.tc-frame').count(),0);assert(await p.locator('[data-act="next"]').isDisabled());report.navigation++;
@@ -103,7 +103,7 @@ async function layouts(p,name){
    for(const g of groups)for(const route of g.paths){
     const steps=await p.evaluate(drivers.finishChapter,{groupId:g.id,pathId:route.id});await verify(p,steps,`Day ${day} integrated ${route.id}`);report.integrated++;
     if(day===2&&g===groups[0]&&route===g.paths[0])await layouts(p,'day2-integrated');
-    await p.locator('.tc-footer [data-ci-section="3"]').click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),'4');await p.evaluate(()=>window.testClick('[data-ci-section="2"]'));await p.locator('[data-ci-restart]').click();assert.equal(await p.locator('.tc-frame').count(),0);report.navigation++;
+    await p.locator('.completion-section-nav [data-ci-section="3"]').click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),'4');await p.evaluate(()=>window.testClick('[data-ci-section="2"]'));await p.locator('[data-ci-restart]').click();assert.equal(await p.locator('.tc-frame').count(),0);report.navigation++;
    }
    if(day===8){
     const hotel=await p.evaluate(()=>hotelIntegration);
@@ -111,7 +111,7 @@ async function layouts(p,name){
     await layouts(p,'day8-checkin-integrated');
     for(const g of hotel.extended.groups)for(const f of g.flows){const branching=f.steps.find(s=>s.decisions);for(const decision of branching?branching.allowed:[0]){const steps=await p.evaluate(drivers.finishHotel,{groupId:g.id,flowId:f.id,decision});await verify(p,steps,'Hotel '+g.id+' '+f.id+' '+decision);report.hotel++;}}
     await layouts(p,'day8-extended-integrated');
-    await p.locator('.tc-footer [data-hi-page="3"]').click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),'4');report.navigation++;
+    await p.locator('.completion-section-nav [data-hi-page="3"]').click();assert.equal(await p.locator('#main').getAttribute('data-lesson-section'),'4');report.navigation++;
    }
    assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem(course.id)).answers['before']),'既有紀錄保留');
    await p.reload();assert.equal(await p.evaluate(()=>state.answers['before']),'既有紀錄保留');

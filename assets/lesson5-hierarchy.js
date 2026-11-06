@@ -1,6 +1,7 @@
-// The Day 5 presentation is shared by Days 1–11. Topic-specific activities
+// The Day 5 presentation is shared by Days 1–11 and Day 12 Part 03. Topic-specific activities
 // remain in their own lessons; curriculum and saved records are not rewritten.
 const d5LessonDay = typeof focusRound === 'number' ? 1 : course.day;
+const d5PracticeOnly = typeof rescueVersion !== 'undefined' && !!rescueVersion;
 const d5ActiveRound = () => d5LessonDay === 1 ? currentRound() : activeRound();
 const d5TaskLabel = r => d5LessonDay === 1 ? r.id : taskLabel(r);
 document.body.classList.add('lesson-focus');
@@ -8,8 +9,10 @@ if (d5LessonDay === 5) document.body.classList.add('lesson5-hierarchy');
 document.documentElement.setAttribute('data-lesson-focus', '');
 // Repetition stays within the task chosen by the teacher. Historical mixed
 // review preferences remain saved but never change the current practice scope.
-reviewScope = () => '';
-selectedReviewRounds = () => [d5ActiveRound()];
+if (!d5PracticeOnly) {
+ reviewScope = () => '';
+ selectedReviewRounds = () => [d5ActiveRound()];
+}
 const d5SectionIntros = [
  null,
  ['把句子帶著走', '先練暖黃色的「我會說」，再看藍色的「我要聽得懂」。'],
@@ -22,6 +25,8 @@ const d5SectionIntros = [
 const d5GuidedRender = render;
 render = function () {
  d5GuidedRender();
+ // Keep the rescue unit's other six parts and review preferences intact.
+ if (d5PracticeOnly && page !== 2) return;
  const main = $('#main');
  const label = d5TaskLabel(d5ActiveRound());
  main.dataset.lessonSection = String(page + 1);

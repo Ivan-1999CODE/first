@@ -29,6 +29,7 @@ module.exports=function build(){
  fs.writeFileSync('travel-english.html',fs.readFileSync('travel-english.html','utf8')
   .replace('</head>',()=>'<style id="day1-completion-styles">'+fs.readFileSync('assets/day1-completion.css','utf8')+'</style></head>')
   .replace('</body>',()=>'<script id="day1-completion-runtime">'+fs.readFileSync('assets/day1-completion.js','utf8')+'</script></body>'));
+ require('./install-completion-navigation.cjs')('travel-english.html');
  require('./build-pwa.cjs')();
  console.log('Built Day 1 focus: '+d.phrases.length+' phrases / '+d.rounds.length+' rounds.');
 };

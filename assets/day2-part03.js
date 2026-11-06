@@ -26,6 +26,7 @@ function d2CompletionResult(steps,values,title,compact=false){
  const forTask=()=>scenes.filter(s=>s.taskId===activeRound().id);
  const selected=new Map(), memory=new Map();
  let active=null, complete=[], failed=false;
+ vfReviewStart=()=>active?.start??0;
  try {
   const raw=JSON.parse(localStorage.getItem(data.storageKey)||'{}');
   if(Array.isArray(raw?.complete))complete=raw.complete.filter(id=>byId(id));

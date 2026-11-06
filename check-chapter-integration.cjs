@@ -34,7 +34,9 @@ assert.deepEqual(budget.find(s=>s.label==='改用現金').choiceVisuals[0].value
 const toast=g(6,'budget').paths[0].steps;assert(toast.some(s=>s.answer==='I’d like the egg toast, please.'));assert(toast.some(s=>s.answer==='Is it seven dollars fifty?'));assert(!toast.some(s=>/eight dollars fifty/i.test(s.line)));
 for(const p of g(7,'fit').paths)assert(!(p.steps.some(s=>s.answer==='It’s too big.')&&p.steps.some(s=>s.answer==='It’s too small.')));
 assert.deepEqual(g(9,'reservation').paths.map(p=>p.id),['normal','later','change','decline']);
-assert(!g(11,'interests').paths.flatMap(p=>p.steps).some(s=>s.answer==='It was great.'));
+assert.deepEqual(lessons.find(l=>l.day===11).data.groups.map(g=>[g.id,g.title]),[['meet','初次認識旅伴'],['journey','完整聊天：從早餐到參觀後']]);
+assert(!g(11,'meet').paths.flatMap(p=>p.steps).some(s=>s.answer==='It was great.'));
+assert.equal(g(11,'journey').paths[0].steps.find(s=>s.answer==='It was great.').phase,'參觀博物館後');
 for(const day of [8,10,12,13,14])assert.equal(integrate(make(day)),null);
 const baselinePath=path.join(out,'baseline.json');
 if(fs.existsSync(baselinePath)){
@@ -73,7 +75,7 @@ async function step(p,s){
     for(let i=0;i<sample.steps.length;i++){await p.locator(`[data-ci-reply="${i}"]`).first().click();assert.equal(await p.locator('[data-study-speaker]').getAttribute('data-study-speaker'),sample.steps[i].askFirst?'self':'other');}
     await part(p,2);
     for(const route of group.paths){await p.locator(`[data-ci-path="${route.id}"]`).click();for(const s of route.steps)await step(p,s);assert.equal(await p.locator('.ci-complete').count(),1);report.paths++;}
-    await p.locator(`[data-ci-path="${sample.id}"]`).click();await step(p,sample.steps[0]);if(sample.steps.length>1){await p.locator('[data-ci-back]').click();assert(await p.locator('[data-ci-next]').isDisabled());assert.equal(await p.locator('.vf-history').count(),0);assert((await p.locator('.vf-result').innerText()).includes('尚未選擇'));}
+    await p.locator(`[data-ci-path="${sample.id}"]`).click();await step(p,sample.steps[0]);if(sample.steps.length>1){const before=await p.locator('.vf-interaction').innerHTML();await p.locator('[data-vf-review="back"]').click();assert.equal(await p.locator('.vf-dialogue-review').count(),1);await p.locator('[data-vf-review="current"]').click();assert.equal(await p.locator('.vf-interaction').innerHTML(),before);assert(await p.locator('[data-ci-next]').isDisabled());}
     await part(p,3);
     for(let i=0;i<group.questions.length;i++){await p.locator(`nav [data-ci-question="${i}"]`).click();await fill(p,'question-'+group.questions[i].id,'question '+i);report.questions++;}
     await part(p,4);

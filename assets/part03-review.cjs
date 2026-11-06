@@ -141,7 +141,7 @@ group('d6-eat-in-and-finish-v1-change',[
 group('d7-merged-day7-item-size-color-v1',[
  V('在商品圖中拿出你要找的款式。','用衣服與鞋子的外形辨認商品，不靠中文名稱。'),
  L('店員說有哪個尺寸？把那件拿出來。','S、M、L 都是合理庫存，不能用有／沒有的常識猜。',{objects:opts('有 M 號','有 L 號','有 S 號'),pictureChoices:true}),
- L('這次店員提供的是哪個其他尺寸？','把「沒有其他尺寸」改為另一個合理尺寸，必須聽 medium。',{objects:opts('另有 M 號','另有 L 號','另有 S 號'),pictureChoices:true}),
+ L('這次店員提供的是哪個其他尺寸？','把「沒有其他尺寸」改為另一個合理尺寸，必須聽 large，區分剛才已確認的 M 號。',{objects:opts('另有 L 號','另有 M 號','另有 S 號'),pictureChoices:true}),
  L('選出店員說有貨的顏色。','三個顏色都可能有貨，資訊必須來自回覆。',{objects:opts('另有藍色','另有紅色','另有綠色'),pictureChoices:true}),
  V('看衣服標籤，選出適合你的尺寸。','尺寸字母是衣服實際標籤，保留標籤以練辨認 medium 對應 M。',{objects:opts('M 號','L 號','S 號'),pictureChoices:true}),
  D('保留剛才的尺寸，再拿出你要的顏色。','同時核對 M 號與藍色；藍色 L 號也是干擾，不能只看顏色。',{objects:opts('藍色 M 號','綠色 M 號','藍色 L 號'),pictureChoices:true})
@@ -168,7 +168,7 @@ group('d8-check-in-name-v1',[
  V('在訂房資料中找出你的名字。','姓名保留作真實訂房卡內容，兩筆都是合理訂房。')
 ]);
 group('d8-passport-nights-v1',[
- L('櫃檯請你出示哪份證件？','把口說任務改為先判斷要求，再遞出文件；不能由中文先看見護照。',{task:'護照與房卡都在手邊。先聽櫃檯要看哪一樣，再遞出並用英文回應。'}),
+ L('櫃檯請你出示哪份證件？','把口說任務改為先判斷要求，再遞出文件；不能由中文先看見護照。',{task:'護照與入住證明都在手邊。先聽櫃檯要看哪一樣，再遞出並用英文回應。'}),
  V('哪張入住行程包含你要的住宿晚數？','用夜晚格數區分 2 晚與 3 晚，避免直接匹配中文數字。',{choiceVisuals:[{type:'nights',count:2},{type:'nights',count:3}],pictureChoices:true})
 ]);
 group('d8-merged-day8-hotel-information-v1',[
@@ -197,7 +197,7 @@ add('micro-en-d8-merged-day8-room-service-order-v1-decline-step-3',D('你 10 分
 
 group('d9-merged-day9-booking-basics-v1',[
  V('把需要的座位安排到餐桌旁。','用餐桌與實際座位數判斷兩人或四人。'),
- D('核對日期與時鐘，選出這次的訂位卡。','今晚與明晚同為 7 點，必須同時看日期和時間。',{choiceVisuals:[{type:'booking',day:'明天',hour:7},{type:'booking',day:'今天',hour:7}],pictureChoices:true}),
+ V('選出你要訂位的日期卡。','本步只確認日期；時間留到下一個問題再回答。',{choiceKind:'record',choiceVisuals:[{type:'record',title:'DATE',lines:['明天']},{type:'record',title:'DATE',lines:['今天']}],pictureChoices:true}),
  V('在時鐘上選出你要訂的時間。','選項用時鐘刻度呈現，避免直接對「晚上 7 點」中文字。',{choiceVisuals:[{type:'clock',hour:7},{type:'clock',hour:8}],pictureChoices:true}),
  D('找出姓名與剛才時間都正確的訂位卡。','兩張都寫 Alex Chen，必須連同先前 7 點一起核對。',{objects:opts('Alex Chen，晚上 7 點','Alex Chen，晚上 8 點'),choiceKind:'record',choiceVisuals:[{type:'record',title:'RESERVATION',lines:['Alex Chen','7:00 p.m.']},{type:'record',title:'RESERVATION',lines:['Alex Chen','8:00 p.m.']}],pictureChoices:true})
 ]);
@@ -220,7 +220,7 @@ group('d9-merged-day9-entry-payment-v1',[
 ]);
 
 group('d10-merged-day10-polite-requests-v1',[
- L('店員這句回應表示你現在可以做什麼？','Yes? 在此是接住招呼，不是同意尚未提出的請求。',{objects:opts('開始向店員說明需求','把這句當成需求已完成'),choiceKind:'social',choiceVisuals:[{type:'request'},{type:'completed'}]}),
+ L('店員這句回應表示你現在可以做什麼？','Yes? 表示店員已注意到你，接著可以說明需求。',{objects:opts('開始向店員說明需求','不說話'),choiceKind:'social',choiceVisuals:[{type:'request'},{type:'request',silent:true}]}),
  V('從桌面拿出正確數量的餐巾紙。','比較實物數量，不再次直接選兩張字樣。'),
  V('拿起與你剛才請求相符的飲料。','水與茶以液體顏色辨認，兩杯都可取用。'),
  L('聽旅伴的回應，接下來誰會搬袋子？','以一人／兩人搬運呈現答應幫忙的結果，不把勾號當正解線索。')

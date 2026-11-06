@@ -5,6 +5,43 @@
 function vfPracticeDialogue(step) {
  return step.practiceReply ? {...step, ...step.practiceReply} : step;
 }
+// Browsing earlier speech must not rewind the exercise or discard its answers.
+let vfReview = null;
+function vfReviewStart(){return 0;}
+function vfDialogueNavigation(content,{key,steps,index,heard,spoken,restart,role='',start=0}){
+ const entries=[];
+ for(let i=start;i<=index;i++){
+  const s=vfPracticeDialogue(steps[i]);
+  for(const speaker of s.askFirst?['spoken','heard']:['heard','spoken']){
+   if(i===index&&!(speaker==='spoken'?spoken:heard))continue;
+   entries.push({step:i-start+1,speaker,role:s.role||role,text:speaker==='spoken'?s.answer:s.line,zh:speaker==='spoken'?s.answerZh:s.zh});
+  }
+ }
+ const signature=JSON.stringify([key,index,heard,spoken,entries]);
+ if(vfReview?.signature!==signature)vfReview={signature,cursor:null,count:entries.length};
+ const reviewing=vfReview.cursor!==null,entry=reviewing?entries[vfReview.cursor]:null;
+ const review=entry?`<section class="vf-dialogue-review" aria-label="已完成的對話回看">
+  <p class="fine">回看對話 ${entry.step} · 目前進度已保留</p>
+  <h3 id="vf-review-title" tabindex="-1">${entry.speaker==='spoken'?'你 · 旅客':'對方 · '+esc(entry.role)}</h3>
+  <p class="en" lang="en">${esc(entry.text)}</p><p>${esc(entry.zh)}</p>${audio(entry.text)}
+  <div class="vf-review-return">${btn('回到目前進度 →','data-vf-review="current"')}</div>
+ </section>`:'';
+ return `${content}${review}<div class="vf-dialogue-navigation">
+  ${btn('← 上一句','data-vf-review="back"',(!entries.length||reviewing&&vfReview.cursor===0)?'disabled':'')}
+  ${restart}
+ </div>`;
+}
+document.addEventListener('click',event=>{
+ const button=event.target.closest('[data-vf-review]');
+ if(!button||button.disabled||!vfReview)return;
+ stopAudio();
+ if(button.dataset.vfReview==='back')vfReview.cursor=Math.max(0,(vfReview.cursor??vfReview.count)-1);
+ else vfReview.cursor=null;
+ render();
+ const target=document.querySelector('#vf-review-title')||document.querySelector('.vf-dialogue-navigation [data-vf-review]');
+ target?.focus({preventScroll:true});
+ if(target){const rect=target.getBoundingClientRect();if(rect.top<(typeof dgStickyHeight==='function'?dgStickyHeight():0)+16||rect.bottom>innerHeight-32)target.scrollIntoView({block:'center',behavior:'instant'});}
+});
 function vfKind(t) {
  if(t.choiceKind)return t.choiceKind;
  const labels=t.objects.map(o=>o[1]).join(' '), key=t.label||t.task||'';
@@ -250,10 +287,19 @@ scenePage=function(){
  }
  const board=box.querySelector('.scene-board');if(!board)return box.innerHTML;
  const t=currentStep(),ready=heard&&spoken;
+ const dialogue=box.querySelector('.dg-flow-back')?.parentElement;
+ if(dialogue){
+  const restart=dialogue.querySelector('.dg-flow-back [data-start]');
+  restart.textContent='重新開始本輪任務';
+  const restartMarkup=restart.outerHTML;
+  dialogue.querySelector('.dg-flow-back').remove();
+  const steps=f.steps.map((_,i)=>i===turn?t:lessonStep(f,i,id=>history[f.steps.findIndex(s=>s.id===id)]));
+  dialogue.innerHTML=vfDialogueNavigation(dialogue.innerHTML,{key:'task-'+flow,steps,index:turn,heard,spoken,restart:restartMarkup,role:course.replyRole,start:vfReviewStart()});
+ }
  const actions=board.querySelector('.dg-flow-actions')?.innerHTML||btn(turn===f.steps.length-1?'完成這段對話 →':'下一句 →','data-act="next"',canNext()?'class="primary"':'disabled');
  const headingId=course.day===5?'d5-scene-action':'focus-scene-action';
  // Do not expose the context's translated answer on the listening test board.
- board.innerHTML=`${vfPanel(t,{selected:choice,ready,previous:vfHistory(f,history,turn)})}<div class="dg-flow-actions vf-flow-navigation">${btn('← 上一句','data-act="back"',turn===0?'disabled':'')}${actions}</div>`;
+ board.innerHTML=`${vfPanel(t,{selected:choice,ready,previous:vfHistory(f,history,turn)})}<div class="dg-flow-actions vf-flow-navigation">${actions}</div>`;
  const prompt=board.querySelector('.vf-pick-heading');
  prompt.id=headingId;
  prompt.tabIndex=-1;

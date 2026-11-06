@@ -9,6 +9,7 @@ function install(file){
  html=html.replace('</head>',()=>`<style id="task-completion-styles">${read('assets/task-completion.css')}</style>\n</head>`)
   .replace('</body>',()=>`<script id="task-completion-runtime">${read('assets/task-completion.js')}\nrender();</script>\n</body>`);
  fs.writeFileSync(file,html);
+ require('./install-completion-navigation.cjs')(file);
 }
 module.exports=install;
 if(require.main===module){

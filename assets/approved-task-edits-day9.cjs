@@ -23,7 +23,7 @@ module.exports = function applyApprovedDay9(day, tasks) {
   const byKey = new Map(result.map(task => [task.key, task]));
   for (const key of Object.keys(ids)) if (!byKey.has(key)) throw Error('Missing original Day 9 task: ' + key);
 
-  const bookingDescription = '分 A、C 兩輪練訂位：A 練提出需求與完整日期時間；C 是另一種問法的獨立小情境，練時間短答與姓名。各輪只練 2 句，時間問題不在同一通電話重問。';
+  const bookingDescription = '分 A、C 兩輪接續練訂位：A 練提出需求與日期；C 接著練時間短答與姓名。日期和時間分開問，各輪只練 2 句。';
   const changesDescription = '分 D、E、F 三個獨立情境：尚未訂位時接受替代時間 → 已有訂位時要求改時間 → 時間不合而暫時不訂。每輪重看自己的起點，練 1～2 句；接受與婉拒都保留。';
   const ticketsDescription = '主情境分兩輪接續：G 問單價並買 2 張成人票；H 加 1 張兒童票、確認總共 25 美元。各輪變化另練，不把 G 的 1 張成人票帶入 H；H 始終從 2 張成人票開始。';
   const paymentDescription = '先練入場時間與能否刷卡，再回答要用現金或刷卡；I、J 各自練熟並回顧，每輪只練 1～2 句。';
@@ -32,12 +32,12 @@ module.exports = function applyApprovedDay9(day, tasks) {
     if (ids[task.key]) task.id = ids[task.key];
     switch (task.key) {
       case 'book-table-date':
-        task.changeNote = '刪除原 B 短答人數與日期任務，A 與 C 合成訂位一章；本輪仍只練提出兩人桌需求及完整日期時間，四人桌的原變化保留。C 是另一種問法，分開練。';
+        task.changeNote = '刪除原 B 短答人數與日期任務，A 與 C 合成訂位一章；本輪練提出兩人桌需求及日期，四人桌的原變化保留。C 接著問時間與姓名。';
         chapter(task, 'day9-booking-basics', '訂位：提出需求、時間與姓名', 1, bookingDescription, 0);
         break;
       case 'answer-time-name':
-        task.context = '這是另一種訂位問法的獨立小情境，重新開始練，不接在 A 已回答日期時間的對話後面。餐廳只知道你明天有兩位用餐，還不知道時間與姓名；你要晚上 7 點，訂位姓名是 Alex Chen。';
-        task.changeNote = '與 A 合章，保留時間短答、訂位姓名及 Jamie Lin 的原變化；中文情境說明這是另一種問法，避免在 A 已回答時間後又重問一次。';
+        task.context = '接續前面的訂位需求與日期。餐廳已知道你明天有兩位用餐，還不知道時間與姓名；你要晚上 7 點，訂位姓名是 Alex Chen。';
+        task.changeNote = '與 A 合章，保留時間短答、訂位姓名及 Jamie Lin 的原變化；先問日期，再問時間與姓名，每項資訊只問一次。';
         chapter(task, 'day9-booking-basics', '訂位：提出需求、時間與姓名', 1, bookingDescription, 1);
         break;
       case 'availability-later':

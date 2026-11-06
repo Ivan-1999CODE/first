@@ -110,9 +110,26 @@ body.lesson-guided.hi-active #main .hi-study-page .dg-study-instruction{line-hei
 .hi-content .hi-goal-hint{margin:6px 0 16px}
 .hi-row{display:flex;justify-content:space-between;align-items:center;gap:12px}.hi-row>*{min-width:0}.hi-count{font-weight:750;white-space:nowrap;color:var(--accent)}
 .hi-track{display:flex;gap:6px;margin:14px 0 24px}.hi-track span{height:5px;flex:1;background:var(--line);border-radius:6px}.hi-track .on{background:var(--accent)}
-.hi-booking{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:15px;padding:18px}
+.hi-booking{
+ --hi-paper-bg:#f3eddf;--hi-paper-ink:#3e382d;--hi-paper-muted:#6d6455;--hi-paper-line:#d8cfbd;
+ position:relative;min-width:0;padding:24px;border:1px solid #d2c7b2;border-radius:5px;
+ background:var(--hi-paper-bg);background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgb(98 81 48 / .018) 3px,rgb(98 81 48 / .018) 4px);
+ color:var(--hi-paper-ink);box-shadow:0 10px 25px rgb(0 0 0 / .17);overflow-wrap:anywhere;
+}
+.hi-booking::after{content:"";position:absolute;right:0;top:0;width:23px;height:23px;background:linear-gradient(45deg,#dfd4bc 49%,#f8f4e9 51%);box-shadow:-1px 1px 3px rgb(66 52 30 / .1);border-radius:0 4px 0 3px;pointer-events:none}
 .hi-document-label{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
-.hi-booking dl{margin:16px 0;display:grid;gap:12px}.hi-booking dl>div{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.hi-booking dt{color:var(--muted);font-size:.9rem}.hi-booking dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+.hi-booking dl{margin:20px 0;display:grid;gap:0}
+.hi-booking dl>div{display:flex;align-items:baseline;justify-content:space-between;gap:10px 18px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--hi-paper-line)}
+.hi-booking dl>div:first-child{padding-top:0}.hi-booking dl>div:last-child{border-bottom:0;padding-bottom:0}
+.hi-booking dt{color:var(--hi-paper-muted);font-size:.9rem}.hi-booking dd{margin:0 0 0 auto;font-size:1.1em;font-weight:700;overflow-wrap:anywhere}
+/* Keep the document's own ink readable on paper in both course themes. */
+body.lesson-guided.hi-active #main .hi-booking :is(.hi-document-label,dd,.hx-facts){color:var(--hi-paper-ink)}
+body.lesson-guided.hi-active #main .hi-booking .hi-document-label{display:block;margin:0;font-size:.9rem;letter-spacing:.03em;padding-right:8px}
+body.lesson-guided.hi-active #main .hi-booking .fine{color:var(--hi-paper-muted);margin:20px 0 0}
+.hi-booking .hx-facts{margin:18px 0 0;padding-left:1.2em}
+.hi-booking .hx-facts li{margin:0;padding:10px 0;border-bottom:1px solid var(--hi-paper-line)}
+.hi-booking .hx-facts li:last-child{border-bottom:0;padding-bottom:0}
+@media(max-width:620px){.hi-booking{padding:22px 18px 20px}.hi-booking dl>div{column-gap:10px}}
 .hi-desk{background:var(--soft);color:var(--ink);border:1px solid var(--line);padding:22px;border-radius:18px}
 .hi-desk-facts{display:grid;grid-template-columns:1fr 1fr;gap:16px}.hi-desk-facts>div{display:grid;gap:8px}.hi-desk-facts span{font-size:.8rem;color:var(--muted)}.hi-desk-facts strong{font-weight:650;font-size:1rem}
 .hi-room-key{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px dashed var(--line);border-radius:12px;padding:16px;margin-top:24px;background:var(--panel)}.hi-room-key strong{font-size:1.9rem}.hi-room-key>span:last-child{font-size:.85rem;flex-basis:100%}.hi-room-key.is-ready{border-style:solid;border-color:var(--accent)}

@@ -16,8 +16,9 @@ for(const day of [12,13,14]){
 }
 for(const r of data.rounds){
  const steps=data.flows[r.flowIds[0]].steps;
- assert.equal(steps.length,5);
- assert.deepEqual(steps.map(s=>s.answer),r.phraseIds.map(id=>data.phrases.find(p=>p.id===id).en));
+ const stepCount=r.id==='B'?4:5;
+ assert.equal(steps.length,stepCount);
+ assert.deepEqual(steps.map(s=>s.answer),r.phraseIds.slice(0,stepCount).map(id=>data.phrases.find(p=>p.id===id).en));
  // Part 3 can add context to the prompt; the first utterance remains the same.
  assert.equal(r.entryCheckpoint.answer,steps[0].answer);
  assert.equal(data.pairs[r.pairIds[0]].goals.length,5);
@@ -27,6 +28,9 @@ for(const r of data.rounds){
 assert(data.rounds[0].variation.steps[4].answer.includes('Bus eight'));
 assert(data.rounds[2].variation.steps[2].answer.includes('blue'));
 assert(data.flows[2].steps[4].result.includes('尚未尋回'));
+assert.equal(data.rounds[1].sayPrompts.length,5);
+assert.equal(data.pairs[1].dialogueSteps.length,5);
+assert.equal(data.pairs[1].dialogueSteps[4].answer,'The museum entrance, right?');
 const legacyKeys=[...new Set([data.previousFocusKey,data.previousLesson.key,...data.previousLesson.legacyKeys])];
 const report={flows:0,turns:0,retries:0,records:0,screens:[],errors:[]};
 const url=name=>pathToFileURL(path.resolve(name)).href;
@@ -54,7 +58,7 @@ const url=name=>pathToFileURL(path.resolve(name)).href;
     fill('entry-before-'+r.id,'before '+r.id+' <keep>');
     navigate(1);ensure(document.querySelectorAll('[data-study-phrase]').length>=5,'all phrases taught');
     click('[data-study-view="reply"]');ensure(document.querySelector('.dg-study-current'),'short dialogue available');
-    start(r.flowIds[0]);let didBack=false;
+    start(r.flowIds[0]);
     while(!finished){
      const s=currentStep(),first=s.askFirst?'spoken':'heard',second=s.askFirst?'heard':'spoken';
      ensure([...document.querySelectorAll('[data-choice]')].every(b=>b.disabled),'locked before speaking');
@@ -63,9 +67,15 @@ const url=name=>pathToFileURL(path.resolve(name)).href;
      ensure(!canNext()&&document.querySelector('#flowFeedback[data-result="wrong"]'),'wrong answer retry');result.retries++;
      click(`[data-choice="${s.valid[0]}"]`);ensure(canNext(),'right answer advances');
      ensure(document.querySelector('.vf-result').textContent.includes(s.objects[s.valid[0]][1]),'result card reflects current choice');
-     if(turn===0){click('#'+first);ensure(!heard&&!spoken&&history.length===0,'cancel clears dependent state');click('#'+first);click('#'+second);click(`[data-choice="${s.valid[0]}"]`);}
+     if(turn===0){
+      ensure(document.querySelector('.d5-dialogue-complete'),'shared listening/speaking handoff');
+      ensure(document.getElementById(first).disabled&&document.getElementById(second).disabled,'completed gates cannot be cancelled');
+      const snapshot=()=>JSON.stringify({turn,history,heard,spoken,choice,finished,state}),before=snapshot();
+      click('[data-vf-review="back"]');ensure(document.querySelector('.vf-dialogue-review'),'earlier speech is available');
+      ensure(snapshot()===before,'review keeps accepted choice and records');
+      click('[data-vf-review="current"]');ensure(snapshot()===before&&canNext(),'return keeps current progress');
+     }
      result.turns++;click('[data-act="next"]');
-     if(turn===1&&!didBack){click('[data-act="back"]');ensure(turn===0&&history.length===0,'back clears subsequent data');didBack=true;}
     }
     ensure(document.querySelector('.rescue-result').textContent.includes(r.rescue.outcome),'final next step shown');
     ensure(state.complete.includes(flows[flow].id),'completed flow saved');result.flows++;
@@ -90,7 +100,7 @@ const url=name=>pathToFileURL(path.resolve(name)).href;
   assert.deepEqual(await p.evaluate(keys=>Object.fromEntries(keys.map(key=>[key,localStorage.getItem(key)])),legacyKeys),initial);
   assert.equal(await p.evaluate(()=>rounds.every(r=>state.answers['entry-before-'+r.id]==='before '+r.id+' <keep>'&&state.answers['entry-after-'+r.id]==='after '+r.id&&state.taskHome[r.id].spoken&&state.taskHome[r.id].listen)),true);
   // Old bookmarks show the merged unit, with the same origin-scoped storage.
-  for(const day of [13,14]){await p.goto(url(curriculum.make(day).file));assert.equal(await p.evaluate(()=>course.id),data.course.id);assert.equal(await p.locator('#dg-context [data-dg-task]').count(),3);}
+  for(const day of [13,14]){await p.goto(url(curriculum.make(day).file));assert.equal(await p.evaluate(()=>course.id),data.course.id);assert.equal(await p.locator('#nav [data-dg-task]').count(),3);}
   await p.goto(url(data.file));
   const shot=async name=>{await p.screenshot({path:path.join(out,name+'.png'),fullPage:true});report.screens.push(name+'.png');};
   for(const config of [{width:1366,height:900,theme:'light',size:'standard'},{width:390,height:844,theme:'dark',size:'large'}]){
