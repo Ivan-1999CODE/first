@@ -7,8 +7,10 @@ const basic='あいうえおかきくけこさしすせそたちつてとなに�
 const ja=make('ja'),ko=make('ko');
 assert.equal(ja.groups.filter(g=>g.category==='hiragana').flatMap(g=>g.items.map(i=>i.text)).join(''),basic);
 assert.equal(ja.groups.filter(g=>g.category==='katakana').flatMap(g=>g.items.map(i=>i.text)).join(''),Array.from(basic,c=>String.fromCharCode(c.charCodeAt(0)+0x60)).join(''));
-assert.equal(ko.groups.filter(g=>g.category==='vowels').flatMap(g=>g.items.map(i=>i.text)).join(''),'ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ');
-assert.equal(ko.groups.filter(g=>g.category==='consonants').flatMap(g=>g.items.map(i=>i.text)).join(''),'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ');
+assert.equal(ko.groups.filter(g=>g.category==='vowels'&&g.overviewSection==='basic').flatMap(g=>g.items.map(i=>i.text)).join(''),'ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ');
+assert.equal(ko.groups.filter(g=>g.category==='consonants'&&g.overviewSection==='basic').flatMap(g=>g.items.map(i=>i.text)).join(''),'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ');
+assert.equal(ko.groups.filter(g=>g.category==='vowels'&&g.overviewSection==='extended').flatMap(g=>g.items.map(i=>i.text)).join(''),'ㅐㅒㅔㅖㅘㅙㅚㅝㅞㅟㅢ');
+assert.equal(ko.groups.filter(g=>g.category==='consonants'&&g.overviewSection==='extended').flatMap(g=>g.items.map(i=>i.text)).join(''),'ㄲㄸㅃㅆㅉ');
 for(const data of [ja,ko]){
  assert.equal(new Set(data.groups.map(g=>g.id)).size,data.groups.length);
  for(const item of data.groups.flatMap(g=>g.items))assert(item.text&&item.speakText&&item.zh&&item.romaji);
@@ -27,6 +29,10 @@ const output='tmp/day0-primer-qa';fs.mkdirSync(output,{recursive:true});
    });
    await p.goto(pathToFileURL(path.resolve(file)).href);
    assert(await p.evaluate(()=>typeof day0Primer!=='undefined'),'Build must contain primer data');
+   await p.evaluate(()=>{
+    const create=Day0Practice.createSession;
+    Day0Practice.createSession=function(questions){const session=create(questions);window.primerSession=session;return session;};
+   });
    // Decode every pronunciation used by the primer and validate recorded cues.
    const decoded=await p.evaluate(async()=>{
     const ac=new AudioContext(),texts=[...new Set(day0Primer.groups.flatMap(g=>g.items.map(i=>i.speakText||i.text)))];
@@ -48,8 +54,23 @@ const output='tmp/day0-primer-qa';fs.mkdirSync(output,{recursive:true});
    const before=await p.evaluate(()=>({state:JSON.stringify(state),storage:{...localStorage}}));
    await p.locator('[data-primer-open]').press('Enter');
    assert.equal(await p.locator('#nav button').count(),7);
-   assert.equal(await p.locator('.primer-letter-card').count(),5);
    const data=make(language),firstGroup=data.groups[0];
+   const overview=async()=>{
+    if(await p.locator('[data-primer-overview]').count())await p.locator('[data-primer-overview]').first().click();
+    assert(await p.locator('.primer-overview').isVisible(),'Opening or returning shows the complete overview');
+   };
+   const selectGroup=async g=>{
+    await overview();
+    if(language==='ja'&&['hiragana','katakana'].includes(g.category))await p.locator(`[data-primer-script="${g.category}"]`).click();
+    await p.locator(`.primer-overview [data-primer-group="${g.id}"]`).click();
+    assert(await p.locator('.primer-detail').isVisible(),'Select a group from the overview before practising');
+   };
+   await overview();
+   assert.equal(await p.locator('.primer-letter-card').count(),0,'Initial entry must not skip the overview');
+   assert.equal(await p.locator('.primer-map-sound').count(),language==='ja'?46:40);
+   assert.match(await p.locator('[data-primer-close]').first().innerText(),/返回旅行會話/);
+   await selectGroup(firstGroup);
+   assert.equal(await p.locator('.primer-letter-card').count(),firstGroup.items.length);
    await p.evaluate(()=>primerPlayed=[]);
    await p.locator('[data-primer-sequence]').first().click();
    await p.waitForFunction(n=>primerPlayed.length===n&&primerAudio.ended,firstGroup.items.length,{timeout:20000});
@@ -59,7 +80,7 @@ const output='tmp/day0-primer-qa';fs.mkdirSync(output,{recursive:true});
    await p.locator('[data-primer-sequence][data-slow]').click();
    await p.waitForFunction(()=>!primerAudio.paused&&primerAudio.currentTime>.05);
    assert.equal(await p.evaluate(()=>primerAudio.playbackRate),.8);
-   await p.locator(`.primer-groups [data-primer-group="${data.groups[1].id}"]`).click();
+   await selectGroup(data.groups[1]);
    assert(await p.evaluate(()=>primerAudio.paused&&!primerAudio.getAttribute('src')),'Changing group stops playback');
    // A single letter plays its complete authored sound, with local context.
    if(language==='ko'){
@@ -71,46 +92,75 @@ const output='tmp/day0-primer-qa';fs.mkdirSync(output,{recursive:true});
     await p.locator('.primer-letter-button').first().click();
     await p.waitForFunction(()=>!primerAudio.paused&&primerAudio.currentTime>.05);
    }
-   await p.locator('[data-primer-view="quiz"]').click();
-   assert(await p.evaluate(()=>primerAudio.paused),'Changing exercise stops playback');
-   await p.locator('.primer-quiz [data-say]').first().click();
+   await p.locator(`[data-practice-start="group:${data.groups[1].id}"]`).click();
+   assert(await p.evaluate(()=>primerAudio.paused),'Starting a practice round stops playback');
+   assert.equal(await p.locator('.primer-study-content').count(),0,'Study answers are not rendered during practice');
+   await p.locator('.primer-practice [data-practice-audio]').first().click();
    await p.waitForFunction(()=>!primerAudio.paused&&primerAudio.currentTime>.05);
-   assert(await p.locator('.primer-quiz .follow-along').isHidden(),'Listening must not reveal its answer automatically');
-   await p.locator('.primer-quiz .follow-token').first().evaluate(token=>token.focus());
+   assert(await p.locator('.primer-practice .follow-along').isHidden(),'Listening must not reveal its answer automatically');
+   await p.locator('.primer-practice .follow-token').first().evaluate(token=>token.focus());
    assert(await p.evaluate(()=>!document.activeElement.closest('.follow-along')),'Hidden answer tokens cannot receive keyboard focus');
-   await p.locator('[data-primer-view="cards"]').click();
+   await p.locator('[data-practice-exit]').click();
+   assert(await p.evaluate(()=>primerAudio.paused&&!primerAudio.getAttribute('src')),'Exiting a practice round stops playback');
    for(const category of data.categories){
-    await p.locator(`[data-primer-category="${category.id}"]`).click();
     for(const g of data.groups.filter(x=>x.category===category.id)){
-     await p.locator(`.primer-groups [data-primer-group="${g.id}"]`).click();
+     await selectGroup(g);
      assert.equal(await p.locator('.primer-letter-card').count(),g.items.length);
      if(g.items.some(i=>i.parts)){
       assert.equal(await p.locator('.primer-letter-button').count(),0);
       await p.locator('[data-primer-assemble="0"]').press('Enter');
       assert.equal(await p.locator('.primer-letter-button').count(),1);
      }
-     await p.locator('[data-primer-view="quiz"]').click();
-     const questions=data.exercises.filter(q=>q.groupId===g.id),q=questions[0];
-     await p.locator('[data-primer-answer="'+((q.correct+1)%q.options.length)+'"]').click();
-     assert(await p.locator('.primer-feedback .retry').count());
-     await p.locator('[data-primer-answer="'+q.correct+'"]').click();
-     assert((await p.locator('.primer-feedback').innerText()).includes('選對了'));
-     await p.locator('[data-primer-question="'+(questions.length>1?1:0)+'"]').last().click();
-     assert.equal(await p.locator('.primer-feedback').innerText(),'');
-     await p.locator('[data-primer-view="cards"]').click();
+     const placement=await p.evaluate(()=>({cards:document.querySelector('.primer-letter-grid').getBoundingClientRect().bottom,practice:document.querySelector('.primer-practice').getBoundingClientRect().top}));
+     assert(placement.practice>=placement.cards,'Each group practice appears below the study cards');
+     await p.locator('[data-practice-mode="listen"]').click();
+     await p.locator('[data-practice-limit="5"]').click();
+     await p.locator(`[data-practice-start="group:${g.id}"]`).click();
+     const q=await p.evaluate(()=>primerSession.questions[primerSession.index]);
+     assert.equal(q.mode,'listen','Every current group supports recorded listening choices');
+     assert.equal(await p.locator('[data-practice-next]').isDisabled(),true);
+     await p.locator('[data-practice-answer="'+((q.correct+1)%q.options.length)+'"]').click();
+     assert(await p.locator('.pp-options .is-wrong').isVisible());
+     assert.equal(await p.locator('[data-practice-next]').isDisabled(),true);
+     await p.locator('[data-practice-answer="'+q.correct+'"]').click();
+     assert(await p.locator('.pp-options .is-correct').isVisible());
+     assert((await p.locator('.pp-feedback').innerText()).includes('重試後答對'));
+     assert.equal(await p.evaluate(()=>primerSession.records[0].first),false,'Correction preserves the first response');
+     const count=await p.evaluate(()=>primerSession.questions.length);
+     assert.equal(count,Math.min(5,g.items.length),'Small groups advertise their actual question count');
+     if(count>1){
+      await p.locator('[data-practice-next]').click();
+      assert.equal(await p.locator('.pp-feedback').innerText(),'');
+      assert.equal(await p.locator('.pp-reference').count(),0,'The next question hides its reference');
+     }
+     // Leave before the explicit last-next action: this check must preserve
+     // every pre-existing record, including the independent practice history.
+     await p.locator('[data-practice-exit]').click();
+     assert.equal(await p.evaluate(()=>primerSession.finished),false,'Exit does not count as finishing');
     }
    }
-   for(const width of [1440,390,320])for(const theme of ['light','dark']){
+   for(const width of [1440,768,390,320])for(const theme of ['light','dark']){
     await p.setViewportSize({width,height:1000});
     await p.evaluate(theme=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.size='large';appearance();},theme);
-    await p.locator(`[data-primer-category="${data.categories[0].id}"]`).click();
+    await overview();
+    if(language==='ja')await p.locator('[data-primer-script="hiragana"]').click();
+    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),language+' overview overflow '+width+'/'+theme);
+    if(width===1440||width===390){await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`${output}/${language}-${width}-${theme}-overview.png`,fullPage:true});}
+    await selectGroup(firstGroup);
     assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),language+' overflow '+width+'/'+theme);
     await p.evaluate(()=>window.scrollTo(0,0));
     if(width===1440||width===390)await p.screenshot({path:`${output}/${language}-${width}-${theme}-cards.png`,fullPage:true});
-    await p.locator('[data-primer-view="quiz"]').click();
-    await p.locator('.primer-quiz-transcript summary').click();
-    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'quiz overflow');
-    if(width===390){await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`${output}/${language}-${width}-${theme}-transcript.png`,fullPage:true});}
+    await p.locator(`[data-practice-start="group:${firstGroup.id}"]`).click();
+    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'practice question overflow');
+    await p.screenshot({path:`${output}/${language}-${width}-${theme}-practice.png`,fullPage:true});
+    await p.locator('[data-practice-reveal]').click();
+    assert(await p.locator('.pp-reference').isVisible());
+    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'practice reference overflow');
+    await p.screenshot({path:`${output}/${language}-${width}-${theme}-reference.png`,fullPage:true});
+    await p.locator('[data-practice-exit]').click();
+    await p.locator('#dg-menu-open').click();
+    await p.screenshot({path:`${output}/${language}-${width}-${theme}-menu.png`});
+    await p.keyboard.press('Escape');
    }
    // Seven-part navigation and the direct return both exit the optional primer.
    await p.locator('#dg-menu-open').click();
@@ -118,7 +168,8 @@ const output='tmp/day0-primer-qa';fs.mkdirSync(output,{recursive:true});
    assert.equal(await p.locator('.day0-primer').count(),0);
    await p.evaluate(()=>navigate(0));
    await p.locator('[data-primer-open]').click();
-   await p.locator('[data-primer-view="cards"]').click();
+   await overview();
+   await selectGroup(firstGroup);
    await p.locator('[data-primer-sequence]').first().click();
    await p.waitForFunction(()=>!primerAudio.paused&&primerAudio.currentTime>.05);
    await p.locator('[data-primer-close]').first().click();
@@ -128,7 +179,7 @@ const output='tmp/day0-primer-qa';fs.mkdirSync(output,{recursive:true});
    assert.deepEqual(await p.evaluate(()=>({...localStorage})),before.storage,'Primer does not write course records');
    await p.reload();assert.equal(await p.locator('#main textarea').first().inputValue(),'保留原本的旅行作答');
    assert.deepEqual(errors,[]);
-   console.log(`PASS ${language}: ${decoded} decoded sounds; real normal/slow sequence and single-letter audio; stops; ${data.groups.length} groups; quiz retry/hidden answers; keyboard; retained answers; six responsive theme states.`);
+   console.log(`PASS ${language}: complete overview and group entry; ${decoded} decoded sounds; real normal/slow sequence and single-letter audio; stops; ${data.groups.length} lower practice entries; first-response retry/hidden answers; keyboard; retained answers; eight responsive theme states with expanded menus.`);
    await p.close();
   }
  }finally{await browser.close();}

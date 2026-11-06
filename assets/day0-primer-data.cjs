@@ -19,6 +19,7 @@ function japanese(){
  for(const category of ['hiragana','katakana'])for(const [id,title,characters,readings] of kanaRows){
   const isKata=category==='katakana';
   groups.push({id:category+'-'+id,category,title:isKata?kata(title.replace('行',''))+(title.endsWith('行')?'行':''):title,
+   overviewColumns:id==='ya'?[0,2,4]:id==='wa'?[0,4]:id==='n'?[0]:[0,1,2,3,4],overviewStandalone:id==='n',
    description:id==='a'?'先聽這 5 個母音，再一個一個跟著說。每個字都是一拍。':id==='ya'?'這一行有 3 個基本假名，先看大字的 や、ゆ、よ。':id==='wa'?'わ 讀 wa；を 作助詞時讀 o，和 お 的聲音相同。':id==='n'?'ん 自己占一拍；聲音會受後面的音影響，先跟著音檔認識它。':'一次練這一行就好：點字聽，再用整行連播跟讀。',
    sequence:true,items:Array.from(characters,(h,i)=>entry(isKata?kata(h):h,'讀音 '+readings[i],readings[i],{kana:h,speakText:h==='を'?'お':['は','へ'].includes(h)?kata(h):h,note:h==='を'?'這裡示範助詞讀音 o。':h==='ん'?'鼻音；自己占一拍。':''}))});
  }
@@ -32,14 +33,21 @@ function japanese(){
   entry('まっすぐ','直走／直直地','massugu',{kana:'まっすぐ',note:'促音：小 っ 停一拍，不念成大 つ。'}),
   entry('きゅう','數字 9','kyū',{kana:'きゅう',note:'拗音：き＋小 ゅ 合成 kyu；再加 う 拉長，合計 2 拍。'})
  ]});
- return {language:'ja',title:'日文五十音與發音',description:'完整基本平假名 46 字與片假名 46 字，每次只看一行。先聽、再認字，隨時可以開始旅行對話。',categories:[{id:'hiragana',title:'平假名 46 字'},{id:'katakana',title:'片假名 46 字'},{id:'use',title:'旅行裡的字音'}],groups};
+ return {language:'ja',title:'日文五十音與發音',description:'先看完整基本平假名 46 字與片假名 46 字，再選一行練習。先聽、再認字，隨時可以開始旅行對話。',categories:[{id:'hiragana',title:'平假名 46 字'},{id:'katakana',title:'片假名 46 字'},{id:'use',title:'旅行裡的字音'}],groups};
 }
 function korean(){
  const vowels=[['ㅏ','아','a'],['ㅑ','야','ya'],['ㅓ','어','eo'],['ㅕ','여','yeo'],['ㅗ','오','o'],['ㅛ','요','yo'],['ㅜ','우','u'],['ㅠ','유','yu'],['ㅡ','으','eu'],['ㅣ','이','i']];
  const consonants=[['ㄱ','가','ga'],['ㄴ','나','na'],['ㄷ','다','da'],['ㄹ','라','ra'],['ㅁ','마','ma'],['ㅂ','바','ba'],['ㅅ','사','sa'],['ㅇ','아','a'],['ㅈ','자','ja'],['ㅊ','차','cha'],['ㅋ','카','ka'],['ㅌ','타','ta'],['ㅍ','파','pa'],['ㅎ','하','ha']];
+ // Letter inventory and Revised Romanization: National Institute of Korean Language.
+ // https://www.korean.go.kr/eng_hangeul/principle/001.html
+ // https://www.korean.go.kr/front_eng/roman/roman_01.do
+ // Show a complete syllable with silent initial ㅇ, or a consonant followed by ㅏ.
+ const extraVowels=[['ㅐ','애','ae'],['ㅒ','얘','yae'],['ㅔ','에','e'],['ㅖ','예','ye'],['ㅘ','와','wa'],['ㅙ','왜','wae'],['ㅚ','외','oe'],['ㅝ','워','wo'],['ㅞ','웨','we'],['ㅟ','위','wi'],['ㅢ','의','ui']];
+ const doubleConsonants=[['ㄲ','까','kka'],['ㄸ','따','tta'],['ㅃ','빠','ppa'],['ㅆ','싸','ssa'],['ㅉ','짜','jja']];
  const groups=[];
  for(let i=0;i<2;i++)groups.push({id:'ko-vowels-'+(i+1),category:'vowels',title:'基本母音 '+(i+1),description:'母音先和不發音的字首 ㅇ 組成一格。點聽的是完整音節示範；羅馬字只幫忙對照，以音檔為準。',sequence:true,items:vowels.slice(i*5,i*5+5).map(([letter,sound,romaji])=>entry(letter,'母音 '+letter+' 的拼讀示範：'+sound,romaji,{speakText:sound,sampleLabel:'拼讀示範',note:letter==='ㅓ'?'eo 是一個母音，不是 e、o 兩個音。':letter==='ㅡ'?'eu 是一個母音，不是 e、u 兩個音。':'先聽，再跟著發音。'}))});
  for(let i=0;i<2;i++)groups.push({id:'ko-consonants-'+(i+1),category:'consonants',title:'基本子音 '+(i+1),description:'每個子音搭配母音 ㅏ，聽它拼成音節後的聲音。這裡讀的是拼讀示範，不是字母名稱。',sequence:true,items:consonants.slice(i*7,i*7+7).map(([letter,sound,romaji])=>entry(letter,'子音 '+letter+' 搭配 ㅏ：'+sound,romaji,{speakText:sound,sampleLabel:'拼讀示範',note:letter==='ㅇ'?'在音節開頭，ㅇ 不發音；아 只聽到母音 a。':letter==='ㄹ'?'這裡聽字首的 라；收音位置的 ㄹ 會有不同表現。':letter==='ㅋ'||letter==='ㅌ'||letter==='ㅍ'||letter==='ㅊ'?'留意較明顯的送氣，跟著音檔模仿。':'先聽完整音節，不把羅馬字當成英文念。'}))});
+ for(const group of groups)group.overviewSection='basic';
  groups.push({id:'ko-blocks',category:'build',title:'拼成一格字',description:'字母排成一格音節。直立母音放右邊，橫向母音放下方；收音放在最下方。點「拼起來看」再聽。',sequence:false,items:[
   entry('가','ㄱ＋ㅏ 拼成 가','ga',{parts:['ㄱ','ㅏ'],note:'直立母音 ㅏ 放在子音右邊。'}),
   entry('나','ㄴ＋ㅏ 拼成 나','na',{parts:['ㄴ','ㅏ'],note:'只換開頭子音，聽 ga 和 na 的差別。'}),
@@ -53,11 +61,16 @@ function korean(){
   entry('카드','卡片／付款卡','kadeu',{note:'카・드：2 格；結尾 드 有母音 ㅡ。'}),
   entry('화장실','廁所','hwajangsil',{note:'화・장・실：3 格；화 有複合母音 ㅘ，先當熟詞聽。'})
  ]});
- return {language:'ko',title:'韓文字母與拼讀入門',description:'認識 10 個基本母音、14 個基本子音，再試著拼成音節。一次練一小組，隨時可以開始旅行對話。',categories:[{id:'vowels',title:'基本母音 10 個'},{id:'consonants',title:'基本子音 14 個'},{id:'build',title:'拼讀與旅行詞'}],groups};
+ // Append optional groups so existing groups, exercise IDs and answer order stay stable.
+ // These groups practise reading and listening, not audio-only unique-answer quizzes.
+ for(let i=0;i<2;i++)groups.push({id:'ko-vowels-extra-'+(i+1),category:'vowels',overviewSection:'extended',title:'延伸母音 '+(i+1),description:'基本母音之外，還有這些母音字母。先看完整字形，再聽搭配 ㅇ 的音節示範；不必一次全部記住。',sequence:true,quiz:false,items:extraVowels.slice(i*6,i*6+6).map(([letter,sound,romaji])=>entry(letter,'母音 '+letter+' 的拼讀示範：'+sound,romaji,{speakText:sound,sampleLabel:'拼讀示範',note:letter==='ㅢ'?'ui 是羅馬字寫法；先跟著 의 的完整音檔聽。':'先看字形，再跟著完整音節發音；羅馬字只用來對照。'}))});
+ groups.push({id:'ko-consonants-double',category:'consonants',overviewSection:'extended',title:'雙子音 5 個',description:'雙子音搭配母音 ㅏ，聽它拼成音節後的聲音。這裡讀的是拼讀示範，不是字母名稱。',sequence:true,quiz:false,items:doubleConsonants.map(([letter,sound,romaji])=>entry(letter,'雙子音 '+letter+' 搭配 ㅏ：'+sound,romaji,{speakText:sound,sampleLabel:'拼讀示範',note:'兩個相同字母合成一個雙子音；先聽完整音節，再跟著說。'}))});
+ return {language:'ko',title:'韓文字母與拼讀入門',description:'先看 21 個母音、19 個子音的完整字母地圖，再選一小組練習。從 10 個基本母音、14 個基本子音開始，隨時可以開始旅行對話。',categories:[{id:'vowels',title:'母音 21 個',basicCount:10,extendedCount:11},{id:'consonants',title:'子音 19 個',basicCount:14,extendedCount:5},{id:'build',title:'拼讀與旅行詞'}],groups};
 }
 function exercisesFor(data){
  const exercises=[];
  for(const group of data.groups){
+  if(group.quiz===false)continue;
   const pool=data.groups.filter(g=>g.category===group.category).flatMap(g=>g.items);
   const indexes=[...new Set([0,Math.floor(group.items.length/2),group.items.length-1])];
   for(const index of indexes){

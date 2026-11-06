@@ -1,5 +1,31 @@
 // Japanese/Korean navigation follows the English lesson shell. Data and all
 // pre-existing save keys stay with their original tasks, regardless of labels.
+// The shared shell now delegates navigation helpers to lesson-navigation.js.
+// Day 0 deliberately retains its seven-step dialog and A–J task buttons.
+// Function declarations are hoisted in the combined script so the shell can
+// install them before this language-specific presentation is initialized.
+function dgInstallNavigation(){
+ const menu=$('#dg-menu-open'),dialog=$('#dg-course-dialog');
+ menu.setAttribute('aria-expanded','false');
+ menu.addEventListener('click',()=>menu.setAttribute('aria-expanded','true'));
+ dialog.addEventListener('close',()=>{
+  menu.setAttribute('aria-expanded','false');
+  if(!document.activeElement||document.activeElement===document.body||dialog.contains(document.activeElement))menu.focus({preventScroll:true});
+ });
+}
+function dgStickyHeight(){return $('.top').getBoundingClientRect().height;}
+function dgScrollLesson(){
+ const top=$('#dg-context').getBoundingClientRect().top+scrollY-dgStickyHeight();
+ window.scrollTo({top:Math.max(0,top),behavior:'instant'});
+}
+function dgSetMenuLabel(){
+ const label=taskLabel(activeRound()),menu=$('#dg-menu-open');
+ menu.textContent=`${String(page+1).padStart(2,'0')} · ${label} 選單`;
+ menu.setAttribute('aria-label',`開啟課程選單，目前任務 ${label}，第 ${page+1} 部分：${dgLabels[page]}`);
+ menu.title=`任務 ${label} · ${dgLabels[page]} · 開啟課程選單`;
+ const switcher=$('.dg-task-switch'),active=switcher?.querySelector('[aria-pressed=true]');
+ if(active)switcher.scrollLeft=Math.max(0,active.offsetLeft-switcher.offsetLeft-switcher.clientWidth+active.offsetWidth+8);
+}
 document.body.classList.add('day0-guided');
 course.labels.splice(0,course.labels.length,...dgLabels);
 const day0LanguageName=language==='ko'?'韓文':'日文';
@@ -10,6 +36,13 @@ $('#dg-days').setAttribute('aria-label','切換教材');
 $('#dg-days-close').textContent='收起教材 ↑';
 $('#dg-menu-title').textContent='這個任務的七步練習';
 $('#dg-course-dialog .dg-dialog-heading .eyebrow').textContent=course.title;
+dgCourseMenu=function(){
+ return `<p class="dg-menu-position">任務 ${esc(taskLabel(activeRound()))} · ${esc(activeRound().name)}</p><div class="dg-section-list">${dgLabels.map((label,p)=>btn(`<span class="number">${String(p+1).padStart(2,'0')}</span>${esc(label)}`,`data-page="${p}"`,page===p?'aria-current="step"':'')).join('')}</div>`;
+};
+const day0BaseTaskFooter=taskFooter;
+taskFooter=function(){
+ return page===0?`<div class="footer-actions dg-entry-next">${btn('前進：學這個任務的句子 →','data-page="1"','class="primary"')}</div>`:day0BaseTaskFooter();
+};
 
 // The visible task buttons follow topic order; their data values still point
 // at the original array indices so a saved numeric task position stays valid.
