@@ -173,7 +173,11 @@ function createCompleteHotel(data, ctx) {
  function flow(){
   const g=group(),c=flowData(),f=ui().flow,s=current();
   const top=head('連起來，完成這次任務','用同一筆資料接續對話。換時點時看清楚角色和需求。')+picker(g.flows,c.id,'data-hx-flow','完整流程');
-  if(f.done)return top+`<section class="panel hi-complete"><h2>✓ 這次的流程已練習</h2>${journal()}<p>依最後的結果口頭回顧：提供了哪些資料？哪些需求已確認？若婉拒訂餐，沒有送出餐點訂單。</p><p class="fine">這是操作與自行確認的練習紀錄；口說是否清楚，由師生實際核對。</p><div class="hi-actions">${btn('同一情境再練一次','data-hx-restart')}${go('換情境，自己說 →',3)}</div></section>`;
+  if(f.done){
+   const completed=flowData().steps.map((s,i)=>({...s,...s.decisions?.find(d=>d.result===f.history[i]?.result)}));
+   const records=completed.map((s,i)=>({label:f.history[i].result,artLabel:s.decisions?s.label:f.history[i].result,step:s.decisions?{...s,objects:s.decisions.map(d=>['',d.label]),choiceKind:'food'}:{...s,objects:s.options.map(label=>['',label])}}));
+   return top+integratedCompletion({steps:completed,records,title:c.title,heading:'✓ 這次的流程已練習',completionClass:'hi-complete',result:journal(),note:'這是操作與自行確認的練習紀錄；口說是否清楚，由師生實際核對。',actions:btn('同一情境再練一次','data-hx-restart')+go('換情境，自己說 →',3)});
+  }
   const result=hotelFlowResult(f.choice,s.valid||[]),decisionResult=s.decisions?hotelFlowResult(f.decision,s.allowed):'pending';
   const plan=s.decisions?`<div class="hi-options hx-decisions" role="group" aria-label="我的訂餐決定">${s.decisions.map((o,i)=>btn(esc(o.label)+(f.decision===i?`<span class="hi-choice-verdict">${hotelFlowVerdict(decisionResult)}</span>`:''),`data-hx-decision="${i}"`,`aria-pressed="${f.decision===i}" data-result="${f.decision===i?decisionResult:'pending'}" ${!f.heard?'disabled':''}`)).join('')}</div>${hotelFlowFeedback(decisionResult,decisionResult==='wrong'?s.reason:decisionResult==='correct'?'這個決定符合條件，接著用英文說出來。':'')}`:'';
   const dialogue=hotelFlowDialogue(s,f,{prefix:'hx',hint:hint(s,'flow-'+c.id+'-'+s.id+'-'+f.decision),plan});

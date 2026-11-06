@@ -23,13 +23,15 @@ module.exports=function makeChapterIntegration(d){
  const groups=[];
  const add=(id,title,sources,description,paths,outcome)=>groups.push({id,title,sources,description,paths,outcome});
  if(day===1){
-  const repeat=changed(s('C',0),[['郵局','火車站']],{line:all('A')[0].line,zh:all('A')[0].zh,objects:clone(all('A')[0].objects),choiceKind:'route',task:'剛才沒聽清楚去火車站的走法，請路人再說一次。'});
-  const map=changed(s('C',1),[['the post office','the train station'],['郵局','火車站']]);
+  const repeatFor=label=>{const route=s(label,0);return changed(s('C',0),[['郵局','火車站']],{line:route.line,zh:route.zh,objects:clone(route.objects),valid:clone(route.valid),position:clone(route.position),choiceKind:'route',task:'剛才沒聽清楚去火車站的走法，請路人再說一次。'});};
+  const repeat=repeatFor('A'),busRepeat=repeatFor('B');
+  const busMap=changed(s('C',1),[['The post office','The train station'],['the post office','the train station'],['郵局','火車站']]);
+  const map={...clone(busMap),line:'Here. The train station is on the right.',zh:'這裡，火車站在右邊。',valid:[0],position:[335,90,'已在地圖找到右側火車站']};
   add('route-help','問路時，聽不清楚也能確認',['A','C'],'同一個目的地，依需要請重說、看地圖，最後道謝。',[
    path('map','重聽並看地圖','你要去火車站，第一次沒聽清楚路線，手上有地圖。',[s('A',0),repeat,s('A',1),map,s('A',2)]),
    path('repeat','只需要再聽一次','你要去火車站，沒有地圖；重聽後確認方向再道謝。',[s('A',0),repeat,s('A',1),s('A',2)])],'問清去火車站的路線，聽不清楚時知道怎麼求助。');
   add('bus-help','問清搭公車的方法',['B','C'],'路人已知道目的地，將求助放在真正需要的地方。',[
-   path('bus','請指路，再問公車','路人知道你要去火車站。你沒聽清楚走法，想看地圖，也想知道能不能搭公車。',[s('B',0),repeat,map,s('B',1),s('B',2)])],'確認路線、公車與站牌，禮貌結束問路。');
+   path('bus','請指路，再問公車','沿用 B 的起點去火車站。路人已知道目的地；你沒聽清楚走法，想看地圖，也想知道能不能搭公車。',[s('B',0),busRepeat,busMap,s('B',1),s('B',2)])],'確認路線、公車與站牌，禮貌結束問路。');
   add('journey','完成一次問路',['A','B','C'],'先說目的地，再依需求接續求助與交通詢問。',[
    path('bus','問路後考慮公車','你要去火車站；沒聽清楚時請重說，再看地圖，最後詢問能不能搭公車。',[s('A',0),repeat,s('A',1),map,s('B',1),s('A',2)])],'用同一條路線完成問路與交通詢問。');
  }

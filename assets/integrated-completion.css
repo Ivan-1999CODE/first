@@ -1,0 +1,19 @@
+/* Scope to the integrated finish screen, including Day 1's separate shell. */
+.integrated-completion .lesson-completion-summary{margin:20px 0;min-width:0}
+.integrated-completion .lesson-completion-summary ol{display:grid;margin:0;padding-inline-start:1.5em}
+.integrated-completion .lesson-completion-summary li{margin:0;padding-inline-start:.15em;font-weight:400;line-height:1.6;overflow-wrap:break-word}
+.integrated-completion .lesson-completion-goals{gap:.45em;font-size:1.6rem}
+.integrated-completion .lesson-completion-answers{margin-top:22px;padding:20px;border-radius:14px;background:var(--soft)}
+.integrated-completion .lesson-completion-english{gap:18px;font-size:2rem}
+.integrated-completion .scene-ledger{list-style:none;margin:0;padding:0;text-align:left}
+.integrated-completion .scene-ledger li{padding:12px 0;border-top:1px solid var(--line)}
+.integrated-completion .scene-ledger span,.integrated-completion .scene-ledger strong{display:block;line-height:1.6}
+.integrated-completion .scene-ledger span{font-size:.84rem;color:var(--muted)}
+.integrated-completion .scene-ledger strong{margin-top:5px;font-size:1rem;font-weight:650}
+.integrated-completion .scene-ledger .recorded strong:before{content:'✓ ';color:var(--accent)}
+.integrated-completion .vf-final figure{min-width:0;overflow-wrap:break-word}
+@media(max-width:739px){
+ .integrated-completion .lesson-completion-goals{font-size:1.4rem}
+ .integrated-completion .lesson-completion-english{font-size:1.65rem}
+ .integrated-completion .lesson-completion-answers{padding:16px}
+}

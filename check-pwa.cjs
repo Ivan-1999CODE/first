@@ -94,7 +94,10 @@ const server = http.createServer((req, res) => {
 });
 
 async function waitForReady(page) {
-  await page.waitForFunction(() => document.querySelector('#travel-offline-status')?.textContent.includes('已可離線閱讀'), null, { timeout: 60000 });
+  await page.waitForFunction(() => window.travelOffline?.state.ready === true, null, { timeout: 60000 });
+  const isHome = await page.locator('html').getAttribute('data-appearance-kind') === 'index';
+  assert.equal(await page.locator('#travel-offline').count(), isHome ? 1 : 0, 'Only the home page displays offline instructions');
+  if (isHome) assert((await page.locator('#travel-offline-status').innerText()).includes('已可離線閱讀'));
   await page.waitForFunction(() => !!navigator.serviceWorker.controller, null, { timeout: 15000 });
   const status = await workerStatus(page);
   assert.equal(status.ready, true, 'Worker confirms complete cache');
@@ -390,6 +393,12 @@ async function main() {
     // Existing downloaded HTML is still directly readable without an HTTP host.
     const fileContext = await browser.newContext();
     const localPage = await fileContext.newPage();
+    for (const file of pages) {
+      await localPage.goto(pathToFileURL(path.join(root, file)).href);
+      assert.equal(await localPage.locator('#travel-offline').count(), file === 'index.html' ? 1 : 0, `${file}: offline panel only on home`);
+      assert(await localPage.evaluate(() => !!window.travelOffline), `${file}: offline runtime remains available`);
+    }
+    report.checks.push('offline-panel-home-only-all-16-lessons');
     await localPage.goto(pathToFileURL(path.join(root, 'travel-english.html')).href);
     assert(await (await openEntry(localPage)).isVisible());
     assert(!await localPage.evaluate(() => typeof travelApp !== 'undefined'));

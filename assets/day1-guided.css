@@ -274,6 +274,10 @@ body.day1-guided .dg-feedback > .fine { margin: 0; }
 body.day1-guided .scene-grid.task-scene .dg-choice-wrong { color: var(--dg-error); border-color: var(--dg-error); background: var(--panel); }
 body.day1-guided .dg-completed-lines { display: grid; gap: 18px; margin: 22px 0; padding: 20px; border-radius: 14px; background: var(--soft); }
 body.day1-guided .dg-completed-lines .dg-en { margin: 0; }
+body.day1-guided .dg-completion-goals { display: grid; gap: .45em; margin: 0; padding-inline-start: 1.5em; }
+body.day1-guided .dg-completion-english { display: grid; gap: 18px; margin: 0; padding-inline-start: 1.6em; }
+body.day1-guided .dg-completion-english > li { padding-inline-start: .15em; }
+body.day1-guided .dg-completion :is(.dg-completion-goals, .dg-completion-english) > li { font-weight: 400; }
 
 /* Shared lesson form and review components. */
 body.day1-guided textarea { min-height: 130px; padding: 15px; margin: 10px 0 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink); line-height: 1.55; }

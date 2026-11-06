@@ -23,8 +23,11 @@
    <p class="offline-note">作答保存在目前瀏覽器，不會自動同步到其他裝置。清除網站資料或裝置清理儲存空間後，可能需要再次連線儲存教材。</p>
   </details>`;
  const main=document.querySelector('main');
- if(document.documentElement.dataset.appearanceKind==='index'&&main)main.insertBefore(panel,main.querySelector('a[href]'));
- else document.body.append(panel);
+ // Only the home page shows the panel; lessons still prepare and use offline storage.
+ if(document.documentElement.dataset.appearanceKind==='index'){
+  if(main)main.insertBefore(panel,main.querySelector('a[href]'));
+  else document.body.append(panel);
+ }
  const status=panel.querySelector('#travel-offline-status');
  const update=panel.querySelector('#travel-offline-update');
  const retry=panel.querySelector('#travel-offline-retry');

@@ -238,21 +238,23 @@ const revisedTasks=[
  },
  {id:'B',group:'B',name:'請指路、問公車與道謝',phraseIds:['phrase-2','phrase-8','phrase-10'],reuse:['phrase-10'],
   goal:'請路人指路，再問能不能搭公車，最後重用 A 的道謝。',
-  context:'你要去火車站，路人已知道目的地。先請他指路，路線沿用 A；接著問能不能搭公車，聽懂站牌在那邊，最後道謝。',
-  task:'路人已知道你要去火車站。請他告訴你怎麼走；聽到「直走到第一個路口，再右轉」後，再問能不能搭公車。路人說「可以，公車站在那邊」，最後謝謝他的幫忙。你會分別怎麼說？',
-  words:[['show me','指給我看'],['the way','走法／方向'],['first intersection','第一個路口'],['take a bus','搭公車'],['bus stop','公車站'],['over there','在那邊'],['thank you','謝謝你'],['help','幫忙']],
+  context:'這次從另一個起點去火車站，路人已知道目的地。先請他指路；接著問能不能搭公車，聽懂站牌在那邊，最後道謝。',
+  task:'路人已知道你要去火車站。請他告訴你怎麼走；聽到「直走到第一個路口，再左轉」後，再問能不能搭公車。路人說「可以，公車站在那邊」，最後謝謝他的幫忙。你會分別怎麼說？',
+  words:[['show me','指給我看'],['the way','走法／方向'],['first intersection','第一個路口'],['left','左邊'],['take a bus','搭公車'],['bus stop','公車站'],['over there','在那邊'],['thank you','謝謝你'],['help','幫忙']],
   advancedHear:oldB.advancedHear,
-  steps:[reviseStep('b-way','請路人告訴你走法',routeLine,routeZh,'路人已知道你要去火車站。用這輪的新說法請他告訴你怎麼走。','show me / the way','Could you show me the way?','可以告訴我怎麼走嗎？',[['→','第一個路口右轉'],['→','第二個路口右轉'],['←','第一個路口左轉'],['←','第二個路口左轉']],[335,90,'沿用 A：第一個路口右轉去火車站']),
+  steps:[{...reviseStep('b-way','請路人告訴你走法','Go straight to the first intersection. Turn left.','直走到第一個路口，再左轉。','路人已知道你要去火車站。用這輪的新說法請他告訴你怎麼走。','show me / the way','Could you show me the way?','可以告訴我怎麼走嗎？',[['→','第一個路口右轉'],['→','第二個路口右轉'],['←','第一個路口左轉'],['←','第二個路口左轉']],[85,90,'已確認第一個路口左轉去火車站']),valid:[2]},
    reviseStep('b-bus','問能不能搭公車','Yes. The bus stop is over there.','可以，公車站在那邊。','你已聽懂去火車站的路線，但想搭公車。問能不能搭公車。','take / bus','Can I take a bus?','我可以搭公車嗎？',[['🚌','先去公車站牌'],['🚉','直接走到火車站']],[95,215,'可以搭公車 · 先去左側站牌']),
    thanks('b-thanks','路人已告訴你走法和公車資訊，也指出站牌。',[95,215,'已問清楚走法和公車，並向路人道謝'])],
-  variation:{name:'只換目的地：郵局',task:'這次目的地換成郵局，路人已知道；路線仍是直走到第一個路口，再右轉。先請他指路，再問能不能搭公車，聽到站牌在那邊後，謝謝他的幫忙。',check:'目的地換了，有繼續完成請指路、問公車與道謝嗎？'},
+  variation:{name:'只換目的地：郵局',task:'這次目的地換成郵局，路人已知道；路線仍是直走到第一個路口，再左轉。先請他指路，再問能不能搭公車，聽到站牌在那邊後，謝謝他的幫忙。',check:'目的地換了，有繼續完成請指路、問公車與道謝嗎？'},
   quizzes:[{key:'thanks',line:welcomeLine,zh:'不客氣。',question:'哪一句話之後，路人才會這樣回應？',options:['你向他道謝後','你剛問可不可以搭公車後'],correct:0,feedback:'You’re welcome. 接在 Thank you for your help. 之後。'},
    {key:'bus',line:'Yes. The bus stop is over there.',zh:'可以，公車站在那邊。',question:'可以搭公車，接著先去哪裡？',options:['路人指出的公車站','直接走到火車站'],correct:0,feedback:'The bus stop is over there. 表示公車站在那邊。'}],
-  pair:{opening:'可以告訴我怎麼走嗎？',next:'聽老師沿用 A 的路線，再問能不能搭公車；聽懂站牌在哪裡後，最後道謝。',goals:['請路人告訴你怎麼走','問能不能搭公車','在得到指路與交通資訊後道謝']}
+  pair:{opening:'可以告訴我怎麼走嗎？',next:'聽老師說在第一個路口左轉，再問能不能搭公車；聽懂站牌在哪裡後，最後道謝。',goals:['請路人告訴你怎麼走','問能不能搭公車','在得到指路與交通資訊後道謝']}
  },
- {id:'C',group:'C',name:oldC.name,phraseIds:oldC.phraseIds,reuse:[],goal:oldC.goal,context:oldCFlow.context,task:oldC.checkpoint.task,words:oldC.words,advanced:oldC.advanced,advancedHear:oldC.advancedHear,hearUsage:oldC.hearUsage,
-  steps:oldCFlow.steps.map(t=>({...t,id:t.id.replace('micro-c-','route-c-').replace('-v2','-v4'),label:t.id.includes('repeat')?'請再說一次':'請在地圖指出'})),
-  variation:oldCMission,quiz:oldC.home.quiz,
+ {id:'C',group:'C',name:oldC.name,phraseIds:oldC.phraseIds,reuse:[],goal:oldC.goal,context:oldCFlow.context,task:oldC.checkpoint.task,words:oldC.words.map(w=>w[0]==='right'?['left','左邊']:w),advanced:oldC.advanced,advancedHear:oldC.advancedHear,
+  hearUsage:[{line:'Here. The post office is on the left.',target:'left',targetZh:'左邊',alternatives:[{word:'right',wordZh:'右邊',en:'Here. The post office is on the right.',zh:'這裡，郵局在右邊。'}]}],
+  steps:oldCFlow.steps.map(t=>({...t,id:t.id.replace('micro-c-','route-c-').replace('-v2','-v4'),label:t.id.includes('repeat')?'請再說一次':'請在地圖指出',valid:[1],
+   ...(t.id.includes('repeat')?{line:'Go straight. Turn left.',zh:'直走，再左轉。',position:[210,90,'已重聽：直走，再左轉']}:{line:'Here. The post office is on the left.',zh:'這裡，郵局在左邊。',objects:[['✉','在右側標記郵局'],['✉','在左側標記郵局']],position:[85,90,'已在地圖找到左側郵局']})})),
+  variation:oldCMission,quiz:{...oldC.home.quiz,line:'Here. The post office is on the left.',zh:'這裡，郵局在左邊。',correct:0,feedback:'on the left 表示在左邊。'},
   pair:{opening:'可以再說一次嗎？',next:'聽老師重說後，再請他在地圖上指出來。',goals:['請老師再說一次','請老師在地圖指出來']}
  }
 ];
@@ -268,14 +270,14 @@ for(const [i,t] of revisedTasks.entries()){
   checkpoint,home:{task:checkpoint.task,words,answer,answerZh,quiz:homeQuizzes[0],quizzes:homeQuizzes}};
  r.omitHearLines=r.advancedHear.map(p=>p.en);
  d.rounds.push(r);
- d.flows.push({id,name:t.id+'｜'+t.name,desc:t.goal,context:t.context,summary:t.pair.goals.join('，')+'。再練同一段，試著少看一層提示。',destination:t.id==='C'?'郵局':'火車站',mapMode:t.id==='C'?'post':'station',prelude:t.prelude,steps:t.steps});
+ d.flows.push({id,name:t.id+'｜'+t.name,desc:t.goal,context:t.context,summary:t.pair.goals.join('，')+'。再練同一段，試著少看一層提示。',destination:t.id==='C'?'郵局':'火車站',mapMode:t.id==='B'?'post':'station',prelude:t.prelude,steps:t.steps});
  d.missions.push({...t.variation,id:id+'-change',words:t.variation.words||words,answer:t.variation.answer||answer,answerZh:t.variation.answerZh||answerZh});
- d.pairs.push({...P(id+'-live',t.id+'｜'+t.name,t.pair.opening,t.pair.next,t.context,t.pair.goals,t.id==='C'?'直走，再右轉；郵局在右邊。':t.steps.map(s=>s.zh).join(' '),t.steps.map(s=>[s.label,s.line,s.zh]),words,answer,answerZh),...t.pair});
+ d.pairs.push({...P(id+'-live',t.id+'｜'+t.name,t.pair.opening,t.pair.next,t.context,t.pair.goals,t.steps.map(s=>s.zh).join(' '),t.steps.map(s=>[s.label,s.line,s.zh]),words,answer,answerZh),...t.pair});
  for(const s of t.steps){r.replyIds.push(d.replies.length);d.replies.push({...s,id:s.id+'-practice',name:s.label,change:'收起提示，把同一段問答再說一次。'});}
 }
 // The optional whole-lesson challenge changes the map-help destination to the
 // already known train station. Teach that listening substitution before use.
-d.rounds.at(-1).hearUsage.push({line:'Here. The post office is on the right.',target:'the post office',targetZh:'郵局',alternatives:[{word:'the train station',wordZh:'火車站',en:'Here. The train station is on the right.',zh:'這裡，火車站在右邊。'}]});
+d.rounds.at(-1).hearUsage.push({line:'Here. The post office is on the left.',target:'the post office',targetZh:'郵局',alternatives:[{word:'the train station',wordZh:'火車站',en:'Here. The train station is on the left.',zh:'這裡，火車站在左邊。'}]});
 
 // A short entry prompt is the same question in parts 01 and 06. Keep the
 // former full-task checkpoint for its existing records and lesson-wide goals.
@@ -292,7 +294,7 @@ for(const [i,r] of d.rounds.entries()){
 d.rounds[0].practiceChanges=[{task:'④ 只把火車站換成公車站；確認右轉與道謝仍用原句。',word:'the train station → the bus stop',wordZh:'火車站 → 公車站',en:'How do I get to the bus stop?',zh:'我要怎麼去公車站？'}];
 d.rounds[1].practiceChanges=[{task:'④ 目的地換成郵局；路人已知道，你仍用同樣的 3 句。'}];
 d.rounds[2].practiceChanges=[{task:'④ 已問過的目的地換成警局；仍用同樣的 2 句求助。'}];
-d.rounds[2].integrationListening={task:'08 整合挑戰會把郵局換成火車站，先聽懂這個替換。',word:'the post office → the train station',wordZh:'郵局 → 火車站',en:'Here. The train station is on the right.',zh:'這裡，火車站在右邊。'};
+d.rounds[2].integrationListening={task:'08 整合挑戰沿用 A 的火車站路線：火車站在右邊。先聽懂這個情境的回覆。',word:'the post office / left → the train station / right',wordZh:'郵局／左邊 → 火車站／右邊',en:'Here. The train station is on the right.',zh:'這裡，火車站在右邊。'};
 
 // These compatibility fields contain only A; the focus view renders each
 // round's checkpoint and home data directly, without pulling later tasks in.

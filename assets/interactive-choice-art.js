@@ -40,8 +40,10 @@ function vfChoiceDrawing(v,label){
   case 'interest':a=vfPerson(55,70,.9)+'<path d="M95 15H225V100H125L95 125V100Z" class="vf-fill"/>'+small('健行',106,22,105,75);break;
   case 'photo-memory':a=rect(25,15,190,120)+small('健行',40,20,160,105)+'<path d="M25 117H215"/>';break;
   case 'driver-match':case 'driver-query':a=small('計程車',10,40,165,105)+rect(162,10,67,95)+vfPerson(195,44,.4)+vfText(v.type==='driver-query'?'?':'TAXI',195,94,13);break;
-  case 'own-bag':a='<path d="M40 55Q120 40 200 55L185 132H55Z" class="vf-fill"/><path d="M70 55Q70 12 105 20V55M135 55V20Q170 12 170 55"/>'+small('杯子',75,52,90,75);break;
-  case 'store-bag':a='<path d="M45 45H195V135H45Z" class="vf-fill"/><path d="M85 45V18H155V45M45 120L66 98V135M195 120L174 98V135"/>';break;
+  case 'own-bag':case 'store-bag':
+   a='<path d="M45 45H195V135H45Z" class="vf-fill"/><path d="M85 45V18H155V45M45 120L66 98V135M195 120L174 98V135"/>';
+   if(v.type==='own-bag')a+='<path class="vf-no-bag" d="M48 22L192 140" stroke="#df4545" stroke-width="8"/>';
+   break;
   case 'fitting':a='<path d="M35 135V15H205V135M45 30H195M60 30V128M90 30V128M120 30V128M150 30V128M180 30V128"/>'+vfText('FITTING',120,23,12);break;
   case 'meal-wait':a=small('三明治',15,52,130,88)+clock(179,58,43);break;
   case 'food':a=small('有帶餅乾',25,20,190,120);break;

@@ -1,0 +1,49 @@
+/* This frame belongs only to Day 1's completed ordinary tasks. */
+.d1-completion-frame{--d1-finish-header:#dceefa;--d1-finish-ink:#16354b;--d1-finish-line:#94b7cf;--d1-finish-success:#d9f1e2;--d1-finish-success-ink:#185a38;border:2px solid var(--d1-finish-line);border-radius:18px;background:var(--panel);min-width:0;margin:24px 0}
+html[data-theme=dark] .d1-completion-frame{--d1-finish-header:#a9d6f1;--d1-finish-ink:#123046;--d1-finish-line:#79a9c7;--d1-finish-success:#b8edcd;--d1-finish-success-ink:#16472d}
+.d1-completion-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;padding:24px 28px;background:var(--d1-finish-header);color:var(--d1-finish-ink);border-radius:15px 15px 0 0}
+body.day1-guided .d1-completion-header #d1-completion-title{font-size:1.8rem;line-height:1.45;margin:0;color:var(--d1-finish-ink);overflow-wrap:anywhere}
+body.day1-guided .d1-completion-eyebrow{font-size:.85rem;line-height:1.5;margin:0 0 7px;color:var(--d1-finish-ink)}
+body.day1-guided .d1-completion-status{margin:0;padding:9px 14px;background:var(--d1-finish-success);color:var(--d1-finish-success-ink);border-radius:10px;font-size:.9rem;font-weight:600;line-height:1.5}
+.d1-completion-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);padding:28px 0;gap:0;align-items:start}
+.d1-completion-grid > section{min-width:0;padding:0 28px}
+.d1-completion-result{border-left:1px solid var(--line)}
+body.day1-guided .d1-completion-grid h2{font-size:1.2rem;line-height:1.5;margin:0 0 24px}
+.d1-completion-lines{margin:0;padding-left:1.4em}
+.d1-completion-lines li{margin:0 0 22px;padding:0 0 22px .12em;border-bottom:1px solid var(--line);font-weight:400}
+.d1-completion-lines li:last-child{border:0;margin-bottom:0;padding-bottom:0}
+.d1-completion-lines li::marker{color:var(--muted)}
+.d1-completion-goal{color:var(--muted);font-size:1rem;line-height:1.65;margin:0 0 8px;font-weight:400}
+.d1-completion-answer{font-size:1.55rem;line-height:1.55;margin:0;overflow-wrap:anywhere;font-weight:400}
+body.day1-guided .d1-completion-frame .dg-map-state{padding:18px;margin:0;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+body.day1-guided .d1-completion-frame .dg-map{width:100%;height:290px;min-height:290px}
+body.day1-guided .d1-completion-frame .d1-completion-steps{padding:0;margin:20px 0 0;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
+.d1-completion-steps > summary{min-height:48px;padding:12px 16px;border-radius:9px;font-size:.9rem;line-height:1.6;cursor:pointer;color:var(--ink)}
+.d1-completion-steps > summary:hover{background:var(--soft)}
+.d1-completion-steps > summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.d1-completion-steps[open] > summary{border-bottom:1px solid var(--line);border-radius:9px 9px 0 0}
+.d1-completion-steps .vf-final{padding:16px;margin:0;grid-template-columns:repeat(auto-fit,minmax(min(100%,145px),1fr))}
+.d1-completion-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;margin:0 28px;padding:24px 0;border-top:1px solid var(--line)}
+.d1-completion-next{flex:1 1 280px;min-width:0}
+.d1-completion-next > p{margin:0;font-size:1rem;line-height:1.65}
+.d1-completion-next > .fine{margin-top:8px;font-size:.8rem;color:var(--muted)}
+.d1-completion-footer .actions{display:flex;flex-wrap:wrap;gap:12px;margin:0;min-width:0;max-width:100%}
+.d1-completion-footer button{min-height:48px;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.d1-completion-frame :is(button,#d1-completion-title):focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+@media(max-width:900px){
+ .d1-completion-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+ .d1-completion-result{border-left:0;border-top:1px solid var(--line);padding-top:24px!important}
+ .d1-completion-header{align-items:flex-start}
+}
+@media(max-width:540px){
+ .d1-completion-frame{margin-top:18px}
+ .d1-completion-header{padding:20px 18px;gap:12px}
+ body.day1-guided .d1-completion-header #d1-completion-title{font-size:1.45rem}
+ .d1-completion-grid{padding:24px 0}
+ .d1-completion-grid > section{padding-left:18px;padding-right:18px}
+ body.day1-guided .d1-completion-frame .dg-map-state{padding:12px}
+ body.day1-guided .d1-completion-frame .dg-map{height:230px;min-height:230px}
+ .d1-completion-footer{margin:0 18px}
+ .d1-completion-footer .actions,.d1-completion-footer button{width:100%}
+}
+@media(prefers-contrast:more){.d1-completion-frame{border-width:3px}.d1-completion-steps{border-width:2px}}

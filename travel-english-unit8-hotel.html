@@ -950,6 +950,10 @@ body.lesson-guided .dg-feedback > .fine { margin: 0; }
 body.lesson-guided .scene-grid.task-scene .dg-choice-wrong { color: var(--dg-error); border-color: var(--dg-error); background: var(--panel); }
 body.lesson-guided .dg-completed-lines { display: grid; gap: 18px; margin: 22px 0; padding: 20px; border-radius: 14px; background: var(--soft); }
 body.lesson-guided .dg-completed-lines .dg-en { margin: 0; }
+body.lesson-guided .dg-completion-goals { display: grid; gap: .45em; margin: 0; padding-inline-start: 1.5em; }
+body.lesson-guided .dg-completion-english { display: grid; gap: 18px; margin: 0; padding-inline-start: 1.6em; }
+body.lesson-guided .dg-completion-english > li { padding-inline-start: .15em; }
+body.lesson-guided .dg-completion :is(.dg-completion-goals, .dg-completion-english) > li { font-weight: 400; }
 
 /* Shared lesson form and review components. */
 body.lesson-guided textarea { min-height: 130px; padding: 15px; margin: 10px 0 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink); line-height: 1.55; }
@@ -1252,6 +1256,18 @@ body.lesson-guided .dg-study-changes .grid { align-items: start; }
 body.lesson-guided .dg-change-card { min-width: 0; overflow-wrap: anywhere; }
 body.lesson-guided .dg-change-card .en { margin-bottom: 8px; }
 body.lesson-guided .dg-change-card .study-meaning { color: var(--muted); }
+/* Part 03 completion: matching numbered tasks and spoken sentences. */
+body.lesson-guided .lesson-completion-summary { margin: 20px 0; min-width: 0; }
+body.lesson-guided .lesson-completion-summary ol { display: grid; margin: 0; padding-inline-start: 1.5em; }
+body.lesson-guided .lesson-completion-summary li { margin: 0; padding-inline-start: .15em; font-weight: 400; line-height: 1.6; overflow-wrap: break-word; }
+body.lesson-guided .lesson-completion-goals { gap: .45em; font-size: 1.6rem; }
+body.lesson-guided .lesson-completion-answers { margin-top: 22px; padding: 20px; border-radius: 14px; background: var(--soft); }
+body.lesson-guided .lesson-completion-english { gap: 18px; font-size: 2rem; }
+@media(max-width:739px) {
+ body.lesson-guided .lesson-completion-goals { font-size: 1.4rem; }
+ body.lesson-guided .lesson-completion-english { font-size: 1.65rem; }
+ body.lesson-guided .lesson-completion-answers { padding: 16px; }
+}
 @media(max-width:999px) {
  body.lesson-guided .dg-context[data-many-tasks=true] { flex-wrap: wrap; }
  body.lesson-guided .dg-context[data-many-tasks=true] .dg-context-copy { flex-basis: 100%; }
@@ -1734,6 +1750,26 @@ body.lesson-guided.hi-active #main :is(.hi-object-options,.hx-decisions) button[
 body.lesson-guided.hi-active #main .hi-choice-feedback[data-result=correct]{color:var(--hi-correct-ink)}
 body.lesson-guided.hi-active #main .hi-choice-feedback[data-result=wrong]{color:var(--hi-wrong-ink)}
 @media(max-width:620px){.hi-turn-progress{gap:6px}.hi-turn-progress li{padding:7px 9px}.hi-dialogue .hi-actions>button{width:100%;flex-basis:100%}.hi-dialogue-complete{padding:18px}}
+
+/* Scope to the integrated finish screen, including Day 1's separate shell. */
+.integrated-completion .lesson-completion-summary{margin:20px 0;min-width:0}
+.integrated-completion .lesson-completion-summary ol{display:grid;margin:0;padding-inline-start:1.5em}
+.integrated-completion .lesson-completion-summary li{margin:0;padding-inline-start:.15em;font-weight:400;line-height:1.6;overflow-wrap:break-word}
+.integrated-completion .lesson-completion-goals{gap:.45em;font-size:1.6rem}
+.integrated-completion .lesson-completion-answers{margin-top:22px;padding:20px;border-radius:14px;background:var(--soft)}
+.integrated-completion .lesson-completion-english{gap:18px;font-size:2rem}
+.integrated-completion .scene-ledger{list-style:none;margin:0;padding:0;text-align:left}
+.integrated-completion .scene-ledger li{padding:12px 0;border-top:1px solid var(--line)}
+.integrated-completion .scene-ledger span,.integrated-completion .scene-ledger strong{display:block;line-height:1.6}
+.integrated-completion .scene-ledger span{font-size:.84rem;color:var(--muted)}
+.integrated-completion .scene-ledger strong{margin-top:5px;font-size:1rem;font-weight:650}
+.integrated-completion .scene-ledger .recorded strong:before{content:'✓ ';color:var(--accent)}
+.integrated-completion .vf-final figure{min-width:0;overflow-wrap:break-word}
+@media(max-width:739px){
+ .integrated-completion .lesson-completion-goals{font-size:1.4rem}
+ .integrated-completion .lesson-completion-english{font-size:1.65rem}
+ .integrated-completion .lesson-completion-answers{padding:16px}
+}
 
 </style>
 <style id="interactive-flow-styles">.vf-interaction{--vf-surface:var(--panel,#fff);--vf-line:var(--line,#c5d2d9);--vf-soft:var(--soft,#edf4f7);--vf-accent:var(--accent,#256b83);color:var(--ink,#23343a);min-width:0}
@@ -3038,6 +3074,13 @@ document.addEventListener('click',event=>{
 
 // Days 2–14 presentation layer. Keep the existing flow gates, choices,
 // conditional steps, save keys and free-response mission fields intact.
+function dgCompletionReview(steps) {
+ return `<div class="lesson-completion-summary">
+  <ol class="lesson-completion-goals" aria-label="完成的任務">${steps.map(s => `<li>${esc(s.label || s.task)}</li>`).join('')}</ol>
+  <div class="lesson-completion-answers"><ol class="lesson-completion-english" aria-label="對應的英文句子">${steps.map(s => `<li lang="en">${esc(s.answer)}</li>`).join('')}</ol></div>
+ </div>`;
+}
+
 function dgActiveScene(f, index) {
  return f.steps.slice(0, index + 1).reverse().find(s => s.sceneTitle || s.sceneContext);
 }
@@ -3077,13 +3120,12 @@ scenePage = function() {
  const picker = dgTaskTabs(flows, 'start', flow, r.flowIds);
  if (finished) {
   const resolved = f.steps.map((_, i) => lessonStep(f, i, id => history[f.steps.findIndex(s => s.id === id)]));
+  const review = course.day >= 2
+   ? `<h1 class="dg-role">✓ 本任務流程完成</h1>${dgCompletionReview(resolved)}`
+   : `<p class="dg-role">✓ 本任務流程完成</p><h1 class="dg-task">${esc(f.summary)}</h1><p>${esc(f.name)}</p><details class="dg-completed-review"><summary>回看這次用過的句子</summary><div class="dg-completed-lines">${resolved.map(t => `<p class="dg-en" lang="${language}">${esc(t.answer)}</p>`).join('')}</div></details>`;
   return picker + `<div class="dg-grid dg-completion">
    <section class="panel dg-panel">
-    <p class="dg-role">✓ 本任務流程完成</p><h1 class="dg-task">${esc(f.summary)}</h1>
-    <p>${esc(f.name)}</p>
-    <details class="dg-completed-review"><summary>回看這次用過的句子</summary>
-     <div class="dg-completed-lines">${resolved.map(t => `<p class="dg-en" lang="${language}">${esc(t.answer)}</p>`).join('')}</div>
-    </details>
+    ${review}
     <div class="actions">${btn('收起提示再練一次', `data-start="${flow}"`)}${btn(`前往 04 ${esc(dgLabels[3])} →`, 'data-page="3"', 'class="primary"')}</div>
     <p class="fine">完成標記會保留；是否熟悉，仍由師生在第六部分確認。</p>
    </section>
@@ -4157,8 +4199,11 @@ load();render();appearance();
    <p class="offline-note">作答保存在目前瀏覽器，不會自動同步到其他裝置。清除網站資料或裝置清理儲存空間後，可能需要再次連線儲存教材。</p>
   </details>`;
  const main=document.querySelector('main');
- if(document.documentElement.dataset.appearanceKind==='index'&&main)main.insertBefore(panel,main.querySelector('a[href]'));
- else document.body.append(panel);
+ // Only the home page shows the panel; lessons still prepare and use offline storage.
+ if(document.documentElement.dataset.appearanceKind==='index'){
+  if(main)main.insertBefore(panel,main.querySelector('a[href]'));
+  else document.body.append(panel);
+ }
  const status=panel.querySelector('#travel-offline-status');
  const update=panel.querySelector('#travel-offline-update');
  const retry=panel.querySelector('#travel-offline-retry');
@@ -4479,6 +4524,23 @@ load();render();appearance();
 })();
 </script>
 <script id="day8-integration">
+// Presentation only: callers supply the completed route and its actual results.
+// No lesson answers, progress or storage are changed here.
+function integratedCompletion({steps,records,title,heading,actions,note,result='',completionClass='ci-complete'}){
+ const review=`<div class="lesson-completion-summary">
+  <ol class="lesson-completion-goals" aria-label="完成的任務">${steps.map(s=>`<li>${esc(s.label||s.task)}</li>`).join('')}</ol>
+  <div class="lesson-completion-answers"><ol class="lesson-completion-english" aria-label="對應的英文句子">${steps.map(s=>`<li lang="en">${esc(s.answer)}</li>`).join('')}</ol></div>
+ </div>`;
+ const ledger=result||`<div class="scene-state generic-scene"><p class="eyebrow">✓ 已完成這次任務</p><h3>${esc(title)}</h3><ol class="scene-ledger">${records.map((r,i)=>`<li class="recorded"><span>${esc(steps[i].label||steps[i].task)}</span><strong>${esc(r.label)}</strong></li>`).join('')}</ol></div>`;
+ return `<div class="dg-grid dg-completion integrated-completion">
+  <section class="panel dg-panel ${completionClass}"><h2>${esc(heading)}</h2>${review}<p class="fine">${esc(note)}</p><div class="actions">${actions}</div></section>
+  <section class="panel dg-panel integrated-completion-results" aria-label="這次的練習圖示與結果">
+   <div class="vf-records vf-final">${records.map(r=>`<figure>${vfArt(r.artLabel||r.label,r.step)}<figcaption>${esc(r.label)}</figcaption></figure>`).join('')}</div>
+   <h2>這次完成的事</h2>${ledger}
+  </section>
+ </div>`;
+}
+
 // Integrated study cards reuse the ordinary lesson renderer and its collapsed swaps.
 function hotelStudyPhrase(p,i,r){
  return dgStudyPhrase(p,i,false,r).replace('class="panel ','class="panel hi-language hi-say ').replace('<p class="en"','<p class="en hi-en"');
@@ -4654,7 +4716,11 @@ function createCompleteHotel(data, ctx) {
  function flow(){
   const g=group(),c=flowData(),f=ui().flow,s=current();
   const top=head('連起來，完成這次任務','用同一筆資料接續對話。換時點時看清楚角色和需求。')+picker(g.flows,c.id,'data-hx-flow','完整流程');
-  if(f.done)return top+`<section class="panel hi-complete"><h2>✓ 這次的流程已練習</h2>${journal()}<p>依最後的結果口頭回顧：提供了哪些資料？哪些需求已確認？若婉拒訂餐，沒有送出餐點訂單。</p><p class="fine">這是操作與自行確認的練習紀錄；口說是否清楚，由師生實際核對。</p><div class="hi-actions">${btn('同一情境再練一次','data-hx-restart')}${go('換情境，自己說 →',3)}</div></section>`;
+  if(f.done){
+   const completed=flowData().steps.map((s,i)=>({...s,...s.decisions?.find(d=>d.result===f.history[i]?.result)}));
+   const records=completed.map((s,i)=>({label:f.history[i].result,artLabel:s.decisions?s.label:f.history[i].result,step:s.decisions?{...s,objects:s.decisions.map(d=>['',d.label]),choiceKind:'food'}:{...s,objects:s.options.map(label=>['',label])}}));
+   return top+integratedCompletion({steps:completed,records,title:c.title,heading:'✓ 這次的流程已練習',completionClass:'hi-complete',result:journal(),note:'這是操作與自行確認的練習紀錄；口說是否清楚，由師生實際核對。',actions:btn('同一情境再練一次','data-hx-restart')+go('換情境，自己說 →',3)});
+  }
   const result=hotelFlowResult(f.choice,s.valid||[]),decisionResult=s.decisions?hotelFlowResult(f.decision,s.allowed):'pending';
   const plan=s.decisions?`<div class="hi-options hx-decisions" role="group" aria-label="我的訂餐決定">${s.decisions.map((o,i)=>btn(esc(o.label)+(f.decision===i?`<span class="hi-choice-verdict">${hotelFlowVerdict(decisionResult)}</span>`:''),`data-hx-decision="${i}"`,`aria-pressed="${f.decision===i}" data-result="${f.decision===i?decisionResult:'pending'}" ${!f.heard?'disabled':''}`)).join('')}</div>${hotelFlowFeedback(decisionResult,decisionResult==='wrong'?s.reason:decisionResult==='correct'?'這個決定符合條件，接著用英文說出來。':'')}`:'';
   const dialogue=hotelFlowDialogue(s,f,{prefix:'hx',hint:hint(s,'flow-'+c.id+'-'+s.id+'-'+f.decision),plan});
@@ -4814,7 +4880,7 @@ function createCompleteHotel(data, ctx) {
  function flowPage() {
   const c = flowScenario(), f = flowState, s = c.steps[f.index], route=d.practice.flowRoutes.find(r=>r.id===flowRoute);
   const top = heading('連起來，完成這次入住','同一位旅客、同一筆訂房；說過的資訊一路延續。') + `<details class="panel hi-route-picker"><summary>接話順序：${esc(route.label)}</summary><div class="hi-options">${d.practice.flowRoutes.map(r=>button(esc(r.label),`data-hi-route="${r.id}"`,`aria-pressed="${flowRoute===r.id}"`)).join('')}</div><p>${esc(route.note)}</p></details>` + scenarioPicker(flowId,'flow-scenario') + ((flowRoute==='standard'&&saved.complete.includes(flowId))||saved.suite.routes.includes(flowRoute+':'+flowId)?'<p class="fine hi-flow-record">✓ 這組條件與順序已有一次完整流程的練習紀錄；可以重新練習。</p>':'');
-  if (f.done) return top + `<section class="panel"><p class="dg-role">✓ 這段流程已練習</p><h2>已準備好拿著房卡上樓。</h2>${board()}<p class="task">請口頭整理：你用什麼名字訂房、住幾晚？早餐、退房時間和電梯位置確認了嗎？</p><p class="fine">完成操作是練習紀錄；接下來和老師實際接話，觀察需要多少提示。</p><div class="hi-actions">${button('同一段再練一次','data-hi-flow-restart')}${go('看情境，自己選用 →',3,'class="primary"')}${go('直接和老師接話 →',4)}</div></section>`;
+  if (f.done) return top + integratedCompletion({steps:c.steps,records:vfHistory(c,f.history),title:c.label,heading:'✓ 這段流程已練習',completionClass:'hi-complete',result:board(),note:'完成操作是練習紀錄；接下來和老師實際接話，觀察需要多少提示。',actions:button('同一段再練一次','data-hi-flow-restart')+go('看情境，自己選用 →',3,'class="primary"')+go('直接和老師接話 →',4)});
   const dialogue=hotelFlowDialogue(s,f,{prefix:'hi',role:'櫃檯',hint:hintFor(s,'flow-'+c.id+'-'+s.key)});
   return top + `<section class="panel"><div class="hi-row"><div><p class="eyebrow">${esc(s.stage)} · 來自任務 ${esc(s.sourceLabel)}</p><h2>${esc(s.label)}</h2></div><span class="hi-count">${f.index+1} / ${c.steps.length}</span></div><div class="hi-track" aria-label="第 ${f.index+1} 步，共 ${c.steps.length} 步">${c.steps.map((_,i) => `<span class="${i<=f.index?'on':''}"></span>`).join('')}</div><div class="hi-flow-grid"><div>${facts(c)}${dialogue}<div class="hi-actions">${button('← 上一步','data-hi-flow-back',f.index===0?'disabled':'')}${button('重新開始','data-hi-flow-restart')}</div></div><div class="hi-scene">${board()}${vfPanel(s,{selected:f.choice,ready:f.heard&&f.spoken,attr:'data-hi-choice',previous:vfHistory({steps:c.steps},f.history,f.index)})}<p class="hi-feedback" hidden>${esc(f.feedback)}</p><div class="hi-actions hi-step-next">${button(f.index===c.steps.length-1?'完成入住流程 ✓':'下一步 →','data-hi-flow-next',`class="primary" ${flowReady()?'':'disabled'}`)}</div></div></div><p class="fine">已開口由自己確認；這裡不錄音，也不自動評分。</p></section>`;
  }

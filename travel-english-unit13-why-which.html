@@ -969,6 +969,10 @@ body.lesson-guided .dg-feedback > .fine { margin: 0; }
 body.lesson-guided .scene-grid.task-scene .dg-choice-wrong { color: var(--dg-error); border-color: var(--dg-error); background: var(--panel); }
 body.lesson-guided .dg-completed-lines { display: grid; gap: 18px; margin: 22px 0; padding: 20px; border-radius: 14px; background: var(--soft); }
 body.lesson-guided .dg-completed-lines .dg-en { margin: 0; }
+body.lesson-guided .dg-completion-goals { display: grid; gap: .45em; margin: 0; padding-inline-start: 1.5em; }
+body.lesson-guided .dg-completion-english { display: grid; gap: 18px; margin: 0; padding-inline-start: 1.6em; }
+body.lesson-guided .dg-completion-english > li { padding-inline-start: .15em; }
+body.lesson-guided .dg-completion :is(.dg-completion-goals, .dg-completion-english) > li { font-weight: 400; }
 
 /* Shared lesson form and review components. */
 body.lesson-guided textarea { min-height: 130px; padding: 15px; margin: 10px 0 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink); line-height: 1.55; }
@@ -1271,6 +1275,18 @@ body.lesson-guided .dg-study-changes .grid { align-items: start; }
 body.lesson-guided .dg-change-card { min-width: 0; overflow-wrap: anywhere; }
 body.lesson-guided .dg-change-card .en { margin-bottom: 8px; }
 body.lesson-guided .dg-change-card .study-meaning { color: var(--muted); }
+/* Part 03 completion: matching numbered tasks and spoken sentences. */
+body.lesson-guided .lesson-completion-summary { margin: 20px 0; min-width: 0; }
+body.lesson-guided .lesson-completion-summary ol { display: grid; margin: 0; padding-inline-start: 1.5em; }
+body.lesson-guided .lesson-completion-summary li { margin: 0; padding-inline-start: .15em; font-weight: 400; line-height: 1.6; overflow-wrap: break-word; }
+body.lesson-guided .lesson-completion-goals { gap: .45em; font-size: 1.6rem; }
+body.lesson-guided .lesson-completion-answers { margin-top: 22px; padding: 20px; border-radius: 14px; background: var(--soft); }
+body.lesson-guided .lesson-completion-english { gap: 18px; font-size: 2rem; }
+@media(max-width:739px) {
+ body.lesson-guided .lesson-completion-goals { font-size: 1.4rem; }
+ body.lesson-guided .lesson-completion-english { font-size: 1.65rem; }
+ body.lesson-guided .lesson-completion-answers { padding: 16px; }
+}
 @media(max-width:999px) {
  body.lesson-guided .dg-context[data-many-tasks=true] { flex-wrap: wrap; }
  body.lesson-guided .dg-context[data-many-tasks=true] .dg-context-copy { flex-basis: 100%; }
@@ -2828,6 +2844,13 @@ document.addEventListener('click',event=>{
 
 // Days 2–14 presentation layer. Keep the existing flow gates, choices,
 // conditional steps, save keys and free-response mission fields intact.
+function dgCompletionReview(steps) {
+ return `<div class="lesson-completion-summary">
+  <ol class="lesson-completion-goals" aria-label="完成的任務">${steps.map(s => `<li>${esc(s.label || s.task)}</li>`).join('')}</ol>
+  <div class="lesson-completion-answers"><ol class="lesson-completion-english" aria-label="對應的英文句子">${steps.map(s => `<li lang="en">${esc(s.answer)}</li>`).join('')}</ol></div>
+ </div>`;
+}
+
 function dgActiveScene(f, index) {
  return f.steps.slice(0, index + 1).reverse().find(s => s.sceneTitle || s.sceneContext);
 }
@@ -2867,13 +2890,12 @@ scenePage = function() {
  const picker = dgTaskTabs(flows, 'start', flow, r.flowIds);
  if (finished) {
   const resolved = f.steps.map((_, i) => lessonStep(f, i, id => history[f.steps.findIndex(s => s.id === id)]));
+  const review = course.day >= 2
+   ? `<h1 class="dg-role">✓ 本任務流程完成</h1>${dgCompletionReview(resolved)}`
+   : `<p class="dg-role">✓ 本任務流程完成</p><h1 class="dg-task">${esc(f.summary)}</h1><p>${esc(f.name)}</p><details class="dg-completed-review"><summary>回看這次用過的句子</summary><div class="dg-completed-lines">${resolved.map(t => `<p class="dg-en" lang="${language}">${esc(t.answer)}</p>`).join('')}</div></details>`;
   return picker + `<div class="dg-grid dg-completion">
    <section class="panel dg-panel">
-    <p class="dg-role">✓ 本任務流程完成</p><h1 class="dg-task">${esc(f.summary)}</h1>
-    <p>${esc(f.name)}</p>
-    <details class="dg-completed-review"><summary>回看這次用過的句子</summary>
-     <div class="dg-completed-lines">${resolved.map(t => `<p class="dg-en" lang="${language}">${esc(t.answer)}</p>`).join('')}</div>
-    </details>
+    ${review}
     <div class="actions">${btn('收起提示再練一次', `data-start="${flow}"`)}${btn(`前往 04 ${esc(dgLabels[3])} →`, 'data-page="3"', 'class="primary"')}</div>
     <p class="fine">完成標記會保留；是否熟悉，仍由師生在第六部分確認。</p>
    </section>
@@ -3823,8 +3845,11 @@ load();render();appearance();
    <p class="offline-note">作答保存在目前瀏覽器，不會自動同步到其他裝置。清除網站資料或裝置清理儲存空間後，可能需要再次連線儲存教材。</p>
   </details>`;
  const main=document.querySelector('main');
- if(document.documentElement.dataset.appearanceKind==='index'&&main)main.insertBefore(panel,main.querySelector('a[href]'));
- else document.body.append(panel);
+ // Only the home page shows the panel; lessons still prepare and use offline storage.
+ if(document.documentElement.dataset.appearanceKind==='index'){
+  if(main)main.insertBefore(panel,main.querySelector('a[href]'));
+  else document.body.append(panel);
+ }
  const status=panel.querySelector('#travel-offline-status');
  const update=panel.querySelector('#travel-offline-update');
  const retry=panel.querySelector('#travel-offline-retry');

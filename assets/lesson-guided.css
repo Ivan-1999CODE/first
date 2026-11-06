@@ -59,6 +59,18 @@ body.lesson-guided .dg-study-changes .grid { align-items: start; }
 body.lesson-guided .dg-change-card { min-width: 0; overflow-wrap: anywhere; }
 body.lesson-guided .dg-change-card .en { margin-bottom: 8px; }
 body.lesson-guided .dg-change-card .study-meaning { color: var(--muted); }
+/* Part 03 completion: matching numbered tasks and spoken sentences. */
+body.lesson-guided .lesson-completion-summary { margin: 20px 0; min-width: 0; }
+body.lesson-guided .lesson-completion-summary ol { display: grid; margin: 0; padding-inline-start: 1.5em; }
+body.lesson-guided .lesson-completion-summary li { margin: 0; padding-inline-start: .15em; font-weight: 400; line-height: 1.6; overflow-wrap: break-word; }
+body.lesson-guided .lesson-completion-goals { gap: .45em; font-size: 1.6rem; }
+body.lesson-guided .lesson-completion-answers { margin-top: 22px; padding: 20px; border-radius: 14px; background: var(--soft); }
+body.lesson-guided .lesson-completion-english { gap: 18px; font-size: 2rem; }
+@media(max-width:739px) {
+ body.lesson-guided .lesson-completion-goals { font-size: 1.4rem; }
+ body.lesson-guided .lesson-completion-english { font-size: 1.65rem; }
+ body.lesson-guided .lesson-completion-answers { padding: 16px; }
+}
 @media(max-width:999px) {
  body.lesson-guided .dg-context[data-many-tasks=true] { flex-wrap: wrap; }
  body.lesson-guided .dg-context[data-many-tasks=true] .dg-context-copy { flex-basis: 100%; }

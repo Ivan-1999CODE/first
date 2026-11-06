@@ -1,5 +1,12 @@
 // Days 2–14 presentation layer. Keep the existing flow gates, choices,
 // conditional steps, save keys and free-response mission fields intact.
+function dgCompletionReview(steps) {
+ return `<div class="lesson-completion-summary">
+  <ol class="lesson-completion-goals" aria-label="完成的任務">${steps.map(s => `<li>${esc(s.label || s.task)}</li>`).join('')}</ol>
+  <div class="lesson-completion-answers"><ol class="lesson-completion-english" aria-label="對應的英文句子">${steps.map(s => `<li lang="en">${esc(s.answer)}</li>`).join('')}</ol></div>
+ </div>`;
+}
+
 function dgActiveScene(f, index) {
  return f.steps.slice(0, index + 1).reverse().find(s => s.sceneTitle || s.sceneContext);
 }
@@ -39,13 +46,12 @@ scenePage = function() {
  const picker = dgTaskTabs(flows, 'start', flow, r.flowIds);
  if (finished) {
   const resolved = f.steps.map((_, i) => lessonStep(f, i, id => history[f.steps.findIndex(s => s.id === id)]));
+  const review = course.day >= 2
+   ? `<h1 class="dg-role">✓ 本任務流程完成</h1>${dgCompletionReview(resolved)}`
+   : `<p class="dg-role">✓ 本任務流程完成</p><h1 class="dg-task">${esc(f.summary)}</h1><p>${esc(f.name)}</p><details class="dg-completed-review"><summary>回看這次用過的句子</summary><div class="dg-completed-lines">${resolved.map(t => `<p class="dg-en" lang="${language}">${esc(t.answer)}</p>`).join('')}</div></details>`;
   return picker + `<div class="dg-grid dg-completion">
    <section class="panel dg-panel">
-    <p class="dg-role">✓ 本任務流程完成</p><h1 class="dg-task">${esc(f.summary)}</h1>
-    <p>${esc(f.name)}</p>
-    <details class="dg-completed-review"><summary>回看這次用過的句子</summary>
-     <div class="dg-completed-lines">${resolved.map(t => `<p class="dg-en" lang="${language}">${esc(t.answer)}</p>`).join('')}</div>
-    </details>
+    ${review}
     <div class="actions">${btn('收起提示再練一次', `data-start="${flow}"`)}${btn(`前往 04 ${esc(dgLabels[3])} →`, 'data-page="3"', 'class="primary"')}</div>
     <p class="fine">完成標記會保留；是否熟悉，仍由師生在第六部分確認。</p>
    </section>

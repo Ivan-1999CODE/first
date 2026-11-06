@@ -14,7 +14,7 @@ add('route-b-way-v4',L('依回覆，選出完整的轉彎路線。','必須同�
 add('route-b-bus-v4',L('聽路人的回覆，你接下來該去哪裡？','聽懂 bus stop，才知道前往車站或站牌。'));
 copy('route-a-thanks-v4','route-b-thanks-v4');
 add('route-c-repeat-v4',L('這次重聽到的方向是哪一條？','重聽後仍需辨認左右；不在任務文字公布方向。'));
-add('route-c-map-v4',L('在地圖上指出路人說的郵局位置。','兩邊都放郵局，只能依 on the right 判斷，不用地點名稱排除。',{objects:opts('在右側標記郵局','在左側標記郵局')}));
+add('route-c-map-v4',L('在地圖上指出路人說的郵局位置。','兩邊都放郵局，依對方說的左右位置判斷，不用地點名稱排除。',{objects:opts('在右側標記郵局','在左側標記郵局')}));
 
 group('d2-merged-price-quantity-v1',[
  L('把店員剛報的價格放到杯子旁。','6 與 10 都是合理價格，必須聽懂數字。'),
@@ -25,7 +25,7 @@ group('d2-merged-price-quantity-v1',[
 group('d2-merged-payment-bag-v1',[
  L('依店員的付款規則，拿出可以使用的付款物件。','Cash only 是店方新資訊，不能由想刷卡推測結果。',{task:'你手上有卡片和現金。先問店員能不能刷卡。'}),
  D('聽店員報價，哪一組現金剛好付清？','依店員報出的金額核對鈔票面額。',{practiceReply:{line:'Six dollars in total. Thank you.',zh:'一共 6 美元，謝謝。'},objects:opts('5 美元加 1 美元現金','5 美元加 5 美元現金'),choiceKind:'cash-set',pictureChoices:true,choiceVisuals:[{type:'cash',values:[5,1]},{type:'cash',values:[5,5]}]}),
- V('看結帳後的裝袋畫面，哪一個符合你剛才的需求？','比較自備袋裝商品與另外提供紙袋，操作結果不再只有是／否。',{choiceVisuals:[{type:'own-bag'},{type:'store-bag'}],pictureChoices:true})
+ V('哪張圖符合你剛才的袋子需求？','袋子代表需要店家提供袋子；同一袋子加紅色斜線代表不需要，依剛才的回答選圖。',{choiceVisuals:[{type:'own-bag'},{type:'store-bag'}],pictureChoices:true})
 ]);
 group('d2-budget-and-cheaper-v1',[
  D('聽完杯子的價格，依你的預算決定下一步。','把自己的預算和店員報價比較，不能只重選預算 10。'),

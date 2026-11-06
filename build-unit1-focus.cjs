@@ -25,6 +25,10 @@ module.exports=function build(){
  fs.writeFileSync('travel-english.html',styled.replace('load();render();appearance();',()=>fs.readFileSync('assets/interactive-flow.js','utf8')+'\n'+fs.readFileSync('assets/interactive-choice-art.js','utf8')+'\nload();render();appearance();').replace('</head>',()=>'<style id="interactive-flow-styles">'+fs.readFileSync('assets/interactive-flow.css','utf8')+'\n'+fs.readFileSync('assets/interactive-redesign.css','utf8')+'</style></head>'));
  require('./install-chapter-integration.cjs')('travel-english.html',d);
  fs.writeFileSync('travel-english.html',fs.readFileSync('travel-english.html','utf8').replace('</head>',()=>'<style id="lesson-navigation-styles">'+fs.readFileSync('assets/lesson-navigation.css','utf8')+'</style></head>'));
+ // Keep the single-task finish layout local to Day 1, after shared renderers.
+ fs.writeFileSync('travel-english.html',fs.readFileSync('travel-english.html','utf8')
+  .replace('</head>',()=>'<style id="day1-completion-styles">'+fs.readFileSync('assets/day1-completion.css','utf8')+'</style></head>')
+  .replace('</body>',()=>'<script id="day1-completion-runtime">'+fs.readFileSync('assets/day1-completion.js','utf8')+'</script></body>'));
  require('./build-pwa.cjs')();
  console.log('Built Day 1 focus: '+d.phrases.length+' phrases / '+d.rounds.length+' rounds.');
 };
