@@ -28,12 +28,12 @@ module.exports=function makeChapterIntegration(d){
   const busMap=changed(s('C',1),[['The post office','The train station'],['the post office','the train station'],['郵局','火車站']]);
   const map={...clone(busMap),line:'Here. The train station is on the right.',zh:'這裡，火車站在右邊。',valid:[0],position:[335,90,'已在地圖找到右側火車站']};
   add('route-help','問路時，聽不清楚也能確認',['A','C'],'同一個目的地，依需要請重說、看地圖，最後道謝。',[
-   path('map','重聽並看地圖','你要去火車站，第一次沒聽清楚路線，手上有地圖。',[s('A',0),repeat,s('A',1),map,s('A',2)]),
-   path('repeat','只需要再聽一次','你要去火車站，沒有地圖；重聽後確認方向再道謝。',[s('A',0),repeat,s('A',1),s('A',2)])],'問清去火車站的路線，聽不清楚時知道怎麼求助。');
+   path('map','重聽並看地圖','你要去火車站，第一次沒聽清楚路線，手上有地圖。',[s('A',0),repeat,map,s('A',1)]),
+   path('repeat','只需要再聽一次','你要去火車站，沒有地圖；重聽後確認方向再道謝。',[s('A',0),repeat,s('A',1)])],'問清去火車站的路線，聽不清楚時知道怎麼求助。');
   add('bus-help','問清搭公車的方法',['B','C'],'路人已知道目的地，將求助放在真正需要的地方。',[
    path('bus','請指路，再問公車','沿用 B 的起點去火車站。路人已知道目的地；你沒聽清楚走法，想看地圖，也想知道能不能搭公車。',[s('B',0),busRepeat,busMap,s('B',1),s('B',2)])],'確認路線、公車與站牌，禮貌結束問路。');
   add('journey','完成一次問路',['A','B','C'],'先說目的地，再依需求接續求助與交通詢問。',[
-   path('bus','問路後考慮公車','你要去火車站；沒聽清楚時請重說，再看地圖，最後詢問能不能搭公車。',[s('A',0),repeat,s('A',1),map,s('B',1),s('A',2)])],'用同一條路線完成問路與交通詢問。');
+   path('bus','問路後考慮公車','你要去火車站；沒聽清楚時請重說，再看地圖，最後詢問能不能搭公車。',[s('A',0),repeat,map,s('B',1),s('A',1)])],'用同一條路線完成問路與交通詢問。');
  }
  if(day===2){
   const payment=(item,amount,bag=0)=>all('B',bag).map(t=>changed(t,[['杯子',item],['6 美元',amount+' 美元']],t.choiceKind==='cash-set'&&amount===4?{practiceReply:{line:'Four dollars in total. Thank you.',zh:'一共 4 美元，謝謝。'},objects:[['▣','1 美元加 1 美元加 1 美元加 1 美元'],['▣','5 美元加 1 美元']],choiceVisuals:[{type:'cash',values:[1,1,1,1]},{type:'cash',values:[5,1]}]}:{}));
@@ -126,7 +126,50 @@ module.exports=function makeChapterIntegration(d){
   add('journey','完整聊天：從早餐到參觀後',['A','C','B'],'早餐聊天與參觀後分享分成兩幕。',[
    path('day','早餐與參觀後','早餐認識旅伴：你來自臺灣、和家人同行、第一次來，喜歡拍照。稍後你們都參觀了博物館，覺得很棒，也覺得人很多。',[...phase('早餐時','你們剛認識，先聊旅行資料和興趣。',[...meet,...interests]),...phase('參觀博物館後','兩人都已參觀完，現在才分享這次感想。',[s('B',3),s('B',4)])])],'同一位旅伴，在不同時點聊適合當下的內容。');
  }
+ // Part 03 may give the traveller's known needs, but not an unheard reply.
+ // Keep the full teaching scenarios in the other six parts.
+ const practiceCopy={
+  2:{budget:{title:'依預算挑選商品，再結帳',paths:{magnet:{title:'挑選一份小禮物'}}}},
+  4:{bus:{paths:{correct:{title:'上車後核對目的地',context:'你已搭上確認會到 Central Station 的公車。請和司機核對目的地，再問下車站。'}}}},
+  6:{
+   simple:{paths:{
+    time:{context:'你和旅伴還在看菜單，需要一點時間。稍後請店員推薦主餐，選內用並結束點餐。'},
+    ready:{context:'你準備好請店員推薦主餐，想把餐點帶去公園吃，不再加點。'}
+   }},
+   drink:{paths:{
+    none:{context:'你想請店員推薦主餐，也想升級套餐並選茶；茶不要冰、不要糖，最後選內用並表示不再加點。'},
+    less:{context:'你想請店員推薦主餐，也想升級套餐並選茶；茶少冰、少糖，餐點與茶都要外帶，而且不再加點。'}
+   }},
+   budget:{paths:{toast:{context:'你有 10 美元，先詢問眼前餐點的價格。超出預算就找便宜餐點，決定後選外帶、不再加點；最後核對這筆金額。'}}}
+  },
+  7:{
+   find:{paths:{other:{context:'你拿著紅色 L 號上衣，想問其他尺寸和顏色；了解店員提供的選擇後，準備試穿。'}}},
+   fit:{paths:{
+    small:{context:'你已拿到一件 S 號上衣，先問試穿。穿後覺得太小，想換一件；合身再決定購買。'},
+    big:{context:'你已拿到一件 L 號上衣，先問試穿。穿後覺得太大，想換一件；合身再決定購買。'},
+    suggestion:{context:'你已告訴店員 S 號太小。先聽店員的建議，再回答；換穿後合身，決定購買。'}
+   }}
+  },
+  9:{reservation:{paths:{
+   normal:{context:'你想訂明晚 7 點的兩人桌，姓名 Alex Chen。'},
+   decline:{title:'依可用時間決定是否訂位'}
+  }}},
+  11:{
+   meet:{paths:{
+    first:{context:'早餐時認識新旅伴。你來自臺灣、和家人同行，第一次來這座城市。'},
+    again:{context:'早餐時認識新旅伴。你來自臺灣、和家人同行，以前來過這座城市。'}
+   }},
+   journey:{paths:{day:{context:'早餐認識旅伴：你來自臺灣、和家人同行、第一次來，喜歡拍照。稍後你參觀了博物館，覺得很棒，會和旅伴分享感想。'}}}
+  }
+ }[day]||{};
  for(const g of groups){
+  const practice=practiceCopy[g.id];
+  if(practice?.title)g.practiceTitle=practice.title;
+  for(const p of g.paths){
+   const copy=practice?.paths?.[p.id];
+   if(copy?.title)p.practiceTitle=copy.title;
+   if(copy?.context)p.practiceContext=copy.context;
+  }
   g.storageKey=`travel-lab-en-day${day}-chapter-${g.id}-v1`;
   g.sections=['先試完整情境','整理聽說句子','連起來完成任務','看情境，自己選用','和老師完整接話','看看整體進步','課後再用一次'];
   g.checkpoint=g.paths[0].context;

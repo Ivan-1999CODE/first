@@ -65,8 +65,8 @@ scenePage = function() {
  return picker + `<div class="dg-grid scene-grid task-scene dg-flow-grid">
   <section class="panel dg-panel dg-speaker flow-turn turn-current ${student ? '' : 'dg-listener'}" aria-label="當前對話">
    <div class="dg-role-row"><p class="dg-role">${student ? '你 · 旅客' : '對方 · ' + esc(counterpart)}</p><span class="fine">對話 ${turn + 1} / ${f.steps.length}</span></div>
-   <h1 class="dg-task">${student ? esc(t.task) : '聽聽' + esc(counterpart) + '怎麼說'}</h1>
-   ${student ? guidedHint(t.words, t.answer, t.answerZh, 'flow-' + f.id + '-' + turn) : dgListening(t, counterpart)}
+   <h1 class="dg-task">${student ? esc(vfTranslationPrompt(t)) : '聽聽' + esc(counterpart) + '怎麼說'}</h1>
+   ${student ? vfTranslationHint(t) : dgListening(t, counterpart)}
    ${dgFlowConfirm(t, student)}
    <div class="dg-flow-back">${btn('← 上一句', 'data-act="back"', turn === 0 ? 'disabled' : '')}${btn('重新開始本任務', `data-start="${flow}"`, 'class="dg-quiet"')}</div>
   </section>

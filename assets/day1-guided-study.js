@@ -27,6 +27,9 @@ function dgStudyPhraseById(id){
 }
 
 function dgStudyHearUsage(p,r){
+ const notes=(r.wordNotes||[]).filter(note=>note.line===p.en);
+ if(notes.length)return `<details class="phrase-usage dg-hear-usage"><summary>認識另一個方向</summary>${notes.map(note=>`<p><span lang="en">${esc(note.word)}</span>＝${esc(note.zh)}</p>${audio(note.word)}`).join('')}</details>`;
+
  const usages=(r.hearUsage||[]).filter(item=>item.line===p.en&&item.alternatives?.length).map(item=>({...item,alternatives:item.alternatives.filter(a=>a.en!==r.integrationListening?.en)})).filter(item=>item.alternatives.length);
  if(!usages.length)return '';
  return `<details class="phrase-usage dg-hear-usage"><summary>用法補充</summary>${usages.flatMap(usage=>usage.alternatives.map(item=>`<div><p><span lang="en">${esc(usage.target)}</span>（${esc(usage.targetZh)}）可以換成 <span lang="en">${esc(item.word)}</span>（${esc(item.wordZh)}）。</p><p class="en" lang="en">${esc(item.en)}</p><p class="study-meaning">${esc(item.zh)}</p>${audio(item.en)}</div>`)).join('')}</details>`;

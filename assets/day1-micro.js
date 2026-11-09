@@ -13,6 +13,20 @@ for(const r of rounds)for(const kind of ['before','after','home'])fields.push(`$
 // Changed questions use separate fields, never the former multi-sentence answer.
 const entryAnswerKey=(kind,r)=>`${kind}-entry-v1-${r.id}`;
 for(const r of rounds)for(const kind of ['before','after'])fields.push(entryAnswerKey(kind,r));
+const day1GoalLoad=load;
+load=function(){
+ day1GoalLoad();
+ try{
+  const saved=JSON.parse(localStorage.getItem(course.id)||'{}');
+  const id=pairs[0].id,old=saved.checks?.[id];
+  if(saved.day1GoalOrder!==2){
+   if(saved.answers||saved.checks||saved.ratings)state.legacy={...state.legacy,
+    day1BeforeDirectionRemoval:{answers:saved.answers||{},checks:saved.checks||{},ratings:saved.ratings||{}}};
+   if(Array.isArray(old)&&old.length===3)state.checks[id]=[old[0]===true,old[2]===true];
+  }
+ }catch{}
+ state.day1GoalOrder=2;
+};
 const microBaseLoad=load;
 load=function(){
  microBaseLoad();

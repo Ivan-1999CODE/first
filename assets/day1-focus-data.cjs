@@ -208,10 +208,9 @@ for(const [ri,r] of d.rounds.entries()){
 d.course.id='travel-lab-unit1-merged-v4';
 d.course.revision='merged-v4';
 d.previousRevisionKeys=['travel-lab-unit1-route-v3','travel-lab-unit1-route-v3-rounds','travel-lab-unit1-micro-v2','travel-lab-unit1-micro-v2-rounds'];
-d.course.description='A 練問路、確認右轉與道謝；B 練請指路、問公車與道謝；C 練請重說與指地圖。每個任務都有完整練習、回顧與課後挑戰。';
+d.course.description='A 練問路、聽懂方向與道謝；B 練請指路、問公車與道謝；C 練請重說與指地圖。每個任務都有完整練習、回顧與課後挑戰。';
 d.course.labels[1]='這一輪：句子與短對話';
 d.course.tip='依序練習 A、B、C，每個任務的句子反覆用在同一段情境。對方的話聽懂即可，不需要背熟。';
-d.phrases.push({id:'route-right-v3',use:'核心｜確認右轉',en:'Turn right?',zh:'右轉嗎？',note:''});
 const routeLine='Go straight to the first intersection. Turn right.';
 const routeZh='直走到第一個路口，再右轉。';
 const welcomeLine='You’re welcome.';
@@ -220,21 +219,20 @@ const reviseStep=(key,label,line,zh,task,words,answer,answerZh,objects,position)
 const thanks=(key,context,position)=>reviseStep(key,'謝謝對方的幫忙',welcomeLine,'不客氣。',context+'用學過的句子謝謝他的幫忙。','thank you / help','Thank you for your help.','謝謝你的幫忙。',[['✓','對方回應：不客氣'],['?','對方在問目的地']],position);
 const prelude={line:'Where would you like to go?',zh:'你想去哪裡？',task:'路人先問你想去哪裡。你要去火車站，聽懂後指出火車站即可；這裡不要求增加一句英文回答。',objects:[['🚉','指出火車站'],['✉','指出郵局']],correct:0};
 const revisedTasks=[
- {id:'A',group:'A',name:'問路、確認方向與道謝',phraseIds:['phrase-0','route-right-v3','phrase-10'],reuse:[],
-  goal:'先指出火車站，再問路、確認右轉，最後謝謝對方的幫忙。',
-  context:'你想去火車站。路人先問你想去哪裡；先在地圖指出火車站，不必另外背英文短答。再問路，聽到直走到第一個路口、右轉後，確認右轉，最後道謝。',
-  task:'你想去火車站。路人問你想去哪裡，先指出火車站即可。接著問怎麼走；聽到「直走到第一個路口，再右轉」後，確認是不是右轉，最後謝謝他的幫忙。你會分別怎麼說？',
-  words:[['train station','火車站'],['bus stop','公車站'],['right','右邊'],['go straight','直走'],['first intersection','第一個路口'],['thank you','謝謝你'],['help','幫忙']],
-  prelude,advanced:oldA.advanced,advancedHear:oldA.advancedHear,
+ {id:'A',group:'A',name:'問路與道謝',phraseIds:['phrase-0','phrase-10'],reuse:[],
+  goal:'先指出火車站，再問路、聽懂方向，最後謝謝對方的幫忙。',
+  context:'你想去火車站。路人先問你想去哪裡；先在地圖指出火車站，不必另外背英文短答。再問路，聽到直走到第一個路口、右轉後，最後道謝。',
+  task:'你想去火車站。路人問你想去哪裡，先指出火車站即可。接著問怎麼走；聽到「直走到第一個路口，再右轉」後，最後謝謝他的幫忙。你會分別怎麼說？',
+  words:[['train station','火車站'],['bus stop','公車站'],['right','右邊'],['left','左邊'],['go straight','直走'],['first intersection','第一個路口'],['thank you','謝謝你'],['help','幫忙']],
+  wordNotes:[{line:routeLine,word:'left',zh:'左邊'}],prelude,advanced:oldA.advanced,advancedHear:oldA.advancedHear,
   steps:[
    reviseStep('a-ask','問火車站怎麼走',routeLine,routeZh,'你已指出火車站。用這輪學過的句子問怎麼走。','get to / train station','How do I get to the train station?','我要怎麼去火車站？',[['→','第一個路口右轉'],['→','第二個路口右轉'],['←','第一個路口左轉'],['←','第二個路口左轉']],[335,90,'已走到第一個路口並右轉']),
-   reviseStep('a-right','確認右轉','Yes, right.','對，右轉。','路人說在第一個路口右轉。用短句確認是不是右轉。','turn / right','Turn right?','右轉嗎？',[['→','確認右轉去火車站'],['←','改往左邊']],[335,90,'已確認第一個路口右轉去火車站']),
-   thanks('a-thanks','路人已幫你指好去火車站的路，你也確認了右轉。',[335,90,'已問清楚方向，也向路人道謝'])
+   thanks('a-thanks','路人已幫你指好去火車站的路，你也聽懂了方向。',[335,90,'已問清楚方向，也向路人道謝'])
   ],
-  variation:{name:'只換目的地：公車站',task:'這次目的地換成公車站。路人問你去哪裡時，先指出公車站即可；路線仍是直走到第一個路口，再右轉。問公車站怎麼走、確認右轉，最後謝謝他的幫忙。',words:'get to / bus stop / turn / right / thank you / help',answer:'How do I get to the bus stop? Turn right? Thank you for your help.',answerZh:'我要怎麼去公車站？右轉嗎？謝謝你的幫忙。',check:'有只換目的地，並完成問路、確認右轉與道謝嗎？'},
+  variation:{name:'只換目的地：公車站',task:'這次目的地換成公車站。路人問你去哪裡時，先指出公車站即可；路線仍是直走到第一個路口，再右轉。問公車站怎麼走，聽懂方向後，最後謝謝他的幫忙。',words:'get to / bus stop / thank you / help',answer:'How do I get to the bus stop? Thank you for your help.',answerZh:'我要怎麼去公車站？謝謝你的幫忙。',check:'有只換目的地，並完成問路與道謝嗎？'},
   quizzes:[{key:'route',line:routeLine,zh:routeZh,question:'要走到哪裡，再往哪邊轉？',options:['第一個路口，右轉','第二個路口，左轉'],correct:0,feedback:'first intersection 是第一個路口；turn right 是右轉。'},
    {key:'thanks',line:welcomeLine,zh:'不客氣。',question:'你道謝後，路人回應什麼意思？',options:['不客氣','請再問一次'],correct:0,feedback:'You’re welcome. 是回應道謝的「不客氣」。'}],
-  pair:{first:'老師',start:prelude.line,opening:prelude.zh,openingNote:'先指出火車站即可；接著由學生問怎麼走，不必額外背目的地短答。',next:'學生問路後，老師回覆原路線；讓學生確認右轉，最後道謝。',goals:['指出火車站，問怎麼走','確認是不是右轉','在得到指路幫忙後道謝']}
+  pair:{first:'老師',start:prelude.line,opening:prelude.zh,openingNote:'先指出火車站即可；接著由學生問怎麼走，不必額外背目的地短答。',next:'學生問路後，老師回覆原路線；讓學生聽懂方向後道謝。',goals:['指出火車站，問怎麼走','在得到指路幫忙後道謝']}
  },
  {id:'B',group:'B',name:'請指路、問公車與道謝',phraseIds:['phrase-2','phrase-8','phrase-10'],reuse:['phrase-10'],
   goal:'請路人指路，再問能不能搭公車，最後重用 A 的道謝。',
@@ -265,7 +263,7 @@ for(const [i,t] of revisedTasks.entries()){
  const checkpoint={task:t.task,words,answer,answerZh,review:t.pair.goals.join('；')+'。',skills:t.steps.map(s=>skill(s.id,'我能'+s.label+'。'))};
  const r={id:t.id,group:t.group,name:t.name,goal:t.goal,phraseIds:t.phraseIds,replyIds:[],missionIds:[i],pairIds:[i],reuse:t.reuse,words:t.words,
   listen:'只聽懂本輪對方的話，不必背熟。',bridge:t.context,optionalPhraseIds:[],listeningScope:'parts-2-5',
-  advanced:t.advanced||[],advancedHear:t.advancedHear||[],hearUsage:t.hearUsage||[],
+  advanced:t.advanced||[],advancedHear:t.advancedHear||[],hearUsage:t.hearUsage||[],wordNotes:t.wordNotes||[],
   hearLines:t.prelude?[{en:t.prelude.line,zh:t.prelude.zh,sources:['先聽懂並指出目的地']}]:[],prelude:t.prelude,
   checkpoint,home:{task:checkpoint.task,words,answer,answerZh,quiz:homeQuizzes[0],quizzes:homeQuizzes}};
  r.omitHearLines=r.advancedHear.map(p=>p.en);
@@ -291,7 +289,7 @@ for(const [i,r] of d.rounds.entries()){
  r.entryCheckpoint={task:entryTasks[i],words:s.words,answer:s.answer,answerZh:s.answerZh};
 }
 // Required substitutions must be visible before the variation practice.
-d.rounds[0].practiceChanges=[{task:'④ 只把火車站換成公車站；確認右轉與道謝仍用原句。',word:'the train station → the bus stop',wordZh:'火車站 → 公車站',en:'How do I get to the bus stop?',zh:'我要怎麼去公車站？'}];
+d.rounds[0].practiceChanges=[{task:'④ 只把火車站換成公車站；道謝仍用原句。',word:'the train station → the bus stop',wordZh:'火車站 → 公車站',en:'How do I get to the bus stop?',zh:'我要怎麼去公車站？'}];
 d.rounds[1].practiceChanges=[{task:'④ 目的地換成郵局；路人已知道，你仍用同樣的 3 句。'}];
 d.rounds[2].practiceChanges=[{task:'④ 已問過的目的地換成警局；仍用同樣的 2 句求助。'}];
 d.rounds[2].integrationListening={task:'08 整合挑戰沿用 A 的火車站路線：火車站在右邊。先聽懂這個情境的回覆。',word:'the post office / left → the train station / right',wordZh:'郵局／左邊 → 火車站／右邊',en:'Here. The train station is on the right.',zh:'這裡，火車站在右邊。'};

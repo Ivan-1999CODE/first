@@ -63,8 +63,8 @@ render=function(){
  $('#main').innerHTML=views[page]()+taskFooter();$('#main').classList.toggle('lesson-phrase-page',page===1);$('#main').dataset.lessonSection=String(page+1);
  if(page===0){const first=$('#main .before-panel'),footer=$('#main > .footer-actions');if(first&&footer)first.after(footer);}
  $('#nav').innerHTML=dgCourseMenu();
- $('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(page+1).padStart(2,'0')} · ${dgLabels[page]}</span><span class="dg-current-round">${esc(taskLabel(activeRound()))} · ${esc(activeRound().name)}</span></div>${dgTaskSwitch()}`;
- dgSetMenuLabel('任務 '+taskLabel(activeRound()),'任務 '+taskLabel(activeRound())+' · '+activeRound().name);
+ $('#dg-context').innerHTML=`<div class="dg-context-copy"><span class="dg-current-section">${String(page+1).padStart(2,'0')} · ${dgLabels[page]}</span><span class="dg-current-round">${esc(taskLabel(activeRound()))} · ${esc(dgRoundName(activeRound()))}</span></div>${dgTaskSwitch()}`;
+ dgSetMenuLabel('任務 '+taskLabel(activeRound()),'任務 '+taskLabel(activeRound())+' · '+dgRoundName(activeRound()));
  showStorage();
 };
 function dgScrollToLesson(){dgScrollLesson();}

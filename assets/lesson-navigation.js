@@ -3,10 +3,14 @@
 function dgMenuGroup(title, content) {
  return `<section class="dg-menu-group"><h3>${esc(title)}</h3><div class="dg-task-list">${content}</div></section>`;
 }
-function dgTaskMenu(selected, attribute='data-dg-task', extra='') {
+function dgRoundName(r, practice=page===2) {
+ const titles={8:{B:'回應櫃檯，確認住宿資料'},12:{A:'詢問開放狀況，安排接續行程'}};
+ return practice?(titles[course.day]?.[r.displayLabel||r.id]||r.name):r.name;
+}
+function dgTaskMenu(selected, attribute='data-dg-task', extra='', practice=page===2) {
  return dgMenuGroup('個別任務', rounds.map((r,i)=>{
   const label=r.displayLabel||r.id;
-  return btn(`<span class="number">${esc(label)}</span><span>${esc(r.name)}</span><span class="dg-menu-check" aria-hidden="true">${selected===i?'✓':''}</span>`,`${attribute}="${i}"`,`aria-label="任務 ${esc(label)}：${esc(r.name)}" aria-pressed="${selected===i}"`);
+  return btn(`<span class="number">${esc(label)}</span><span>${esc(dgRoundName(r,practice))}</span><span class="dg-menu-check" aria-hidden="true">${selected===i?'✓':''}</span>`,`${attribute}="${i}"`,`aria-label="任務 ${esc(label)}：${esc(dgRoundName(r,practice))}" aria-pressed="${selected===i}"`);
  }).join(''))+extra;
 }
 function dgCapstoneOption(selected=false, attribute='data-page') {
