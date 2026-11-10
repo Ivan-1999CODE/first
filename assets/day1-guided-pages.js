@@ -161,20 +161,12 @@ progressCard = function(r) {
    <h2>這次需要多少協助？</h2>
    <p class="fine">回想剛才各部分的練習，分別評估本任務的句子。</p>
    <div class="dg-grid dg-ratings">${r.checkpoint.skills.map(dgRating).join('')}</div>
-   <div class="dg-ready-check">
-    ${check(`data-round-ready="${r.id}"`, '師生確認：不用完整範例，也能用本輪句子接話並完成任務', roundsDone.includes(r.id))}
-    <p class="fine">可先看少量關鍵字，不要求逐字一樣。這個勾選由師生判斷，可取消，只作為進度參考；點完流程不會自動勾選，也不影響各輪或整合挑戰的入口。</p>
-   </div>
-   <div class="actions">${btn(`再練任務 ${r.id} 的同一段`, `data-repeat-round="${rounds.indexOf(r)}"`)}</div>
   </section>
  </section>`;
 };
 
 progressPage = function() {
- return progressCard(currentRound())+`
- <section class="panel dg-panel dg-feedback-note"><h2>師生一起說一句回饋</h2>
-  <p>這次哪一句比較能自己說？下次還要再練哪一段？</p>
- </section>`+microLegacyRecords();
+ return progressCard(currentRound());
 };
 
 homeCard = function(r) {

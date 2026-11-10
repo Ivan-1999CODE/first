@@ -105,7 +105,7 @@ function homeListening(r){
  const quizzes=r.home.quizzes||[r.home.quiz];
  return quizzes.map((q,index)=>{
   const selected=quizChoices[q.id];
-  return `<div class="dg-home-quiz" data-home-quiz="${esc(q.id)}"><h3 class="task">${quizzes.length>1?`${index+1}. `:''}${esc(q.question||q.task)}</h3>${audio(q.line)}${transcript(q.line,q.zh)}<div class="actions dg-quiz-options">${q.options.map((o,i)=>btn(esc(o),`data-task-quiz="${r.id}:${q.id}:${i}"`,`aria-pressed="${selected===i}"`)).join('')}</div><div role="status">${selected!==undefined?`<p class="feedback ${selected===q.correct?'':'retry'}">${selected===q.correct?'✓ '+esc(q.feedback||q.why):'再聽一次，也可以展開文字與中文後重選。'}</p>`:''}</div></div>`;
+  return `<div class="dg-home-quiz" data-home-quiz="${esc(q.id)}" data-home-result="${selected===undefined?'unanswered':selected===q.correct?'correct':'wrong'}"><h3 class="task">${quizzes.length>1?`${index+1}. `:''}${esc(q.question||q.task)}</h3>${audio(q.line)}${transcript(q.line,q.zh)}<div class="actions dg-quiz-options">${q.options.map((o,i)=>btn(esc(o),`data-task-quiz="${r.id}:${q.id}:${i}"`,`aria-pressed="${selected===i}"`)).join('')}</div><div role="status">${selected!==undefined?`<p class="feedback ${selected===q.correct?'':'retry'}">${selected===q.correct?'✓ '+esc(q.feedback||q.why):'再聽一次，也可以展開文字與中文後重選。'}</p>`:''}</div></div>`;
  }).join('');
 }
 homePage=function(){

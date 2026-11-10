@@ -6,8 +6,8 @@ module.exports=function build(){
  require('./assets/english-answer-translations.cjs').addAnswerTranslations(d);
  d.studyArtwork=require('./assets/course-illustrations.cjs').forLesson(1,d.rounds,d.course.replyRole);
  let runtime=fs.readFileSync('assets/day1-2-runtime.js','utf8').replace('const tabs=','let tabs=').replace('const hint=','let hint=').replace('load();render();appearance();','');
- const code=Object.entries(d).map(([k,v])=>`const ${k}=${JSON.stringify(v).replace(/</g,'\\u003c')};`).join('\n')+'\n'+fs.readFileSync('assets/day1-2-scenes.js','utf8')+'\n'+fs.readFileSync('assets/day1-2-reply.js','utf8')+'\n'+runtime+'\n'+fs.readFileSync('assets/flow-guidance.js','utf8')+'\n'+fs.readFileSync('assets/day1-focus.js','utf8')+'\n'+fs.readFileSync('assets/day1-homework.js','utf8')+'\n'+fs.readFileSync('assets/study-library.js','utf8')+'\n'+fs.readFileSync('assets/day1-micro.js','utf8')+'\n'+['assets/lesson-navigation.js','assets/dialogue-preview.js','assets/day1-guided-pages.js','assets/day1-guided-study.js','assets/day1-capstone.js','assets/day1-guided.js','assets/say-practice.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+'\nload();render();appearance();';
- const css=['assets/day1-2.css','assets/speaking-focus.css','assets/day1-2-reply.css','assets/day1-focus.css','assets/day1-homework.css','assets/study-library.css','assets/flow-guidance.css','assets/dialogue-preview.css','assets/say-practice.css'].map(f=>fs.readFileSync(f,'utf8')).join('\n');
+ const code=Object.entries(d).map(([k,v])=>`const ${k}=${JSON.stringify(v).replace(/</g,'\\u003c')};`).join('\n')+'\n'+fs.readFileSync('assets/day1-2-scenes.js','utf8')+'\n'+fs.readFileSync('assets/day1-2-reply.js','utf8')+'\n'+runtime+'\n'+fs.readFileSync('assets/flow-guidance.js','utf8')+'\n'+fs.readFileSync('assets/day1-focus.js','utf8')+'\n'+fs.readFileSync('assets/study-library.js','utf8')+'\n'+fs.readFileSync('assets/day1-micro.js','utf8')+'\n'+['assets/lesson-navigation.js','assets/dialogue-preview.js','assets/day1-guided-pages.js','assets/day1-guided-study.js','assets/day1-capstone.js','assets/day1-guided.js','assets/say-practice.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+'\nload();render();appearance();';
+ const css=['assets/day1-2.css','assets/speaking-focus.css','assets/day1-2-reply.css','assets/day1-focus.css','assets/study-library.css','assets/flow-guidance.css','assets/dialogue-preview.css','assets/say-practice.css'].map(f=>fs.readFileSync(f,'utf8')).join('\n');
  const html=fs.readFileSync('assets/task-rounds-template.html','utf8')
  .replace(/<title>[\s\S]*?<\/title>/,'<title>Travel Lab｜第一天：問路與求助</title>')
  .replace(/<meta name="description"[^>]*>/,`<meta name="description" content="${d.course.description}">`)
@@ -30,6 +30,7 @@ module.exports=function build(){
   .replace('</head>',()=>'<style id="day1-completion-styles">'+fs.readFileSync('assets/day1-completion.css','utf8')+'</style></head>')
   .replace('</body>',()=>'<script id="day1-completion-runtime">'+fs.readFileSync('assets/day1-completion.js','utf8')+'</script></body>'));
  require('./install-completion-navigation.cjs')('travel-english.html');
+ require('./install-homework.cjs')('travel-english.html');
  require('./build-pwa.cjs')();
  console.log('Built Day 1 focus: '+d.phrases.length+' phrases / '+d.rounds.length+' rounds.');
 };

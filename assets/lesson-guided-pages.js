@@ -173,27 +173,19 @@ progressCard = function(r) {
   <section class="panel dg-panel dg-assessment">
    <h2>這次需要多少協助？</h2>
    <div class="dg-grid dg-ratings">${r.checkpoint.skills.map(dgLessonRating).join('')}</div>
-   <div class="dg-ready-check">
-    ${check(`data-round-ready="${r.id}"`, '師生確認：不用完整範例，也能用本任務句子接話並完成任務', roundsDone.includes(r.id))}
-    <p class="fine">可先看少量關鍵字，不要求逐字一樣。這個勾選由師生判斷，可取消，只作為進度參考；點完流程不會自動勾選。</p>
-   </div>
-   <div class="actions">${btn(`再練任務 ${esc(taskLabel(r))} 的同一段`, `data-repeat-round="${rounds.indexOf(r)}"`)}</div>
   </section>
  </section>`;
 };
 
 progressPage = function() {
- return reviewScope() + selectedReviewRounds().map(progressCard).join('') + `
- <section class="panel dg-panel dg-feedback-note"><h2>師生一起說一句回饋</h2>
-  <p>這次哪一句比較能自己說？下次還要再練哪一段？</p>
- </section>` + microLegacyRecords();
+ return reviewScope() + selectedReviewRounds().map(progressCard).join('') + microLegacyRecords();
 };
 
 function dgLessonHomeListening(r) {
  const questions = r.home.quizzes || [r.home.quiz];
  return questions.map((q, index) => {
   const selected = quizChoices[q.id];
-  return `<section class="dg-home-quiz merged-home-question" data-home-question="${esc(q.id)}">
+  return `<section class="dg-home-quiz merged-home-question" data-home-question="${esc(q.id)}" data-home-result="${selected === undefined ? 'unanswered' : selected === q.correct ? 'correct' : 'wrong'}">
    <h3 class="task">${questions.length > 1 ? (index + 1) + '. ' : ''}${esc(q.question || q.task)}</h3>
    ${audio(q.line)}${transcript(q.line, q.zh)}
    <div class="actions dg-quiz-options">${q.options.map((o, i) => btn(esc(o), course.mergedTasks ? `data-merged-quiz="${r.id}:${index}:${i}"` : `data-task-quiz="${r.id}:${i}"`, `aria-pressed="${selected === i}"`)).join('')}</div>

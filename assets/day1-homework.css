@@ -1,15 +1,19 @@
-.homework-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
-.homework-course-link{min-width:0}.homework-export{flex-shrink:0}
-.homework-export{min-height:48px;padding:12px 18px;background:var(--accent);color:var(--panel);border-color:var(--accent);font-weight:650}
-@media print{.homework-export{display:none}}
-.homework-dialog{width:min(1080px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:24px;border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--ink);overflow:auto}
-.homework-dialog::backdrop{background:#102522b3}.homework-dialog h2{font-size:1.5rem;margin:0}.homework-dialog h3{margin-bottom:12px}
-.homework-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
-.homework-heading button{flex-shrink:0}.homework-settings{display:grid;grid-template-columns:1fr 210px;gap:22px;align-items:start}
+.homework-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+.homework-course-link{min-width:0}.homework-export{flex-shrink:0;min-height:48px;padding:12px 18px;font-weight:650}
+.homework-section-entry{display:flex;align-items:center;justify-content:space-between;gap:20px}.homework-section-entry h2{margin-top:0}.homework-section-entry p{margin-bottom:0}
+.homework-dialog{width:min(1080px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:24px;border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--ink);overflow:auto;color-scheme:light}
+:root[data-theme=dark] .homework-dialog{color-scheme:dark}
+.homework-dialog::backdrop{background:#102522b3}.homework-dialog h2{font-size:1.5rem;margin:0}.homework-dialog p{overflow-wrap:anywhere}
+.homework-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.homework-heading button{flex-shrink:0}.homework-heading .fine{margin-top:0}
+.homework-settings{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}.homework-settings:has(>fieldset:only-child){grid-template-columns:1fr}
 .homework-dialog fieldset{border:0;padding:0;margin:0;min-width:0}.homework-dialog legend{font-weight:700;margin-bottom:8px}
-.homework-rounds{display:flex;gap:8px;flex-wrap:wrap}.homework-rounds label{display:flex;align-items:center;gap:9px;padding:10px;border:1px solid var(--line);border-radius:12px;cursor:pointer;min-height:48px}
-.homework-rounds input{width:20px;height:20px;accent-color:var(--accent);flex-shrink:0}.homework-dialog input[type=date]{width:100%;min-width:0;min-height:46px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);color-scheme:light}
-:root[data-theme=dark] .homework-dialog input[type=date]{color-scheme:dark}
-.homework-dialog .fine{margin:10px 0}.homework-dialog iframe{display:block;width:100%;height:55vh;min-height:300px;border:1px solid var(--line);border-radius:12px;background:white}
-.homework-dialog .actions{margin:16px 0}.homework-dialog [role=status]{min-height:1.6em}
-@media(max-width:600px){.homework-dialog{padding:16px}.homework-settings{grid-template-columns:1fr;gap:14px}.homework-heading{flex-wrap:wrap}.homework-rounds{display:grid}.homework-footer{padding-left:16px;padding-right:16px}.homework-export{font-size:.86rem}.homework-dialog iframe{height:48vh}}
+.homework-rounds{display:grid;gap:8px}.homework-rounds label{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;cursor:pointer;min-height:48px;background:var(--bg);color:var(--ink)}
+.homework-rounds label:hover{border-color:var(--accent)}.homework-rounds label:has(input:checked){border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.homework-rounds label:focus-within{outline:2px solid var(--accent);outline-offset:3px}.homework-rounds small{display:block;color:var(--muted);font-size:.85em}
+.homework-rounds input{width:20px;height:20px;accent-color:var(--accent);flex-shrink:0}.homework-dialog input[type=date]{width:100%;min-width:0;min-height:46px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.homework-selection-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0}.homework-selection-actions>label{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-left:auto;font-size:.9em}.homework-selection-actions input[type=date]{width:190px}
+.homework-dialog button{min-height:44px;background:var(--bg);color:var(--ink);border:1px solid var(--line)}.homework-dialog button:hover:not(:disabled){border-color:var(--accent)}.homework-dialog button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.homework-dialog button:disabled{opacity:.5;cursor:not-allowed}
+.homework-dialog .fine{margin:10px 0}.homework-dialog iframe{display:block;width:100%;height:55vh;min-height:300px;border:1px solid var(--line);border-radius:12px;background:white;color-scheme:light}.homework-dialog iframe[hidden]{display:none}
+.homework-print-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:20px 0 8px}.homework-print-actions button{font-weight:700;border-color:var(--accent)}.homework-dialog [role=status]{min-height:1.6em;margin:0;font-size:.9em}
+@media(max-width:600px){.homework-dialog{padding:16px}.homework-settings{grid-template-columns:1fr;gap:16px}.homework-heading{gap:10px}.homework-heading h2{font-size:1.3rem}.homework-footer{padding-left:16px;padding-right:16px}.homework-dialog iframe{height:48vh}.homework-selection-actions>label{width:100%;margin-left:0}.homework-section-entry{display:block}.homework-section-entry button{margin-top:16px}}
+@media print{.homework-export,.homework-dialog,.homework-section-entry{display:none}}

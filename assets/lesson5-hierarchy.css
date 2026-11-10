@@ -161,3 +161,61 @@ body.lesson-focus:is(.day1-guided,.lesson-guided) #dg-course-dialog::backdrop { 
 @media (max-width:380px) {
  body.lesson-focus:is(.day1-guided,.lesson-guided) .dg-section-footer > button { padding-inline: 6px; }
 }
+
+/* Part 07: answer correctness and self-reported practice are separate states. */
+body:is(.day1-guided,.lesson-guided) {
+ --home-correct-bg: #e9f6ed;
+ --home-correct-ink: #185334;
+ --home-correct-line: #24804d;
+ --home-wrong-bg: #fff0ef;
+ --home-wrong-ink: #8b2424;
+ --home-wrong-line: #b33e3a;
+}
+:root[data-theme=dark] body:is(.day1-guided,.lesson-guided) {
+ --home-correct-bg: #193c2a;
+ --home-correct-ink: #dbf5e4;
+ --home-correct-line: #79ce98;
+ --home-wrong-bg: #542923;
+ --home-wrong-ink: #ffd8d2;
+ --home-wrong-line: #f19a90;
+}
+body:is(.day1-guided,.lesson-guided) #main[data-lesson-section="7"] [data-home-result=correct] {
+ --home-result-bg: var(--home-correct-bg);
+ --home-result-ink: var(--home-correct-ink);
+ --home-result-line: var(--home-correct-line);
+}
+body:is(.day1-guided,.lesson-guided) #main[data-lesson-section="7"] [data-home-result=wrong] {
+ --home-result-bg: var(--home-wrong-bg);
+ --home-result-ink: var(--home-wrong-ink);
+ --home-result-line: var(--home-wrong-line);
+}
+body:is(.day1-guided,.lesson-guided) #main[data-lesson-section="7"] [data-home-result]:not([data-home-result=unanswered]) :is(button[aria-pressed=true],.feedback,p[role=status]) {
+ background: var(--home-result-bg);
+ color: var(--home-result-ink);
+ border: 1px solid var(--home-result-line);
+ box-shadow: inset 0 0 0 1px var(--home-result-line);
+ border-radius: 11px;
+}
+body:is(.day1-guided,.lesson-guided) #main[data-lesson-section="7"] [data-home-result]:not([data-home-result=unanswered]) :is(.feedback,p[role=status]) {
+ padding: 12px 14px;
+ margin-top: 12px;
+}
+body:is(.day1-guided,.lesson-guided) #main[data-lesson-section="7"] label:has(> input:is([data-task-home],[data-ci-home],[data-hi-home],[data-hi-home-transfer],[data-hx-home])) {
+ padding: 12px 14px;
+ border: 1px solid var(--line);
+ border-radius: 12px;
+ margin-top: 14px;
+}
+body:is(.day1-guided,.lesson-guided) #main[data-lesson-section="7"] label:has(> input:is([data-task-home],[data-ci-home],[data-hi-home],[data-hi-home-transfer],[data-hx-home]):checked) {
+ background: var(--home-correct-bg);
+ color: var(--home-correct-ink);
+ border-color: var(--home-correct-line);
+ box-shadow: inset 0 0 0 1px var(--home-correct-line);
+}
+body:is(.day1-guided,.lesson-guided) #main[data-lesson-section="7"] input:is([data-task-home],[data-ci-home],[data-hi-home],[data-hi-home-transfer],[data-hx-home]) {
+ accent-color: var(--home-correct-line);
+}
+body:is(.day1-guided,.lesson-guided) #main[data-lesson-section="7"] .panel:has(> label > input:is([data-task-home],[data-ci-home],[data-hi-home],[data-hi-home-transfer],[data-hx-home]):checked) {
+ border-color: var(--home-correct-line);
+ box-shadow: inset 0 0 0 1px var(--home-correct-line);
+}
