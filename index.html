@@ -24,6 +24,14 @@
     a:focus-visible { outline: 3px solid #0071e3; outline-offset: 4px; }
     small { display: block; color: #61616a; font-size: 14px; }
   </style>
+<style id="home-teacher-entry-styles">
+.home-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.home-heading h1{flex:1 1 380px;min-width:0}
+.teacher-home-entry{flex:0 0 auto;text-align:right}
+[data-appearance-kind=index] .teacher-home-link{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:44px;box-sizing:border-box;margin:0;padding:12px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel);font-size:.95rem;font-weight:700;white-space:nowrap;touch-action:manipulation}
+[data-appearance-kind=index] .teacher-home-entry small{margin-top:6px;font-size:.72rem}
+@media(max-width:620px){.home-heading{gap:12px}.home-heading h1{margin-bottom:0}.teacher-home-entry{text-align:left}}
+</style>
 <style id="shared-appearance-styles">
 /* Shared reading controls, including the course index and older lessons. */
 :root{color-scheme:light}
@@ -272,7 +280,13 @@ html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
 <body>
 <header class="top"><div class="top-inner"><span class="brand">Travel Lab <span aria-hidden="true">↗</span></span><div class="tools" role="group" aria-label="閱讀設定"><button id="large" type="button" aria-pressed="false">放大文字</button><button id="theme" type="button" aria-label="切換為深色模式" aria-pressed="false">☾ 深色</button></div></div></header>
   <main>
-    <h1>Travel Lab｜旅遊英文</h1>
+    <div class="home-heading">
+      <h1>Travel Lab｜旅遊英文</h1>
+      <div class="teacher-home-entry">
+        <a class="teacher-home-link" href="https://travel-lab-station-practice.ivan1024.chatgpt.site" target="_blank" rel="noopener noreferrer" aria-label="老師派作業，另開回家作業網站">老師派作業 <span aria-hidden="true">↗</span></a>
+        <small>安排功課・查看進度</small>
+      </div>
+    </div>
     <p>一點英文，走遠一點。選擇今天的旅程。</p>
     <a href="./travel-japanese-day0-directions.html">DAY 00：第 0 天・日文旅行實用會話 ↗<small>3 個主題、10 個小任務。練買東西、吃東西與找地方；餐飲先回答幾位，可選五十音入門。</small></a>
     <a href="./travel-korean-day0-directions.html">DAY 00：第 0 天・韓文旅行實用會話 ↗<small>3 個主題、10 個小任務。練買東西、吃東西與找地方；餐飲先回答幾位，可選韓文字母與拼讀入門。</small></a>
@@ -394,7 +408,7 @@ html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
  const main=document.querySelector('main');
  // Only the home page shows the panel; lessons still prepare and use offline storage.
  if(document.documentElement.dataset.appearanceKind==='index'){
-  if(main)main.insertBefore(panel,main.querySelector('a[href]'));
+  if(main)main.insertBefore(panel,main.querySelector(':scope > a[href]'));
   else document.body.append(panel);
  }
  const status=panel.querySelector('#travel-offline-status');
@@ -628,7 +642,7 @@ html{scroll-padding-top:calc(var(--travel-header-height,80px) + 16px)}
   idleTimer=setTimeout(()=>{
    const doc=current.win.document,links=[...doc.querySelectorAll('.day-switcher a[href]')];
    const index=links.findIndex(a=>route(a.href)===current.url);
-   const next=links[index+1]||doc.querySelector('main a[href*="travel-"]');
+   const next=links[index+1]||doc.querySelector('main > a[href*="travel-"]');
    if(next){const url=route(next.href);if(url&&url!==current.url)prefetch(url);}
   },1000);
  }

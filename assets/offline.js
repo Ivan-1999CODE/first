@@ -25,7 +25,7 @@
  const main=document.querySelector('main');
  // Only the home page shows the panel; lessons still prepare and use offline storage.
  if(document.documentElement.dataset.appearanceKind==='index'){
-  if(main)main.insertBefore(panel,main.querySelector('a[href]'));
+  if(main)main.insertBefore(panel,main.querySelector(':scope > a[href]'));
   else document.body.append(panel);
  }
  const status=panel.querySelector('#travel-offline-status');

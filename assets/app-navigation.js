@@ -99,7 +99,7 @@
   idleTimer=setTimeout(()=>{
    const doc=current.win.document,links=[...doc.querySelectorAll('.day-switcher a[href]')];
    const index=links.findIndex(a=>route(a.href)===current.url);
-   const next=links[index+1]||doc.querySelector('main a[href*="travel-"]');
+   const next=links[index+1]||doc.querySelector('main > a[href*="travel-"]');
    if(next){const url=route(next.href);if(url&&url!==current.url)prefetch(url);}
   },1000);
  }

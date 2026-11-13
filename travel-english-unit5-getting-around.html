@@ -4435,7 +4435,7 @@ load();render();appearance();
  const main=document.querySelector('main');
  // Only the home page shows the panel; lessons still prepare and use offline storage.
  if(document.documentElement.dataset.appearanceKind==='index'){
-  if(main)main.insertBefore(panel,main.querySelector('a[href]'));
+  if(main)main.insertBefore(panel,main.querySelector(':scope > a[href]'));
   else document.body.append(panel);
  }
  const status=panel.querySelector('#travel-offline-status');
@@ -4669,7 +4669,7 @@ load();render();appearance();
   idleTimer=setTimeout(()=>{
    const doc=current.win.document,links=[...doc.querySelectorAll('.day-switcher a[href]')];
    const index=links.findIndex(a=>route(a.href)===current.url);
-   const next=links[index+1]||doc.querySelector('main a[href*="travel-"]');
+   const next=links[index+1]||doc.querySelector('main > a[href*="travel-"]');
    if(next){const url=route(next.href);if(url&&url!==current.url)prefetch(url);}
   },1000);
  }
