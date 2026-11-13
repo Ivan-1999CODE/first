@@ -1,7 +1,7 @@
 /* Generated as sw.js by build-pwa.cjs after all lesson HTML has been rebuilt. */
 'use strict';
 
-const VERSION = "cbd8540ec02bfd54";
+const VERSION = "215ac4e8b9b3aeba";
 const FILES = [
   {
     "path": "assets/pwa-icon-180.png",
@@ -116,8 +116,8 @@ const FILES = [
   },
   {
     "path": "travel-english.html",
-    "bytes": 737801,
-    "sha256": "36bcda2d6757e63478eb853102a4e6bee02a56bebd894c4e3e50a35cc657f73c",
+    "bytes": 737871,
+    "sha256": "f73e05b8251d208ac91a6d03279271646756cb59d131e50bd64ee2d912bc9bd6",
     "normalizedText": true
   },
   {
