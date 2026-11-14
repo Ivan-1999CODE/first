@@ -1,7 +1,7 @@
 /* Generated as sw.js by build-pwa.cjs after all lesson HTML has been rebuilt. */
 'use strict';
 
-const VERSION = "3508c6ac9d74b0e3";
+const VERSION = "610138d3ecfa2f77";
 const FILES = [
   {
     "path": "assets/pwa-icon-180.png",
@@ -26,8 +26,8 @@ const FILES = [
   },
   {
     "path": "index.html",
-    "bytes": 47780,
-    "sha256": "9fb9cc0f1f92452cf6b3ba0bfdf4b22c35995a9e8b0a610e0a441069354ecf6b",
+    "bytes": 48073,
+    "sha256": "d421f34c0e653e3cc40d52518816711191ef3252d33de8c3690a445df725529f",
     "normalizedText": true
   },
   {
