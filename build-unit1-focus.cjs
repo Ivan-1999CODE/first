@@ -31,6 +31,7 @@ module.exports=function build(){
   .replace('</body>',()=>'<script id="day1-completion-runtime">'+fs.readFileSync('assets/day1-completion.js','utf8')+'</script></body>'));
  require('./install-completion-navigation.cjs')('travel-english.html');
  require('./install-homework.cjs')('travel-english.html');
+ require('./install-english-audio.cjs')('travel-english.html');
  require('./build-pwa.cjs')();
  console.log('Built Day 1 focus: '+d.phrases.length+' phrases / '+d.rounds.length+' rounds.');
 };

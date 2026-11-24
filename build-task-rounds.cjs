@@ -54,6 +54,7 @@ ${read('assets/day8-integration.js')}\nrender();\n</script>\n</body>`);
   fs.writeFileSync(file,read(file).replace('</head>',()=>'<style id="lesson-navigation-styles">'+read('assets/lesson-navigation.css')+'</style></head>'));
   require('./install-task-completion.cjs')(file);
   require('./install-homework.cjs')(file);
+  require('./install-english-audio.cjs')(file);
   require('./build-pwa.cjs')();
  }
  console.log(`Built ${file}: ${d.rounds.length} rounds / ${d.phrases.length} phrases / ${d.replies.length} listening exchanges.`);

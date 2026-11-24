@@ -1,5 +1,9 @@
 ## 教材錄音的 AI 發音
 
+英文教材的例句、對話問答、換詞及課後練習使用預先錄好的美式英語，聲線為 OpenAI `gpt-4o-mini-tts` 的 `marin`。14 個現行英文課程入口含 1,145 段不同的教材文字，13 個舊課入口含 922 段，個人課後講義含 292 段。相同文字共用錄音，三者合計 1,820 個 MP3。一般與慢速播放共用同一個音檔，師生可以在展開提示後逐句聽問答。現行和舊版的單課 HTML 都內嵌該課音檔，直接開啟即可離線播放。
+
+英文文字與檔名對照存於 `assets/english-audio/manifest.json`。課程內容更新後，可在本機設定 `OPENAI_API_KEY`，執行 `node generate-english-audio.cjs --all` 補錄新句，再執行 `node install-english-audio.cjs` 和 `node original-lessons/build-english-audio.cjs` 更新教材。個人課後講義使用其專案的 `build-worker.cjs` 建置，師生沿用原本的作業授權取得錄音。
+
 日文第 0 天的 200 段 MP3、韓文第 0 天的 185 段 MP3，以及英文購物練習的 8 段 WAV，使用 OpenAI `gpt-4o-mini-tts` 的 `marin` 聲線製作。其中有 49 段多句錄音按原文順序組合本次生成的單句。日韓教材沿用原有的詞段切分，依新錄音的聲音重新對齊高亮與點詞重播時間。API 金鑰僅在製作時使用，學生端直接播放音檔。
 
 ## 英文第三部分：中文翻譯題與逐句返回

@@ -248,6 +248,13 @@ async function main() {
     assert(await page.locator('main').isVisible(), 'Home opens after all tabs were closed offline');
     await page.goto(base + 'travel-english-unit14-travel-questions.html');
     assert.equal(await page.locator('html').getAttribute('data-course-day'), '14', 'Previously unopened Day 14 loads offline');
+    await page.evaluate(() => navigate(1));
+    const listen = page.locator('#main [data-say]:visible:not([data-slow])').first();
+    await listen.click();
+    await page.waitForFunction(() => document.querySelector('.english-ai-status')?.innerText.includes('正在播放'));
+    await page.locator('.english-ai-status button').click();
+    assert(await page.locator('.english-ai-status').isHidden(), 'Offline English recording stops on request');
+    report.checks.push('english-ai-button-plays-in-cold-offline-lesson');
     await page.evaluate(() => window.pwaQaIdentity = 'same document');
     const day1 = await changeLesson(page, 'travel-english.html');
     assert.equal(await page.evaluate(() => window.pwaQaIdentity), 'same document', 'Course navigation remains in travelApp');

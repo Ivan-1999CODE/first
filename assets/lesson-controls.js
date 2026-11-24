@@ -57,47 +57,5 @@
  @media(max-width:700px){#main.lesson-phrase-page .lesson-phrase-english{font-size:calc(var(--lesson-text-size)*1.2)}}
  `;
  document.head.append(typography);
- const status=document.createElement('div');status.className='lesson-audio-status';status.role='status';status.setAttribute('aria-live','polite');status.hidden=true;document.body.append(status);
- let current=null,version=0,watchdog=0,messageTimer=0;
- const message=(text,sticky=false)=>{clearTimeout(messageTimer);status.textContent=text;status.hidden=!text;if(text&&!sticky)messageTimer=setTimeout(()=>status.hidden=true,7000);};
- stopAudio=function(){
-  version++;clearTimeout(watchdog);current=null;
-  if(window.speechSynthesis)window.speechSynthesis.cancel();
-  message('');
- };
- speak=function(text,slow=false){
-  stopAudio();
-  const synth=window.speechSynthesis;
-  if(!synth||!window.SpeechSynthesisUtterance){message('此瀏覽器不支援朗讀。請改用 Edge 或 Chrome，或展開中文與英文繼續練習。');return;}
-  const token=version;
-  const voices=synth.getVoices().filter(v=>/^en(?:[-_]|$)/i.test(v.lang)).sort((a,b)=>Number(b.localService)-Number(a.localService));
-  const candidates=voices.length?voices.slice(0,2):[null];
-  function play(attempt){
-   if(token!==version)return;
-   clearTimeout(watchdog);
-   const utterance=new window.SpeechSynthesisUtterance(text);current=utterance;
-   utterance.lang=candidates[attempt]?.lang||'en-US';
-   const normalRate=.9;
-   utterance.rate=normalRate*(slow?.8:1);
-   if(candidates[attempt])utterance.voice=candidates[attempt];
-   const active=()=>token===version&&current===utterance;
-   function failed(error){
-    if(!active())return;
-    clearTimeout(watchdog);current=null;
-    if(['interrupted','canceled'].includes(error)){message('');return;}
-    synth.cancel();
-    if(attempt+1<candidates.length){play(attempt+1);return;}
-    message('語音未能播放。請確認裝置音量，或換用 Edge／Chrome 重試；也可展開英文與中文繼續練習。');
-   }
-   utterance.onstart=()=>{if(active()){clearTimeout(watchdog);message(slow?'正在慢速朗讀…':'正在朗讀…',true);}};
-   utterance.onend=()=>{if(active()){clearTimeout(watchdog);current=null;message('');}};
-   utterance.onerror=e=>failed(e.error);
-   message('正在準備朗讀…',true);
-   watchdog=setTimeout(()=>failed('timeout'),5000);
-   try{if(synth.paused)synth.resume();synth.speak(utterance);}catch{failed('synthesis-failed');}
-  }
-  play(0);
- };
- window.addEventListener('pagehide',()=>stopAudio());
  decorate();
 })();

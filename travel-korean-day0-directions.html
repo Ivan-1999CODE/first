@@ -4022,14 +4022,23 @@ load();render();appearance();
   }
   return new Blob([wav],{type:'audio/wav'});
  };
+ // Each sentence in a longer model answer can reuse its own recording.
+ const recordedTexts=Object.keys(day0Audio).sort((a,b)=>b.length-a.length);
+ function clipsFor(text){
+  const clips=[];let remaining=text;
+  while(remaining){
+   const key=recordedTexts.find(k=>remaining.startsWith(k));
+   if(!key)return [];
+   clips.push({text:key,src:day0Audio[key],cues:day0Timings[key]||[]});
+   remaining=remaining.slice(key.length).trimStart();
+  }
+  return clips;
+ }
  speak=function(text,slow=false){
   const trigger=eventTrigger||Array.from(document.querySelectorAll('[data-say]')).find(b=>b.dataset.say===text&&b.getClientRects().length);
   stopAudio();const token=generation;
-  // Reuse recorded sentences when a new task combines familiar lines.
-  const clips=[];let remaining=text;
-  const keys=Object.keys(day0Audio).sort((a,b)=>b.length-a.length);
-  while(remaining){const key=keys.find(k=>remaining.startsWith(k));if(!key)break;clips.push({text:key,src:day0Audio[key],cues:day0Timings[key]||[]});remaining=remaining.slice(key.length).trimStart();}
-  if(remaining||!clips.length){message('找不到這句的音檔；請展開讀音輔助。',true);return;}
+  const clips=clipsFor(text);
+  if(!clips.length){message('找不到這句的音檔；請展開讀音輔助。',true);return;}
   panel=document.createElement('section');panel.className='follow-along';panel.setAttribute('aria-label',audioLanguage+'同步跟讀');
   panel.innerHTML='<div class="follow-heading"><strong>跟著黃色標示讀</strong><button type="button" aria-expanded="true">只聽聲音</button></div><p class="follow-translation" lang="zh-Hant"></p><div class="follow-words"></div>';
   panel.querySelector('.follow-translation').textContent=day0AudioTranslations[text]||clips.map(clip=>day0AudioTranslations[clip.text]).join(' ');
@@ -4104,6 +4113,48 @@ load();render();appearance();
   message('正在載入'+audioLanguage+'音檔…');
   playClip();
  };
+ // These references originally displayed authored dialogue without a replay
+ // control. Keep each control inside the same disclosure as its model answer.
+ function exampleAudio(text){
+  if(!clipsFor(text).length)return null;
+  const template=document.createElement('template');
+  template.innerHTML=audio(text);
+  const toolbar=template.content.firstElementChild;
+  toolbar.classList.add('day0-example-audio');
+  toolbar.lang='zh-Hant';
+  return toolbar;
+ }
+ function enableExamples(){
+  const main=document.querySelector('#main');
+  for(const line of main.querySelectorAll('.d5-script-line')){
+   if(line.dataset.day0Example!==undefined)continue;
+   const text=line.querySelector('.d5-script-en')?.textContent.trim();
+   const controls=text&&exampleAudio(text);
+   if(!controls)continue;
+   line.dataset.day0Example='';
+   const group=document.createElement('div');
+   if(line.dataset.speaker==='student')controls.style.justifyContent='flex-end';
+   line.replaceWith(group);
+   group.append(line,controls);
+  }
+  for(const line of main.querySelectorAll('.inventory td[lang],.dg-completed-lines > .dg-en,.d5-dialogue-recap > .en')){
+   if(line.dataset.day0Example!==undefined)continue;
+   const text=line.textContent.trim();
+   if(line.closest('.d5-dialogue-recap')&&Array.from(line.parentElement.querySelectorAll('[data-say]')).some(b=>b.dataset.say===text))continue;
+   const controls=exampleAudio(text);
+   if(!controls)continue;
+   line.dataset.day0Example='';
+   if(line.tagName==='TD')line.parentElement.lastElementChild.append(controls);
+   else line.after(controls);
+  }
+ }
+ const previousRender=render;
+ render=function(...args){previousRender(...args);enableExamples();};
+ enableExamples();
+ document.addEventListener('toggle',event=>{
+  const drawer=event.target;
+  if(drawer.tagName==='DETAILS'&&!drawer.open&&panel?.previousElementSibling?.classList.contains('day0-example-audio')&&drawer.contains(panel))stopAudio();
+ },true);
  window.addEventListener('pagehide',()=>stopAudio());
 })();
 
@@ -4323,7 +4374,7 @@ load();render();appearance();
     <li>之後用同一個瀏覽器開啟原網址，就能離線閱讀目前版本的 16 堂課、切換單元及練習。</li>
     <li>想從主畫面開啟：iPhone／iPad 可用 Safari 的分享選單，選「加入主畫面」；其他裝置可用瀏覽器選單中的安裝功能。</li>
    </ol>
-   <p class="offline-note">日文、韓文的教材音檔可離線播放。英文朗讀取決於裝置的離線音色；無聲音時仍可看文字練習。舊教材連結需要網路。</p>
+   <p class="offline-note">英文、日文和韓文的教材錄音都可離線播放。從這裡開啟舊版教材連結需要網路。</p>
    <p class="offline-note">作答保存在目前瀏覽器，不會自動同步到其他裝置。清除網站資料或裝置清理儲存空間後，可能需要再次連線儲存教材。</p>
   </details>`;
  const main=document.querySelector('main');

@@ -9,6 +9,7 @@ module.exports=function sync(file){
   if(!html.includes('function speak('))throw new Error('Missing lesson app: '+name);
   html=html.replace('</body>',()=>'<script id="lesson-controls">\n'+source+'</script>\n</body>');
   fs.writeFileSync(name,html);
+  require('./install-english-audio.cjs')(name);
  }
  require('./sync-appearance.cjs')();
 };

@@ -44,14 +44,23 @@
   }
   return new Blob([wav],{type:'audio/wav'});
  };
+ // Each sentence in a longer model answer can reuse its own recording.
+ const recordedTexts=Object.keys(day0Audio).sort((a,b)=>b.length-a.length);
+ function clipsFor(text){
+  const clips=[];let remaining=text;
+  while(remaining){
+   const key=recordedTexts.find(k=>remaining.startsWith(k));
+   if(!key)return [];
+   clips.push({text:key,src:day0Audio[key],cues:day0Timings[key]||[]});
+   remaining=remaining.slice(key.length).trimStart();
+  }
+  return clips;
+ }
  speak=function(text,slow=false){
   const trigger=eventTrigger||Array.from(document.querySelectorAll('[data-say]')).find(b=>b.dataset.say===text&&b.getClientRects().length);
   stopAudio();const token=generation;
-  // Reuse recorded sentences when a new task combines familiar lines.
-  const clips=[];let remaining=text;
-  const keys=Object.keys(day0Audio).sort((a,b)=>b.length-a.length);
-  while(remaining){const key=keys.find(k=>remaining.startsWith(k));if(!key)break;clips.push({text:key,src:day0Audio[key],cues:day0Timings[key]||[]});remaining=remaining.slice(key.length).trimStart();}
-  if(remaining||!clips.length){message('找不到這句的音檔；請展開讀音輔助。',true);return;}
+  const clips=clipsFor(text);
+  if(!clips.length){message('找不到這句的音檔；請展開讀音輔助。',true);return;}
   panel=document.createElement('section');panel.className='follow-along';panel.setAttribute('aria-label',audioLanguage+'同步跟讀');
   panel.innerHTML='<div class="follow-heading"><strong>跟著黃色標示讀</strong><button type="button" aria-expanded="true">只聽聲音</button></div><p class="follow-translation" lang="zh-Hant"></p><div class="follow-words"></div>';
   panel.querySelector('.follow-translation').textContent=day0AudioTranslations[text]||clips.map(clip=>day0AudioTranslations[clip.text]).join(' ');
@@ -126,5 +135,47 @@
   message('正在載入'+audioLanguage+'音檔…');
   playClip();
  };
+ // These references originally displayed authored dialogue without a replay
+ // control. Keep each control inside the same disclosure as its model answer.
+ function exampleAudio(text){
+  if(!clipsFor(text).length)return null;
+  const template=document.createElement('template');
+  template.innerHTML=audio(text);
+  const toolbar=template.content.firstElementChild;
+  toolbar.classList.add('day0-example-audio');
+  toolbar.lang='zh-Hant';
+  return toolbar;
+ }
+ function enableExamples(){
+  const main=document.querySelector('#main');
+  for(const line of main.querySelectorAll('.d5-script-line')){
+   if(line.dataset.day0Example!==undefined)continue;
+   const text=line.querySelector('.d5-script-en')?.textContent.trim();
+   const controls=text&&exampleAudio(text);
+   if(!controls)continue;
+   line.dataset.day0Example='';
+   const group=document.createElement('div');
+   if(line.dataset.speaker==='student')controls.style.justifyContent='flex-end';
+   line.replaceWith(group);
+   group.append(line,controls);
+  }
+  for(const line of main.querySelectorAll('.inventory td[lang],.dg-completed-lines > .dg-en,.d5-dialogue-recap > .en')){
+   if(line.dataset.day0Example!==undefined)continue;
+   const text=line.textContent.trim();
+   if(line.closest('.d5-dialogue-recap')&&Array.from(line.parentElement.querySelectorAll('[data-say]')).some(b=>b.dataset.say===text))continue;
+   const controls=exampleAudio(text);
+   if(!controls)continue;
+   line.dataset.day0Example='';
+   if(line.tagName==='TD')line.parentElement.lastElementChild.append(controls);
+   else line.after(controls);
+  }
+ }
+ const previousRender=render;
+ render=function(...args){previousRender(...args);enableExamples();};
+ enableExamples();
+ document.addEventListener('toggle',event=>{
+  const drawer=event.target;
+  if(drawer.tagName==='DETAILS'&&!drawer.open&&panel?.previousElementSibling?.classList.contains('day0-example-audio')&&drawer.contains(panel))stopAudio();
+ },true);
  window.addEventListener('pagehide',()=>stopAudio());
 })();
