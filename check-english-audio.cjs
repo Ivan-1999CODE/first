@@ -5,7 +5,7 @@ const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
 const { pathToFileURL } = require('node:url');
 const { forPage } = require('./assets/english-audio-course.cjs');
-const { strip } = require('./assets/english-audio-build.cjs');
+const { strip, recordingPath } = require('./assets/english-audio-build.cjs');
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
 // Inspect the actual buttons produced by each round and by the integrated tasks.
@@ -118,8 +118,7 @@ async function check() {
   try { ({ chromium } = require('playwright')); }
   catch { ({ chromium } = require('C:/Users/1090602/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright')); }
   const browser = await chromium.launch({ channel: 'msedge', headless: true });
-  const dir = path.join(__dirname, 'assets/english-audio');
-  const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
+  const manifest = require('./assets/english-audio/manifest.json');
   const files = fs.readdirSync(__dirname).filter(name => /^travel-english.*\.html$/.test(name));
   const decoded = new Set();
   try {
@@ -131,10 +130,15 @@ async function check() {
       assert(data, name + ': embedded recordings');
       const recordings = JSON.parse(data[1]);
       assert.deepEqual(Object.keys(recordings).sort(), [...expected].sort());
+      const fresh = [];
       for (const [text, value] of Object.entries(recordings)) {
         assert(value.startsWith('data:audio/mpeg;base64,'));
-        const source = fs.readFileSync(path.join(dir, manifest[text]));
-        assert.equal(hash(Buffer.from(value.split(',')[1], 'base64')), hash(source), text);
+        const digest = hash(fs.readFileSync(recordingPath(manifest[text], 'us-female')));
+        assert.equal(hash(Buffer.from(value.split(',')[1], 'base64')), digest, text);
+        if (!decoded.has(digest)) {
+          fresh.push(text);
+          decoded.add(digest);
+        }
       }
       const context = await browser.newContext({ offline: true, viewport: { width: 1200, height: 850 } });
       const errors = [];
@@ -147,7 +151,6 @@ async function check() {
         Object.defineProperty(window, 'SpeechSynthesisUtterance', { value: undefined });
       });
       await page.goto(pathToFileURL(file).href);
-      const fresh = expected.filter(text => !decoded.has(manifest[text]));
       await page.evaluate(async texts => {
         const entries = JSON.parse(document.getElementById('english-ai-data').textContent);
         const decoder = new AudioContext();
@@ -159,7 +162,6 @@ async function check() {
           }
         } finally { await decoder.close(); }
       }, fresh);
-      fresh.forEach(text => decoded.add(manifest[text]));
       const views = await page.evaluate(checkViews);
       assert.deepEqual(views.missing, [], name + ': missing recordings or teacher/student controls: ' + views.missing.join(' / '));
       await checkPlaying(page);

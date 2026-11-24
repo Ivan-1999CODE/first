@@ -3,7 +3,8 @@
   'use strict';
   const data = document.getElementById('english-ai-data');
   if (!data) return;
-  const recordings = JSON.parse(data.textContent);
+  const defaultRecordings = JSON.parse(data.textContent);
+  let recordings = defaultRecordings;
   const normalize = text => String(text || '').normalize('NFKC')
     .replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[‐‑–]/g, '-')
     .replace(/\s+/g, ' ').trim().toLowerCase();
@@ -102,6 +103,12 @@
     return outcome;
   }
   window.TravelEnglishAudio = { play, stop, has: text => clips(text).length > 0 };
+  if (document.getElementById('english-ai-voices')) {
+    window.TravelEnglishAudio.setRecordings = bank => {
+      stop();
+      recordings = bank || defaultRecordings;
+    };
+  }
   if (typeof window.speak === 'function') window.speak = play;
   if (typeof window.stopAudio === 'function') window.stopAudio = stop;
   window.addEventListener('pagehide', stop);

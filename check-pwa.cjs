@@ -219,6 +219,7 @@ async function main() {
     await page.goto(origin + '/outside.html');
     await page.evaluate(async () => {
       localStorage.setItem('pwa-qa-existing-answer', '保留原本作答');
+      localStorage.setItem('travel-lab-day1-english-voice', 'uk-male');
       await (await caches.open('unrelated-app-cache')).put('/outside-record', new Response('independent cache'));
     });
     assert.equal(await page.evaluate(() => navigator.serviceWorker.controller), null, 'Outside URL is not controlled');
@@ -248,6 +249,11 @@ async function main() {
     assert(await page.locator('main').isVisible(), 'Home opens after all tabs were closed offline');
     await page.goto(base + 'travel-english-unit14-travel-questions.html');
     assert.equal(await page.locator('html').getAttribute('data-course-day'), '14', 'Previously unopened Day 14 loads offline');
+    const selectedVoice = '#day1-voice-picker input:checked';
+    assert.equal(await page.locator(selectedVoice).inputValue(), 'uk-male', 'An existing first-day preference applies to another lesson');
+    await page.locator('#day1-voice-picker > summary').click();
+    await page.locator('#day1-voice-options label').filter({ hasText: '英式女聲' }).click();
+    assert.equal(await page.locator(selectedVoice).inputValue(), 'uk-female');
     await page.evaluate(() => navigate(1));
     const listen = page.locator('#main [data-say]:visible:not([data-slow])').first();
     await listen.click();
@@ -258,11 +264,14 @@ async function main() {
     await page.evaluate(() => window.pwaQaIdentity = 'same document');
     const day1 = await changeLesson(page, 'travel-english.html');
     assert.equal(await page.evaluate(() => window.pwaQaIdentity), 'same document', 'Course navigation remains in travelApp');
+    assert.equal(await day1.locator(selectedVoice).inputValue(), 'uk-female', 'The next chapter keeps the selected voice offline');
     const answer = 'Offline answer survives a closed tab.';
     await (await openEntry(day1)).fill(answer);
     await page.close();
     page = await context.newPage();
     await page.goto(base + 'travel-english.html?offline=1#main');
+    assert.equal(await page.locator(selectedVoice).inputValue(), 'uk-female', 'The selected course voice survives a cold offline reopen');
+    report.checks.push('offline-course-voice-migration-navigation-and-reopen');
     assert.equal(await page.locator(entrySelector).first().inputValue(), answer, 'Offline answer survives reopening');
     await page.reload();
     assert.equal(await page.locator(entrySelector).first().inputValue(), answer, 'Query/hash reload preserves offline answer');

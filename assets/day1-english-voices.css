@@ -1,0 +1,122 @@
+.lesson-voice-settings {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 1.25rem;
+  padding: 4px max(28px, calc((100% - 1272px) / 2));
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+body:is(.day1-guided, .lesson-guided) .lesson-voice-settings #dg-days {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+#day1-voice-picker {
+  position: relative;
+  justify-self: end;
+  align-self: start;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+}
+/* The sticky chapter navigation below uses z-index 29. */
+#day1-voice-picker[open] { z-index: 30; }
+#day1-voice-picker > summary {
+  display: flex;
+  align-items: center;
+  gap: .5em;
+  min-height: 44px;
+  padding: .35em .7em;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+  background: var(--panel);
+  font-size: .96rem;
+  line-height: 1.35;
+  cursor: pointer;
+}
+#day1-voice-picker > summary::-webkit-details-marker { display: none; }
+#day1-voice-picker > summary::after {
+  content: '';
+  width: .48em;
+  height: .48em;
+  margin: -.25em .1em 0 .1em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+#day1-voice-picker[open] > summary::after { transform: rotate(225deg); margin-top: .25em; }
+#day1-voice-picker .day1-voice-caption { color: var(--muted); font-size: .88em; }
+#day1-voice-picker .day1-current-voice { color: var(--ink); font-weight: 650; }
+#day1-voice-picker > summary:is(:hover, :focus-visible),
+#day1-voice-picker[open] > summary { border-color: var(--accent); background: var(--soft); }
+#day1-voice-options {
+  position: absolute;
+  z-index: 15;
+  inset-inline-end: 0;
+  top: calc(100% + 4px);
+  width: max-content;
+  min-width: 100%;
+  max-width: calc(100vw - 28px);
+  margin: 0;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: 0 5px 20px #0002;
+  box-sizing: border-box;
+}
+#day1-voice-options label {
+  display: flex;
+  align-items: center;
+  gap: .65em;
+  min-height: 44px;
+  margin: 0;
+  padding: .35em .7em;
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+#day1-voice-options label:hover { background: var(--soft); }
+#day1-voice-options label:has(:checked) { color: var(--on-accent); background: var(--accent); }
+#day1-voice-options input {
+  appearance: none;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  padding: 0;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+#day1-voice-options input:checked { background: radial-gradient(circle, currentColor 0 35%, transparent 40%); }
+#day1-voice-options label:has(:focus-visible),
+#day1-voice-picker > summary:focus-visible {
+  outline: 3px solid var(--course-focus, var(--accent));
+  outline-offset: 2px;
+}
+#day1-voice-options input:focus-visible { outline-offset: 1px; }
+@media (max-width: 720px) {
+  .lesson-voice-settings { padding-inline: 14px; column-gap: .6rem; }
+  .lesson-voice-settings:has(#dg-day-picker[open]) { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 440px) {
+  .lesson-voice-settings { grid-template-columns: minmax(0, 1fr); }
+  #day1-voice-picker { justify-self: start; margin-bottom: 4px; }
+  #day1-voice-options { inset-inline: 0 auto; }
+}
+@media (forced-colors: active) {
+  #day1-voice-options input { appearance: auto; }
+}

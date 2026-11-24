@@ -20,7 +20,7 @@ function install(name) {
   html = html.replace(/<script id="lesson-controls">[\s\S]*?<\/script>/, () =>
     '<script id="lesson-controls">\n' + controls + '</script>');
   if (/\bSpeechSynthesisUtterance\b|speechSynthesis\.speak\(/.test(html)) throw Error('Unconverted English speech handler in ' + name);
-  const output = embed(html, texts);
+  const output = embed(html, texts, name);
   if (current !== output) fs.writeFileSync(file, output);
   return texts.length;
 }
