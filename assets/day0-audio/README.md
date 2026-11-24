@@ -1,17 +1,11 @@
 # 第 0 天日文音檔
 
-音檔只包含編寫好的教材句子、單字及字音前導，不包含學生作答。
+本目錄的 200 段 MP3 使用 OpenAI `gpt-4o-mini-tts` 的 `marin` 聲線朗讀，內容為教材句子、單字及字音前導。其中 28 段多句錄音按原文順序組合本次生成的單句。音檔與跟讀時間內嵌於日文教材 HTML，可離線播放。
 
-情境數字由 `assets/japanese-number-lessons.cjs` 編寫：數量是 `ひとつ` 到 `とお` 共 10 組，價格是 21 組含「円」的完整金額。新增 28 段後共 200 段音檔；保留原音檔，不用單個數字拼湊金額。只準備／檢查日文可用 `prepare-day0-practical-audio.cjs ja` 和 `prepare-day0-practical-audio.cjs ja --check`。
+情境數字由 `assets/japanese-number-lessons.cjs` 編寫。數量涵蓋 `ひとつ` 到 `とお` 共 10 組，價格則有 21 組含「円」的完整金額。
 
-- 聲音：Microsoft Edge TTS `ja-JP-NanamiNeural`，語速 `-10%`。
-- `texts.json`：實用章節、字音前導及全部既有音檔的文字清單。
-- `manifest.json`：文字與 MP3 檔名對照。
-- `timings.json`：同次合成取得的詞段邊界、文字位置及音檔 SHA-256。
-- 平假名與片假名共用對應字音；「は／へ」特別以「ハ／ヘ」錄音，避免被合成器當助詞。實際播放文字以 `speakText || text` 為準。
+- `texts.json` 收錄實用章節、字音前導及各段錄音的文字。平假名與片假名共用對應字音，「は／へ」採用「ハ／ヘ」的發音提示。實際朗讀文字以 `speakText || text` 為準。
+- `manifest.json` 將文字對應到 MP3 檔名。
+- `timings.json` 保存詞段、文字位置與對應 MP3 的 SHA-256。沿用教材原來的詞段切分，依新錄音的聲音重新對齊起訖時間，供高亮及點詞重播使用。
 
-更新資料後，先執行 `node --preserve-symlinks --preserve-symlinks-main prepare-day0-practical-audio.cjs`，再以 Python 執行 `generate-day0-audio.py --deps-dir tmp/korean-audio-deps`，最後執行同一準備腳本的 `--check`。Python 加上 `-X utf8` 可避免終端的日韓文字編碼問題。
-
-`--deps-dir` 指向現有可用的 Edge TTS 套件，不影響使用的日文聲音。這台工作區的舊 `tmp/japanese-audio-deps` 曾遭語音服務以 403 拒絕；較新的 `tmp/korean-audio-deps` 已驗證可合成兩種語言。
-
-準備腳本保留既有文字與音檔；合成腳本重用 SHA 相符的已完成音檔。新增音檔和對應時間全部成功後才更新正式清單。建置後音檔及時間資料內嵌於 HTML，播放不需要連線。詞段邊界不是逐字母的音素時間。
+舊版錄音由 `generate-day0-audio.py` 使用 Microsoft Edge TTS 的 `ja-JP-NanamiNeural` 聲線、`-10%` 語速產生，當時的詞段邊界由該服務提供。

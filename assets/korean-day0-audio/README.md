@@ -1,16 +1,11 @@
 # 第 0 天韓文音檔
 
-音檔只包含編寫好的教材句子、單字與數字，不包含學生作答。
+本目錄的 185 段 MP3 使用 OpenAI `gpt-4o-mini-tts` 的 `marin` 聲線朗讀，涵蓋教材句子、單字、數字與字音前導。其中 21 段多句錄音按原文順序組合本次生成的單句。音檔與跟讀時間內嵌於韓文教材 HTML，可離線播放。
 
-情境數字另由 `assets/korean-number-lessons.cjs` 編寫：數量練 1～10 個，問價與付款練 11 組完整金額。新增 16 段後共 169 段音檔；每個「數量＋개」或「金額＋원」直接合成完整說法，不以單個數字拼接。只更新韓文時，準備與驗證指令加上 `ko`，例如 `node --preserve-symlinks --preserve-symlinks-main prepare-day0-practical-audio.cjs ko --check`。
+情境數字由 `assets/korean-number-lessons.cjs` 編寫。數量練習涵蓋 1～10 個，問價與付款練習收錄 11 組完整金額，錄音連同量詞「개」或幣值單位「원」一起朗讀。
 
-- 合成聲音：Microsoft Edge TTS `ko-KR-SunHiNeural`，語速 `-10%`。
-- 製作工具：`edge-tts`。執行 `generate-day0-audio.py --korean` 時需要連線。
-- `texts.json`：由韓文課程資料產生的音檔文字清單。
-- `manifest.json`：韓文文字與 MP3 檔名對照。
-- `timings.json`：同一次合成產生的詞段時間、文字位置及音檔 SHA-256。
-- 建置後音檔與時間資料都內嵌至 HTML；播放、慢速及點詞段重播不需連線。
+- `texts.json` 收錄各段錄音的文字。字音前導的實際朗讀內容以 `speakText || text` 為準。
+- `manifest.json` 將韓文文字對應到 MP3 檔名。
+- `timings.json` 保存詞段、文字位置與對應 MP3 的 SHA-256。沿用教材原來的詞段切分，依新錄音的聲音重新對齊起訖時間，供高亮及點詞重播使用。
 
-修改實用章節或字音前導後，先用 `node --preserve-symlinks --preserve-symlinks-main prepare-day0-practical-audio.cjs` 更新兩語清單，再以 Python 執行 `generate-day0-audio.py --korean --deps-dir tmp/korean-audio-deps`，最後執行同一準備腳本的 `--check`。Python 加上 `-X utf8` 可避免終端的韓文編碼問題。
-
-準備腳本保留全部既有文字及音檔，並依前導項目的 `speakText || text` 取得實際播放內容。合成腳本重用 SHA 相符的已完成音檔；所有新增音檔及時間資料成功後才更新正式清單。時間資料是服務提供的詞段邊界，不是每個韓文字母的音素時間。
+舊版錄音由 `generate-day0-audio.py` 使用 Microsoft Edge TTS 的 `ko-KR-SunHiNeural` 聲線、`-10%` 語速產生，當時的詞段邊界由該服務提供。

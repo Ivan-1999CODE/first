@@ -1,7 +1,7 @@
 /* Generated as sw.js by build-pwa.cjs after all lesson HTML has been rebuilt. */
 'use strict';
 
-const VERSION = "610138d3ecfa2f77";
+const VERSION = "430dffa8c883c932";
 const FILES = [
   {
     "path": "assets/pwa-icon-180.png",
@@ -122,14 +122,14 @@ const FILES = [
   },
   {
     "path": "travel-japanese-day0-directions.html",
-    "bytes": 5260752,
-    "sha256": "aa5de44c71c60e17202895a7c034bda4188313ec7a9eab6e63962e0df191886a",
+    "bytes": 7981868,
+    "sha256": "7cadc38273a45a1efbc28ae3871cfd9c189204cf4252306a235940c139f32a0f",
     "normalizedText": true
   },
   {
     "path": "travel-korean-day0-directions.html",
-    "bytes": 4534839,
-    "sha256": "60565c23889bd7e9438f9f3ac43e8b3f7c9344dd146a1169e5d60018647454b9",
+    "bytes": 7015319,
+    "sha256": "a45575444cb8bc97b2ec4b6115e8a3bc5834821f3e17cc71cecd4a7b0011335e",
     "normalizedText": true
   }
 ];
